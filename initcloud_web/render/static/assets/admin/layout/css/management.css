@@ -5,7 +5,7 @@
         background:url(../img/common/page_bg.jpg) no-repeat;
         margin:0 auto !important;
         clear:both;
-        overflow:hidden;
+        /*overflow:hidden;*/
         z-index:9999999;
         position:absolute;
         background-color:#080F26 !important
@@ -78,12 +78,13 @@
         }
         .tool-01 ul.w1{
             height:16px;
-            margin-top:1px;
-            margin-left:5px;
+            width:149px;
+            margin-left:3px;
         }
         .tool-01 ul li.w2{
-            height:7px;
+            height:100%;
             width:100%;
+            margin-left:1px;
         }
         .tool-01 ul li span{
             display:inline-block;
@@ -107,6 +108,25 @@
            height:35px;
            
         }
+        .w1 img{float:left;}
+        .line{height:9px;margin-top:1px;}
+        .tool-05 .w1{padding-top: 4px;}
+        .p2{padding:1px;}
+        .line5 span{
+            float:left;
+            height:12px;
+            width:6px;
+            float:left;
+            margin-left:1px;
+        }
+        .tool-03 .w1 span{
+            height:9px;
+            width:9px;
+            display:inline-block;
+            float:left;
+            margin:0.5px;
+        }
+        .mt2{margin-top:2px;}
         .l-list li{float:left;height:16px;line-height:16px;}
         .l-list li img{margin-bottom:3px;}
         .l-list .tx{
@@ -119,7 +139,7 @@
         }
         .tool-03 .w1{height:100%;}
        .p-2-0-2-3{
-            padding-top:2px;
+            padding-top:1px;
             padding-bottom:2px;
             padding-left:3px;
         }

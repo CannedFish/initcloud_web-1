@@ -15,7 +15,8 @@ CloudApp.controller('Virtualmechine_BarController',
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.virtualmechine_bars);
         var cloud_data ={'total_kernel':'9999','total_memory':'2234','cloud_kernel':'1045','cloud_allocat_memory':'2545',
                 'established_cloudmechine':'1098','running_cloudmechine':'2015','total_ypan':'2000','total_capacity':'4000',
-                'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
+                'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200','read':'2323',
+                'write':'2243','cpu_loadbalance':'56%'
         };
         $scope.virtualmechine_bars = cloud_data;
         checkboxGroup.syncObjects($scope.virtualmechine_bars);
