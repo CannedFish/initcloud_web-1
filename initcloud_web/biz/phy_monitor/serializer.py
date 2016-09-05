@@ -1,19 +1,18 @@
-#coding=utf-8
+# -*- coding: utf-8 -*-
 
 from rest_framework import serializers
 
-from biz.phy_monitor.models import Phy_Monitor 
+class PhyNodeSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=64)
+    cpu1 = serializers.ListField(child=serializers.IntegerField())
+    cpu2 = serializers.ListField(child=serializers.IntegerField())
+    memory_voltage = serializers.ListField(child=serializers.IntegerField())
 
-from biz.idc.serializer import DetailedUserDataCenterSerializer
-
-class Phy_MonitorSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Phy_Monitor 
-
-
-class DetailedPhy_MonitorSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Phy_Monitor 
-
+class PhyMonitorSerializer(serializers.Serializer):
+    nodes = PhyNodeSerializer()
+    disk = serializers.ListField(child=serializers.IntegerField())
+    disk_status = serializers.DictField(child=serializers.CharField())
+    electric_rota = serializers.ListField(child=serializers.IntegerField())
+    systemUI = serializers.ListField(serializers.FloatField())
+    PDU = serializers.ListField(child=serializers.ListField(\
+            child=serializers.FloatField()))
