@@ -1,3 +1,7 @@
+<style>
+    .c1{color:#cda417 !important}
+    .c2{color:#18bb53 !important}
+</style>
 <div class="lb-wrap fl">
              <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon3.png"><span>存储监控</span></div> 
              <div class="ccjkbox list" style="margin-left: -15px;margin-top: -5px;">
@@ -17,36 +21,36 @@
                     <li class="item w25 fl">
                         <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/cuico_03.png">
-                            <span class="nums">{[{storage__bars.SSD[0]}]}</span>
+                            <span class="nums c1">{[{storage__bars.SSD[0]}]}</span>
                             <span class="tx mb2">已用SSD</span>
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/cuico_09.png">
-                            <span class="nums">{[{storage__bars.SAS[0]}]}</span>
+                            <span class="nums c2">{[{storage__bars.SAS[0]}]}</span>
                             <span class="tx">已用SAS盘位</span>
                         </div>
                     </li>
                     <li class="item w25 fl">
                         <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/cuico_03.png">
-                            <span class="nums">{[{storage__bars.SSD[1]}]}</span>
+                            <span class="nums c1">{[{storage__bars.SSD[1]}]}</span>
                             <span class="tx mb2">未用SSD</span>
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/cuico_09.png">
-                            <span class="nums">5678</span>
-                            <span class="tx">未用硬盘</span>
+                            <span class="nums c2">{[{storage__bars.NVMe[0]}]}</span>
+                            <span class="tx">未用NVMe盘位</span>
                         </div>
                     </li>
                    <li class="item w25 fl">
                         <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/cuico_03.png">
-                            <span class="nums">{[{storage__bars.SAS[1]}]}</span>
+                            <span class="nums c1">{[{storage__bars.SAS[1]}]}</span>
                             <span class="tx mb2">空余SAS盘位</span>
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/cuico_09.png">
-                            <span class="nums">{[{storage__bars.NVMe[1]}]}</span>
+                            <span class="nums c2">{[{storage__bars.NVMe[1]}]}</span>
                             <span class="tx">空余NVMe盘位</span>
                         </div>
                     </li>
