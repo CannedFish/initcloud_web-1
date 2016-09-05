@@ -1,0 +1,31 @@
+<style>
+	.SDNcontent ul{padding:0px;margin:0px;padding:2px;}
+	.SDNcontent ul li{padding: 10px 5px 0px 20px;}
+	.SDNcontent ul li p.tx{color:#00d8ff;margin:0px;}
+	.SDNcontent ul li p.tx img{padding-right:5px;}
+	.SDNcontent ul li p.num{color:#14994c;margin:0px;margin-left:16px;}
+</style>
+<div class="SDNcontent" ng-controller="Network_Bar_SdnController">
+	<ul>
+		<li>
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">sdn交换机的数量</p>
+			<p class="num">{[{network_bar_sdns.switchboard}]}个</p>
+		</li>
+		<li >
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">交换机端口收到请求的数据包个数</p>
+			<p class="num">{[{network_bar_sdns.switchboard_recive_request_datapackage_num}]}</p>
+		</li>
+		<li >
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">交换机端口收到请求的数据包字节数</p>
+			<p class="num">{[{network_bar_sdns.switchboard_recive_request_datapackage_bits}]}</p>
+		</li>
+		<li class="list">
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">交换机流表持续时间</p>
+			<p class="num">{[{network_bar_sdns.switchboard_flow_sustained_time}]}</p>
+		</li>
+		<li class="list">
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">交换机端口传输失败包的个数</p>
+			<p class="num">{[{network_bar_sdns.switchboard_trans_failedpackage_num}]}</p>
+		</li>
+	</ul>
+</div>

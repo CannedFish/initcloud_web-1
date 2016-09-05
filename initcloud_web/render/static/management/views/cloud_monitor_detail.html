@@ -1,0 +1,214 @@
+<link rel="stylesheet" href="../static/assets/admin/layout/css/second-common.css">
+<link rel="stylesheet" href="../static/assets/admin/layout/css/cloud-monitor-detail.css">
+<div class="content">
+    <div class="titile">云主机监控</div>
+    <div class="content_center">
+       <!-- 详情 -->
+        <div class="nav">
+            <div class="title fl">
+                <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">
+                <span class="site"> oa1.surdoc.com</span>
+            </div>
+            <div class="back fr"><img src=""><span>返回</span></div>
+        </div>
+       <div class="crow">
+           <div class="warpper fl">
+               <div class="box">
+                   <div class="box-nav">
+                       <span class="fl">CPU</span>
+                       <span class="fr">60-0/s</span>
+                   </div>
+                   <div style="height: 150px; width:100%; margin-left:-20px;position: relative;padding: 0px;" ui-options="[
+                        { 
+                            data: [[60,10],[50,30],[40,25],[30,30],[20,50],[10,60],[0,0]], points: { show: false },
+                            lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                            color:'#ff0000'
+                        }
+                      ],
+                      {
+                       legend: {
+                            show:true,
+                            labelBoxBorderColor:'transparent',
+                            margin:[-10,-20],
+                            position:'nw',
+                            backgroundColor:'transparent',
+                        },
+                        colors: [],
+                        series: { shadowSize: 1 },
+                        xaxis:{ show: true,font: { color: '#0077bc' },tickSize:20 },
+                        yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                        tooltip: true,
+                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                      }" ui-jq="plot"> 
+                    </div>
+                    <div class="cpu-info">
+                        <div><span>利用率：{[{cloud_monitor_details.cpu.usage}]}</span><span>速度：{[{cloud_monitor_details.cpu.speed}]}</span><span>正常运行时间：{[{cloud_monitor_details.cpu.noraml_run_time}]}</span></div>
+                        <div><span>主频：{[{cloud_monitor_details.cpu.basic_frequency}]}</span><span>逻辑内核：{[{cloud_monitor_details.cpu.logic_kernal}]}</span><span>CPU型号：{[{cloud_monitor_details.cpu.CPU_type}]}</span></div>
+                    </div>
+                </div>
+           </div>
+           <div class="warpper fr">
+               <div class="box">
+                    <div class="box-nav">
+                       <span class="fl">内存</span>
+                       <span class="fr">60-0/s</span>
+                    </div>
+                    <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
+                        { 
+                            data: [[60,4],[50,45],[40,70],[30,55],[20,30],[10,35],[0,0]], points: { show:false},
+                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
+                            color:'#cda417'
+                        }
+                      ],
+                      {
+                       legend: {
+                            show:true,
+                            labelBoxBorderColor:'transparent',
+                            margin:[-10,-20],
+                            position:'nw',
+                            backgroundColor:'transparent',
+                        },
+                        colors: [],
+                        series: { shadowSize: 1 },
+                        xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
+                        yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                        tooltip: true,
+                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                      }" ui-jq="plot"> 
+                    </div>
+                    <div class="memory-info">
+                        <div><span>使用中：{[{cloud_monitor_details.memory.using}]}</span><span>可用：{[{cloud_monitor_details.memory.surplus}]}</span><span>内存使用率：{[{cloud_monitor_details.memory.memory_usage}]}</span></div>
+                    </div>
+               </div>
+           </div>
+       </div>
+       <div class="crow">
+           <div class="warpper fl">
+               <div class="box">
+                   <div class="box-nav">
+                       <span class="fl">网络</span>
+                       <span class="fr">60-0/s</span>
+                   </div>
+                   <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
+                        { 
+                            data: [[60,25],[50,5],[40,60],[30,45],[20,30],[10,38],[0,0]], points: { show:false},
+                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                            color:'#A8C001'
+                        }
+                      ],
+                      {
+                       legend: {
+                            show:true,
+                            labelBoxBorderColor:'transparent',
+                            margin:[-10,-20],
+                            position:'nw',
+                            backgroundColor:'transparent',
+                        },
+                        colors: [],
+                        series: { shadowSize: 1 },
+                        xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
+                        yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                        tooltip: true,
+                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                      }" ui-jq="plot"> 
+                    </div>
+                    <div class="network-info">
+                        <div><span>上行：{[{cloud_monitor_details.network.ADSL_UP}]}</span><span>下行：{[{cloud_monitor_details.network.ADSL_DOWN}]}</span><span>网络占用率：{[{cloud_monitor_details.network.network_occupyrate}]}</span></div>
+                    </div>
+               </div>
+           </div>
+           <style type="text/css">
+                .disk_table{
+                    border:solid 1px #0077bc;
+                    width:100%;
+                }
+                .disk_table th{
+                    color:#0077bc;
+                    font-size:14px;
+                    border:solid 1px #0077bc;
+                    text-align:center;
+                    height:35px;
+                    background:#0a264c;
+                    /*opacity:0.5;*/
+                }
+                 .disk_table td{
+                    color:#0077bc;
+                    font-size:14px;
+                    border-bottom:solid 1px #0077bc;
+                    text-align:center;
+                    height:30px;
+                   /* border-right:none;*/
+                }
+                .pagination li.footable-page-arrow:nth-child(1){
+                    display:none;
+                }
+                .pagination li.footable-page-arrow:nth-child(2){
+                    background:transparent !important;
+                }
+                .pagination li.footable-page-arrow:nth-child(3){
+                    display:none !important;
+                }
+                .footable-odd {
+                     background-color:transparent !important; 
+                }
+                .pagination>li>a{
+                  position: relative;
+                  float: left;
+                  padding:0px !important;
+                }
+                .pagination {
+                    margin: 3px 0px !important;
+                }
+           </style>
+           <div class="warpper fr">
+               <div class="box">
+                    <div class="box-nav">
+                       <span class="fl">云盘</span>
+                       <span class="fr"><ul class="pagination"></ul></span>
+                    </div>
+                    <div> 
+                        <table class="disk_table footable" ui-jq="footable" data-filter="#filter" data-filter-text-only="false"  data-page-size="2" style="margin-top:-20px;">
+                            <thead>
+                                <tr>
+                                    <th data-toggle="true" width="150">
+                                     云盘名称
+                                    </th>
+                                    <th width="130">
+                                    读取速度(MB/s)
+                                    </th>
+                                    <th data-hide="" width="130">
+                                    写入速度(MB/s)
+                                    </th>
+                                    <th data-hide="" data-name="" width="70">
+                                    容量(T)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in cloud_monitor_details.cloud_disk" on-finish-render-filters>
+                                    <td>{[{item.name}]}</td>
+                                    <td>{[{item.read_speed}]}</td>
+                                    <td>{[{item.write_speed}]}</td>
+                                    <td>{[{item.volumn}]}</td>
+                                </tr>
+                            </tbody>
+                           <!--  <tfoot class="hide-if-no-paging">
+                              <tr>
+                                  <td colspan="5" class="text-center">
+                                     
+                                  </td>
+                              </tr>
+                            </tfoot> -->
+                        </table>
+                    </div>
+               </div>
+           </div>
+       </div>
+    </div>
+</div>
+<script>
+   
+</script>

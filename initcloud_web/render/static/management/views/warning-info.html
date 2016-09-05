@@ -1,0 +1,93 @@
+<link rel="stylesheet" type="text/css" href="/static/assets/admin/layout/css/warning-info.css">
+<div class="content" ng-controller="WarningController">
+            <div class="titile">报警信息</div>
+            <div class="content_center">
+                <input type="hidden" id="filter" type="text"></input>
+                <div class="police_tab">
+                <!-- 功能table页 -->
+                       <ul class="nav-list" style="width:100%">
+                            <li class="sort-01">
+                                <select class="filter-status" style="margin-left:10px;">
+                                    <option></option>
+                                    <option value="硬件报警">硬件报警</option>
+                                    <option value="">系统报警</option>
+                                </select>
+                            </li>
+                            <li class="sort-02">
+                                <select class="filter-status" style="margin-left:5px;">
+                                    <option></option>
+                                    <option value="设备名称1">设备名称1</option>
+                                    <option value="网络设备">网络设备</option>
+                                    <option value="超微服务器">超微服务器</option>
+                                    <option value="JBOD">JBDO</option>
+                                    <option value="存储服务器">存储服务器</option>
+                                    <option value="3号超级微服务器">3号超级微服务器</option>
+                                    <option value="4号超级微服务器">4号超级微服务器</option>
+                                    <option value="5号超级微服务器">5号超级微服务器</option>
+                                    <option value="6号超级微服务器">6号超级微服务器</option>
+                                </select>
+                            </li>        
+                            <li class="warning-info">报警信息
+                            </li> 
+                            <li class="time-filter">
+                                <select>
+                                    <option>2016/08/11</option>
+                                    <option>2016/08/12</option>
+                                </select>
+                                <span>  ~ </span>
+                                <select>
+                                    <option>2016/08/11</option>
+                                    <option>2016/08/12</option>
+                                    <option>2016/08/13</option>
+                                </select>
+                            </li>        
+                    </ul>
+                    <table class="police_table footable" data-filter="#filter" data-filter-text-only="false">
+                       <tbody>
+                            <tr ng-repeat="item in warnings" ng-click="setDatatoLeftBar(item)">
+                                <td >{[{item.warning_type}]}</td>
+                                <td >{[{item.name}]}</td>
+                                <td>{[{item.warning_info}]}（<span class="span1">120℃</span>  <span class="span2">标准温度≤80℃</span>）</td>
+                                <td>{[{item.warning_time}]}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="police_details">
+                <dl class="details_table" ng-init="rightbar = initData">
+                    
+                    <dt class="title">报警详情</dt>
+                    <dd class="item">
+                        <div class="fl"><span class="span1">设备名称</span></div>
+                        <div class="fl">{[{rightbar.name}]}</div>
+                    </dd>
+                    <dd class="item">
+                        <div class="fl"><span class="span1">报警类型</span></div>
+                        <div class="fl">{[{rightbar.warning_type}]}</div>
+                    </dd>
+                    <dd class="item">
+                        <div class="fl"><span class="span1">报警信息</span></div>
+                        <div class="fl">{[{rightbar.warning_info}]}（<span class="span2">120℃</span>  <span class="span3">标准温度≤80℃</span>）</div>
+                    </dd>
+                    <dd class="item blob">
+                        <div class="fl">储节点</div>
+                        <div class="fl">{[{rightbar.memory_point}]}</div>
+                    </dd>
+                    <dd class="item blob">
+                        <div class="fl"><span class="span1">虚拟机</span></div>
+                        <div class="fl">{[{rightbar.virtual_mechine}]}</div>
+                    </dd>
+                     <dd class="item blob">
+                        <div class="fl"><span>云盘</span></div>
+                        <div class="fl">{[{rightbar.cloud_disk}]}</div>
+                    </dd>
+                    <dd class="item">
+                        <div class="fl"><span>报警时间</span></div>
+                        <div class="fl">{[{rightbar.warning_time}]}</div>
+                    </dd>
+                </dl>
+  
+                </div>
+            </div>
+        </div>
+     

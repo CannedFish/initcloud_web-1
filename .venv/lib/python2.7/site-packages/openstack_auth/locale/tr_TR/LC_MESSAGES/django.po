@@ -1,0 +1,52 @@
+# Turkish (Turkey) translations for django_openstack_auth.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the
+# django_openstack_auth project.
+#
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version:  Horizon\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-05-13 06:05+0000\n"
+"PO-Revision-Date: 2015-05-12 09:27+0000\n"
+"Last-Translator: openstackjenkins <jenkins@openstack.org>\n"
+"Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/horizon/"
+"language/tr_TR/)\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "The authentication token issued by the Identity service has expired."
+msgstr ""
+"Kimlik servisi tarafından verilen kimlik doğrulama belirtecinin süresi doldu."
+
+msgid "An error occurred authenticating. Please try again later."
+msgstr "Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin."
+
+msgid "You are not authorized for any projects."
+msgstr "Herhangi bir proje için yetkili değilsiniz."
+
+msgid "Unable to authenticate to any available projects."
+msgstr "Mevcut projelerde kimlik doğrulanamadı."
+
+msgid "Region"
+msgstr "Bölge"
+
+msgid "User Name"
+msgstr "Kullanıcı Adı"
+
+msgid "Password"
+msgstr "Şifre"
+
+msgid "Domain"
+msgstr "Domain"
+
+#, python-format
+msgid "syslog facility must be one of: %s"
+msgstr "syslog servisi bunlardan biri olmak zorundadır: %s"
+
+msgid "Unable to retrieve authorized projects."
+msgstr "Yetkili projeler alınamadı."

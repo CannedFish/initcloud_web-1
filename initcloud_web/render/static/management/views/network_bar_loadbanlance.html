@@ -1,0 +1,19 @@
+<style>
+	.loadbanlanceContent ul{padding:0px;margin:0px;padding:2px;}
+	.loadbanlanceContent ul li{padding: 10px 5px 0px 20px;}
+	.loadbanlanceContent ul li p.tx{color:#00d8ff;margin:0px;}
+	.loadbanlanceContent ul li p.tx img{padding-right:5px;}
+	.loadbanlanceContent ul li p.num{color:#14994c;margin:0px;margin-left:16px;}
+</style>
+<div class="loadbanlanceContent" ng-controller="Network_Bar_LoadbanlanceController">
+	<ul>
+		<li>
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">负载均衡池的个数</p>
+			<p class="num">{[{network_bar_loadbanlances.lb_pool_num}]}</p>
+		</li>
+		<li>
+			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">负载均衡虚拟ip的个数</p>
+			<p class="num">{[{network_bar_loadbanlances.lb_virtualip_num}]}</p>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,31 @@
+
+<div style="height:390px;overflow-y:auto;"> 
+    <!-- 网络监控的tree -->
+    <ul class="nav nav-list nav-pills nav-stacked abn-tree" ng-if="treeName == 'network_bar_net_treeview'">
+      <li  ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row" style="clear:both;">
+              <a class="hover"  style="display:inline-block;height:25px;width:66px;margin-top:5px;float:left;" ng-click="user_clicks_branch(row.branch)">  
+                  <i style="float:left;" ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i>
+                  <span class="indented tree-label" style="float:left;margin-top:3px;">{{ row.label }} </span>
+              </a>
+              <span ng-if="(row.level == 1)" style="float:left;display:inline-block;height:24px;margin-top:9px;font-size:14px;color:#C2912B">{{row.branch.data.description}}</span>
+              <span ng-if="(row.level == 2)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:21px;font-size:14px;color:#C2912B">{{row.branch.data.description}}</span>
+              <span ng-if="(row.level == 3)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:31px;font-size:14px;color:#C2912B">{{row.branch.data.description}}</span>
+              <span  ng-if="(row.level == 1)" class="tree-bg01">{{row.branch.data.num}}</span>
+              <span  ng-if="(row.level == 2)" class="tree-bg0_1">{{row.branch.data.num}}</span>
+      </li>
+    </ul>
+    <!-- 存储监控的tree -->
+    <ul class="nav nav-list nav-pills nav-stacked abn-tree" ng-if="treeName == 'storage_treeview'">
+      <li  ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row">
+        <a class="hover"  style="display:inline-block;height:24px;width:100px;float:left;" ng-click="user_clicks_branch(row.branch)">  
+                <i style="float:left;" ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i>
+                <span class="indented tree-label" style="float:left;">{{ row.label }} </span>
+            </a>
+            <span  ng-if="(row.level == 1) && (row.branch.data.status == 'online')" class="tree-bg01">{{row.branch.data.status}}</span>
+            <span  ng-if="(row.level == 1) && (row.branch.data.status == 'offline')" class="tree-bg03">{{row.branch.data.status}}</span>
+            <span  ng-if="(row.level == 1) && (row.branch.data.status == 'degrade')" class="tree-bg04">{{row.branch.data.status}}</span>
+            <span  ng-if="(row.level == 2)" class="tree-bg0_1">{{row.branch.data.status}}</span>
+            <span style="float:left;display:inline-block;height:24px;margin-left:22px;margin-top:5px;font-size:14px;color:#0077bc">{{row.branch.data.description}}</span>
+      </li>
+    </ul>
+</div> 

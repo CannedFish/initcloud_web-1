@@ -1,0 +1,110 @@
+<link rel="stylesheet" href="../static/assets/admin/layout/css/second-common.css">
+<style>
+    .content .content_center .left{
+        width:74%;
+        height:500px;
+    }
+    .content .content_center .right{
+        width:25%;
+        height:500px;
+    }
+    .bar{
+        margin-top:20px;
+    }
+    .network-item{ 
+        width:260px;
+       height: 475px;
+       margin-left: -1px;
+      border: solid 1px #0077bc;
+    }
+    .network-item dt{
+        height:40px;
+        line-height:40px;
+        background:url('../static/assets/admin/layout/img/second/network-monitor/nico3_03.png') no-repeat #093658;
+        background-position:19px 15px;
+        color:#00d8ff;
+       
+    }
+    .router-item{height:475px;margin-left:-1px; border:solid 1px #0077bc; width:630px;}
+    .router-item dt{
+        height:40px;
+        line-height:40px;
+        background:url('../static/assets/admin/layout/img/second/network-monitor/nico2_03.png') no-repeat #093658;
+        background-position:19px 15px;
+        color:#00d8ff;
+       
+    }
+    .SDN-item dt{
+        height:40px;
+        line-height:40px;
+        width:100%;
+        background:#093658;
+        background-position:19px 15px;
+        color:#00d8ff;
+        text-align:center;
+    }
+    .load_balance-item dt{
+        height:40px;
+        line-height:40px;
+        width:100%;
+        background:#093658;
+        background-position:19px 15px;
+        color:#00d8ff;
+        text-align:center;
+    }
+    .top{
+        height:300px;    border: solid 1px #0077bc;
+    }
+    .bottom{height:156px;border: solid 1px #0077bc;}
+    .network-item .tx,.router-item .tx{margin-left:45px;}
+    .network-item .num,.router-item .num{color:#15b051;}
+</style>
+<div class="content">
+    <div class="titile">网络监控</div>
+    <div class="content_center">
+        <div class="left fl">
+            <div class="wrapper">
+                <div class="fl bar">
+                    <!-- 树状结构显示 -->
+                    <dl class="network-item">
+                        <dt><span class="tx">网络&nbsp;&nbsp;<small class="num">(1,245,444)个</small></span></dt>
+                        <dd>
+                            <!-- 网络监控树状结构引入 -->
+                            <div data-ng-include="'../static/management/views/network_bar_net.html'"></div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="fl bar">
+                <!-- IP列表显示 -->
+                <dl class="router-item">
+                    <dt><span class="tx">路由器&nbsp;&nbsp;<small class="num">(1,245,444)个</small></span></dt>
+                    <dd>
+                        <!-- 网络监控树状结构引入 -->
+                        <div data-ng-include="'../static/management/views/network_bar_router.html'"></div>
+                    </dd>
+                </dl>
+                </div>
+            </div>
+        </div>
+        <div class="right fl">
+            <div class="top bar">
+                <dl class="SDN-item" style="margin-bottom:0px;">
+                    <dt>SDN计量</dt>
+                    <dd>
+                         <!-- SDN -->
+                        <div data-ng-include="'../static/management/views/network_bar_sdn.html'"></div>
+                    </dd>
+                </dl>
+            </div>
+            <div class="bottom bar">
+                <dl class="load_balance-item">
+                    <dt>负载均衡</dt>
+                    <dd>
+                         <!--负载均衡 -->
+                        <div data-ng-include="'../static/management/views/network_bar_loadbanlance.html'"></div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<style>
+    .box-wrap:nth-child(1){margin-top:0px !important;}
+    .ml11{display: inline-block;
+                margin-left:11px;
+                padding-top: 1px;
+        }
+</style>
+<div class="rt-wrap fr" style="width:485px;max-width:500px;" >
+	<div class="nav"><img src="../static/assets/admin/layout/img/common/ficon2.png"><span>系统服务监控</span></div>
+	<div class="fwjkbox list" style="width:485px;">
+        <dl style="margin-top:12px;"> 
+            <div class="box-wrap" ng-repeat="list in service__bars">
+                <dt class="title mt6"><span class="ml11">{[{service__bars[$index].name}]}</span></dt>
+                <!-- 状态判断 -->
+                <dd class="item">
+                    <span ng-class="service__bars[$index].normal_status == 1 ? 'status error bgshow':''"> 
+                        <img  ng-if="service__bars[$index].normal_status == 1" src="../static/assets/admin/layout/img/common/cico_0{[{$index+1}]}.png">
+                        <img  ng-if="service__bars[$index].normal_status == 0" src="../static/assets/admin/layout/img/common/status_ico_0{[{$index+1}]}.png">
+                        报错</span>
+                    <span ng-class="service__bars[$index].normal_status == 1 ? 'status error bgshow':''">
+                        <img  ng-if="service__bars[$index].normal_status == 1" src="../static/assets/admin/layout/img/common/cico_0{[{$index+1}]}.png">
+                        <img  ng-if="service__bars[$index].normal_status == 0" src="../static/assets/admin/layout/img/common/status_ico_0{[{$index+1}]}.png">
+                        正常</span>
+                    <span ng-class="service__bars[$index].run_status == 1 ? 'status error bgshow':''">
+                        <img  ng-if="service__bars[$index].run_status == 1" src="../static/assets/admin/layout/img/common/cico_0{[{$index+1}]}.png">
+                        <img  ng-if="service__bars[$index].run_status == 0" src="../static/assets/admin/layout/img/common/status_ico_0{[{$index+1}]}.png">
+                        启动</span>
+                    <span><img src="../static/assets/admin/layout/img/common/status_ico_0{[{$index+1}]}.png">运行时间: {[{service__bars[$index].run_time}]}</span>
+                </dd> 
+            </div>
+        </dl>
+    </div>
+</div>

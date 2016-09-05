@@ -1,0 +1,12 @@
+	.w30{width:30%;}
+	.page-header.navbar .page-logo {
+    float: left;
+    display: block;
+    width: 30%;
+    height: 76px;
+    padding-left: 1px;
+    padding-right: 20px;
+}
+.page-header-inner .tline{height: 76px;background:transparent url(../img/common/tline_x01.png) repeat-x;}
+.page-header-inner .bline{height:76px;width:100%;background:transparent url(../img/common/tbline_02.png) repeat-x;background-position:0px 22px;}
+.t-email{width:153px;height:100%;text-align:center;background:transparent url(../img/common/tbline_01.png) no-repeat;background-position: 0px 33px;margin-right:24px;}

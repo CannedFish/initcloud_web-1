@@ -1,0 +1,104 @@
+<link rel="stylesheet" type="text/css" href="../static/assets/admin/layout/css/cloud-monitor.css">
+<div class="main" ng-controller="Cloud_MonitorController">
+  <div class="title"><span class="tx">云主机监控</span></div>
+  <div class="nav">
+    <div class="fl col-md-2 lselect">
+        <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_03.png" alt=""></span>
+      <select  ng-model="selected_1" class="filter-status" ng-change="sel()" >
+        <option value="">物理主机 (默认) </option>
+        <option value="oa4.surdoc.com">oa4.surdoc.com</option>
+        <option value="oa2.surdoc.com">oa2.surdoc.com</option>
+      </select>
+    </div>
+    <div class="fl col-md-2 lselect">
+        <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_04.png" alt=""></span>
+      <select ng-model="selected_2" class="filter-status"  ng-change="sel()">
+        <option value="">24小时内 (默认) </option>
+        <option value="一周内">一周内 </option>
+        <option value="一个月内">一个月内</option>
+        <option value="一小时内">一小时内</option>
+      </select>
+    </div>
+    <div class="fr col-md-5">
+      <div class="fr rlist">
+        <span class="sort">
+          <!-- <img src="../static/assets/admin/layout/img/common/stico_03.png" alt=""> -->
+          排序:
+        </span>
+        <span class="items">
+          <a href="">主机名称</a>
+          <a href="">停机时间</a>
+          <a href="" ng-click="sort('cpu')">cpu</a>
+          <a href="" ng-click="sort('memory')">内存</a>
+          <a href="" ng-click="sort('disk')">磁盘</a>
+          <a href="" ng-click="sort('network')">网络</a>
+        </span>
+      </div>  
+    </div>
+  </div>
+  <div class="row content">
+  <!--便利开始  (第一层)-->
+    <div class="col-md-2 pageitem" ng-repeat="(key,list) in cloud_monitors" on-finish-render-filters>
+        <a href="#/cloud_monitor_detail/"> <!-- 跳转二级界面 -->
+            <div class="list" >
+                <div>
+                    <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">
+                    <span class="site"> {[{key}]}</span>
+                </div>
+              <!-- 第二层 -->
+                <ul class="item">
+                    <li class="box" ng-repeat="(key2,item) in list[0]">
+                  <!-- 引入折线图 -->
+                    <div class="box-nav">
+                        <span class="lt">{[{item.type}]}</span>
+                        <span class="rt">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s">{[{item.param_02[1]}]}</small>
+                        </span>
+                    </div>
+                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="((key2 == 0)||(key2 == 1))" ui-options="
+                          [
+                            {[{item.data}]}
+                          ], 
+                          {[{plot_style}]}
+                          ">
+                    </div>  
+                    <!-- 云盘 -->
+                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 2)"  ui-options="
+                          [
+                            {[{item.data[0].read_data}]},
+                            {[{item.data[1].write_data}]}
+                          ], 
+                          {[{plot_style}]}
+                          ">
+                    </div>
+                    <!-- 网络 -->
+                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 3)"  ui-options="
+                          [
+                            {[{item.data[0].ADSL_UP_DATA}]},
+                            {[{item.data[1].ADSL_DOWN_DATA}]}
+                          ], 
+                          {[{plot_style}]}
+                          ">
+                    </div>    
+                    </li>
+                    <div class="time" style="height:40px;color:#0077bc;text-align:center"><span style="display:inline-block;padding-top:12px;">运行时间 :</span><span style="display:inline-block;padding-top:12px;">30 : 20 : 10</span></div>
+                </ul>
+                
+            </div>
+        </a>
+    </div>
+  <!--便利结束  -->
+
+  </div>
+  <!-- 分页 -->
+    <div class="pagination">
+        <ul style="float:right">
+            <li id="previous_li"><a id="previous" href="javasctip:(0)">上一页</a></li>
+            <li class="page_list"><!--用于页标的显示 -->
+                <ul id="page_num_all">
+                </ul>
+            </li>
+            <li id="next_li"><a id="next" href="javasctip:(0)">下一页</a></li>
+        </ul>
+        <span  style="visibility:hidden;" class="num" id="current_page"></span>
+    </div>
+</div>

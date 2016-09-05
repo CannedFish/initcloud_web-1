@@ -1,0 +1,118 @@
+ <style type="text/css">
+    .inform_cont span{display:inline-block;height:100%;line-height:37px;float:left;font-size: 12px;color: #01cef4;}
+    .model_inform .inform_cont{width:50%;height:40px;line-height:40px;}
+    .ml10{margin-left:10px;}
+    .ml5{margin-left:6px;}
+    .list-wrapper .node_title{
+    	color:#00d8ff;
+    	font-size:14px;
+    	height:40px;
+    	line-height:40px;
+    	margin:0px;
+    	padding:0px;
+    	float:left !important;
+    }
+    .list-wrapper .status_bar{
+    	color:#0077bc;
+    	font-size:12px;
+    	height:40px;
+    	line-height:40px;
+    	margin:0px;
+    	padding:0px;
+    	float:right !important;
+    }
+    .work_title .title{
+    	float: left;
+    	color: #01cef4;
+    	margin:0px;
+    }
+    .work_title .type_code{
+    	float: right;
+    	color: #01cef4;
+    	margin:0px;
+    }
+    .ml15{margin-left:15px;}
+    .smark{
+    	height:7px;
+    	width:7px;
+    	/*background:#ff0000;*/
+    	display:inline-block;
+    	margin-right:8px;
+    }
+    .c1{background:#0e4a91;}
+    .c2{background:#3a4b71;}
+    .c3{background:#14a44e;}
+    .c4{background:#00d8ff;} 
+    .c5{color:#14a44e;}
+    .c6{color:#00d8ff;}
+    .list .bg03{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico1_03.png') no-repeat;
+        display:inline-block;
+        height: 63px;
+        width: 122px;
+        margin-left:4px;
+        position:relative;
+    }
+    .list .item .tool{
+        text-align:center;
+        font-size:12px;
+        padding:0px;
+        margin:0px;
+        margin-left:23px;
+    }
+    .list .item .indexnum{
+        position:absolute;
+        display:inline-block;
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico3_03.png') no-repeat;
+        height:29px;
+        width:29px;
+        background-position:-1px -1px;
+        color:#00d8ff;
+    }
+    .mt10{margin-top:8px !important;}
+
+</style>
+<div class="phy_cont" ng-controller="Phy_Monitor_NetworkController">
+                    <div class="work_title clearfix">
+                    	<p class="title">网络监控</p>
+                        <p class="type_code">型号：SSE-G48-TG4</p>  
+                    </div>
+                    <div class="list-wrapper clearfix">
+                        <div class="node_title" style="width:50%">网络端口监控</div>
+                        <div class="status_bar clearfix fr" style="width:50%">
+                            <ul>
+                            	<li class="fr">
+                                    <p class="ml15"><span class="smark c4"></span>下载</p>
+                                </li>
+                                <li class="fr">
+                                    <p class="ml15"><span class="smark c3"></span>上传</p>
+                                </li>
+                                <li class="fr">
+                                    <p class="ml15"><span class="smark c2"></span>未连接</p>
+                                </li>
+                                <li class="fr">
+                                    <p class="ml15"><span class="smark c1"></span>链接</p>
+                                </li>   
+                            </ul>
+                        </div> 
+                    </div>
+                    <div class="list">
+                    	<span class="item bg03" ng-repeat="item in phy_monitor_networks">
+                            <i class="indexnum">{[{$index+1}]}</i>
+                    		<p class="tool c5 mt10">{[{item.upload}]}kb</p>
+                            <p class="tool c6">{[{item.download}]}kb</p>
+                    	</span>
+                    </div>
+                    <div class="work_node" ng-controller="Phy_Monitor_StorageController">
+                        <div class="node_cont node5">
+                            <div class="node_pdu" style="margin-top:0px;" ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
+                                <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
+                                <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
+                                <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
+                                <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
+                                <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>

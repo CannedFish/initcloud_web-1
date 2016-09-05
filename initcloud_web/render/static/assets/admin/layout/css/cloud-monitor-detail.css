@@ -1,0 +1,74 @@
+.nav{
+    border-bottom: solid 1px #01598E;
+}
+.nav .title,.back{
+    height:40px;
+    line-height:42px;
+    margin-top:5px;
+  
+}
+.nav .title .site {
+    font-size: 18px;
+    color: #00d8ff;
+    margin-left: 10px;
+}
+.crow{
+    width:100%;
+    padding:5px 10px 0px 10px;
+    height:200px;
+}
+.crow .warpper{
+    width:49%;
+}
+.crow .box .box-nav{
+    height:25px;
+    line-height:28px;
+}
+.crow .box .box-nav span{
+    font-size:14px;
+    color:#0077bc;
+}
+.cpu-info{
+height:44px;
+line-height:44px;
+margin-top:10px;
+background:url(../img/bar/cloud_point_03.png) repeat-y;
+}
+.memory-info{
+height:44px;
+line-height:44px;
+margin-top:10px;
+background:url(../img/bar/cloud_point_07.png) repeat-y; 
+}
+.network-info{
+height:44px;
+line-height:44px;
+margin-top:10px;
+background:url(../img/bar/cloud_point_10.png) repeat-y;  
+}
+.cpu-info div{
+    height:22px;
+}
+.memory-info div,.network-info div{
+    height:44px;
+}
+.cpu-info div span{
+    display:inline-block;
+    margin-left:30px;
+    color:#0077bc;
+    float:left;
+    height:22px;
+    line-height:22px;
+}
+.memory-info div span,.network-info div span{
+    display:inline-block;
+    margin-left:30px;
+    color:#0077bc;
+    float:left;
+    height:44px;
+    line-height:44px;
+}
+.content{
+    background: #0a122f;
+}
+ul li{list-style:none;}

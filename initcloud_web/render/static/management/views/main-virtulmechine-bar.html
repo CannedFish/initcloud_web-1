@@ -1,0 +1,92 @@
+
+<div class="rb-wrap fr">
+            <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon4.png"><span>云主机监控</span></div> 
+            <div class="ccjkbox list" style="margin-left: -15px;margin-top: -5px;">
+                <ul class="pl0 clearfix">
+                    <li class="item w25 fl ">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_03.png">
+                            <span class="nums c1" ng-module="">{[{virtualmechine_bars.total_kernel}]}</span>
+                            <span class="tx mb2 pd11">总物理内核</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
+                            <span class="nums">{[{virtualmechine_bars.established_cloudmechine}]}</span>
+                            <span class="tx pd11">已创建云主机</span>
+                        </div>
+                    </li>
+                    <li class="item w25 fl">
+                         <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_03.png">
+                            <span class="nums">{[{virtualmechine_bars.total_memory}]}</span>
+                            <span class="tx mb2 pd11">总物理内存</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
+                            <span class="nums">{[{virtualmechine_bars.running_cloudmechine}]}</span>
+                            <span class="tx pd11">运行中云主机</span>
+                        </div>
+                    </li>
+                    <li class="item w25 fl">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_04.png">
+                            <span class="nums">{[{virtualmechine_bars.cloud_kernel}]}</span>
+                            <span class="tx mb2">云盘内核</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
+                            <span class="nums ">{[{virtualmechine_bars.total_ypan}]}</span>
+                            <span class="tx">云盘总数</span>
+                        </div>
+                    </li>
+                    <li class="item w25 fl">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_04.png">
+                            <span class="nums">{[{virtualmechine_bars.cloud_allocat_memory}]}</span>
+                            <span class="tx mb2">云分配内存</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
+                            <span class="nums">{[{virtualmechine_bars.total_capacity}]}</span>
+                            <span class="tx">云盘总容量</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="inner-btm-list mt24 clearfix">
+                    <div class="hp65 mt10 fl" style="margin-left:5px;">
+                        <div class="boxwrap_03">
+                            <div class="fl node clearfix">
+                                <p class="item"><span><img src="../static/assets/admin/layout/img/common/yzjico_14.png"></span><span>常规存储&nbsp;:</span></p>
+                                <p class="item"><span><img src="../static/assets/admin/layout/img/common/yzjico_14.png"></span><span>高速存储&nbsp;:</span></p>
+                                <p class="item"><span><img src="../static/assets/admin/layout/img/common/yzjico_14.png"></span><span>RAV&nbsp;:</span></p>
+                            </div>
+                            <div class="fl nlist">
+                                <p class="item"><span>已分配 </span><span class="c2">{[{virtualmechine_bars.storage.n[0]}]}TB</span><span>未分配</span><span class="c2">{[{virtualmechine_bars.storage.n[1]}]}TB</span></p>
+                                <p class="item"><span>已分配 </span><span class="c2">{[{virtualmechine_bars.storage.h[0]}]}TB</span><span>未分配</span><span class="c2">{[{virtualmechine_bars.storage.h[1]}]}TB</span></p>
+                                <p class="item"><span>已分配 </span><span class="c2">{[{virtualmechine_bars.storage.RAY[0]}]}TB</span><span>未分配</span><span class="c2">{[{virtualmechine_bars.storage.RAY[1]}]}TB</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hp30 fl">
+                        <div class="boxwrap_04">
+                            <div class="item">
+                                <div class="lt">
+                                    <img src="../static/assets/admin/layout/img/common/yzjico_11.png">
+                                    <span class="nums">{[{virtualmechine_bars.empty_float_ip}]}</span>
+                                    <span class="tx mb2">可用 Float IP</span>
+                                </div>
+                                <div class="lb">
+                                    <img src="../static/assets/admin/layout/img/common/yzjico_11.png">
+                                    <span class="nums">{[{virtualmechine_bars.used_float_ip}]}</span>
+                                    <span class="tx">已用 Float IP</span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="btm-line">
+                    <span>读(MB/s):2343</span><span>写(MB/s):2343</span><span>CPU平均负载:56%</span>
+                </div>
+             </div>
+        </div>

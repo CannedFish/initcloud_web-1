@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="../static/assets/admin/layout/css/treeview.css">
+<style>
+  .ico_01{
+    background:url('../static/assets/admin/layout/img/second/storage-monitor/tree_ico01.png') no-repeat !important;
+    height:10px;
+    width:10px;
+    margin-top:7px;
+    margin-right:5px;
+} 
+.ico_02{
+    background:url('../static/assets/admin/layout/img/second/storage-monitor/tree_ico02.png') no-repeat !important;
+    height:10px;
+    width:10px;
+    margin-top:7px;
+    margin-right:5px;
+}
+.ico_03{
+    background:url('../static/assets/admin/layout/img/second/storage-monitor/disk.png') no-repeat !important;
+    height:10px;
+    width:10px;
+    margin-top:7px;
+    margin-right:5px;
+}
+.tree-bg01{
+     float:left;
+     display:inline-block;
+     height:24px;
+     margin-left:20px;
+     margin-top:5px;
+     font-size:14px;
+     color:#44ca69;
+     width:70px;
+     text-align:center;
+     background:url('../static/assets/admin/layout/img/second/storage-monitor/tree_status_03.png') no-repeat !important;
+}
+.tree-bg03{
+     float:left;
+     display:inline-block;
+     height:24px;
+     margin-left:20px;
+     margin-top:5px;
+     font-size:14px;
+     color:#c82849;
+     width:70px;
+     text-align:center;
+     background:url('../static/assets/admin/layout/img/second/storage-monitor/tree_status_08.png') no-repeat !important;
+}
+.tree-bg04{
+     float:left;
+     display:inline-block;
+     height:24px;
+     margin-left:20px;
+     margin-top:5px;
+     font-size:14px;
+     color:#efae25;
+     width:70px;
+     text-align:center;
+     background:url('../static/assets/admin/layout/img/second/storage-monitor/tree_status_06.png') no-repeat !important;
+}
+.vbox{
+    border-spacing: 0;
+    display: table;
+    height: 290px;
+    min-height: 240px;
+    position: relative;
+    width: 100%;
+}
+</style>
+ <div class="vbox ">
+<div class="col"  ng-controller="TreeviewController" style="width:290px;">
+  <div style="width:100%" ng-if="($index == 0)">
+    <!-- tree树的相关信息  1.数据,
+    2.控制器,3.选中执行函数,4.叶子节点最多的个数,
+    5.默认选中,6.叶子节点前边的图标类,7.点击收起来图标类,
+    8.点击展开图标类-->
+        <div>
+            <abn-tree 
+              tree-data         = "my_data[0]['nodelist']"
+              tree-name         = "tree_name" 
+              tree-control      = "my_tree" 
+              on-select         = "my_tree_handler(branch)" 
+              expand-level      = "2" 
+              initial-selection = "Granny Smith"
+              icon-leaf         = "fa ico_03"
+              icon-expand       = "fa ico_02"
+              icon-collapse     = "fa ico_01"
+              >
+            </abn-tree>
+        </div>
+    </div>
+    <div style="width:100%" ng-if="($index == 1)">
+    <!-- tree树的相关信息  1.数据,
+    2.控制器,3.选中执行函数,4.叶子节点最多的个数,
+    5.默认选中,6.叶子节点前边的图标类,7.点击收起来图标类,
+    8.点击展开图标类-->
+        <div>
+            <abn-tree 
+              tree-data         = "my_data[1]['nodelist']"
+              tree-name         = "tree_name" 
+              tree-control      = "my_tree" 
+              on-select         = "my_tree_handler(branch)" 
+              expand-level      = "2" 
+              initial-selection = "Granny Smith"
+              icon-leaf         = "fa ico_03"
+              icon-expand       = "fa ico_02"
+              icon-collapse     = "fa ico_01"
+              >
+            </abn-tree>
+        </div>
+    </div>
+</div>
+</div>

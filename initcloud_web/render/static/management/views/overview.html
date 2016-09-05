@@ -1,0 +1,30 @@
+<!-- END PAGE HEADER-->
+<!-- 机柜显示 -->
+<div data-ng-include="'../static/management/views/jigui.html'"></div>
+<!-- 机柜显示 -->
+<link rel="stylesheet" type="text/css" href="../static/assets/admin/layout/css/init_wizard.css">
+<!-- BEGIN MAIN CONTENT -->
+<div style="margin-top:30px;">
+	<div class="row w100"> 
+	     <!-- 引入网络监控 -->
+	    <div class="col-md-5 fl" data-ng-include="'../static/management/views/main-network-bar.html'" ng-controller="Network_BarController">
+	        
+	    </div> 
+	    <!-- 引入系统服务监控 -->
+	    <div class="col-md-5 fr" data-ng-include="'../static/management/views/main-service-bar.html'" ng-controller="Service__BarController">
+	    <!-- 中间区域的命名方式 lt-wrap:左上边的包裹 -->
+	    </div>
+	</div>
+	<div class="row w100">
+	    <!-- 引入存储监控 -->
+	    <div class="col-md-5 fl" data-ng-include="'../static/management/views/main-storage-bar.html'" ng-controller="Storage__BarController">
+	    <!-- 中间区域的命名方式 lt-wrap:左上边的包裹 -->
+	        
+	    </div>
+	    <!-- 引入虚拟机监控 -->
+	    <div class="col-md-5 fr" data-ng-include="'../static/management/views/main-virtulmechine-bar.html'" ng-controller="Virtualmechine_BarController">
+
+	    </div>
+	</div>  
+</div>
+<!-- END MAIN CONTENT -->

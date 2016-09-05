@@ -1,0 +1,74 @@
+<div class="lb-wrap fl">
+             <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon3.png"><span>存储监控</span></div> 
+             <div class="ccjkbox list" style="margin-left: -15px;margin-top: -5px;">
+                <ul class="pl0 clearfix">
+                    <li class="item w25 fl ">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/cuico_07.png">
+                            <span class="nums">{[{storage__bars.disk[0]}]}</span>
+                            <span class="tx mb2">已用硬盘</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/cuico_07.png">
+                            <span class="nums">{[{storage__bars.disk[1]}]}</span>
+                            <span class="tx">未用硬盘</span>
+                        </div> 
+                    </li>
+                    <li class="item w25 fl">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/cuico_03.png">
+                            <span class="nums">{[{storage__bars.SSD[0]}]}</span>
+                            <span class="tx mb2">已用SSD</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/cuico_09.png">
+                            <span class="nums">{[{storage__bars.SAS[0]}]}</span>
+                            <span class="tx">已用SAS盘位</span>
+                        </div>
+                    </li>
+                    <li class="item w25 fl">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/cuico_03.png">
+                            <span class="nums">{[{storage__bars.SSD[1]}]}</span>
+                            <span class="tx mb2">未用SSD</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/cuico_09.png">
+                            <span class="nums">5678</span>
+                            <span class="tx">未用硬盘</span>
+                        </div>
+                    </li>
+                   <li class="item w25 fl">
+                        <div class="lt">
+                            <img src="../static/assets/admin/layout/img/common/cuico_03.png">
+                            <span class="nums">{[{storage__bars.SAS[1]}]}</span>
+                            <span class="tx mb2">空余SAS盘位</span>
+                        </div>
+                        <div class="lb">
+                            <img src="../static/assets/admin/layout/img/common/cuico_09.png">
+                            <span class="nums">{[{storage__bars.NVMe[1]}]}</span>
+                            <span class="tx">空余NVMe盘位</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="inner-box" ng-controller="Phy_NodesController">
+                    <div class="hp45 fl" ng-repeat="node in phy_nodess">
+                        <div class="boxwrap_01" >
+                            <div class="fl node" ng-if="$index==0">节点一</div>
+                            <div class="fl node" ng-if="$index==1">节点二</div>
+                            <!-- 控制进度条的显示 -->
+                            <div class="fl nlist">
+                                <p class="item" ng-repeat="item in node">
+                                    <span>{[{item.name}]}</span>
+                                    <span>
+                                       <em class="move-bg-line" style="margin-left:{[{item.percent}]}%"></em>
+                                    </span>
+                                    <span>{[{item.percent}]}%</span>
+                                </p>
+                            </div>
+                            <!-- 控制进度条的显示 -->
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>

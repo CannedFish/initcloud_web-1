@@ -1,0 +1,42 @@
+
+<style>  
+
+
+.tree-bg03{
+     float:left;
+     display:inline-block;
+     height:24px;
+     margin-left:20px;
+     margin-top:5px;
+     font-size:14px;
+     color:#c82849;
+     width:70px;
+     text-align:center;
+     background:url('../img/second/storage-monitor/tree_status_08.png') no-repeat !important;
+}
+.tree-bg04{
+     float:left;
+     display:inline-block;
+     height:24px;
+     margin-left:20px;
+     margin-top:5px;
+     font-size:14px;
+     color:#efae25;
+     width:70px;
+     text-align:center;
+     background:url('../img/second/storage-monitor/tree_status_06.png') no-repeat !important;
+}
+.tree-bg0_1{
+     float:left;
+     display:inline-block;
+     height:24px;
+     margin-left:20px;
+     margin-top:5px;
+     font-size:14px;
+     color: #5b9bd1;
+     width:70px;
+     text-align:center;
+}
+a.hover{
+  background:transparent !important;
+}

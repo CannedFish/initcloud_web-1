@@ -1,0 +1,131 @@
+   /*透明背景*/
+       body{
+        width:1366px;
+        height:768px;
+        background:url(../img/common/page_bg.jpg) no-repeat;
+        margin:0 auto !important;
+        clear:both;
+        overflow:hidden;
+        z-index:9999999;
+        position:absolute;
+        background-color:#080F26 !important
+        }
+       .page-content-wrapper .page-content {
+            margin-left:0px;
+            margin-top: 0px;
+            min-height: 600px;
+            padding: 11px 20px 10px 20px;
+            font-family: "Microsoft YaHei";
+        }
+        .page-header.navbar {
+           
+            margin: 0;
+            border: 0px;
+            padding: 0px;
+            box-shadow: none;
+            height: 76px;
+            min-height: 76px;
+            filter: none;
+            background:transparent;
+        }
+       .trbg{background:transparent;}
+       .fl{float:left;}
+       .fr{float:right;}
+       /*header*/
+       .page-header .navbar .navbar-fixed-top{
+          display:block;height: 76px;
+       }
+       .page-container {
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+       }
+       .page-content {
+            margin-top: 0px;
+            padding: 0px;
+            background:transparent;
+            /* border-left: 1px solid #F0F5F7; */
+            border:none;
+        }
+        .page-container .jg-wrap{
+             position: absolute;
+            background: url(../img/common/jigui_03.png);
+            width: 200px;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 596px;
+            left:42.6%;
+        }
+        .page-container .jg-wrap .jigui{
+            width:173px;
+            height:468px;
+            margin-top:64px;
+            margin-left:14px;
+        }
+         .page-container .jg-wrap .jigui .inner-box-list{
+            height:100%;
+            padding: 17px 8px 19px 9px;
+         }
+     
+        .tool-01{ height:68px;margin-top:5px;}
+        .tool-02{height:175px;}
+        .tool-03{height:65px;}
+        .tool-04{height:65px;}
+        .tool-05{height:16px;}
+        ul,li{
+            padding:0px;
+            margin:0px;
+        }
+        .tool-01 ul.w1{
+            height:16px;
+            margin-top:1px;
+            margin-left:5px;
+        }
+        .tool-01 ul li.w2{
+            height:7px;
+            width:100%;
+        }
+        .tool-01 ul li span{
+            display:inline-block;
+            height:7px;
+            width:5px;
+            float:left;
+            margin-left:1px;
+        }
+        .tool-01 ul li.w3{
+            height:5px;
+            width:5px;
+            float:left;
+            background:url('../img/common/jg_ico_03.png') no-repeat;
+            background-position:center center;
+            margin-left:1px;
+        }
+        .tool-02{
+
+        }
+        .l-list{
+           height:35px;
+           
+        }
+        .l-list li{float:left;height:16px;line-height:16px;}
+        .l-list li img{margin-bottom:3px;}
+        .l-list .tx{
+            color: #0077bc;
+            display: inline-block;
+            height: 100%;
+            line-height: 130%;
+            margin-left: -4px;
+            margin-top: 1px;
+        }
+        .tool-03 .w1{height:100%;}
+       .p-2-0-2-3{
+            padding-top:2px;
+            padding-bottom:2px;
+            padding-left:3px;
+        }
+        .p-3-1{
+            padding:3px 1px;
+        }
+        .page-container-bg-solid .page-content {
+             background: transparent !important; 
+        }

@@ -1,0 +1,261 @@
+.cabinet{
+	width:175px;
+	height:470px;
+	float:left;
+	background:#0077bc;
+	}
+.network_cont{
+	width:1014px;
+	float:right;
+	}
+.work_title{
+	height:22px;
+	border-bottom:1px solid #0077bc;
+	font-family:"微软雅黑";
+	font-size:14px;
+	}
+.work_title .title_p1{
+	float:left;
+	color:#01cef4;
+	}
+.work_title .title_p2{
+	float:right;
+	color:#0077bc;
+	}
+.work_node{
+	overflow:hidden;
+	clear:both;
+	margin-top:5px;
+	}
+.work_node .node_cont{
+	width:502px;
+	float:left;
+	}
+.work_node .node2{
+	width:502px;
+	float:right;
+	}
+.work_node .node3{
+	width:498px;
+	float:left;
+	}
+.work_node .node4{
+	width:498px;
+	float:right;
+	}
+.work_node .node5{
+	width:504px;
+	float:left;
+	}
+.work_node .node6{
+	width:504px;
+	float:right;
+	}	
+.work_node .node_cont .node_title{
+	font-size:14px;
+	color:#01cdf3;
+	font-family:"微软雅黑";
+	}
+.work_node .node_cont .node_model{
+	border:1px solid #0e4a91;
+	padding-bottom:10px;
+	overflow:hidden;
+	}
+.work_node .node_cont .model1{
+	padding-bottom:2px;
+	}
+.work_node .node_cont .node_model .model_title{
+	font-size:14px;
+	color:#01cdf3;
+	font-family:"微软雅黑";
+	margin:4px 0 0 4px;
+	}
+.work_node .node_cont .node_model .model_inform{
+	overflow:hidden;
+	}
+.work_node .node_cont .node_model .model_inform .inform_cont{
+	width:98px;
+	height:35px;
+	background:url(../img/second/network-monitor/cpu_bg1.png) no-repeat;
+	float:left;
+	text-align:center;
+	font-family:"微软雅黑";
+	margin:5px 0 0 3px;
+	}
+.work_node .node_cont .node_model .model_inform .inform_cont p{
+	font-size:12px;
+	color:#01cef4;
+	}
+.work_node .node_cont .node_model .model_inform .inform_cont .line{
+	width:70px;
+	height:5px;
+	background:#040611;
+	border-radius:15px;
+	margin:0 auto;
+	}
+.work_node .node_cont .node_model .model_inform .inform_cont .line .line_cont{
+	width:50px;
+	height:5px;
+	background:#16bb53;
+	border-radius:15px;
+	}
+.work_node .node_cont .node_model .model_inform .inform_titP{
+	float:left;
+	line-height:45px;
+	font-size:14px;
+	color:#01cef4;
+	margin-left:3px;
+	}
+.voltage_ul{
+	clear:both;
+	overflow:hidden;
+	}
+.voltage_ul li{
+	width:55px;
+	float:left;
+	margin:8px 0 0 6px;
+	}
+.voltage_ul li p{
+	text-align:center;
+	font-size:14px;
+	color:#01cdf3;
+	}
+.voltage_ul li .line{
+	width:55px;
+	height:7px;
+	background:#040611;
+	border-radius:15px;
+	margin:0 auto;
+	}
+.voltage_ul li .line .line_cont{
+	width:35px;
+	height:7px;
+	background:#16bb53;
+	border-radius:15px;
+	}
+
+.work_disk{
+	clear:both;
+	overflow:hidden;
+	margin-top:10px;
+	}
+.work_disk .disk_title{
+	height:22px;
+	line-height:22px;
+	font-size:14px;
+	font-family:"微软雅黑";
+	}
+.work_disk .disk_title .title_left{
+	float:left;
+	color:#01cef4;
+	}
+.work_disk .disk_title .title_ul{
+	float:right;
+	}
+.work_disk .disk_title .title_ul li{
+	float:left;
+	margin-left:18px;
+	}
+.work_disk .disk_title .title_ul li p{
+	line-height:22px;
+	padding-left:12px;
+	font-size:12px;
+	color:#0077bc;
+	font-family:"微软雅黑";
+	}
+.work_disk .disk_title .title_ul li .li_p1{
+	background:url(../img/second/network-monitor/title_icon1.png) left center no-repeat;
+	}
+.work_disk .disk_title .title_ul li .li_p2{
+	background:url(../img/second/network-monitor/title_icon2.png) left center no-repeat;
+	}
+.work_disk .disk_title .title_ul li .li_p3{
+	background:url(../img/second/network-monitor/title_icon3.png) left center no-repeat;
+	}	
+.work_disk .disk_cont{
+	overflow:hidden;
+	border:1px solid #0e4a91;
+	margin-top:5px;
+	padding-bottom:8px;
+	}
+.work_disk .disk_cont a{
+	width:34px;
+	height:30px;
+	display:block;
+	float:left;
+	margin:8px 0 0 16px;
+	}	
+.work_disk .disk_cont .a1{
+	background:url(../img/second/network-monitor/yingpan_icon2.png) no-repeat;
+	}
+.work_disk .disk_cont .a2{
+	background:url(../img/second/network-monitor/yingpan_icon1.png) no-repeat;
+	}
+.work_disk .disk_cont .a3{
+	background:url(../img/second/network-monitor/yingpan_icon3.png) no-repeat;
+	}
+
+
+
+.fan_p1{
+	width:52px;
+	height:37px;
+	text-align:center;
+	line-height:37px;
+	margin:2px 0 0 2px;
+	background:#0e4a91;
+	font-size:14px;
+	color:#00d8ff;
+	float:left;
+	}
+.fan_line{
+	width:80px;
+	height:7px;
+	background:#040611;
+	border-radius:15px;
+	float:left;
+	margin:17px 0 0 10px;
+	}
+.fan_line .fan_lineCont{
+	width:66px;
+	height:7px;
+	background:#16bb53;
+	border-radius:15px;
+	}
+.fan_p2{
+	line-height:40px;
+	margin:0 0 0 9px;
+	font-size:14px;
+	color:#00d8ff;
+	float:left;
+	}
+.node_pdu{
+	height:41px;
+	background:url(../img/second/network-monitor/pdu_bg.png) no-repeat no-repeat;
+	margin-top:10px;
+	}
+.node_pdu .pdu_p1{
+	font-size:18px;
+	color:#00d8ff;
+	float:left;
+	margin:3px 0 0 38px;
+	}
+.node_pdu .pdu_p2{
+	font-size:14px;
+	color:#dd2a4a;
+	float:left;
+	margin:0 0 0 15px;
+	line-height:38px;
+	background:url(../img/second/network-monitor/pdu_icon1.png) left center no-repeat;
+	padding-left:40px;
+	}
+.node_pdu .pdu_p3{
+	font-size:14px;
+	color:#0077bc;
+	float:left;
+	margin:0 0 0 15px;
+	line-height:38px;
+	background:url(../img/second/network-monitor/pdu_icon2.png) left center no-repeat;
+	padding-left:40px;
+	}
+ul,li{list-style-type:none;}

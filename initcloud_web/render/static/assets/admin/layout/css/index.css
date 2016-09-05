@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0; padding:0;}
+body{font-size:14px; font-family:"微软雅黑,Microsoft YaHei";color:#fff;}
+table, div, h1, h2, h3, h4, p, form, label, input, select, textarea, img, span, ul, li{padding:0px; margin:0px;}
+h1,h2,h3,h4,h5,h6{font-size:1em; font-weight:normal}
+form{margin:0}
+blockquote{margin:0}
+img, a img{border:none;}
+a { blr:expression(this.onFocus=this.blur()) } /*针对 IE*/ 
+a { outline:none; }/*针对火狐*/
+a{color:#fff; text-decoration:none; cursor:pointer;}
+a:hover{text-decoration:none;}
+ul, li{list-style-type:none;} 
+.body{
+	width:1366px;
+	height:768px;
+	background:url(../images/page_bg.jpg) no-repeat;
+	margin:0 auto;
+	clear:both;
+	overflow:hidden;
+}
