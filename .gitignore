@@ -1,2 +1,11 @@
+# common
+.venv/*
 docs/*
 .venv/*
+initcloud_web_bak/*
+tests/*
+requirements.txt
+*.pyc
+*.swp
+initcloud_web/initcloud.wsgi
+initcloud_web/manage.py
