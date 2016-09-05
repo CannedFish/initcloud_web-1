@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'biz.backup',
     'biz.billing',
     'biz.myapp',
+    'biz.phy_monitor',
+    'biz.storage_monitor'
 ]
 
 MIDDLEWARE_CLASSES = (
@@ -277,3 +279,9 @@ COMPUTE_HOSTS = {'libertyall': "192.168.223.108"}
 
 DEVICEPOLICY = [{"name":"usb"}]
 VLAN_ENABLED = False 
+
+REDFISH_URL = "http://221.239.81.82:18021"
+REDFISH_USR = "ADMIN"
+REDFISH_PSD = "ADMIN"
+
+STORAGE_URL = ["http://10.0.76.10:9331", "http://10.0.76.20:9331"]
