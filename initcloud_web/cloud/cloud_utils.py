@@ -84,10 +84,10 @@ def create_rc_by_udc(udc=None):
 def create_rc_by_dc(dc=None):
     rc = RC_ENV.copy()
 
-    rc["username"] = dc.user
-    rc["password"] = dc.password
-    rc["tenant_name"] = dc.project
-    rc["auth_url"] = dc.auth_url
+    rc["username"] = settings.ADMIN_NAME
+    rc["password"] = settings.ADMIN_PASS
+    rc["tenant_name"] = settings.ADMIN_TENANT_NAME
+    rc["auth_url"] = settings.AUTH_URL
 
     return rc
 

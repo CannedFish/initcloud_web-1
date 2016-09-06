@@ -24,6 +24,8 @@ from biz.common.pagination import PagePagination
 from biz.common.decorators import require_POST, require_GET
 from biz.common.utils import retrieve_params, fail
 from biz.workflow.models import Step
+from cloud.cloud_utils import create_rc_by_dc, get_nova_admin
+from cloud.api import cinder
 from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
@@ -35,13 +37,33 @@ class Volume_MonitorList(generics.ListAPIView):
 
 
     def list(self, request):
-        rc = create_rc_dy_dc(request)
+        LOG.info("start to get rc")
+        rc = create_rc_by_dc(request)
 
         LOG.info("*** rc is ****" + str(rc))
         search_opts={'all_tenants': True}
 
         volumes = cinder.volume_list(rc, search_opts=search_opts)
+        data = []
+        for volume in volumes:
+            LOG.info("**** volume is ****" + str(volume))
+            attachments_ = volume.attachments
+            LOG.info("*** attachments are ***" + str(attachments_))
+            server_id = None
+            for at in attachments_:
+                server_id = at['server_id']
+                if not server_id:
+                    continue
+                LOG.info("*** server_id ***" + str(server_id))
+                novaadmin = get_nova_admin(request)
+                LOG.info(novaadmin)
+                server = novaadmin.servers.get(server_id)
+                LOG.info("**** server is ****" + str(server))
+                server_name = server.name
+                data.append({"name": volume.name, "location": volume.availability_zone, "capacity": volume.size, "status": volume.status, "type": volume.volume_type, "mounting": server_name})
 
+        LOG.info("*** data is ***" + str(data))
+        return Response(data)
 @require_POST
 def create_volume_monitor(request):
 

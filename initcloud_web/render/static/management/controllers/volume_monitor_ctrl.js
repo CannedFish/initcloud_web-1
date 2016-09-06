@@ -30,6 +30,12 @@ CloudApp.controller('Volume_MonitorController',
         //              });
         //          }
         //      });
+         Volume_Monitor.get(function(data){
+            //console.log(data.results);
+            $scope.storage_monitors = data.results;
+            checkboxGroup.syncObjects($scope.volume_monitors);
+        });
+        /*
         var data = [
             {
                 'name':'虚拟云盘01',
@@ -57,6 +63,7 @@ CloudApp.controller('Volume_MonitorController',
             }
         ]
         $scope.volume_monitors = data ;
+        */
         // alert("cccc");
         checkboxGroup.syncObjects($scope.volume_monitors);
         var deleteVolume_Monitors = function(ids){
