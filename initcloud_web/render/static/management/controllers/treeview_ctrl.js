@@ -18,191 +18,197 @@ CloudApp.controller('TreeviewController',
             apple_selected = function(branch) {
               return $scope.output = "APPLE! : " + branch.label;
             };
+            //请求数据:
+            Treeview.get(function(data){
+                // console.log(data);
+                $scope.my_data = data.results;
+                // checkboxGroup.syncObjects($scope.my_data);
+            });
             //初始化数据绑定
-            var treedata = [
-                {
-                    label: 'treenode1',
-                    nodelist: [
-                        {
-                            label: 'pool01', // id
-                            data:{
-                                status:'online', // status
-                                'description':'常规存储' // 意义不明
-                            },
-                            children: [
-                                {
-                                    label: '硬盘', // diskList.name
-                                    data: {
-                                      'status':'良好' // diskList.state
-                                    }
-                                }, 
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }, 
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }, 
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            label: 'pool02',
-                            data:{status:'online','description':'常规存储'},
-                            children: [
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }, 
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }, 
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }, 
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'良好'
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            label: 'pool03',
-                            data:{status:'degrade','description':'常规存储'},
-                            children: [
-                                {
-                                    label: '硬盘',
-                                    data: {
-                                      'status':'过载'
-                                    }
-                                }, 
-                            ]
-                        },
-                        {
-                            label: 'pool04',
-                            data:{status:'offline','description':'常规存储'},
-                            children: [
-                            {
-                                label: '硬盘',
-                                data: {
-                                  'status':'良好'
-                                }
-                            }, 
-                            ]
-                        }
-                    ]
-                },
-                {
-                    label: 'treenode2',
-                    nodelist: [
-                        {
-                        label: 'pool01',
-                        data:{status:'online','description':'常规存储'},
-                        children: [
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        label: 'pool02',
-                        data:{status:'online','description':'常规存储'},
-                        children: [
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'过载'
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        label: 'pool03',
-                        data:{status:'offline','description':'常规存储'},
-                        children: [
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                        ]
-                      },
-                      {
-                        label: 'pool04',
-                        data:{status:'degrade','description':'常规存储'},
-                        children: [
-                          {
-                            label: '硬盘',
-                            data: {
-                              'status':'良好'
-                            }
-                          }, 
-                        ]
-                      }
-                    ]
-                }
-            ];
-            $scope.my_data = treedata;
+            // var treedata = [
+            //     {
+            //         label: 'treenode1',
+            //         nodelist: [
+            //             {
+            //                 label: 'pool01', // id
+            //                 data:{
+            //                     status:'online', // status
+            //                     'description':'常规存储' // 意义不明
+            //                 },
+            //                 children: [
+            //                     {
+            //                         label: '硬盘', // diskList.name
+            //                         data: {
+            //                           'status':'良好' // diskList.state
+            //                         }
+            //                     }, 
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }, 
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }, 
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }
+            //                 ]
+            //             },
+            //             {
+            //                 label: 'pool02',
+            //                 data:{status:'online','description':'常规存储'},
+            //                 children: [
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }, 
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }, 
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }, 
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'良好'
+            //                         }
+            //                     }
+            //                 ]
+            //             },
+            //             {
+            //                 label: 'pool03',
+            //                 data:{status:'degrade','description':'常规存储'},
+            //                 children: [
+            //                     {
+            //                         label: '硬盘',
+            //                         data: {
+            //                           'status':'过载'
+            //                         }
+            //                     }, 
+            //                 ]
+            //             },
+            //             {
+            //                 label: 'pool04',
+            //                 data:{status:'offline','description':'常规存储'},
+            //                 children: [
+            //                 {
+            //                     label: '硬盘',
+            //                     data: {
+            //                       'status':'良好'
+            //                     }
+            //                 }, 
+            //                 ]
+            //             }
+            //         ]
+            //     },
+            //     {
+            //         label: 'treenode2',
+            //         nodelist: [
+            //             {
+            //             label: 'pool01',
+            //             data:{status:'online','description':'常规存储'},
+            //             children: [
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }
+            //             ]
+            //           },
+            //           {
+            //             label: 'pool02',
+            //             data:{status:'online','description':'常规存储'},
+            //             children: [
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'过载'
+            //                 }
+            //               }
+            //             ]
+            //           },
+            //           {
+            //             label: 'pool03',
+            //             data:{status:'offline','description':'常规存储'},
+            //             children: [
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //             ]
+            //           },
+            //           {
+            //             label: 'pool04',
+            //             data:{status:'degrade','description':'常规存储'},
+            //             children: [
+            //               {
+            //                 label: '硬盘',
+            //                 data: {
+            //                   'status':'良好'
+            //                 }
+            //               }, 
+            //             ]
+            //           }
+            //         ]
+            //     }
+            // ];
+            // $scope.my_data = treedata;
             $scope.tree_name = 'storage_treeview';//树节点名称
             //初始化数据绑定--
             //自定义函数
