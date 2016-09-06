@@ -30,40 +30,36 @@ CloudApp.controller('Volume_MonitorController',
         //              });
         //          }
         //      });
-         Volume_Monitor.get(function(data){
-            //console.log(data.results);
-            $scope.storage_monitors = data.results;
-            checkboxGroup.syncObjects($scope.volume_monitors);
-        });
-        /*
-        var data = [
-            {
-                'name':'虚拟云盘01',
-                'location':'存储服务器一',
-                'capacity':'20',
-                'status':'online',
-                'type':'高速存储',
-                'mounting':'虚拟机01'
-            },
-            {
-                'name':'虚拟云盘02',
-                'location':'存储服务器一',
-                'capacity':'20',
-                'status':'online',
-                'type':'高速存储',
-                'mounting':'虚拟机01'
-            },
-            {
-                'name':'虚拟云盘03',
-                'location':'存储服务器一',
-                'capacity':'20',
-                'status':'online',
-                'type':'高速存储',
-                'mounting':'虚拟机01'
-            }
-        ]
+        // var data = [
+        //     {
+        //         'name':'虚拟云盘01',
+        //         'location':'存储服务器一',
+        //         'capacity':'20',
+        //         'status':'online',
+        //         'type':'高速存储',
+        //         'mounting':'虚拟机01'
+        //     },
+        //     {
+        //         'name':'虚拟云盘02',
+        //         'location':'存储服务器一',
+        //         'capacity':'20',
+        //         'status':'online',
+        //         'type':'高速存储',
+        //         'mounting':'虚拟机01'
+        //     },
+        //     {
+        //         'name':'虚拟云盘03',
+        //         'location':'存储服务器一',
+        //         'capacity':'20',
+        //         'status':'online',
+        //         'type':'高速存储',
+        //         'mounting':'虚拟机01'
+        //     }
+        // ]
+        Volume_Monitor.query(function(data){
+            console.log(data);
+        })
         $scope.volume_monitors = data ;
-        */
         // alert("cccc");
         checkboxGroup.syncObjects($scope.volume_monitors);
         var deleteVolume_Monitors = function(ids){

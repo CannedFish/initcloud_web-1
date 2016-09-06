@@ -256,7 +256,7 @@ angular.module('cloud.resources', [])
 }])
 .factory('Volume_Monitor', ['$resource', function ($resource) {  //云盘监控
     return $resource("/api/volume_monitor/:id", {id: '@id'});
-}]);
+}])
 .factory('Login', ['$resource', function ($resource) {   // 登陆
     return $resource("/api/login/:id", {id: '@id'});
 }])
