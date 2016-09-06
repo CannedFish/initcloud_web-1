@@ -63,11 +63,14 @@
                             <!-- 控制进度条的显示 -->
                             <div class="fl nlist">
                                 <p class="item" ng-repeat="item in node">
-                                    <span>{[{item.name}]}</span>
+                                    <span ng-if="$index==0">cpu占用</span>
+                                    <span ng-if="$index==1">内存占用</span>
+                                    <span ng-if="$index==2">读流量</span>
+                                    <span ng-if="$index==3">写流量</span>
                                     <span>
-                                       <em class="move-bg-line" style="margin-left:{[{item.percent}]}%"></em>
+                                       <em class="move-bg-line" style="margin-left:{[{item}]}%"></em>
                                     </span>
-                                    <span>{[{item.percent}]}%</span>
+                                    <span>{[{item}]}%</span>
                                 </p>
                             </div>
                             <!-- 控制进度条的显示 -->
