@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -43,7 +44,11 @@ urlpatterns = [
 
 # phy_monitor
 urlpatterns += [
-    url(r'^phy_monitor/$', phy_monitor_view.PhyMonitorList.as_view()),
+    url(r'^cabinet/$', phy_monitor_view.CabinetDetail.as_view()),
+    url(r'^phy_monitor_jbod/$', phy_monitor_view.PhyMonitorJBODDetail.as_view()),
+    url(r'^phy_monitor_network/$', phy_monitor_view.PhyMonitorNetworkList.as_view()),
+    url(r'^phy_monitor_server/$', phy_monitor_view.PhyMonitorServerList.as_view()),
+    url(r'^phy_monitor_storage/$', phy_monitor_view.PhyMonitorStorageDetail.as_view()),
 ]
 
 # volume_monitor

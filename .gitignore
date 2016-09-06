@@ -1,7 +1,6 @@
 # common
 .venv/*
 docs/*
-.venv/*
 initcloud_web_bak/*
 tests/*
 requirements.txt
