@@ -13,25 +13,51 @@ CloudApp.controller('Volume_MonitorController',
 
         $scope.volume_monitors = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.volume_monitors);
-
-        alert("ccc");
-        $scope.volume_monitor_table = new ngTableParams({
-                 page: 1,
-                 count: 10
-             },{
-                 counts: [],
-                 getData: function($defer, params){
-                     Volume_Monitor.query(function(data){
-                         alert($scope.volume_monitors)
-                         $scope.volume_monitors = ngTableHelper.paginate(data, $defer, params);
-                         alert($scope.volume_monitors)
-                         checkboxGroup.syncObjects($scope.volume_monitors);
-                        alert("cc")
-                     });
-                 }
-             });
-        //$scope.volume_monitors = data ;
-        alert("cccc");
+        // $scope.volume_monitor_table = new ngTableParams({
+        //          page: 1,
+        //          count: 10
+        //      },{
+        //          counts: [],
+        //          getData: function($defer, params){
+        //              console.log(params);
+        //              Volume_Monitor.query(function(data){ 
+        //                  // alert("data")
+        //                  // alert($scope.volume_monitors)
+        //                  // $scope.volume_monitors = ngTableHelper.paginate(data, $defer, params);
+        //                  // alert($scope.volume_monitors)
+        //                  // checkboxGroup.syncObjects($scope.volume_monitors);
+                        
+        //              });
+        //          }
+        //      });
+        var data = [
+            {
+                'name':'虚拟云盘01',
+                'location':'存储服务器一',
+                'capacity':'20',
+                'status':'online',
+                'type':'高速存储',
+                'mounting':'虚拟机01'
+            },
+            {
+                'name':'虚拟云盘02',
+                'location':'存储服务器一',
+                'capacity':'20',
+                'status':'online',
+                'type':'高速存储',
+                'mounting':'虚拟机01'
+            },
+            {
+                'name':'虚拟云盘03',
+                'location':'存储服务器一',
+                'capacity':'20',
+                'status':'online',
+                'type':'高速存储',
+                'mounting':'虚拟机01'
+            }
+        ]
+        $scope.volume_monitors = data ;
+        // alert("cccc");
         checkboxGroup.syncObjects($scope.volume_monitors);
         var deleteVolume_Monitors = function(ids){
 
