@@ -27,6 +27,7 @@ from biz.policy_cinder import views as policy_cinder_view
 from biz.policy_neutron import views as policy_neutron_view
 
 from biz.phy_monitor import views as phy_monitor_view
+from biz.volume_monitor import views as volume_monitor_view
 from biz.storage_monitor import views as storage_monitor_view
 
 #alarm
@@ -43,6 +44,11 @@ urlpatterns = [
 # phy_monitor
 urlpatterns += [
     url(r'^phy_monitor/$', phy_monitor_view.PhyMonitorList.as_view()),
+]
+
+# volume_monitor
+urlpatterns += [
+    url(r'^volume_monitor/$', volume_monitor_view.Volume_MonitorList.as_view()),
 ]
 
 # storage_monitor

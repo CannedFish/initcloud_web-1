@@ -14,18 +14,18 @@ CloudApp.controller('Phy_NodesController',
         $scope.phy_nodess = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_nodess);
         var nodes = [
-            [
-                 {'name':'cpu占用','percent':'70'},
-                 {'name':'内存占用','percent':'10'},
-                 {'name':'读流量','percent':'85'},
-                 {'name':'写流量','percent':'100'}
-            ],
-            [
-                {'name':'cpu占用','percent':'75'},
-                {'name':'内存占用','percent':'30'},
-                {'name':'读流量','percent':'95'},
-                {'name':'写流量','percent':'60'}
-            ]  
+            {
+                'cpuUsed':'70',
+                'memUsed':'10',
+                'rx':'85',
+                'tx':'100'
+            },
+            {
+                'cpuUsed':'75',
+                'memUsed':'30',
+                'rx':'95',
+                'tx':'60'
+            },
         ];   
         $scope.phy_nodess = nodes;
         checkboxGroup.syncObjects($scope.phy_nodess);
