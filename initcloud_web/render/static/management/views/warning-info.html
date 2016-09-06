@@ -1,8 +1,8 @@
-<link rel="stylesheet" type="text/css" href="/static/assets/admin/layout/css/warning-info.css">
+<link rel="stylesheet" type="text/css" href="../static/assets/admin/layout/css/warning-info.css">
 <div class="content" ng-controller="WarningController">
             <div class="titile">报警信息</div>
             <div class="content_center">
-                <input type="hidden" id="filter" type="text"></input>
+                <input type="hidden" id="filter" type="text" value=""></input>
                 <div class="police_tab">
                 <!-- 功能table页 -->
                        <ul class="nav-list" style="width:100%">
@@ -10,21 +10,17 @@
                                 <select class="filter-status" style="margin-left:10px;">
                                     <option></option>
                                     <option value="硬件报警">硬件报警</option>
-                                    <option value="">系统报警</option>
+                                    <option value="系统报警">系统报警</option>
                                 </select>
                             </li>
                             <li class="sort-02">
                                 <select class="filter-status" style="margin-left:5px;">
                                     <option></option>
-                                    <option value="设备名称1">设备名称1</option>
-                                    <option value="网络设备">网络设备</option>
-                                    <option value="超微服务器">超微服务器</option>
-                                    <option value="JBOD">JBDO</option>
-                                    <option value="存储服务器">存储服务器</option>
-                                    <option value="3号超级微服务器">3号超级微服务器</option>
-                                    <option value="4号超级微服务器">4号超级微服务器</option>
-                                    <option value="5号超级微服务器">5号超级微服务器</option>
-                                    <option value="6号超级微服务器">6号超级微服务器</option>
+                                    <option value="物理服务器">物理服务器</option>
+                                    <option value="存储服务器 ">存储服务器</option>
+                                    <option value="云主机">云主机</option>
+                                    <option value="网络 ">网络</option>
+                                    <option value="超级微服务器">超级微服务器</option>
                                 </select>
                             </li>        
                             <li class="warning-info">报警信息

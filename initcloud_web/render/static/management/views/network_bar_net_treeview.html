@@ -9,12 +9,12 @@
               </a>
               <span ng-if="(row.level == 1)" style="float:left;display:inline-block;height:24px;margin-top:9px;font-size:14px;color:#C2912B">修改{{row.branch.data.description}}次</span>
               <!-- <span ng-if="(row.level == 2)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:21px;font-size:14px;color:#C2912B">修改{{row.branch.data.description}}次</span> -->
-              <span ng-if="(row.level == 3)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:45px;font-size:14px;color:#C2912B">修改{{row.branch.data.description}}次</span>
-              <span ng-if="(row.level == 5)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:83px;font-size:14px;color:#C2912B">修改{{row.branch.data.description}}次</span>
+              <span ng-if="(row.level == 3)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:45px;font-size:14px;color:#C2912B">修改{{row.branch.data.description | number:2}}次</span>
+              <span ng-if="(row.level == 5)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:83px;font-size:14px;color:#C2912B">修改{{row.branch.data.description | number:2}}次</span>
               <!-- <span ng-if="(row.level == 3)" style="float:left;display:inline-block;height:24px;margin-top:9px;margin-left:45px;font-size:14px;color:#C2912B">修改{{row.branch.data.description}}次</span> -->
-              <span  ng-if="(row.level == 1)" class="tree-bg01">{{row.branch.data.num}}</span>
-              <span  ng-if="(row.level == 2)" class="tree-bg0_1">{{row.branch.data.num}}个</span>
-              <span  ng-if="(row.level == 4)" class="tree-bg0_1" style="margin-left:27px !important;">{{row.branch.data.num}}个</span>
+              <span  ng-if="(row.level == 1)" class="tree-bg01">{{row.branch.data.num | number:2}}</span>
+              <span  ng-if="(row.level == 2)" class="tree-bg0_1">{{row.branch.data.num | number:2}}个</span>
+              <span  ng-if="(row.level == 4)" class="tree-bg0_1" style="margin-left:36px !important;">{{row.branch.data.num | number:3}}个</span>
       </li>
     </ul>
     <!-- 存储监控的tree -->

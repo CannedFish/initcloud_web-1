@@ -9,19 +9,22 @@ CloudApp.controller('WarningController',
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
-            //过滤筛选条件
+               //过滤筛选条件
                 $('table').footable().bind('footable_filtering', function(e) {
-                        var selected = $('.filter-status').find(':selected').text();
-                       
+                    var selected = "";
+                        angular.forEach($('.filter-status'),function(v,i){
+                            selected += $(v).find(':selected').text()+' ';
+                        })
                         if (selected && selected.length > 0) {
-                          e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
-                          e.clear = !e.filter;
+                          // e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+                           e.filter = (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+                           e.clear = !e.filter;
                         }
                       });
-
-                      $('.filter-status').change(function(e) {
+              
+                    $('.filter-status').change(function(e) {
                         e.preventDefault();
-                        $('table.footable').data('footable-filter').filter($('#filter').val());
+                        $('table.footable').data('footable-filter').filter();    
                     });
         });
 
