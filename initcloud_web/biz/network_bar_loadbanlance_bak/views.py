@@ -27,10 +27,7 @@ from biz.workflow.models import Step
 from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
-from cloud.cloud_utils import create_rc_manually
-from cloud.api import lbaas
-from cloud.api import neutron
-import traceback
+
 LOG = logging.getLogger(__name__)
 
 
@@ -39,24 +36,7 @@ class Network_Bar_LoadbanlanceList(generics.ListAPIView):
     queryset = Network_Bar_Loadbanlance.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
     serializer_class = Network_Bar_LoadbanlanceSerializer
-    def list(self, request):
-	try:
-	    rc = create_rc_manually(request)
-	    pool_count = 0
-	    vip_count = 0
-	    #c = neutron.neutronclient(rc)
-	    for pool in lbaas.pool_list(rc):
-		pool_count = pool_count + 1
-		if pool.vip_id is not None:
-		    vip_count = vip_count + 1
-	    LOG.info('pool count is' + str(pool_count))
-	    LOG.info('vip count is' + str(vip_count))
-	    data = {'lb_pool_num':pool_count,'lb_virtualip_num':vip_count};
-	    return_data = []
-	    return_data.append(data)
-	    return Response(return_data)
-	except:
-	    traceback.print_exc()
+
 
 
 @require_POST

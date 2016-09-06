@@ -52,14 +52,16 @@ class Volume_MonitorList(generics.ListAPIView):
             server_id = None
             for at in attachments_:
                 server_id = at['server_id']
-                if not server_id:
-                    continue
-                LOG.info("*** server_id ***" + str(server_id))
-                novaadmin = get_nova_admin(request)
-                LOG.info(novaadmin)
-                server = novaadmin.servers.get(server_id)
-                LOG.info("**** server is ****" + str(server))
-                server_name = server.name
+                server_name = None
+                if server_id:
+                    LOG.info("*** server_id ***" + str(server_id))
+                    novaadmin = get_nova_admin(request)
+                    LOG.info(novaadmin)
+                    server = novaadmin.servers.get(server_id)
+                    LOG.info("**** server is ****" + str(server))
+                    server_name = server.name
+                else:
+                    server_name = "未挂载"
                 data.append({"name": volume.name, "location": volume.availability_zone, "capacity": volume.size, "status": volume.status, "type": volume.volume_type, "mounting": server_name})
 
         LOG.info("*** data is ***" + str(data))

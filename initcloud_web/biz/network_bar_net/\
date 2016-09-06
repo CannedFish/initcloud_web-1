@@ -1,4 +1,4 @@
-# -*-coding:utf8 -*-
+#-*-coding-utf-8-*-
 
 # Author Yang
 
@@ -49,91 +49,24 @@ class Network_Bar_NetList(generics.ListAPIView):
 	        #LOG.info(each.name)
 		network= {}
 		network['label'] = each.name
-		network['data'] = {'num':11124875,'description':'1,104'}
 		network['children'] = []
-                #LOG.info(" network is" +str(network))
-		#LOG.info('~~~~~~~~')
+		LOG.info('~~~~~~~~')
 		for subnets in each.subnets:
 		    subnet = {}
 		    subnet['label'] = subnets.name
-		    subnet['children'] = []
-		    subnet['data'] = {'num':11124875,'description':'1,104'}
 		    network['children'].append(subnet)
-                    #LOG.info(" subnet is " + str(subnet))
-		    for routers in neutron.router_list(rc):
-			router = {}
-			#LOG.info(routers)
-			port = neutron.port_list(rc, device_id = routers.id)
-			for ports in port:
-			    for interface in ports.fixed_ips:
-				if subnets.id==interface['subnet_id']:
-				    #LOG.info(interface.['subnet_id'])
-				    router['label'] = routers.name
-				    router['data'] = {'num':11124875,'description':'10444'}
-				    #router['data'] = {'description':routers.}
-				    subnet['children'].append(router)
+		    LOG.info(subnets.name)
+		    LOG.info(subnets.id)
                 data.append(network)
 	    #LOG.info(data)
-	    #LOG.info('---------ROUTER-------------')
-	    #for each in neutron.router_list(rc):
-                #LOG.info("router is " + each.name)
-		#port = neutron.port_list(rc, device_id =each.id)
-		#for ports in port:
-		    #LOG.info(ports)
-		    #for subnet in ports.fixed_ips:
-			#LOG.info("subnetid_id is" + subnet['subnet_id'])    
-	    treedata_network=[
-		{
-		    'label':'net1',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet1',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router1',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		},
-		{
-		    'label':'net2',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet2',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router2',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		},
-		{
-		    'label':'net3',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet3',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router3',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		}
-	    ];
-	    #return Response(treedata_network)
-	    return Response(data)
+	    LOG.info('---------ROUTER-------------')
+	    for each in neutron.router_list(rc):
+                LOG.info("router is " + str(router))
+		port = neutron.port_list(rc, device_id =each.id)
+		for ports in port:
+		    for subnet in ports.fixed_ips:
+			LOG.info("subnetid_id is"subnet['subnet_id'])
+	    #return Response([])
 	except:
 	    traceback.print_exc()
 

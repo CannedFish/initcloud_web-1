@@ -27,59 +27,73 @@ CloudApp.controller('Network_Bar_NetController',
         };
          //初始化数据绑定--
         //网络监控树结构数据
-	var treedata_network1 = Network_Bar_Net.query()
-        var treedata_network = [
-                {
-                    label:'网络',
-                    data:{num:'11124875','description':'修改1,104次'},
-                    children:[
+        var treedata_network ={
+            'datalist':[
+                {   "data":{"description":"1,104"},
+                    "children":[
                         {
-                            label:'子网络',
-                            data:{num:'65124875','description':'修改1,104次'},
-                            children:[
+                            "data":{"num":11124875,"description":"1,104"},
+                            "children":[
                                 {
-                                    label:'路由器',
-                                    data:{num:'57824875','description':'修改1,104次'},
+                                    "data":{"description":"10444"},
+                                    "label":"子网络",
+                                    "children":[
+                                    {
+                                        "data":{"num":"10444"},
+                                        "label":"路由器",
+                                        "children":[
+                                            {
+                                                "data":{"description":"10444"},
+                                                "label":"路由器"
+                                            },
+                                            {
+                                                "data":{"description":"10444"},
+                                                "label":"路由器"
+                                            }
+                                        ]
+                                    }
+                                    ]
+                                },
+                                {
+                                    "data":{"description":"10445"},
+                                    "label":"子网络"
+                                },
+                                {
+                                    "data":{"description":"10446"},
+                                    "label":"子网络"
                                 }
-                            ]
+                            ],
+                            "label":"子网络"
                         }
-                    ]
+                    ],
+                    "label":"网络"
                 },
-               {
-                    label:'网络',
-                    data:{num:'11124875','description':'修改1,104次'},
-                    children:[
+                {   "data":{"description":"1,104"},
+                    "children":[
                         {
-                            label:'子网络',
-                            data:{num:'65124875','description':'修改1,104次'},
-                            children:[
+                            "data":{"num":11124875,"description":"1,104"},
+                            "children":[
                                 {
-                                    label:'路由器',
-                                    data:{num:'57824875','description':'修改1,104次'},
+                                    "data":{"num":11124875,"description":"10444"},
+                                    "label":"路由器"
                                 }
-                            ]
+                            ],
+                            "label":"子网络"
                         }
-                    ]
-                },
-                {
-                    label:'网络',
-                    data:{num:'11124875','description':'修改1,104次'},
-                    children:[
-                        {
-                            label:'子网络',
-                            data:{num:'65124875','description':'修改1,104次'},
-                            children:[
-                                {
-                                    label:'路由器',
-                                    data:{num:'57824875','description':'修改1,104次'},
-                                }
-                            ]
-                        }
-                    ]
+                    ],
+                    "label":"网络"
                 }
-            ];
-        //$scope.my_data = treedata_network;
-        $scope.my_data = Network_Bar_Net.query();
+            ],
+            'total':'1245447'
+        }   
+        // Network_Bar_Net.get(function(data){
+        //         $scope.network_bar_nets = 
+        //         checkboxGroup.syncObjects($scope.network_bar_nets);
+        //     });
+        // }
+        $scope.my_data = treedata_network.datalist;
+        // 网络总数:
+        $scope.$emit('to-parent',treedata_network.total);
         $scope.tree_name = 'network_bar_net_treeview';
         $scope.try_changing_the_tree_data = function() {
                 if($scope.my_data === treedata_avm) {
