@@ -14,8 +14,8 @@ import cloud.api.storage as storage
 LOG = logging.getLogger(__name__)
 
 
-def kbyte_2_gbyte(val):
-    return round(val/1024.0/1024.0)
+def byte_2_gbyte(val):
+    return round(val/1024.0/1024.0/1024.0)
 
 def byte_2_kbit(val):
     return round(val/1024.0*8)
@@ -55,8 +55,8 @@ class StorageNodeList(generics.ListAPIView):
                     status = serverstatus['data']
                     if status['status'] != 'offline':
                         # unit conversion
-                        status['memUsed'] = kbyte_2_gbyte(status['memUsed'])
-                        status['memTotal'] = kbyte_2_gbyte(status['memTotal'])
+                        status['memUsed'] = byte_2_gbyte(status['memUsed'])
+                        status['memTotal'] = byte_2_gbyte(status['memTotal'])
                         for net in status['netIntfStatus']:
                             net['rxRate'] = byte_2_kbit(net['rxRate'])
                             net['txRate'] = byte_2_kbit(net['txRate'])
