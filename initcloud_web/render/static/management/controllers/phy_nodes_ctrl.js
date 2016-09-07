@@ -13,22 +13,26 @@ CloudApp.controller('Phy_NodesController',
 
         $scope.phy_nodess = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_nodess);
-        var nodes = [
-            {
-                'cpuUsed':'70',
-                'memUsed':'10',
-                'rx':'85',
-                'tx':'100'
-            },
-            {
-                'cpuUsed':'75',
-                'memUsed':'30',
-                'rx':'95',
-                'tx':'60'
-            },
-        ];   
-        $scope.phy_nodess = nodes;
-        checkboxGroup.syncObjects($scope.phy_nodess);
+        // var nodes = [
+        //     {
+        //         'cpuUsed':'70',
+        //         'memUsed':'10',
+        //         'rx':'85',
+        //         'tx':'100'
+        //     },
+        //     {
+        //         'cpuUsed':'75',
+        //         'memUsed':'30',
+        //         'rx':'95',
+        //         'tx':'60'
+        //     },
+        // ];   
+        // $scope.phy_nodess = nodes;
+        // checkboxGroup.syncObjects($scope.phy_nodess);
+        Phy_Nodes.query(function(data){
+            $scope.phy_nodess = data;
+            checkboxGroup.syncObjects($scope.phy_nodess);
+        });
         // $scope.phy_nodes_table = new ngTableParams({
         //         page: 1,
         //         count: 10

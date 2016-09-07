@@ -13,14 +13,21 @@ import cloud.api.storage as storage
 
 LOG = logging.getLogger(__name__)
 
+
+def byte_2_gbyte(val):
+    return round(val/1024.0/1024.0/1024.0)
+
+def byte_2_kbit(val):
+    return round(val/1024.0*8)
+
 class StorageNodeList(generics.ListAPIView):
     serializer_class = StorageNodeSerializer
     pagination_class = PagePagination
     EmptyData = {
         'name': None,
         'item': {
-            'cpu_used': [0],
-            'cpu_frequence': [0],
+            'cpu_used': [0, 0],
+            'cpu_frequence': [0, 0],
             'memory': {
                 'memory_used': 0,
                 'memory_total': 0,
@@ -47,12 +54,20 @@ class StorageNodeList(generics.ListAPIView):
                 if serverstatus['success']:
                     status = serverstatus['data']
                     if status['status'] != 'offline':
+                        # unit conversion
+                        status['memUsed'] = byte_2_gbyte(status['memUsed'])
+                        status['memTotal'] = byte_2_gbyte(status['memTotal'])
+                        for net in status['netIntfStatus']:
+                            net['rxRate'] = byte_2_kbit(net['rxRate'])
+                            net['txRate'] = byte_2_kbit(net['txRate'])
+                        # constructs data
                         query = {
                             'name': server['hostname'],
                             'item': {
-                                'cpu_used': [round(status['cpu'], 3)*100],
-                                'cpu_frequence': [0.0] if status['cpuClock']=='' \
-                                        else [float(status['cpuClock'][0:-3])],
+                                'cpu_used': [round(status['cpu'], 3)*100, 0.0],
+                                'cpu_frequence': [0.0, 0.0] \
+                                        if status['cpuClock']=='' \
+                                        else [float(status['cpuClock'][0:-3]), 0.0],
                                 'memory': {
                                     'memory_used': round(status['memUsed']\
                                             /float(status['memTotal'])*100, 1) \
@@ -62,7 +77,7 @@ class StorageNodeList(generics.ListAPIView):
                                     'empty': status['memTotal']-status['memUsed']
                                 },
                                 'network_card': {
-                                    'up': status['netIntfStatus'][0]['rxPer'],
+                                    'up': status['netIntfStatus'][0]['txPer'],
                                     'up_rate': status['netIntfStatus'][0]['txRate'],
                                     'down': status['netIntfStatus'][0]['rxPer'],
                                     'down_rate': status['netIntfStatus'][0]['rxRate']

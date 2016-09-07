@@ -53,20 +53,20 @@
           //树的层次 （parseInt:解析成整数）
           expand_level = parseInt(attrs.expandLevel, 10);
           //判断树中的数据
-          if (!scope.treeData) {
-            alert('no treeData defined for the tree!');
-            return;
-          }
+          // if (!scope.treeData) {
+          //   alert('no treeData defined for the tree!');
+          //   return;
+          // }
           //长度
-          if (scope.treeData.length == null) {
-            if (treeData.label != null) {
-              scope.treeData = [treeData]; //给树赋值
+          // if (scope.treeData.length == null) {
+          //   if (treeData.label != null) {
+          //     scope.treeData = [treeData]; //给树赋值
 
-            } else {
-              alert('treeData should be an array of root branches');
-              return;
-            }
-          }
+          //   } else {
+          //     alert('treeData should be an array of root branches');
+          //     return;
+          //   }
+          // }
           //便利树分支（参数:回调函数）
           for_each_branch = function(f) {
             var do_f, root_branch, _i, _len, _ref, _results;

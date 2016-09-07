@@ -20,9 +20,13 @@
     <!-- 存储监控的tree -->
     <ul class="nav nav-list nav-pills nav-stacked abn-tree" ng-if="treeName == 'storage_treeview'">
       <li  ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row">
-        <a class="hover"  style="display:inline-block;height:24px;width:100px;float:left;" ng-click="user_clicks_branch(row.branch)">  
+            <a ng-if="row.level == 1" class="hover"  style="display:inline-block;height:24px;width:100px;float:left;overflow:hidden" ng-click="user_clicks_branch(row.branch)">  
                 <i style="float:left;" ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i>
-                <span class="indented tree-label" style="float:left;">{{ row.label }} </span>
+                <span class="indented tree-label" style="float:left;width:65px;overflow:hidden">{{ row.label }} </span>
+            </a>
+             <a ng-if="row.level == 2" class="hover"  style="display:inline-block;height:24px;width:136px;float:left;" ng-click="user_clicks_branch(row.branch)">  
+                <i style="float:left;" ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i>
+                <span class="indented tree-label" style="float:left;width:100px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="{{ row.label }}">{{ row.label }} </span>
             </a>
             <span  ng-if="(row.level == 1) && (row.branch.data.status == 'online')" class="tree-bg01">{{row.branch.data.status}}</span>
             <span  ng-if="(row.level == 1) && (row.branch.data.status == 'offline')" class="tree-bg03">{{row.branch.data.status}}</span>
