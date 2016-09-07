@@ -57,9 +57,10 @@ CloudApp.controller('Volume_MonitorController',
         //     }
         // ]
         Volume_Monitor.query(function(data){
-            console.log(data);
+            $scope.volume_monitors = data ;
+            checkboxGroup.syncObjects($scope.volume_monitors);
         })
-        $scope.volume_monitors = data ;
+        // $scope.volume_monitors = data ;
         // alert("cccc");
         checkboxGroup.syncObjects($scope.volume_monitors);
         var deleteVolume_Monitors = function(ids){

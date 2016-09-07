@@ -86,11 +86,12 @@ CloudApp.controller('Network_Bar_NetController',
             ],
             'total':'1245447'
         }   
-        // Network_Bar_Net.get(function(data){
-        //         $scope.network_bar_nets = 
-        //         checkboxGroup.syncObjects($scope.network_bar_nets);
-        //     });
-        // }
+        Network_Bar_Net.get(function(data){
+            console.log(data);
+                // $scope.network_bar_nets = 
+                // checkboxGroup.syncObjects($scope.network_bar_nets);
+            
+        });
         $scope.my_data = treedata_network.datalist;
         // 网络总数:
         $scope.$emit('to-parent',treedata_network.total);
