@@ -14,23 +14,21 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
         $scope.network_bar_loadbanlances = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_loadbanlances);
 
-        // $scope.network_bar_loadbanlance_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Network_Bar_Loadbanlance.query(function(data){
-        //                 $scope.network_bar_loadbanlances = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.network_bar_loadbanlances);
-        //             });
-        //         }
-        //     });
-        var data1= {'lb_pool_num':'4,532,165','lb_virtualip_num':'25,654'};
-        var data = Network_Bar_Loadbanlance.query();
-        $scope.network_bar_loadbanlances = data;
-        //$scope.network_bar_loadbanlances = Network_Bar_Loadbanlance.query();
-        alert($scope.network_bar_loadbanlances)
+        $scope.network_bar_loadbanlance_table = new ngTableParams({
+                page: 1,
+                count: 10
+            },{
+                counts: [],
+                getData: function($defer, params){
+                    Network_Bar_Loadbanlance.query(function(data){
+                        $scope.network_bar_loadbanlances = ngTableHelper.paginate(data, $defer, params);
+                        checkboxGroup.syncObjects($scope.network_bar_loadbanlances);
+                    });
+                }
+            });
+
+
+
         var deleteNetwork_Bar_Loadbanlances = function(ids){
 
             $ngBootbox.confirm($i18next("network_bar_loadbanlance.confirm_delete")).then(function(){

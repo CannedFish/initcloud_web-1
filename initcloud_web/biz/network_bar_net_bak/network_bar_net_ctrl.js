@@ -2,47 +2,45 @@
  * User: arthur 
  * Date: 16-4-17
  **/
-CloudApp.controller('Network_Bar_LoadbanlanceController',
+CloudApp.controller('Network_Bar_NetController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Network_Bar_Loadbanlance, CheckboxGroup, DataCenter){
+             Network_Bar_Net, CheckboxGroup, DataCenter){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
 
-        $scope.network_bar_loadbanlances = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_loadbanlances);
+        $scope.network_bar_nets = [];
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_nets);
 
-        // $scope.network_bar_loadbanlance_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Network_Bar_Loadbanlance.query(function(data){
-        //                 $scope.network_bar_loadbanlances = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.network_bar_loadbanlances);
-        //             });
-        //         }
-        //     });
-        var data1= {'lb_pool_num':'4,532,165','lb_virtualip_num':'25,654'};
-        var data = Network_Bar_Loadbanlance.query();
-        $scope.network_bar_loadbanlances = data;
-        //$scope.network_bar_loadbanlances = Network_Bar_Loadbanlance.query();
-        alert($scope.network_bar_loadbanlances)
-        var deleteNetwork_Bar_Loadbanlances = function(ids){
+        $scope.network_bar_net_table = new ngTableParams({
+                page: 1,
+                count: 10
+            },{
+                counts: [],
+                getData: function($defer, params){
+                    Network_Bar_Net.query(function(data){
+                        $scope.network_bar_nets = ngTableHelper.paginate(data, $defer, params);
+                        checkboxGroup.syncObjects($scope.network_bar_nets);
+                    });
+                }
+            });
 
-            $ngBootbox.confirm($i18next("network_bar_loadbanlance.confirm_delete")).then(function(){
+
+
+        var deleteNetwork_Bar_Nets = function(ids){
+
+            $ngBootbox.confirm($i18next("network_bar_net.confirm_delete")).then(function(){
 
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
 
-                CommonHttpService.post("/api/network_bar_loadbanlance/batch-delete/", {ids: ids}).then(function(data){
+                CommonHttpService.post("/api/network_bar_net/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        $scope.network_bar_loadbanlance_table.reload();
+                        $scope.network_bar_net_table.reload();
                         checkboxGroup.uncheck()
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -53,12 +51,12 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
 
         $scope.batchDelete = function(){
 
-            deleteNetwork_Bar_Loadbanlances(function(){
+            deleteNetwork_Bar_Nets(function(){
                 var ids = [];
 
-                checkboxGroup.forEachChecked(function(Network_Bar_Loadbanlance){
-                    if(network_bar_loadbanlance.checked){
-                        ids.push(network_bar_loadbanlance.id);
+                checkboxGroup.forEachChecked(function(Network_Bar_Net){
+                    if(network_bar_net.checked){
+                        ids.push(network_bar_net.id);
                     }
                 });
 
@@ -66,32 +64,32 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
             });
         };
 
-        $scope.delete = function(network_bar_loadbanlance){
-            deleteNetwork_Bar_Loadbanlances([network_bar_loadbanlance.id]);
+        $scope.delete = function(network_bar_net){
+            deleteNetwork_Bar_Nets([network_bar_net.id]);
         };
 
 
-        $scope.edit = function(network_bar_loadbanlance){
+        $scope.edit = function(network_bar_net){
 
             $modal.open({
                 templateUrl: 'update.html',
-                controller: 'Network_Bar_LoadbanlanceUpdateController',
+                controller: 'Network_Bar_NetUpdateController',
                 backdrop: "static",
                 size: 'lg',
                 resolve: {
-                    network_bar_loadbanlance_table: function () {
-                        return $scope.network_bar_loadbanlance_table;
+                    network_bar_net_table: function () {
+                        return $scope.network_bar_net_table;
                     },
-                    network_bar_loadbanlance: function(){return network_bar_loadbanlance}
+                    network_bar_net: function(){return network_bar_net}
                 }
             });
         };
 
-        $scope.openNewNetwork_Bar_LoadbanlanceModal = function(){
+        $scope.openNewNetwork_Bar_NetModal = function(){
             $modal.open({
-                templateUrl: 'new-network_bar_loadbanlance.html',
+                templateUrl: 'new-network_bar_net.html',
                 backdrop: "static",
-                controller: 'NewNetwork_Bar_LoadbanlanceController',
+                controller: 'NewNetwork_Bar_NetController',
                 size: 'lg',
                 resolve: {
                     dataCenters: function(){
@@ -99,23 +97,23 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                     }
                 }
             }).result.then(function(){
-                $scope.network_bar_loadbanlance_table.reload();
+                $scope.network_bar_net_table.reload();
             });
         };
     })
 
 
-    .controller('NewNetwork_Bar_LoadbanlanceController',
+    .controller('NewNetwork_Bar_NetController',
         function($scope, $modalInstance, $i18next,
-                 CommonHttpService, ToastrService, Network_Bar_LoadbanlanceForm, dataCenters){
+                 CommonHttpService, ToastrService, Network_Bar_NetForm, dataCenters){
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = Network_Bar_LoadbanlanceForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = Network_Bar_NetForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
 
             $scope.dataCenters = dataCenters;
-            $scope.network_bar_loadbanlance = {is_resource_user: false, is_approver: false};
+            $scope.network_bar_net = {is_resource_user: false, is_approver: false};
             $scope.is_submitting = false;
             $scope.cancel = $modalInstance.dismiss;
             $scope.create = function(){
@@ -125,7 +123,7 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                 }
 
                 $scope.is_submitting = true;
-                CommonHttpService.post('/api/network_bar_loadbanlance/create/', $scope.network_bar_loadbanlance).then(function(result){
+                CommonHttpService.post('/api/network_bar_net/create/', $scope.network_bar_net).then(function(result){
                     if(result.success){
                         ToastrService.success(result.msg, $i18next("success"));
                         $modalInstance.close();
@@ -139,7 +137,7 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
             };
         }
 
-   ).factory('Network_Bar_LoadbanlanceForm', ['ValidationTool', '$i18next',
+   ).factory('Network_Bar_NetForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -147,12 +145,12 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                     var config = {
 
                         rules: {
-                            network_bar_loadbanlancename: {
+                            network_bar_netname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/network_bar_loadbanlance/is-name-unique/",
+                                    url: "/api/network_bar_net/is-name-unique/",
                                     data: {
-                                        network_bar_loadbanlancename: $("#network_bar_loadbanlancename").val()
+                                        network_bar_netname: $("#network_bar_netname").val()
                                     },
                                     async: false
                                 }
@@ -160,8 +158,8 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                             user_type: 'required'
                         },
                         messages: {
-                            network_bar_loadbanlancename: {
-                                remote: $i18next('network_bar_loadbanlance.name_is_used')
+                            network_bar_netname: {
+                                remote: $i18next('network_bar_net.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -173,18 +171,18 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                         }
                     };
 
-                    return ValidationTool.init('#network_bar_loadbanlanceForm', config);
+                    return ValidationTool.init('#network_bar_netForm', config);
                 }
             }
-        }]).controller('Network_Bar_LoadbanlanceUpdateController',
+        }]).controller('Network_Bar_NetUpdateController',
         function($rootScope, $scope, $modalInstance, $i18next,
-                 network_bar_loadbanlance, network_bar_loadbanlance_table,
-                 Network_Bar_Loadbanlance, UserDataCenter, network_bar_loadbanlanceForm,
+                 network_bar_net, network_bar_net_table,
+                 Network_Bar_Net, UserDataCenter, network_bar_netForm,
                  CommonHttpService, ToastrService, ResourceTool){
 
-            $scope.network_bar_loadbanlance = network_bar_loadbanlance = angular.copy(network_bar_loadbanlance);
+            $scope.network_bar_net = network_bar_net = angular.copy(network_bar_net);
 
-            $modalInstance.rendered.then(network_bar_loadbanlanceForm.init);
+            $modalInstance.rendered.then(network_bar_netForm.init);
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
@@ -193,21 +191,21 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = network_bar_loadbanlanceForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = network_bar_netForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
-            $scope.submit = function(network_bar_loadbanlance){
+            $scope.submit = function(network_bar_net){
 
-                if(!$("#Network_Bar_LoadbanlanceForm").validate().form()){
+                if(!$("#Network_Bar_NetForm").validate().form()){
                     return;
                 }
 
-                network_bar_loadbanlance = ResourceTool.copy_only_data(network_bar_loadbanlance);
+                network_bar_net = ResourceTool.copy_only_data(network_bar_net);
 
 
-                CommonHttpService.post("/api/network_bar_loadbanlance/update/", network_bar_loadbanlance).then(function(data){
+                CommonHttpService.post("/api/network_bar_net/update/", network_bar_net).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        network_bar_loadbanlance_table.reload();
+                        network_bar_net_table.reload();
                         $modalInstance.dismiss();
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -215,7 +213,7 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                 });
             };
         }
-   ).factory('network_bar_loadbanlanceForm', ['ValidationTool', '$i18next',
+   ).factory('network_bar_netForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -223,12 +221,12 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                     var config = {
 
                         rules: {
-                            network_bar_loadbanlancename: {
+                            network_bar_netname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/network_bar_loadbanlance/is-name-unique/",
+                                    url: "/api/network_bar_net/is-name-unique/",
                                     data: {
-                                        network_bar_loadbanlancename: $("#network_bar_loadbanlancename").val()
+                                        network_bar_netname: $("#network_bar_netname").val()
                                     },
                                     async: false
                                 }
@@ -236,8 +234,8 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                             user_type: 'required'
                         },
                         messages: {
-                            network_bar_loadbanlancename: {
-                                remote: $i18next('network_bar_loadbanlance.name_is_used')
+                            network_bar_netname: {
+                                remote: $i18next('network_bar_net.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -249,7 +247,7 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
                         }
                     };
 
-                    return ValidationTool.init('#Network_Bar_LoadbanlanceForm', config);
+                    return ValidationTool.init('#Network_Bar_NetForm', config);
                 }
             }
         }]);

@@ -1,4 +1,4 @@
-# -*-coding:utf8 -*-
+#-*-coding-utf-8-*-
 
 # Author Yang
 
@@ -28,9 +28,6 @@ from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
 
-from cloud.api import neutron
-from cloud.cloud_utils import create_rc_manually
-import traceback
 LOG = logging.getLogger(__name__)
 
 
@@ -39,103 +36,6 @@ class Network_Bar_NetList(generics.ListAPIView):
     queryset = Network_Bar_Net.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
     serializer_class = Network_Bar_NetSerializer
-    def list(self, request):
-	try:
-	    LOG.info('------------ NETWORK ---------------')
-	    rc = create_rc_manually(request)
-	    networks = neutron.network_list(rc)
-            data = []
-	    for each in networks:
-	        #LOG.info(each.name)
-		network= {}
-		network['label'] = each.name
-		network['data'] = {'num':11124875,'description':'1,104'}
-		network['children'] = []
-                #LOG.info(" network is" +str(network))
-		#LOG.info('~~~~~~~~')
-		for subnets in each.subnets:
-		    subnet = {}
-		    subnet['label'] = subnets.name
-		    subnet['children'] = []
-		    subnet['data'] = {'num':11124875,'description':'1,104'}
-		    network['children'].append(subnet)
-                    #LOG.info(" subnet is " + str(subnet))
-		    for routers in neutron.router_list(rc):
-			router = {}
-			#LOG.info(routers)
-			port = neutron.port_list(rc, device_id = routers.id)
-			for ports in port:
-			    for interface in ports.fixed_ips:
-				if subnets.id==interface['subnet_id']:
-				    #LOG.info(interface.['subnet_id'])
-				    router['label'] = routers.name
-				    router['data'] = {'num':11124875,'description':'10444'}
-				    #router['data'] = {'description':routers.}
-				    subnet['children'].append(router)
-                data.append(network)
-	    #LOG.info(data)
-	    #LOG.info('---------ROUTER-------------')
-	    #for each in neutron.router_list(rc):
-                #LOG.info("router is " + each.name)
-		#port = neutron.port_list(rc, device_id =each.id)
-		#for ports in port:
-		    #LOG.info(ports)
-		    #for subnet in ports.fixed_ips:
-			#LOG.info("subnetid_id is" + subnet['subnet_id'])    
-	    treedata_network=[
-		{
-		    'label':'net1',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet1',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router1',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		},
-		{
-		    'label':'net2',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet2',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router2',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		},
-		{
-		    'label':'net3',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet3',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router3',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		}
-	    ];
-	    #return Response(treedata_network)
-	    return Response(data)
-	except:
-	    traceback.print_exc()
 
 
 

@@ -27,8 +27,7 @@ from biz.workflow.models import Step
 from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
-from cloud.cloud_utils import create_rc_manually
-from cloud.api import neutron
+
 LOG = logging.getLogger(__name__)
 
 
@@ -37,19 +36,7 @@ class Network_Bar_RouterList(generics.ListAPIView):
     queryset = Network_Bar_Router.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
     serializer_class = Network_Bar_RouterSerializer
-    def list(self, request):
-	rc = create_rc_manually(request)
-	routers = neutron.router_list(rc)
-	data = []
-	for router in routers:
-	    for port in neutron.port_list(rc, device_id = router.id):
-		port_data = {}
-		port_data['ip_type'] = port.device_owner
-		port_data['ip_connect_vm'] = port.mac_address
-		for interface in port.fixed_ips:
-		    port_data['ip'] = interface['ip_address']
-		data.append(port_data)
-	return Response(data) 
+
 
 
 @require_POST

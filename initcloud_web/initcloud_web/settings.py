@@ -64,7 +64,13 @@ INSTALLED_APPS = [
     'biz.billing',
     'biz.myapp',
     'biz.phy_monitor',
-    'biz.storage_monitor'
+    'biz.storage_monitor',
+    'biz.network_monitor',
+    'biz.network_bar_router',
+    'biz.network_bar_sdn',
+    'biz.network_bar_net',
+    'biz.network_bar_loadbanlance',
+
 ]
 
 MIDDLEWARE_CLASSES = (
