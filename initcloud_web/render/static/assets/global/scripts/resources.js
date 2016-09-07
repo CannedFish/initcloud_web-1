@@ -228,10 +228,14 @@ angular.module('cloud.resources', [])
     return $resource("/api/cloud_monitor_detail/:id", {id: '@id'});
 }])
 .factory('Phy_Monitor_Network', ['$resource', function ($resource) { //物理监控-网络监控
-    return $resource("/api/phy_monitor_network/:id", {id: '@id'});
+    return $resource("/api/phy_monitor_network/:id", {id: '@id'}, {
+      query: {method: 'get', isArray: true}
+    });
 }])
 .factory('Phy_Monitor_Server', ['$resource', function ($resource) { //物理监控-服务器监控
-    return $resource("/api/phy_monitor_server/:id", {id: '@id'});
+    return $resource("/api/phy_monitor_server/:id", {id: '@id'}, {
+      query: {method: 'get', isArray: true}
+    });
 }])
 .factory('Phy_Monitor_Jbod', ['$resource', function ($resource) {  //物理监控-JBOD监控
     return $resource("/api/phy_monitor_jbod/:id", {id: '@id'});

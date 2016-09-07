@@ -26,23 +26,26 @@ CloudApp.controller('Phy_Monitor_StorageController',
         //             });
         //         }
         //     });
-        var data = {
-            'nodes':[
+        /* var data = { */
+            // 'nodes':[
                         
-                        {'id':1,'cpu1':[80,70],'cpu2':[60,90],'memory_voltage':[10,12,12,12,12,11,11,11,11,11,12,10,10,11,10,13]},
+                        // {'id':1,'cpu1':[80,70],'cpu2':[60,90],'memory_voltage':[10,12,12,12,12,11,11,11,11,11,12,10,10,11,10,13]},
                         
-                        {'id':1,'cpu1':[88,60],'cpu2':[90,100],'memory_voltage':[14,11,13,12,12,11,11,11,11,11,12,10,10,11,10,13]}
+                        // {'id':1,'cpu1':[88,60],'cpu2':[90,100],'memory_voltage':[14,11,13,12,12,11,11,11,11,11,12,10,10,11,10,13]}
                         
                         
-                    ],
-            'disk':[1,0,1,1,1,0,0,0,1,1,1,0,0,0,1,0,1,0,0,-1,
-                    0,1,1,1,1,1,0,0,0,-1,1,1,0,0,0,1,1,0,0,1],
-            'disk_status':{'-1':'没插盘','0':'插盘未分配','1':'插盘已分配'},
-            'electric_rota':[1200,1500],
-            'systemUI':[1.2,12],
-            'PDU':[[220,12,1.2],[220,12,1.5]]
-        }
-       $scope.phy_monitor_storages = data;
+                    // ],
+            // 'disk':[1,0,1,1,1,0,0,0,1,1,1,0,0,0,1,0,1,0,0,-1,
+                    // 0,1,1,1,1,1,0,0,0,-1,1,1,0,0,0,1,1,0,0,1],
+            // 'disk_status':{'-1':'没插盘','0':'插盘未分配','1':'插盘已分配'},
+            // 'electric_rota':[1200,1500],
+            // 'systemUI':[1.2,12],
+            // 'PDU':[[220,12,1.2],[220,12,1.5]]
+        // }
+       /* $scope.phy_monitor_storages = data; */
+        Phy_Monitor_Storage.get(function(data) {
+          $scope.phy_monitor_storages = data; 
+        });
         var deletePhy_Monitor_Storages = function(ids){
 
             $ngBootbox.confirm($i18next("phy_monitor_storage.confirm_delete")).then(function(){
