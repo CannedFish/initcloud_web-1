@@ -35,6 +35,13 @@ from biz.storage_monitor import views as storage_monitor_view
 from biz.alarm import views as alarm_view
 from biz.UserGrouper import views as user_grouper_view
 
+from biz.network_bar_loadbanlance import views as network_bar_loadbanlance_view
+from biz.network_bar_sdn import views as network_bar_sdn_view
+from biz.network_bar_net import views as network_bar_net_view
+from biz.network_bar_router import views as network_bar_router_view
+
+
+
 # various options and configurations
 urlpatterns = [
     url(r'^settings/monitor/$', instance_view.monitor_settings),
