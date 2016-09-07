@@ -42,6 +42,8 @@ class Network_Bar_RouterList(generics.ListAPIView):
 	routers = neutron.router_list(rc)
 	data = []
 	for router in routers:
+            LOG.info("start to get router")
+
 	    for port in neutron.port_list(rc, device_id = router.id):
 		port_data = {}
 		port_data['ip_type'] = port.device_owner
