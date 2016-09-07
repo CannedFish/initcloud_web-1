@@ -25,71 +25,77 @@ CloudApp.controller('Network_Bar_NetController',
         apple_selected = function(branch) {
           return $scope.output = "APPLE! : " + branch.label;
         };
-         //初始化数据绑定--
+
+        Network_Bar_Net.query(function(data){
+            // console.log(data);
+            $scope.my_data = data ;
+            checkboxGroup.syncObjects($scope.my_data);
+        })
+        //初始化数据绑定--
         //网络监控树结构数据 
         // 网络->(总数,)
-        var treedata_network ={
-            'datalist':[
-                {   "data":{"description":"1,104"},
-                    "children":[
-                        {
-                            "data":{"num":11124875,"description":"1,104"},
-                            "children":[
-                                {
-                                    "data":{"description":"10444"},
-                                    "label":"子网络",
-                                    "children":[
-                                    {
-                                        "data":{"num":"10444"},
-                                        "label":"路由器",
-                                        "children":[
-                                            {
-                                                "data":{"description":"10444"},
-                                                "label":"路由器"
-                                            },
-                                            {
-                                                "data":{"description":"10444"},
-                                                "label":"路由器"
-                                            }
-                                        ]
-                                    }
-                                    ]
-                                },
-                                {
-                                    "data":{"description":"10445"},
-                                    "label":"子网络"
-                                },
-                                {
-                                    "data":{"description":"10446"},
-                                    "label":"子网络"
-                                }
-                            ],
-                            "label":"子网络"
-                        }
-                    ],
-                    "label":"网络"
-                },
-                {   "data":{"description":"1,104"},
-                    "children":[
-                        {
-                            "data":{"num":11124875,"description":"1,104"},
-                            "children":[
-                                {
-                                    "data":{"num":11124875,"description":"10444"},
-                                    "label":"路由器"
-                                }
-                            ],
-                            "label":"子网络"
-                        }
-                    ],
-                    "label":"网络"
-                }
-            ],
-            'total':'1245445'
-        }   
-        $scope.my_data = treedata_network.datalist;
+        // var treedata_network ={
+        //     'datalist':[
+        //         {   "data":{"description":"1,104"},
+        //             "children":[
+        //                 {
+        //                     "data":{"num":11124875,"description":"1,104"},
+        //                     "children":[
+        //                         {
+        //                             "data":{"description":"10444"},
+        //                             "label":"子网络",
+        //                             "children":[
+        //                             {
+        //                                 "data":{"num":"10444"},
+        //                                 "label":"路由器",
+        //                                 "children":[
+        //                                     {
+        //                                         "data":{"description":"10444"},
+        //                                         "label":"路由器"
+        //                                     },
+        //                                     {
+        //                                         "data":{"description":"10444"},
+        //                                         "label":"路由器"
+        //                                     }
+        //                                 ]
+        //                             }
+        //                             ]
+        //                         },
+        //                         {
+        //                             "data":{"description":"10445"},
+        //                             "label":"子网络"
+        //                         },
+        //                         {
+        //                             "data":{"description":"10446"},
+        //                             "label":"子网络"
+        //                         }
+        //                     ],
+        //                     "label":"子网络"
+        //                 }
+        //             ],
+        //             "label":"网络"
+        //         },
+        //         {   "data":{"description":"1,104"},
+        //             "children":[
+        //                 {
+        //                     "data":{"num":11124875,"description":"1,104"},
+        //                     "children":[
+        //                         {
+        //                             "data":{"num":11124875,"description":"10444"},
+        //                             "label":"路由器"
+        //                         }
+        //                     ],
+        //                     "label":"子网络"
+        //                 }
+        //             ],
+        //             "label":"网络"
+        //         }
+        //     ],
+        //     'total':'1245445'
+        // }   
+        // $scope.my_data = treedata_network.datalist;
         // 网络总数:
-        $scope.$emit('to-parent',treedata_network.total);
+        // $scope.$emit('to-parent',treedata_network.total);
         // $scope.network_total = treedata_network.total;
         $scope.tree_name = 'network_bar_net_treeview';
         $scope.try_changing_the_tree_data = function() {

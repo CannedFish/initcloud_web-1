@@ -245,12 +245,12 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
 
-                               '../static/management/controllers/network_monitor_ctrl.js',
-                                '../static/assets/global/plugins/tree/abn_tree.css',//引入树形插件
-                                '../static/management/controllers/network_bar_net_ctrl.js',//网络监控- 网络树
-                                '../static/management/controllers/network_bar_router_ctrl.js',//网络监控-路由器
-                                '../static/management/controllers/network_bar_sdn_ctrl.js',//网络监控-sdn
-                                '../static/management/controllers/network_bar_loadbanlance_ctrl.js',//网络监控-负载均衡
+                               '/static/management/controllers/network_monitor_ctrl.js',
+                                '/static/assets/global/plugins/tree/abn_tree.css',//引入树形插件
+                                '/static/management/controllers/network_bar_net_ctrl.js',//网络监控- 网络树
+                                '/static/management/controllers/network_bar_router_ctrl.js',//网络监控-路由器
+                                '/static/management/controllers/network_bar_sdn_ctrl.js',//网络监控-sdn
+                                '/static/management/controllers/network_bar_loadbanlance_ctrl.js',//网络监控-负载均衡
                                
                             ]
                         });

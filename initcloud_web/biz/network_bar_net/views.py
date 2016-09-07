@@ -46,7 +46,7 @@ class Network_Bar_NetList(generics.ListAPIView):
 	    networks = neutron.network_list(rc)
             data = []
 	    for each in networks:
-	        #LOG.info(each.name)
+	        LOG.info(each.name)
 		network= {}
 		network['label'] = each.name
 		network['data'] = {'num':11124875,'description':'1,104'}
@@ -73,7 +73,7 @@ class Network_Bar_NetList(generics.ListAPIView):
 				    #router['data'] = {'description':routers.}
 				    subnet['children'].append(router)
                 data.append(network)
-	    #LOG.info(data)
+	    LOG.info(data)
 	    #LOG.info('---------ROUTER-------------')
 	    #for each in neutron.router_list(rc):
                 #LOG.info("router is " + each.name)

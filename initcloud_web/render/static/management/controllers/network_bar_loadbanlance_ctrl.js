@@ -27,7 +27,7 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
         //         }
         //     });
         var data1= {'lb_pool_num':'4,532,165','lb_virtualip_num':'25,654'};
-        var data = Network_Bar_Loadbanlance.query();
+        var data = Network_Bar_Loadbanlance.get();
         $scope.network_bar_loadbanlances = data;
         //$scope.network_bar_loadbanlances = Network_Bar_Loadbanlance.query();
         alert($scope.network_bar_loadbanlances)
