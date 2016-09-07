@@ -64,6 +64,26 @@ urlpatterns += [
     url(r'^phy_nodes/$', storage_monitor_view.PhyNodesList.as_view()),
 ]
 
+#network_bar_loadbanlance
+urlpatterns += [
+    url(r'^network_bar_loadbanlance/$', network_bar_loadbanlance_view.Network_Bar_LoadbanlanceList.as_view()),
+]
+
+#network_bar_router
+urlpatterns += [
+    url(r'^network_bar_router/$', network_bar_router_view.Network_Bar_RouterList.as_view()),
+]
+
+#network_bar_net
+urlpatterns += [
+    url(r'^network_bar_net/$', network_bar_net_view.Network_Bar_NetList.as_view()),
+]
+
+#network_bar_sdn
+urlpatterns += [
+    url(r'^network_bar_sdn/$', network_bar_sdn_view.Network_Bar_SdnList.as_view()),
+]
+
 #qos
 urlpatterns += [
     url(r'^qos/$', user_grouper_view.update_UserGrouper),
