@@ -1,9 +1,12 @@
-#-*-coding-utf-8-*-
+# -*-coding:utf8 -*-
 
 # Author Yang
 
 from datetime import datetime
 import logging
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 from rest_framework import generics
 from rest_framework import status
@@ -50,6 +53,8 @@ class Volume_MonitorList(generics.ListAPIView):
             attachments_ = volume.attachments
             LOG.info("*** attachments are ***" + str(attachments_))
             server_id = None
+            if not attachments_:
+                data.append({"name": volume.name, "location": volume.availability_zone, "capacity": volume.size, "status": volume.status, "type": volume.volume_type, "mounting": "未挂载"})
             for at in attachments_:
                 server_id = at['server_id']
                 server_name = None
@@ -61,6 +66,7 @@ class Volume_MonitorList(generics.ListAPIView):
                     LOG.info("**** server is ****" + str(server))
                     server_name = server.name
                 else:
+                    LOG.info("*** server id is none ****")
                     server_name = "未挂载"
                 data.append({"name": volume.name, "location": volume.availability_zone, "capacity": volume.size, "status": volume.status, "type": volume.volume_type, "mounting": server_name})
 
