@@ -1,6 +1,5 @@
-
 <div class="rb-wrap fr">
-            <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon4.png"><span>云主机监控</span></div> 
+           <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon4.png"><span>云主机监控</span></div> 
             <div class="ccjkbox list" style="margin-left: -15px;margin-top: -5px;">
                 <ul class="pl0 clearfix">
                     <li class="item w25 fl ">
@@ -11,43 +10,43 @@
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
-                            <span class="nums">{[{virtualmechine_bars.established_cloudmechine}]}</span>
+                            <span class="nums c2">{[{virtualmechine_bars.established_cloudmechine}]}</span>
                             <span class="tx pd11">已创建云主机</span>
                         </div>
                     </li>
                     <li class="item w25 fl">
                          <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/yzjico_03.png">
-                            <span class="nums">{[{virtualmechine_bars.total_memory}]}</span>
+                            <span class="nums c1">{[{virtualmechine_bars.total_memory}]}</span>
                             <span class="tx mb2 pd11">总物理内存</span>
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
-                            <span class="nums">{[{virtualmechine_bars.running_cloudmechine}]}</span>
+                            <span class="nums c2">{[{virtualmechine_bars.running_cloudmechine}]}</span>
                             <span class="tx pd11">运行中云主机</span>
                         </div>
                     </li>
                     <li class="item w25 fl">
                         <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/yzjico_04.png">
-                            <span class="nums">{[{virtualmechine_bars.cloud_kernel}]}</span>
+                            <span class="nums c1">{[{virtualmechine_bars.cloud_kernel}]}</span>
                             <span class="tx mb2">云盘内核</span>
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
-                            <span class="nums ">{[{virtualmechine_bars.total_ypan}]}</span>
+                            <span class="nums c2">{[{virtualmechine_bars.total_ypan}]}</span>
                             <span class="tx">云盘总数</span>
                         </div>
                     </li>
                     <li class="item w25 fl">
                         <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/yzjico_04.png">
-                            <span class="nums">{[{virtualmechine_bars.cloud_allocat_memory}]}</span>
+                            <span class="nums c1">{[{virtualmechine_bars.cloud_allocat_memory}]}</span>
                             <span class="tx mb2">云分配内存</span>
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
-                            <span class="nums">{[{virtualmechine_bars.total_capacity}]}</span>
+                            <span class="nums c2">{[{virtualmechine_bars.total_capacity}]}</span>
                             <span class="tx">云盘总容量</span>
                         </div>
                     </li>
@@ -86,7 +85,7 @@
                 </div>
                 <div style="clear:both"></div>
                 <div class="btm-line">
-                    <span>读(MB/s):2343</span><span>写(MB/s):2343</span><span>CPU平均负载:56%</span>
+                    <span>读(MB/s):{[{virtualmechine_bars.read}]}</span><span>写(MB/s):{[{virtualmechine_bars.write}]}</span><span>CPU平均负载:{[{virtualmechine_bars.cpu_loadbalance}]}</span>
                 </div>
              </div>
         </div>

@@ -13,10 +13,12 @@ CloudApp.controller('Storage__BarController',
 
         $scope.storage__bars = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.storage__bars);
-        var storage_data ={'disk':[9999,4556],'SSD':[3000,5600],'NVMe':[4000,6000],'SAS':[6000,6000]}
+        // var storage_data ={'disk':[9999,4556],'SSD':[3000,5600],'NVMe':[4000,6000],'SAS':[6000,6000]}
         
-        $scope.storage__bars = storage_data;
-        checkboxGroup.syncObjects($scope.storage__bars);
+        Storage__Bar.get(function(data){
+            $scope.storage__bars = data;
+            checkboxGroup.syncObjects($scope.storage__bars);
+        });
         // $scope.storage__bar_table = new ngTableParams({
         //         page: 1,
         //         count: 10

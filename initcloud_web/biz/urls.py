@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -26,6 +27,9 @@ from biz.policy_nova import views as policy_nova_view
 from biz.policy_cinder import views as policy_cinder_view
 from biz.policy_neutron import views as policy_neutron_view
 
+from biz.phy_monitor import views as phy_monitor_view
+from biz.volume_monitor import views as volume_monitor_view
+from biz.storage_monitor import views as storage_monitor_view
 
 #alarm
 from biz.alarm import views as alarm_view
@@ -38,6 +42,27 @@ urlpatterns = [
     url(r'^settings/data-centers/switch/$', idc_views.switch_list),
 ]
 
+# phy_monitor
+urlpatterns += [
+    url(r'^cabinet/$', phy_monitor_view.CabinetDetail.as_view()),
+    url(r'^phy_monitor_jbod/$', phy_monitor_view.PhyMonitorJBODDetail.as_view()),
+    url(r'^phy_monitor_network/$', phy_monitor_view.PhyMonitorNetworkList.as_view()),
+    url(r'^phy_monitor_server/$', phy_monitor_view.PhyMonitorServerList.as_view()),
+    url(r'^phy_monitor_storage/$', phy_monitor_view.PhyMonitorStorageDetail.as_view()),
+]
+
+# volume_monitor
+urlpatterns += [
+    url(r'^volume_monitor/$', volume_monitor_view.Volume_MonitorList.as_view()),
+]
+
+# storage_monitor
+urlpatterns += [
+    url(r'^storage_monitor/$', storage_monitor_view.StorageNodeList.as_view()),
+    url(r'^treeview/$', storage_monitor_view.TreeNodeList.as_view()),
+    url(r'^storage__bar/$', storage_monitor_view.StorageBarDetail.as_view()),
+    url(r'^phy_nodes/$', storage_monitor_view.PhyNodesList.as_view()),
+]
 
 #qos
 urlpatterns += [

@@ -32,12 +32,15 @@ LOG = logging.getLogger(__name__)
 
 
 class Volume_MonitorList(generics.ListAPIView):
-    LOG.info("--------- I am volume_monitor list in Volume_MonitorList ----------")
-    queryset = Volume_Monitor.objects.all()
-    LOG.info("--------- Queryset is --------------" + str(queryset)) 
-    serializer_class = Volume_MonitorSerializer
 
 
+    def list(self, request):
+        rc = create_rc_dy_dc(request)
+
+        LOG.info("*** rc is ****" + str(rc))
+        search_opts={'all_tenants': True}
+
+        volumes = cinder.volume_list(rc, search_opts=search_opts)
 
 @require_POST
 def create_volume_monitor(request):

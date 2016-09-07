@@ -61,13 +61,13 @@
 </style>
 <div class="content">
     <div class="titile">网络监控</div>
-    <div class="content_center">
+    <div class="content_center" ng-controller="Network_MonitorController">
         <div class="left fl">
             <div class="wrapper">
                 <div class="fl bar">
                     <!-- 树状结构显示 -->
                     <dl class="network-item">
-                        <dt><span class="tx">网络&nbsp;&nbsp;<small class="num">(1,245,444)个</small></span></dt>
+                        <dt><span class="tx">网络&nbsp;&nbsp;<small class="num">({[{network_total}]})个</small></span></dt>
                         <dd>
                             <!-- 网络监控树状结构引入 -->
                             <div data-ng-include="'../static/management/views/network_bar_net.html'"></div>
@@ -77,7 +77,7 @@
                 <div class="fl bar">
                 <!-- IP列表显示 -->
                 <dl class="router-item">
-                    <dt><span class="tx">路由器&nbsp;&nbsp;<small class="num">(1,245,444)个</small></span></dt>
+                    <dt><span class="tx">路由器&nbsp;&nbsp;<small class="num">(打开)</small></span></dt>
                     <dd>
                         <!-- 网络监控树状结构引入 -->
                         <div data-ng-include="'../static/management/views/network_bar_router.html'"></div>

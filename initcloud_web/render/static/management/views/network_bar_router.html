@@ -43,18 +43,24 @@
 		margin:5px;
 		height:423px;
 	}
+	.box{
+		height:390px;
+		overflow-y:auto;
+	}
 	li{list-style:none;}
     ul.box li{height:24px;line-height:24px;color:#0077bc;padding-left:5px;}
     ul.box li:hover{cursor:pointer;}
      ul.box li img{margin-top:-2px;}
     .odd{background:transparent;}
     .even{background:#1b2346;}
+    .even:hover{background:#00d8ff;}
+    .odd:hover{background:#00d8ff;}
 </style>
 <div class="IPcontent" ng-controller="Network_Bar_RouterController">
 	<div class="iplist fl">
-		<div class="itemtitle"><span class="tx m10">IP地址</span><small class="num ml5">(56,246,415个)</small></div>
+		<div class="itemtitle"><span class="tx m10">IP地址</span><small class="num ml5">({[{network_total}]}个)</small></div>
 		<ul class="box">
-			<li ng-repeat="item in network_bar_routers" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)">
+			<li ng-repeat="item in network_bar_routers.iplist" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)">
 				&nbsp;&nbsp;&nbsp;&nbsp;<img src="../static/assets/admin/layout/img/second/network-monitor/nico4_03.png">&nbsp;&nbsp;{[{item.ip}]}
 			</li>
 		</ul>
