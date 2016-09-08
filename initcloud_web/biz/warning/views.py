@@ -1,4 +1,4 @@
-#-*-coding-utf-8-*-
+# -*-coding:utf8 -*-
 
 # Author Yang
 
@@ -28,7 +28,7 @@ from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
 
-from alarm.models import Alarm_Save
+from biz.alarm.models import Alarm, Alarm_Save
 
 LOG = logging.getLogger(__name__)
 
@@ -36,9 +36,12 @@ LOG = logging.getLogger(__name__)
 class WarningList(generics.ListAPIView):
 
     def list(self, request):
+        LOG.info("*** start to get alarm_save ***")
         alarm_saves = Alarm_Save.objects.all()
+        LOG.info(alarm_saves) 
         data = []
         for alarm_save in alarm_saves:
+            LOG.info(alarm_save)
             data.append({'name':'网络设备','warning_type':'虚拟机报警', 'warning_info': alarm_save.alarm_meter, 'memory_point': alarm_save.alarm_data, 'warning_time': alarm_save.create_date})
 
         LOG.info("data is" + str(data))

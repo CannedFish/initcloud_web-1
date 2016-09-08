@@ -33,6 +33,7 @@ from biz.storage_monitor import views as storage_monitor_view
 
 #alarm
 from biz.alarm import views as alarm_view
+from biz.warning import views as warning_view
 from biz.UserGrouper import views as user_grouper_view
 
 from biz.network_bar_loadbanlance import views as network_bar_loadbanlance_view
@@ -355,6 +356,7 @@ urlpatterns += [
     url(r'^alarm/create/$', alarm_view.create_alarm),
     #url(r'^alarm/create/$', alarm_view.create_alarm_test),
     url(r'^alarm/$', alarm_view.AlarmList.as_view()),
+    url(r'^warning/$', warning_view.WarningList.as_view()),
     url(r'^alarm/batch-delete/$', alarm_view.delete_alarms),
     url(r'^alarm/resource/$', alarm_view.ResourceList.as_view()),
     url(r'^alarm/update/$', alarm_view.update),
