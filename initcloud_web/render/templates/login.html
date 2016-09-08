@@ -7,68 +7,166 @@
 
 {% block page_content %}
 {% include "partial_login_form.html" %}
-    <form class="login-form" action="/login/" method="post">
-    {% trans "Account" as account %}
-    {% trans "Password" as pwd %}
-    {% csrf_token %}
-    <h3 class="form-title">{% trans "Login" %}</h3>
-
-    {% if messages %}
-        {% for message in messages %}
+<style type="text/css">
+    .lg-warpper{
+        height:535px;
+    }
+    .lg-warpper .login_bg{
+        background:url('../static/assets/admin/layout/img/common/login_bg_03.png') no-repeat center;
+        height:525px;
+        margin-top:100px;
+        position:relative;
+    }
+    .ah{height:100px;}
+    .box{height:285px;width:400px;margin:0 auto;position:relative;}
+    .login{
+        margin:75px 20px 0px 20px;
+        background:transparent !important;
+    }
+    .box{height:285px;width:400px;margin:0 auto;}
+    .login{
+        margin:75px 20px 0px 20px;
+    }
+    .pt40{
+        /*padding-top:45px;*/
+    }
+    .line{
+        height:35px;
+        line-height:35px;
+        padding-left:45px;
+        padding-right:45px;
+    }
+    .line input{
+        width:100%;
+        height:30px;
+        line-height:30px;
+        background:transparent;
+    }
+    .bc1{
+        border:solid 1px #03d8ff;
+        padding-left:5px;
+        padding-top:2px;
+        padding-bottom:2px;
+        color:#fff;
+    }
+    .bc2{
+        border:solid 1px #0077bc;
+        padding-left:5px;
+        padding-top:2px;
+        padding-bottom:2px;
+        color:#fff;
+    }
+    .ico{background:#0a1837;display:inline-block;height:10px;width:10px;border:solid 1px #093a5f;}
+    .tip{display:inline-block;width:50%;float:left;cursor:pointer;}
+    .m{display:inline-block;margin-left:10px;color:#fff;}
+    .bg1{}
+    .login-btn{
+        text-align:center;
+        background:#0077bc;border-radius:5px;
+        font-size:16px;
+        /*color:#fff;*/
+        cursor:pointer;
+    }
+    .pl28{
+        padding-left:28px;
+    }
+    .user-ico{
+        background:url('../static/assets/admin/layout/img/common/lgico01_03.png') no-repeat;
+        height:25px;
+        width:25px;
+        display:inline-block;
+        position:absolute;
+        margin:5px;
+    }
+    .pass-ico{
+        background:url('../static/assets/admin/layout/img/common/lgico01_06.png') no-repeat;
+        height:25px;
+        width:25px;
+        display:inline-block;
+        position:absolute;
+        margin:5px;
+    }
+    .tip-01{
+        /*display: block;*/
+        position: absolute;
+        top: -49px;
+        left: 64px;
+    }
+</style>
+<!-- 登录框开始 -->
+<div class="lg-warpper">
+    <div class="login_bg">
+        <div class="ah"></div>
+        <div class="box">
+            <form class="login-form box" action="/login/" method="post">
+            {% trans "Account" as account %}
+            {% trans "Password" as pwd %}
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
             <div class="alert alert-success"> {{ message }} </div>
-        {% endfor %}
-    {% endif %}
-    {% if error %}
-    <div class="alert alert-danger">
-    {% else %}
-    <div class="alert alert-danger display-hide">
-    {% endif %}
-        <button class="close" data-close="alert"></button>
-        <span id="errorMsg">{% trans "The password you entered is incorrect. Please try again (make sure your caps lock is off)."%}</span>
+            {% endfor %}
+            {% endif %}
+            {% if error %}
+            <div class="alert alert-danger tip-01">
+            {% else %}
+            <div class="alert alert-danger display-hide tip-01">
+            {% endif %}
+                <button class="close" data-close="alert"></button>
+                <span id="errorMsg">{% trans "The password you entered is incorrect. Please try again (make sure your caps lock is off)."%}</span>
+            </div>
+                <div class="login">
+                    <div class="line pt40"> <label class="control-label visible-ie8 visible-ie9">{% trans "Username" %}</label><input class="bc1" name="username" value="{{ form.username.value }}" placeholder="{{ account }}"
+                     autocomplete="off" ></div>
+                    <div class="line"><label class="control-label visible-ie8 visible-ie9">{% trans "Password" %}</label><input class="bc2"  name="password" placeholder="{{ pwd }}"
+                       type="password" autocomplete="off"type="text"></div>
+                    {% if LDAP_AUTH_ENABLED %}
+                    <div class="form-group">
+                        <label class="control-label">{% trans "Login Via LDAP" %}</label>
+                    </div>
+                    {% endif %}
+                    <div class="line">
+                        <div class="tip">
+                            <span class="ico .bic1"></span><span class="m">记住密码</span>
+                        </div>
+                        <div class="tip pl28">
+                            <span class="ico .bic1"></span><span class="m">自动登录</span>
+                        </div>
+                    </div>
+                    <div class="line bg1  form-actions">
+                        <p class="login-btn">
+                            <button type="submit" style="background:transparent;border:none;color:
+                            #fff;width:100%;height:100%;">{% trans "Login" %}</button>
+                        </p>
+                    </div>
+                    {%  comment %}
+                        <a href="/find-password/" class="forget-password">{% trans 'Forgot Password' %}</a>
+                    {% endcomment %}
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-        <label class="control-label visible-ie8 visible-ie9">{% trans "Username" %}</label>
-        <input name="username" value="{{ form.username.value }}" placeholder="{{ account }}"
-               class="form-control form-control-solid placeholder-no-fix" autocomplete="off" />
-    </div>
-    <div class="form-group">
-        <label class="control-label visible-ie8 visible-ie9">{% trans "Password" %}</label>
-        <input name="password" placeholder="{{ pwd }}"
-               class="form-control form-control-solid placeholder-no-fix"
-               type="password" autocomplete="off" />
-    </div>
-    {% if LDAP_AUTH_ENABLED %}
-    <div class="form-group">
-        <label class="control-label">{% trans "Login Via LDAP" %}</label>
-    </div>
-    {% endif %}
-
-    <div class="form-actions">
-            <button type="submit" class="btn green">{% trans "Login" %}</button>
-            <a class="btn btn-default pull-right" href="/signup/">{% trans "Sign Up" %}</a>
-    </div>
-
-    {%  comment %}
-     <a href="/find-password/" class="forget-password">{% trans 'Forgot Password' %}</a>
-    {% endcomment %}
-
-</form>
-
+</div>
+<!-- 登录框结束 -->
 {% endblock %}
 
 {% block page_script %}
 <script type="text/javascript">
+
     jQuery(document).ready(function () {
         Metronic.init();
         Layout.init();
         Login.init();
+        $('input').focus(function(){
+            $(this).css('border','solid 1px #03d8ff')
+        }).focusout(function(){
+            $(this).css('border','solid 1px #0077bc')
+        })
     });
 
     // init background slide images
     $.backstretch([
-                "{{ STATIC_URL }}assets/admin/pages/media/bg/2.jpg"
+                "{{ STATIC_URL }}assets/admin/pages/media/bg/bg01.png"
             ], {
                 fade: 1000,
                 duration: 8000

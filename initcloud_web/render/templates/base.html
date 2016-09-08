@@ -43,25 +43,40 @@
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="login">
+<style type="text/css">
+    .login_re{
+    width: 1366px;
+    height: 768px;
+    margin: 0 auto !important;
+    clear: both;
+     /*overflow: hidden; */
+    z-index: 9999999;
+    /*position: absolute;*/
+    }
+    .content_re{
+        height:535px;
+    }
+</style>
+<body class="login_re">
 <!--img width="100%" height="100%" style="float:none; position:absolute; top:0px; z-index: -1;"
      src="{{ STATIC_URL }}assets/global/img/home_bj.png"-->
 <!-- BEGIN LOGO -->
-<div class="logo">
-    <a href="/">
+<<!-- div class="logo"> -->
+   <!--  <a href="/">
         <img src="{{ STATIC_URL }}custom/img/logo-big.png" alt=""/>
-    </a>
-</div>
+    </a> -->
+<!-- </div> -->
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
-<div class="content">
+<div style="height:76px;"></div>
+<div class="content_re">
     {% block page_content %}
     {% endblock %}
 </div>
-<div class="copyright">
+<!-- <div class="copyright">
 	{{ COPY_RIGHT }}
 	<p><a target="_blank" href="http://www.miitbeian.gov.cn" style="color:#eee">{{ ICP_NUMBER }}</a></p>
-</div>
+</div> -->
 <!-- END LOGIN -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
