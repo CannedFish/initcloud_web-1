@@ -358,6 +358,7 @@ urlpatterns += [
     url(r'^alarm/batch-delete/$', alarm_view.delete_alarms),
     url(r'^alarm/resource/$', alarm_view.ResourceList.as_view()),
     url(r'^alarm/update/$', alarm_view.update),
+    url(r'^alarm/save/$', alarm_view.save_alarm),
     url(r'^alarm/meter/$', alarm_view.MeterList.as_view()),
 ]
 

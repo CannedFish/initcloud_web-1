@@ -16,7 +16,7 @@ from django.utils import timezone
 from django.contrib.auth.models import check_password
 
 from biz.account.settings import QUOTA_ITEM, NotificationLevel
-from biz.alarm.models import Alarm 
+from biz.alarm.models import Alarm, Alarm_Save 
 from biz.alarm.serializer import AlarmSerializer
 from biz.alarm.utils import * 
 from biz.idc.models import DataCenter, UserDataCenter
@@ -238,3 +238,20 @@ def is_alarmname_unique(request):
     alarmname = request.GET['alarmname']
     LOG.info("alarmname is" + str(alarmname))
     return Response(not Alarm.objects.filter(alarmname=alarmname).exists())
+
+@api_view(["GET"])
+def save_alarm(request):
+    LOG.info("9999999999")
+    LOG.info("save alarm begin")
+    LOG.info(request.data)
+    alarm_object = request.GET.get('alarm_object')
+    alarm_meter = request.GET.get('alarm_meter')
+    alarm_data = request.GET.get('alarm_data')
+    alarm_count = request.GET.get('alarm_count')
+    LOG.info(request.GET.get('alarm_count'))
+    alarm_save = Alarm_Save(alarm_object=alarm_object, alarm_meter=alarm_meter, alarm_data=alarm_data, alarm_count=alarm_count)
+    LOG.info("begin to save")
+    alarm_save.save()
+    #instance_id, action = request.data['instance'], request.data['action']
+    return Response({'success': True, "msg": _('Alarm is created successfully!')},
+                        status=status.HTTP_201_CREATED)

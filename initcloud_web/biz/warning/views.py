@@ -28,16 +28,22 @@ from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
 
+from alarm.models import Alarm_Save
+
 LOG = logging.getLogger(__name__)
 
 
 class WarningList(generics.ListAPIView):
-    LOG.info("--------- I am warning list in WarningList ----------")
-    queryset = Warning.objects.all()
-    LOG.info("--------- Queryset is --------------" + str(queryset)) 
-    serializer_class = WarningSerializer
 
+    def list(self, request):
+        alarm_saves = Alarm_Save.objects.all()
+        data = []
+        for alarm_save in alarm_saves:
+            data.append({'name':'网络设备','warning_type':'虚拟机报警', 'warning_info': alarm_save.alarm_meter, 'memory_point': alarm_save.alarm_data, 'warning_time': alarm_save.create_date})
 
+        LOG.info("data is" + str(data))
+        data = [{'name':'9号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'9','virtual_mechine':'9','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},{'name':'10号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'10','virtual_mechine':'10','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'}]
+        return Response(data)
 
 @require_POST
 def create_warning(request):
