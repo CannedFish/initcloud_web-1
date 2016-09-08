@@ -13,7 +13,7 @@ Login page
 }
 
 .login .content {
-  background: url(../img/bg-white-lock.png) repeat;
+  /*background: url(../img/bg-white-lock.png) repeat;*/
   width: 400px;
   margin: 0 auto;
   margin-bottom: 0px;
