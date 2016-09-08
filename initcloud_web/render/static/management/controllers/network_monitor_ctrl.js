@@ -26,10 +26,10 @@ CloudApp.controller('Network_MonitorController',
         //             });
         //         }
         //     });
-        var data = {
-            'node1':[]
-        }
-         $scope.network_monitors = data;
+        $scope.$on('to-parent',function(d,data){
+             $scope.network_total = data;
+        })
+        checkboxGroup.syncObjects($scope.network_total);
         
 
         var deleteNetwork_Monitors = function(ids){

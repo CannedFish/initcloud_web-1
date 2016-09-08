@@ -60,7 +60,7 @@
 	<div class="iplist fl">
 		<div class="itemtitle"><span class="tx m10">IP地址</span><small class="num ml5">({[{network_total}]}个)</small></div>
 		<ul class="box">
-			<li ng-repeat="item in network_bar_routers.iplist" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)">
+			<li ng-repeat="item in network_bar_routers" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)">
 				&nbsp;&nbsp;&nbsp;&nbsp;<img src="../static/assets/admin/layout/img/second/network-monitor/nico4_03.png">&nbsp;&nbsp;{[{item.ip}]}
 			</li>
 		</ul>
@@ -70,6 +70,7 @@
 		<ul class="box">
 			<li>
 				<span>IP的类型：</span>{[{rightbar.ip_type}]}	
+			    
 			</li>
 			<li>
 				<span>IP连接的vm：</span>{[{rightbar.ip_connect_vm}]}	

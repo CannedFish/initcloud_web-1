@@ -250,7 +250,7 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                                 '../static/management/controllers/network_bar_net_ctrl.js',//网络监控- 网络树
                                 '../static/management/controllers/network_bar_router_ctrl.js',//网络监控-路由器
                                 '../static/management/controllers/network_bar_sdn_ctrl.js',//网络监控-sdn
-                                '../static/management/controllers/network_bar_loadbanlance_ctrl.js',//网络监控-负载均衡
+                                '../static/management/controllers/network_bar_loadbanlance_ctrl.js'//网络监控-负载均衡
                                
                             ]
                         });
@@ -272,7 +272,6 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                                 '/static/assets/global/plugins/footable/footable.all.min.js',//引入插件footable
                                 '/static/assets/global/plugins/footable/footable.core.css',
                                 '/static/assets/global/plugins/footable/footable.filter.js',
-
                                
                             ]
                         });

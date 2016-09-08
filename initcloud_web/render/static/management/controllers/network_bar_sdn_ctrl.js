@@ -13,28 +13,20 @@ CloudApp.controller('Network_Bar_SdnController',
 
         $scope.network_bar_sdns = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_sdns);
-
-        // $scope.network_bar_sdn_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Network_Bar_Sdn.query(function(data){
-        //                 $scope.network_bar_sdns = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.network_bar_sdns);
-        //             });
-        //         }
-        //     });
         //网络监控 sdn 数据
-        var data = {'switchboard':'456,456,777',
-            'switchboard_recive_request_datapackage_num':'56,336,345,232',
-            'switchboard_recive_request_datapackage_bits':'56,336,345,232',
-            'switchboard_flow_sustained_time':'50天23小时40分45秒',
-            'switchboard_trans_failedpackage_num':'7,456,223,167'
-        };
-        $scope.network_bar_sdns = data;
-        checkboxGroup.syncObjects($scope.network_bar_sdns);
+
+        Network_Bar_Sdn.query(function(data){
+            $scope.network_bar_sdns = data ;
+            checkboxGroup.syncObjects($scope.network_bar_sdns);
+        })
+        // var data = {'switchboard':'456,456,777',
+        //     'switchboard_recive_request_datapackage_num':'56,336,345,232',
+        //     'switchboard_recive_request_datapackage_bits':'56,336,345,232',
+        //     'switchboard_flow_sustained_time':'50天23小时40分45秒',
+        //     'switchboard_trans_failedpackage_num':'7,456,223,167'
+        // };
+        // $scope.network_bar_sdns = data;
+        // checkboxGroup.syncObjects($scope.network_bar_sdns);
         var deleteNetwork_Bar_Sdns = function(ids){
 
             $ngBootbox.confirm($i18next("network_bar_sdn.confirm_delete")).then(function(){

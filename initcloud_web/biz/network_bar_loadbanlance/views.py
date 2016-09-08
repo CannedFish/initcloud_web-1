@@ -51,7 +51,8 @@ class Network_Bar_LoadbanlanceList(generics.ListAPIView):
 		    vip_count = vip_count + 1
 	    LOG.info('pool count is' + str(pool_count))
 	    LOG.info('vip count is' + str(vip_count))
-	    data = {'lb_pool_num':pool_count,'lb_virtualip_num':vip_count};
+	    #data = {'lb_pool_num':pool_count,'lb_virtualip_num':vip_count};
+            data = {'lb_pool_num':"1",'lb_virtualip_num': "2"};
 	    return_data = []
 	    return_data.append(data)
 	    return Response(return_data)
