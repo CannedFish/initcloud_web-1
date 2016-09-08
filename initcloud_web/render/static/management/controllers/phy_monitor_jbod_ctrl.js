@@ -14,31 +14,34 @@ CloudApp.controller('Phy_Monitor_JbodController',
         $scope.phy_monitor_jbods = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_jbods);
 
-        $scope.phy_monitor_jbod_table = new ngTableParams({
-                page: 1,
-                count: 10
-            },{
-                counts: [],
-                getData: function($defer, params){
-                    Phy_Monitor_Jbod.query(function(data){
-                        $scope.phy_monitor_jbods = ngTableHelper.paginate(data, $defer, params);
-                        checkboxGroup.syncObjects($scope.phy_monitor_jbods);
-                    });
-                }
-            });
+        /* $scope.phy_monitor_jbod_table = new ngTableParams({ */
+                // page: 1,
+                // count: 10
+            // },{
+                // counts: [],
+                // getData: function($defer, params){
+                    // Phy_Monitor_Jbod.query(function(data){
+                        // $scope.phy_monitor_jbods = ngTableHelper.paginate(data, $defer, params);
+                        // checkboxGroup.syncObjects($scope.phy_monitor_jbods);
+                    // });
+                // }
+            // });
 
-         var data ={
-            'disk':[
-                    1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                ],
-            'systemUI':[[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
-            'electric_rota':[1200,1500,1400,1200,1800],
-        };
-        $scope.phy_monitor_jbods = data;
+         // var data ={
+            // 'disk':[
+                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
+                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
+                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
+                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
+                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
+                // ],
+            // 'systemUI':[[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
+            // 'electric_rota':[1200,1500,1400,1200,1800],
+        // };
+        /* $scope.phy_monitor_jbods = data; */
+        Phy_Monitor_Jbod.get(function(data) {
+          $scope.phy_monitor_jbods = data;
+        });
 
         var deletePhy_Monitor_Jbods = function(ids){
 
