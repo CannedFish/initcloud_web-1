@@ -5,7 +5,19 @@
     .bd .tab-pane{display:none;width:100%;height:100%;}
 	.active{display:block !important;
 	}
-	
+    #net-conntype-list,#cpu-temperature-list,.jbod-list{
+        height:100%;
+    }
+
+    #net-conntype-list li{
+        height:16px;
+    }
+    #cpu-temperature-list li{
+        height:35px;
+    }
+    #jbod-list li{
+        height:67px;
+    }
 </style>
     <div class="content" ng-controller="Phy_MonitorController">
         <div class="titile">物理监控</div>
@@ -14,9 +26,29 @@
             <!-- 机柜tab导航 -->
             <div style="height:409px;width:155px;background:transparent;position:absolute;z-index:888;top:50px;">
             	<ul class="hd" style="height:409px;">
-            		<li ng-class="{'active': tabs[0]}" ng-click="tab(0)" style="height:70px;cursor:pointer"></li>
-            		<li ng-class="{'active': tabs[1]}" ng-click="tab(1)" style="height:175px;cursor:pointer"></li>
-            		<li ng-class="{'active': tabs[2]}" ng-click="tab(2)" style="height:134px;cursor:pointer"></li>
+            		<li ng-class="{'active': tabs[0]}" ng-click="tab(0)" style="height:70px;cursor:pointer">
+                        <ul id="net-conntype-list" >
+                            <li ng-click="tabById(1,'network')"></li>
+                            <li ng-click="tabById(2,'network')"></li>
+                            <li ng-click="tabById(3,'network')"></li>
+                            <li ng-click="tabById(4,'network')"></li>
+                        </ul>      
+                    </li>
+            		<li ng-class="{'active': tabs[1]}" ng-click="tab(1)" style="height:175px;cursor:pointer">
+                        <ul id="cpu-temperature-list">
+                            <li ng-click="tabById(1,'server')"></li>
+                            <li ng-click="tabById(2,'server')"></li>
+                            <li ng-click="tabById(3,'server')"></li>
+                            <li ng-click="tabById(4,'server')"></li>
+                            <li ng-click="tabById(5,'server')"></li>
+                        </ul>      
+                    </li>
+            		<li ng-class="{'active': tabs[2]}" ng-click="tab(2)" style="height:134px;cursor:pointer">
+                        <ul id="jbod-list">
+                            <li ng-click="tabById(1,'jbod')"></li>
+                            <li ng-click="tabById(2,'jbod')"></li>
+                        </ul>      
+                    </li>
             		<li ng-class="{'active': tabs[3]}" ng-click="tab(3)" style="height:35px;cursor:pointer"></li>
             	</ul>
             </div>

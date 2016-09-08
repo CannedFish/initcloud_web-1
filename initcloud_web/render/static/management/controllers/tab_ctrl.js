@@ -28,7 +28,7 @@ CloudApp.controller('TabController',
         //     });
         //初始化创建tab数组
         // var $scope.table
-        angular.forEach($('.hd li'),function(v,i){
+        angular.forEach($('.hd>li'),function(v,i){
             if(i == 0){
                 $scope.tabs.push(true);
             }else{
@@ -41,6 +41,10 @@ CloudApp.controller('TabController',
               $scope.tabs[v] = false;
             });
             $scope.tabs[index] = true;
+        }
+         //根据id 查询显示(向父级传递)
+        $scope.tabById = function(id,sect){
+            $scope.$emit('to-parent-'+sect,id);
         }
         var deleteTabs = function(ids){
 

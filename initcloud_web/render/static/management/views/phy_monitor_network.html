@@ -45,8 +45,17 @@
     .c4{background:#00d8ff;} 
     .c5{color:#14a44e;}
     .c6{color:#00d8ff;}
+    .c7{color:#3a4b71;}
     .list .bg03{
         background:url('../static/assets/admin/layout/img/second/network-monitor/bico1_03.png') no-repeat;
+        display:inline-block;
+        height: 63px;
+        width: 122px;
+        margin-left:4px;
+        position:relative;
+    }
+    .list .bg04{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico5_03.png') no-repeat;
         display:inline-block;
         height: 63px;
         width: 122px;
@@ -63,11 +72,18 @@
     .list .item .indexnum{
         position:absolute;
         display:inline-block;
-        background:url('../static/assets/admin/layout/img/second/network-monitor/bico3_03.png') no-repeat;
         height:29px;
         width:29px;
         background-position:-1px -1px;
+        
+    }
+    .numbg03{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico3_03.png') no-repeat;
         color:#00d8ff;
+    }
+    .numbg04{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico6_03.png') no-repeat;
+        color:#0a122f;
     }
     .mt10{margin-top:8px !important;}
 
@@ -97,11 +113,11 @@
                         </div> 
                     </div>
                     <div class="list">
-                    	<span class="item bg03" ng-repeat="item in phy_monitor_networks">
-                            <i class="indexnum">{[{$index+1}]}</i>
-                    		<p class="tool c5 mt10">{[{item.upload}]}kb</p>
-                            <p class="tool c6">{[{item.download}]}kb</p>
-                    	</span>
+                    	<span ng-class="item.link == 1?'bg03':'bg04'" class="item" ng-repeat="item in phy_monitor_networks">
+                            <i ng-class="item.link == 1?'numbg03':'numbg04'" class="indexnum">{[{$index+1}]}</i>
+                            <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload}]}kb</p>
+                            <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download}]}kb</p>
+                        </span>
                     </div>
                     <div class="work_node" ng-controller="Phy_Monitor_StorageController">
                         <div class="node_cont node5">

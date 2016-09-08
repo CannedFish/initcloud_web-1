@@ -13,19 +13,31 @@ CloudApp.controller('Phy_MonitorController',
         });
         $scope.phy_monitors = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitors);
-
-        $scope.phy_monitor_table = new ngTableParams({
-                page: 1,
-                count: 10
-            },{
-                counts: [],
-                getData: function($defer, params){
-                    Phy_Monitor.query(function(data){
-                        $scope.phy_monitors = ngTableHelper.paginate(data, $defer, params);
-                        checkboxGroup.syncObjects($scope.phy_monitors);
-                    });
-                }
-            });
+        // 网络监控
+        $scope.$on('to-parent-network',function(d,data){
+            //接收参数 广播给指定的孩子节点
+            $scope.$broadcast('to-child-network',data);
+        })
+        // 服务器监控
+        $scope.$on('to-parent-server',function(d,data){
+            $scope.$broadcast('to-child-server',data);
+        })
+        //jbod
+        $scope.$on('to-parent-jbod',function(d,data){
+            $scope.$broadcast('to-child-jbod',data);
+        })
+        // $scope.phy_monitor_table = new ngTableParams({
+        //         page: 1,
+        //         count: 10
+        //     },{
+        //         counts: [],
+        //         getData: function($defer, params){
+        //             Phy_Monitor.query(function(data){
+        //                 $scope.phy_monitors = ngTableHelper.paginate(data, $defer, params);
+        //                 checkboxGroup.syncObjects($scope.phy_monitors);
+        //             });
+        //         }
+        //     });
 
         var deletePhy_Monitors = function(ids){
 
