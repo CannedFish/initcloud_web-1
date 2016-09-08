@@ -28,7 +28,7 @@ CloudApp.controller('Network_Bar_RouterController',
         //     });
         Network_Bar_Router.query(function(data){
             // console.log(data);
-            $scope.initData = data[0];//初始值
+            $scope.rightbar = data[0];//初始ip值
             $scope.network_bar_routers = data;
             checkboxGroup.syncObjects($scope.network_bar_routers);
         })

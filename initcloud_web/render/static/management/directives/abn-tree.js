@@ -53,17 +53,16 @@
           //树的层次 （parseInt:解析成整数）
           expand_level = parseInt(attrs.expandLevel, 10);
           //判断树中的数据
-          // if (!scope.treeData) {
-          //   alert('no treeData defined for the tree!');
-          //   return;
-          // }
-          //长度
+          if (!scope.treeData) {
+            // alert('数据加载中。。。。');
+          }
+          // 长度
           // if (scope.treeData.length == null) {
           //   if (treeData.label != null) {
           //     scope.treeData = [treeData]; //给树赋值
 
           //   } else {
-          //     alert('treeData should be an array of root branches');
+          //     // alert('treeData should be an array of root branches');
           //     return;
           //   }
           // }

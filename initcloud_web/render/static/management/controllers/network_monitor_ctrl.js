@@ -29,7 +29,7 @@ CloudApp.controller('Network_MonitorController',
         $scope.$on('to-parent',function(d,data){
              $scope.network_total = data;
         })
-        checkboxGroup.syncObjects($scope.network_monitors);
+        checkboxGroup.syncObjects($scope.network_total);
         
 
         var deleteNetwork_Monitors = function(ids){

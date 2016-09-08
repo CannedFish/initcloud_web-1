@@ -6,7 +6,7 @@
 	.SDNcontent ul li p.num{color:#14994c;margin:0px;margin-left:16px;}
 </style>
 <div class="SDNcontent" ng-controller="Network_Bar_SdnController">
-	<ul>
+	<ul ng-if="network_bar_sdns !=''">
 		<li>
 			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">sdn交换机的数量</p>
 			<p class="num">{[{network_bar_sdns.switchboard}]}个</p>
@@ -27,5 +27,8 @@
 			<p class="tx"><img src="../static/assets/admin/layout/img/second/network-monitor/nico1_03.png">交换机端口传输失败包的个数</p>
 			<p class="num">{[{network_bar_sdns.switchboard_trans_failedpackage_num}]}个</p>
 		</li>
+	</ul>
+	<ul ng-if="network_bar_sdns ==''">
+		<li style="color:#ff0000;font-size:12px;">没有相关数据。。。</li>
 	</ul>
 </div>
