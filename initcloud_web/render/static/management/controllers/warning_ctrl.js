@@ -46,6 +46,9 @@ CloudApp.controller('WarningController',
         $scope.initData = data[0];//初始值
         $scope.warnings = data; 
         checkboxGroup.syncObjects($scope.warnings);
+        Warning.query(function(data){
+            console.log(data);
+        })
         //点击显示数据
         $scope.setDatatoLeftBar = function(item){
            $scope.rightbar = item;
