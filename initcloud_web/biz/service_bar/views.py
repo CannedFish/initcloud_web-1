@@ -1,4 +1,4 @@
-#-*-coding-utf-8-*-
+# -*- coding:utf8 -*-
 
 # Author Yang
 
@@ -71,7 +71,7 @@ class Service_BarList(generics.ListAPIView):
             nova_services = nova.service_list(rc)
             nova_bar = get_service_status(nova_services,'nova-compute')
             nova_bar['run_time'] = '11:11:11'
-	    nova_bar['name'] = 'nova'
+	    nova_bar['name'] = '计算'
             LOG.info(nova_bar)
             LOG.info("---------------- NETWORK ----------------------")
             run_status = 0
@@ -86,13 +86,13 @@ class Service_BarList(generics.ListAPIView):
                         run_status = 1
                 else:
                     continue
-            network_bar = {'name':'network','error_status':error_status,'normal_status':normal_status,'run_status':run_status,'run_time':'22:33:44'}
+            network_bar = {'name':'网络','error_status':error_status,'normal_status':normal_status,'run_status':run_status,'run_time':'22:33:44'}
             network_services = neutron.network_list(rc)
 	    LOG.info("---------------- CINDER --------------------")
             cinder_services = cinder.cinderclient(rc).services.list()
             cinder_bar = get_service_status(cinder_services,'cinder-volume')
             cinder_bar['run_time'] = '30:45:56'
-	    cinder_bar['name'] = 'cinder'
+	    cinder_bar['name'] = '云盘'
             LOG.info(cinder_bar)
             LOG.info("---------------- KEYSTONE --------------------")
             keystone_services = keystone.keystoneclient(rc,True).services
@@ -102,9 +102,9 @@ class Service_BarList(generics.ListAPIView):
 	    try:
 	        users = keystone.user_list(rc)
 		if users is not None:
-		    keystone_bar = {'name':'keystone','error_status':0,'normal_status':1,'run_status':1,'run_time':'22:33:44'}
+		    keystone_bar = {'name':'身份认证','error_status':0,'normal_status':1,'run_status':1,'run_time':'22:33:44'}
 	    except:
-		network_bar = {'name':'network','error_status':1,'normal_status':0,'run_status':0,'run_time':'22:33:44'}	
+		network_bar = {'name':'网络','error_status':1,'normal_status':0,'run_status':0,'run_time':'22:33:44'}	
 	 #   LOG.info(users)
 	    return_data.append(nova_bar)
 	    return_data.append(cinder_bar)
