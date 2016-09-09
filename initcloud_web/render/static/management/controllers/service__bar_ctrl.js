@@ -13,7 +13,7 @@ CloudApp.controller('Service__BarController',
 
         $scope.service__bars = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.service__bars);
-        var data = 
+        var data1 = 
                 [
                     {'name':'计算','error_status':0,'normal_status':1,'run_status':1,'run_time':'30 : 45 : 56'},
                     {'name':'云盘','error_status':1,'normal_status':0,'run_status':1,'run_time':'30 : 25 : 56'},
@@ -21,7 +21,9 @@ CloudApp.controller('Service__BarController',
                     {'name':'身份认证','error_status':1,'normal_status':1,'run_status':1,'run_time':'30 : 25 : 56'}
                 ]
             ;
+	var data = Service__Bar.query()
         $scope.service__bars = data;
+	$scope.service_bar = Service__Bar.query()
         checkboxGroup.syncObjects($scope.service__bars);
         // $scope.service__bar_table = new ngTableParams({
         //         page: 1,

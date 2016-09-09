@@ -40,7 +40,9 @@ from biz.network_bar_loadbanlance import views as network_bar_loadbanlance_view
 from biz.network_bar_sdn import views as network_bar_sdn_view
 from biz.network_bar_net import views as network_bar_net_view
 from biz.network_bar_router import views as network_bar_router_view
-
+from biz.cloud_monitor import views as cloud_monitor_view
+from biz.service_bar import views as service_bar_view
+from biz.virtualmechine_bar import views as virtualmechine_bar_view
 
 
 # various options and configurations
@@ -71,6 +73,22 @@ urlpatterns += [
     url(r'^storage__bar/$', storage_monitor_view.StorageBarDetail.as_view()),
     url(r'^phy_nodes/$', storage_monitor_view.PhyNodesList.as_view()),
 ]
+
+#cloud_monitor
+urlpatterns += [
+    url(r'^cloud_monitor/$', cloud_monitor_view.Cloud_MonitorList.as_view()),
+]
+
+#service_bar
+urlpatterns += [
+    url(r'^service__bar/$', service_bar_view.Service_BarList.as_view()),
+]
+
+#virtualmechine_bar
+urlpatterns += [
+    url(r'^virtualmechine_bar/$', virtualmechine_bar_view.Virtualmechine_BarList.as_view()),
+]
+
 
 #network_bar_loadbanlance
 urlpatterns += [

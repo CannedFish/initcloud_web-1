@@ -70,6 +70,9 @@ INSTALLED_APPS = [
     'biz.network_bar_sdn',
     'biz.network_bar_net',
     'biz.network_bar_loadbanlance',
+    'biz.cloud_monitor',
+    'biz.virtualmechine_bar',
+    'biz.service_bar',
 
 ]
 
@@ -290,4 +293,7 @@ REDFISH_URL = "http://221.239.81.82:18021"
 REDFISH_USR = "ADMIN"
 REDFISH_PSD = "ADMIN"
 
-STORAGE_URL = ["http://221.239.81.82:17331", "http://221.239.81.82:17332"]
+STORAGE_URL = [
+    "http://221.239.81.82:17331", "http://221.239.81.82:17332",
+    "http://10.0.76.10:9331", "http://10.0.76.20:9331"
+]
