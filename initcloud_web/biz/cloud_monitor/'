@@ -33,11 +33,6 @@ from cloud.cloud_utils import create_rc_manually
 import traceback
 LOG = logging.getLogger(__name__)
 
-def get_sample_data(request, meter_name, project_id):
-    query = [{'field':'project_id', 'op':'eq', 'value':project_id}]
-    sample_data = ceilometer.sample_list(request, meter_name, query)
-    return sample_data
-
 
 class Cloud_MonitorList(generics.ListAPIView):
     LOG.info("--------- I am cloud_monitor list in Cloud_MonitorList ----------")
@@ -53,25 +48,8 @@ class Cloud_MonitorList(generics.ListAPIView):
 	    for each in clouds:
 	        LOG.info(each.name) 
 	        LOG.info(each.id)
-	        for resource in ceilometer.resource_list(rc):
-		    if each.id == resource.resource_id:
-			LOG.info(resource.id)
-			LOG.info(resource.metadata['vcpus'])
-			LOG.info(resource.metadata['memory_mb'])
-	        LOG.info('--------sample--------------')
-		project_id = '8c5eafaeb22a425aa88384acf2eccc3e'
-		#sample_data = get_sample_data(rc, 'cpu_util', project_id)
-		sample_data = get_sample_data(rc, 'disk.read.bytes.rate', project_id)
-		#sample_data = get_sample_data(rc, 'disk.write.bytes.rate', project_id)
-		#sample_data = get_sample_data(rc, 'network.incoming.bytes.rate', project_id)
-		#sample_data = get_sample_data(rc, 'network.outcoming.bytes.rate', project_id)
-		for sample in sample_data:
-		    if sample.resource_id == each.id:
-			LOG.info(sample)
-
-	    #hypers = nova.hypervisor_stats(rc)
-	    #LOG.info(hypers.cpu_info)
-	    #meter = ceilometer
+	    hypers = nova.hypervisor_stats(rc)
+	    LOG.info(hypers.cpu_info)
 	    #for each in hypers:
 	#	LOG.info(each)
 	    #ceilometer

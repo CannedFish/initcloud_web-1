@@ -27,7 +27,7 @@ from biz.workflow.models import Step
 from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
-
+import traceback
 LOG = logging.getLogger(__name__)
 
 
@@ -36,8 +36,11 @@ class Service__BarList(generics.ListAPIView):
     queryset = Service__Bar.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
     serializer_class = Service__BarSerializer
-
-
+    def list(self, request):
+	try:
+	    LOG.info('----------- SERVICE --------------')
+	except:
+	   traceback.print_exc()
 
 @require_POST
 def create_service__bar(request):
