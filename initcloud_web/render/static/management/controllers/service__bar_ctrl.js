@@ -13,33 +13,19 @@ CloudApp.controller('Service__BarController',
 
         $scope.service__bars = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.service__bars);
-        var data1 = 
-                [
-                    {'name':'计算','error_status':0,'normal_status':1,'run_status':1,'run_time':'30 : 45 : 56'},
-                    {'name':'云盘','error_status':1,'normal_status':0,'run_status':1,'run_time':'30 : 25 : 56'},
-                    {'name':'网络','error_status':1,'normal_status':1,'run_status':0,'run_time':'30 : 25 : 56'},
-                    {'name':'身份认证','error_status':1,'normal_status':1,'run_status':1,'run_time':'30 : 25 : 56'}
-                ]
-            ;
-	var data = Service__Bar.query()
-        $scope.service__bars = data;
-	$scope.service_bar = Service__Bar.query()
-        checkboxGroup.syncObjects($scope.service__bars);
-        // $scope.service__bar_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Service__Bar.query(function(data){
-        //                 $scope.service__bars = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.service__bars);
-        //             });
-        //         }
-        //     });
+        // var data1 = 
+        //         [
+        //             {'name':'计算','error_status':0,'normal_status':1,'run_status':1,'run_time':'30 : 45 : 56'},
+        //             {'name':'云盘','error_status':1,'normal_status':0,'run_status':1,'run_time':'30 : 25 : 56'},
+        //             {'name':'网络','error_status':1,'normal_status':1,'run_status':0,'run_time':'30 : 25 : 56'},
+        //             {'name':'身份认证','error_status':1,'normal_status':1,'run_status':1,'run_time':'30 : 25 : 56'}
+        //         ]
+        //     ;
+    	Service__Bar.query(function(data){
+            $scope.service__bars = data;
 
-
-
+            checkboxGroup.syncObjects($scope.service__bars);
+        })
         var deleteService__Bars = function(ids){
 
             $ngBootbox.confirm($i18next("service__bar.confirm_delete")).then(function(){
