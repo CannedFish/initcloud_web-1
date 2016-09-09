@@ -40,7 +40,7 @@ class CPUSerializer(serializers.Serializer):
 
 class PhyMonitorServerSerializer(serializers.Serializer):
     CPU = CPUSerializer(many=True)
-    memory_voltage = serializers.ListField(child=serializers.IntegerField())
+    memory_voltage = serializers.ListField(child=serializers.FloatField())
 
 # PhyMonitorStorage
 class PhyNodeSerializer(serializers.Serializer):

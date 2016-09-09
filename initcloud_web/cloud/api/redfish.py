@@ -113,12 +113,12 @@ def get_chassis(no):
     url = settings.REDFISH_URL + '/redfish/v1/Chassis/%d' % no
     return __read_requests(url)
 
-def get_chassis_thermal(no):
-    url = settings.REDFISH_URL + '/redfish/v1/Chassis/%d/Thermal' % no
+def get_chassis_thermal(chassis_path):
+    url = settings.REDFISH_URL + '%s/Thermal' % chassis_path
     return __read_requests(url)
 
-def get_chassis_power(no):
-    url = settings.REDFISH_URL + '/redfish/v1/Chassis/%d/Power' % no
+def get_chassis_power(chassis_path):
+    url = settings.REDFISH_URL + '%s/Power' % chassis_path
     return __read_requests(url)
 
 # Systems
