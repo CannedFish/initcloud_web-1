@@ -2,42 +2,42 @@
 ul, li{list-style-type:none;} 
 /*外围包裹css*/
 .content{
-	margin:40px 40px 0 40px;
-	height:535px;
-	background:#0a122f;
-	border:1px solid #0077bc;
-	position:relative;
-	}
+    margin:40px 40px 0 40px;
+    height:535px;
+    background:#0a122f;
+    border:1px solid #0077bc;
+    position:relative;
+    }
 .content .titile{
-	position:absolute;
-	width:175px;
-	height:30px;
-	text-align:center;
-	line-height:30px;
-	font-size:16px;
-	color:#86edff;
-	background:url(../img/second/warning-img/title_bg.png) no-repeat;
-	left:10px;
-	top:-15px;
-	z-index:10;
-	font-family:"微软雅黑";
-	}
+    position:absolute;
+    width:175px;
+    height:30px;
+    text-align:center;
+    line-height:30px;
+    font-size:16px;
+    color:#86edff;
+    background:url(../img/second/warning-img/title_bg.png) no-repeat;
+    left:10px;
+    top:-15px;
+    z-index:10;
+    font-family:"微软雅黑";
+    }
 .content .content_center{
-	margin:38px 38px 0 38px;
-	}
+    margin:38px 38px 0 38px;
+    }
 /* CSS Document */
 .police_tab{
-	width:790px;
-	float:left;
-	}
+    width:790px;
+    float:left;
+    }
 .police_table{
-	width:100%;
-	font-size:14px;
-	font-family:"Microsoft YaHei";
-	border-collapse:collapse;
-	text-align:center;
-	clear:both;
-	}	
+    width:100%;
+    font-size:14px;
+    font-family:"Microsoft YaHei";
+    border-collapse:collapse;
+    text-align:center;
+    clear:both;
+    }   
 .nav-list li.sort-01{
     height: 34px;
     background: url(../img/second/warning-img/th_bg.png) repeat;
@@ -78,46 +78,46 @@ ul, li{list-style-type:none;}
      text-align:center;
 }
 .nav-list li select{
-	background:none;
-	border:none;
-	font-family:"微软雅黑";
-	font-size:14px;
-	color:#86edff;
+    background:none;
+    border:none;
+    font-family:"微软雅黑";
+    font-size:14px;
+    color:#86edff;
 
-	}
+    }
 .police_table tbody tr{
-	background:none;
-	color:#0077bc;
-	cursor:pointer;
-	height:34px;
-	}
+    background:none;
+    color:#0077bc;
+    cursor:pointer;
+    height:34px;
+    }
 .police_table tbody tr .span1{
-	color:#dd2a4a;
-	}
+    color:#dd2a4a;
+    }
 .police_table tbody tr .span2{
-	color:#c5932b;
-	}
+    color:#c5932b;
+    }
 .police_table tbody tr:hover{
-	background:#0c5f8a;
-	color:#00d8ff;
-	}
+    background:#0c5f8a;
+    color:#00d8ff;
+    }
 .police_table tbody .odd{
-	background:none;
-	color:#0077bc;
-	}
+    background:none;
+    color:#0077bc;
+    }
 .police_table  .footable-even{
-	background:url(../img/second/warning-img/td_bg.png) repeat;
-	color:#0077bc;
-	}
+    background:url(../img/second/warning-img/td_bg.png) repeat;
+    color:#0077bc;
+    }
 .police_table tbody .on{
-	background:#0c5f8a;
-	color:#00d8ff;
-	}
-	 
+    background:#0c5f8a;
+    color:#00d8ff;
+    }
+     
 .police_details{
-	float:right;
-	width:360px;
-	}
+    float:right;
+    width:360px;
+    }
     .nav-list li{float:left;}
     .footable > thead > tr > th > span.footable-sort-indicator {
     display:none !important;

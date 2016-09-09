@@ -31,23 +31,25 @@ CloudApp.controller('WarningController',
         $scope.warnings = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.warnings);
        
-        var data =[
-            {'name':'网络设备','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'1','virtual_mechine':'1','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'超微服务器','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'2','virtual_mechine':'2','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'JBDO','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'3','virtual_mechine':'3','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'存储服务器','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'4','virtual_mechine':'4','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'存储服务器','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'5','virtual_mechine':'5','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'6号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'6','virtual_mechine':'6','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'7号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'7','virtual_mechine':'7','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'8号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'8','virtual_mechine':'8','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'9号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'9','virtual_mechine':'9','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
-            {'name':'10号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'10','virtual_mechine':'10','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'}
-        ];
-        $scope.initData = data[0];//初始值
-        $scope.warnings = data; 
-        checkboxGroup.syncObjects($scope.warnings);
+        // var data =[
+        //     {'name':'网络设备','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'1','virtual_mechine':'1','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'超微服务器','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'2','virtual_mechine':'2','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'JBDO','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'3','virtual_mechine':'3','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'存储服务器','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'4','virtual_mechine':'4','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'存储服务器','warning_type':'硬件报警','warning_info':'CPU温度过高','memory_point':'5','virtual_mechine':'5','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'6号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'6','virtual_mechine':'6','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'7号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'7','virtual_mechine':'7','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'8号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'8','virtual_mechine':'8','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'9号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'9','virtual_mechine':'9','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},
+        //     {'name':'10号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'10','virtual_mechine':'10','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'}
+        // ];
+        // $scope.initData = data[0];//初始值
+        // $scope.warnings = data; 
+        // checkboxGroup.syncObjects($scope.warnings);
         Warning.query(function(data){
-            console.log(data);
+            $scope.rightbar = data[0];//初始值
+            $scope.warnings = data; 
+            checkboxGroup.syncObjects($scope.warnings);
         })
         //点击显示数据
         $scope.setDatatoLeftBar = function(item){

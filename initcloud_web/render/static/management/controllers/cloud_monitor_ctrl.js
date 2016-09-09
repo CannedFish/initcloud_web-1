@@ -197,7 +197,6 @@ CloudApp.controller('Cloud_MonitorController',
            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}}
         };
         $scope.cloud_monitors = _data;//数据
-        $scope.data_style = data_style;//数据样式 
         $scope.plot_style = plot_style;//图标样式
         // checkboxGroup.syncObjects($scope.cloud_monitors);
          // console.log($scope);
@@ -227,14 +226,44 @@ CloudApp.controller('Cloud_MonitorController',
             //显示当前页
             $("#current_page").html(" "+current_page+" ");//显示当前页
             $("#page_all").html(" "+page_num+" ");//显示总页数
-            //点击上一页
             $('#previous').click(function(){
                 var new_page = parseInt($('#current_page').text()) - 1; 
                 // alert(new_page);
                 if(new_page>0)
                 {
-                     $("#current_page").html(" "+new_page+" "); 
-                     tab_page(new_page);//切换新页
+                    $('#page_num_all li').removeClass('active');
+                    $('#page_num_all li:eq('+(new_page-1)+')').addClass('active');
+                    $("#current_page").html(" "+new_page+" "); 
+                    tab_page(new_page);//切换新页
+                }
+               return false;
+            });
+            $('#page_num_all li:eq(0)').addClass('active');
+            //点击下一页
+            $("#next").click(function(){//下一页
+                var new_page=parseInt($("#current_page").text())+1;//当前页标
+                if(new_page<=page_num){//判断是否为最后或第一页
+                    $('#page_num_all li').removeClass('active');
+                    $('#page_num_all li:eq('+$("#current_page").text()+')').addClass('active');
+                    $("#current_page").html(" "+new_page+" ");
+                    tab_page(new_page);
+                }
+            });
+            //页面跳转
+            $(".page_num").click(function(){//页标跳转
+                $('#page_num_all li').removeClass('active');
+                $(this).addClass('active');
+                var new_page=parseInt($(this).text());
+                tab_page(new_page);
+            });$('#previous').click(function(){
+                var new_page = parseInt($('#current_page').text()) - 1; 
+                // alert(new_page);
+                if(new_page>0)
+                {
+                    $('#page_num_all li').removeClass('active');
+                    $('#page_num_all li:eq('+(new_page-1)+')').addClass('active');
+                    $("#current_page").html(" "+new_page+" "); 
+                    tab_page(new_page);//切换新页
                 }
                return false;
             });
@@ -242,12 +271,16 @@ CloudApp.controller('Cloud_MonitorController',
             $("#next").click(function(){//下一页
                 var new_page=parseInt($("#current_page").text())+1;//当前页标
                 if(new_page<=page_num){//判断是否为最后或第一页
+                    $('#page_num_all li').removeClass('active');
+                    $('#page_num_all li:eq('+$("#current_page").text()+')').addClass('active');
                     $("#current_page").html(" "+new_page+" ");
-                tab_page(new_page);
+                    tab_page(new_page);
                 }
             });
             //页面跳转
             $(".page_num").click(function(){//页标跳转
+                $('#page_num_all li').removeClass('active');
+                $(this).addClass('active');
                 var new_page=parseInt($(this).text());
                 tab_page(new_page);
             });
