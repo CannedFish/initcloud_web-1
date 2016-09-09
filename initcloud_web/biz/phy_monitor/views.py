@@ -13,6 +13,7 @@ from biz.phy_monitor.serializer import CabinetSerializer,\
         PhyMonitorServerSerializer, PhyMonitorStorageSerializer
 
 import cloud.api.redfish as redfish
+import cloud.api.storage as storage
 
 LOG = logging.getLogger(__name__)
 
@@ -183,3 +184,31 @@ class PhyMonitorStorageDetail(APIView):
         }
         serializer = PhyMonitorStorageSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def __get_disk_status(self):
+        poollist = storage.get_pool_list()
+        if poollist['success']:
+            disks_used = []
+            for pool in poollist['data']:
+                for disk in pool['disks']:
+                    disks_used.append(disk['name'])
+            jbodlist = storage.get_jbod_list()
+            if jbodlist['success']:
+                disk_status = []
+                for jbod in jbodlist['data']:
+                    for slot in jbod['slotList']:
+                        if slot == 'empty':
+                            disk_status.append(-1)
+                        else:
+                            if slot in disks_used:
+                                disk_status.append(1)
+                            else:
+                                disk_status.append(0)
+                return disk_status
+            else:
+                LOG.info("Get jbod list error: %s" % jbodlist['error'])
+                return []
+        else:
+            LOG.info("Get pool list error: %s" % poollist['error'])
+            return []
+

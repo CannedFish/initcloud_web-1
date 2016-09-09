@@ -197,18 +197,26 @@ class PhyNodesList(APIView):
         if clusterlist['success']:
             nodes = []
             for server in clusterlist['data']:
-                serverstatus = storage.get_server_status(server['id'])
-                if serverstatus['success']:
-                    ss = serverstatus['data']
-                    nodes.append({
-                        'cpuUsed': round(ss['cpu'], 3)*100,
-                        'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
-                        'rx': ss['netIntfStatus'][0]['rxPer'],
-                        'tx': ss['netIntfStatus'][0]['txPer']
-                    })
+                if server['status'] == 'online':
+                    serverstatus = storage.get_server_status(server['id'])
+                    if serverstatus['success']:
+                        ss = serverstatus['data']
+                        nodes.append({
+                            'cpuUsed': round(ss['cpu'], 3)*100,
+                            'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
+                            'rx': ss['netIntfStatus'][0]['rxPer'],
+                            'tx': ss['netIntfStatus'][0]['txPer']
+                        })
+                    else:
+                        LOG.info("Get %s status error: %s" % \
+                                (server['id'], serverstatus['error']))
                 else:
-                    LOG.info("Get %s status error: %s" % \
-                            (server['id'], serverstatus['error']))
+                    nodes.append({
+                        'cpuUsed': 0.0,
+                        'memUsed': 0.0,
+                        'rx': 0.0,
+                        'tx': 0.0
+                    })
             serializer = PhyNodesSerializer(nodes, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
