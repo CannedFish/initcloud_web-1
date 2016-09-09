@@ -68,43 +68,54 @@ class Service_BarList(generics.ListAPIView):
 	    rc = create_rc_manually(request)
 	    return_data = []
             LOG.info("----------------SERVICE ------------------------")
-            nova_services = nova.service_list(rc)
-            nova_bar = get_service_status(nova_services,'nova-compute')
-            nova_bar['run_time'] = '11:11:11'
-	    nova_bar['name'] = 'nova'
-            LOG.info(nova_bar)
+	    try:
+                nova_services = nova.service_list(rc)
+                nova_bar = get_service_status(nova_services,'nova-compute')
+                nova_bar['run_time'] = '11:11:11'
+	        nova_bar['name'] = 'nova'
+                LOG.info(nova_bar)
+	    except:
+		nova_bar = {'name':'nova','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}
             LOG.info("---------------- NETWORK ----------------------")
-            run_status = 0
-            error_status = 0
-            normal_status = 0
-            neutron_services = neutron.agent_list(rc)
-            for each in neutron_services:
-                if each.binary == 'neutron-l3-agent' or each.binary =='neutron-dhcp-agent':
-                    if each.alive == True:
-                        normal_status = 1
-                    if each.admin_state == 'UP':
-                        run_status = 1
-                else:
-                    continue
-            network_bar = {'name':'network','error_status':error_status,'normal_status':normal_status,'run_status':run_status,'run_time':'22:33:44'}
-            network_services = neutron.network_list(rc)
+	    try:
+                run_status = 0
+                error_status = 0
+                normal_status = 0
+                neutron_services = neutron.agent_list(rc)
+                for each in neutron_services:
+                    if each.binary == 'neutron-l3-agent' or each.binary =='neutron-dhcp-agent':
+                        if each.alive == True:
+                            normal_status = 1
+                        if each.admin_state == 'UP':
+                            run_status = 1
+                    else:
+                        continue
+                network_bar = {'name':'network','error_status':error_status,'normal_status':normal_status,'run_status':run_status,'run_time':'22:33:44'}
+            except:
+		network_bar = {'name':'network','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}
+
+	    #network_services = neutron.network_list(rc)
 	    LOG.info("---------------- CINDER --------------------")
-            cinder_services = cinder.cinderclient(rc).services.list()
-            cinder_bar = get_service_status(cinder_services,'cinder-volume')
-            cinder_bar['run_time'] = '30:45:56'
-	    cinder_bar['name'] = 'cinder'
-            LOG.info(cinder_bar)
+	    try:
+                cinder_services = cinder.cinderclient(rc).services.list()
+                cinder_bar = get_service_status(cinder_services,'cinder-volume')
+                cinder_bar['run_time'] = '30:45:56'
+	        cinder_bar['name'] = 'cinder'
+                LOG.info(cinder_bar)
+	    except:
+		cinder_bar = {'name':'cinder','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}
+
             LOG.info("---------------- KEYSTONE --------------------")
-            keystone_services = keystone.keystoneclient(rc,True).services
+	    try:
+                keystone_services = keystone.keystoneclient(rc,True).services
             #LOG.info(keystone_services.status)
             #LOG.info(keystone_services.state)
             #LOG.info(keystone_services.disabled)
-	    try:
 	        users = keystone.user_list(rc)
 		if users is not None:
 		    keystone_bar = {'name':'keystone','error_status':0,'normal_status':1,'run_status':1,'run_time':'22:33:44'}
 	    except:
-		network_bar = {'name':'network','error_status':1,'normal_status':0,'run_status':0,'run_time':'22:33:44'}	
+		keystone_bar = {'name':'keystone','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}	
 	 #   LOG.info(users)
 	    return_data.append(nova_bar)
 	    return_data.append(cinder_bar)
