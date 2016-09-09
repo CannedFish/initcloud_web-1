@@ -16,7 +16,7 @@ def __read_requests(url):
     rsp = {}
     try:
         my_headers = {"content-type": "application/json"}
-        r = requests.get(url, headers=my_headers, auth=__AUTH)
+        r = requests.get(url, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
     except Exception, e:
         LOG.info(e)
@@ -30,7 +30,7 @@ def __update(url, data):
     rsp = {}
     try:
         my_headers = {"content-type": "application/json"}
-        r = requests.patch(url, data=data, headers=my_headers, auth=__AUTH)
+        r = requests.patch(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
     except Exception, e:
         LOG.info(e)
@@ -46,7 +46,7 @@ def __replace(url, data):
     rsp = {}
     try:
         my_headers = {"content-type": "application/json"}
-        r = requests.put(url, data=data, headers=my_headers, auth=__AUTH)
+        r = requests.put(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
     except Exception, e:
         LOG.info(e)
@@ -65,7 +65,7 @@ def __create(url, data):
     rsp = {}
     try:
         my_headers = {"content-type": "application/json"}
-        r = requests.post(url, data=data, headers=my_headers, auth=__AUTH)
+        r = requests.post(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
         rsp['header'] = r.headers
     except Exception, e:
@@ -80,7 +80,7 @@ def __actions(url, data):
     """
     rsp = {}
     try:
-        r = requests.post(url, data=data, headers=my_headers, auth=__AUTH)
+        r = requests.post(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
     except Exception, e:
         LOG.info(e)
@@ -94,11 +94,15 @@ def __delete(url):
     rsp = {}
     try:
         my_headers = {"content-type": "application/json"}
-        r = requests.delete(url, auth=__AUTH, headers=my_headers)
+        r = requests.delete(url, auth=__AUTH, headers=my_headers, verify=False)
     except Exception, e:
         LOG.info(e)
     rsp['code'] = r.status_code
     return rsp
+
+def query(dst):
+    url = settings.REDFISH_URL + dst
+    return __read_requests(url)
 
 # Chassis
 def get_chassis_list():

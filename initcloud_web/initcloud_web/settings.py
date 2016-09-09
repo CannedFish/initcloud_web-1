@@ -286,7 +286,7 @@ COMPUTE_HOSTS = {'libertyall': "192.168.223.108"}
 DEVICEPOLICY = [{"name":"usb"}]
 VLAN_ENABLED = False 
 
-REDFISH_URL = "http://221.239.81.82:18021"
+REDFISH_URL = "https://172.27.9.3"
 REDFISH_USR = "ADMIN"
 REDFISH_PSD = "ADMIN"
 
