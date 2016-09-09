@@ -2,52 +2,45 @@
  * User: arthur 
  * Date: 16-4-17
  **/
-CloudApp.controller('Virtualmechine_BarController',
+CloudApp.controller('Service_BarController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Virtualmechine_Bar, CheckboxGroup, DataCenter){
+             Service_Bar, CheckboxGroup, DataCenter){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
 
-        $scope.virtualmechine_bars = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.virtualmechine_bars);
-        var cloud_data = Virtualmechine_Bar.query()
-	var cloud_data1 ={'total_kernel':'9999','total_memory':'2234','cloud_kernel':'1045','cloud_allocat_memory':'2545',
-                'established_cloudmechine':'1098','running_cloudmechine':'2015','total_ypan':'2000','total_capacity':'4000',
-                'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200','read':'2323',
-                'write':'2243','cpu_loadbalance':'56%'
-        };
-        $scope.virtualmechine_bars = cloud_data;
-        checkboxGroup.syncObjects($scope.virtualmechine_bars);
-        // $scope.virtualmechine_bar_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Virtualmechine_Bar.query(function(data){
-        //                 $scope.virtualmechine_bars = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.virtualmechine_bars);
-        //             });
-        //         }
-        //     });
+        $scope.service_bars = [];
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.service_bars);
+
+        $scope.service_bar_table = new ngTableParams({
+                page: 1,
+                count: 10
+            },{
+                counts: [],
+                getData: function($defer, params){
+                    Service_Bar.query(function(data){
+                        $scope.service_bars = ngTableHelper.paginate(data, $defer, params);
+                        checkboxGroup.syncObjects($scope.service_bars);
+                    });
+                }
+            });
 
 
 
-        var deleteVirtualmechine_Bars = function(ids){
+        var deleteService_Bars = function(ids){
 
-            $ngBootbox.confirm($i18next("virtualmechine_bar.confirm_delete")).then(function(){
+            $ngBootbox.confirm($i18next("service_bar.confirm_delete")).then(function(){
 
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
 
-                CommonHttpService.post("/api/virtualmechine_bar/batch-delete/", {ids: ids}).then(function(data){
+                CommonHttpService.post("/api/service_bar/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        $scope.virtualmechine_bar_table.reload();
+                        $scope.service_bar_table.reload();
                         checkboxGroup.uncheck()
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -58,12 +51,12 @@ CloudApp.controller('Virtualmechine_BarController',
 
         $scope.batchDelete = function(){
 
-            deleteVirtualmechine_Bars(function(){
+            deleteService_Bars(function(){
                 var ids = [];
 
-                checkboxGroup.forEachChecked(function(Virtualmechine_Bar){
-                    if(virtualmechine_bar.checked){
-                        ids.push(virtualmechine_bar.id);
+                checkboxGroup.forEachChecked(function(Service_Bar){
+                    if(service_bar.checked){
+                        ids.push(service_bar.id);
                     }
                 });
 
@@ -71,32 +64,32 @@ CloudApp.controller('Virtualmechine_BarController',
             });
         };
 
-        $scope.delete = function(virtualmechine_bar){
-            deleteVirtualmechine_Bars([virtualmechine_bar.id]);
+        $scope.delete = function(service_bar){
+            deleteService_Bars([service_bar.id]);
         };
 
 
-        $scope.edit = function(virtualmechine_bar){
+        $scope.edit = function(service_bar){
 
             $modal.open({
                 templateUrl: 'update.html',
-                controller: 'Virtualmechine_BarUpdateController',
+                controller: 'Service_BarUpdateController',
                 backdrop: "static",
                 size: 'lg',
                 resolve: {
-                    virtualmechine_bar_table: function () {
-                        return $scope.virtualmechine_bar_table;
+                    service_bar_table: function () {
+                        return $scope.service_bar_table;
                     },
-                    virtualmechine_bar: function(){return virtualmechine_bar}
+                    service_bar: function(){return service_bar}
                 }
             });
         };
 
-        $scope.openNewVirtualmechine_BarModal = function(){
+        $scope.openNewService_BarModal = function(){
             $modal.open({
-                templateUrl: 'new-virtualmechine_bar.html',
+                templateUrl: 'new-service_bar.html',
                 backdrop: "static",
-                controller: 'NewVirtualmechine_BarController',
+                controller: 'NewService_BarController',
                 size: 'lg',
                 resolve: {
                     dataCenters: function(){
@@ -104,23 +97,23 @@ CloudApp.controller('Virtualmechine_BarController',
                     }
                 }
             }).result.then(function(){
-                $scope.virtualmechine_bar_table.reload();
+                $scope.service_bar_table.reload();
             });
         };
     })
 
 
-    .controller('NewVirtualmechine_BarController',
+    .controller('NewService_BarController',
         function($scope, $modalInstance, $i18next,
-                 CommonHttpService, ToastrService, Virtualmechine_BarForm, dataCenters){
+                 CommonHttpService, ToastrService, Service_BarForm, dataCenters){
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = Virtualmechine_BarForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = Service_BarForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
 
             $scope.dataCenters = dataCenters;
-            $scope.virtualmechine_bar = {is_resource_user: false, is_approver: false};
+            $scope.service_bar = {is_resource_user: false, is_approver: false};
             $scope.is_submitting = false;
             $scope.cancel = $modalInstance.dismiss;
             $scope.create = function(){
@@ -130,7 +123,7 @@ CloudApp.controller('Virtualmechine_BarController',
                 }
 
                 $scope.is_submitting = true;
-                CommonHttpService.post('/api/virtualmechine_bar/create/', $scope.virtualmechine_bar).then(function(result){
+                CommonHttpService.post('/api/service_bar/create/', $scope.service_bar).then(function(result){
                     if(result.success){
                         ToastrService.success(result.msg, $i18next("success"));
                         $modalInstance.close();
@@ -144,7 +137,7 @@ CloudApp.controller('Virtualmechine_BarController',
             };
         }
 
-   ).factory('Virtualmechine_BarForm', ['ValidationTool', '$i18next',
+   ).factory('Service_BarForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -152,12 +145,12 @@ CloudApp.controller('Virtualmechine_BarController',
                     var config = {
 
                         rules: {
-                            virtualmechine_barname: {
+                            service_barname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/virtualmechine_bar/is-name-unique/",
+                                    url: "/api/service_bar/is-name-unique/",
                                     data: {
-                                        virtualmechine_barname: $("#virtualmechine_barname").val()
+                                        service_barname: $("#service_barname").val()
                                     },
                                     async: false
                                 }
@@ -165,8 +158,8 @@ CloudApp.controller('Virtualmechine_BarController',
                             user_type: 'required'
                         },
                         messages: {
-                            virtualmechine_barname: {
-                                remote: $i18next('virtualmechine_bar.name_is_used')
+                            service_barname: {
+                                remote: $i18next('service_bar.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -178,18 +171,18 @@ CloudApp.controller('Virtualmechine_BarController',
                         }
                     };
 
-                    return ValidationTool.init('#virtualmechine_barForm', config);
+                    return ValidationTool.init('#service_barForm', config);
                 }
             }
-        }]).controller('Virtualmechine_BarUpdateController',
+        }]).controller('Service_BarUpdateController',
         function($rootScope, $scope, $modalInstance, $i18next,
-                 virtualmechine_bar, virtualmechine_bar_table,
-                 Virtualmechine_Bar, UserDataCenter, virtualmechine_barForm,
+                 service_bar, service_bar_table,
+                 Service_Bar, UserDataCenter, service_barForm,
                  CommonHttpService, ToastrService, ResourceTool){
 
-            $scope.virtualmechine_bar = virtualmechine_bar = angular.copy(virtualmechine_bar);
+            $scope.service_bar = service_bar = angular.copy(service_bar);
 
-            $modalInstance.rendered.then(virtualmechine_barForm.init);
+            $modalInstance.rendered.then(service_barForm.init);
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
@@ -198,21 +191,21 @@ CloudApp.controller('Virtualmechine_BarController',
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = virtualmechine_barForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = service_barForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
-            $scope.submit = function(virtualmechine_bar){
+            $scope.submit = function(service_bar){
 
-                if(!$("#Virtualmechine_BarForm").validate().form()){
+                if(!$("#Service_BarForm").validate().form()){
                     return;
                 }
 
-                virtualmechine_bar = ResourceTool.copy_only_data(virtualmechine_bar);
+                service_bar = ResourceTool.copy_only_data(service_bar);
 
 
-                CommonHttpService.post("/api/virtualmechine_bar/update/", virtualmechine_bar).then(function(data){
+                CommonHttpService.post("/api/service_bar/update/", service_bar).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        virtualmechine_bar_table.reload();
+                        service_bar_table.reload();
                         $modalInstance.dismiss();
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -220,7 +213,7 @@ CloudApp.controller('Virtualmechine_BarController',
                 });
             };
         }
-   ).factory('virtualmechine_barForm', ['ValidationTool', '$i18next',
+   ).factory('service_barForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -228,12 +221,12 @@ CloudApp.controller('Virtualmechine_BarController',
                     var config = {
 
                         rules: {
-                            virtualmechine_barname: {
+                            service_barname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/virtualmechine_bar/is-name-unique/",
+                                    url: "/api/service_bar/is-name-unique/",
                                     data: {
-                                        virtualmechine_barname: $("#virtualmechine_barname").val()
+                                        service_barname: $("#service_barname").val()
                                     },
                                     async: false
                                 }
@@ -241,8 +234,8 @@ CloudApp.controller('Virtualmechine_BarController',
                             user_type: 'required'
                         },
                         messages: {
-                            virtualmechine_barname: {
-                                remote: $i18next('virtualmechine_bar.name_is_used')
+                            service_barname: {
+                                remote: $i18next('service_bar.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -254,7 +247,7 @@ CloudApp.controller('Virtualmechine_BarController',
                         }
                     };
 
-                    return ValidationTool.init('#Virtualmechine_BarForm', config);
+                    return ValidationTool.init('#Service_BarForm', config);
                 }
             }
         }]);

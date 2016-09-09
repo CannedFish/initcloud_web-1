@@ -70,6 +70,9 @@ INSTALLED_APPS = [
     'biz.network_bar_sdn',
     'biz.network_bar_net',
     'biz.network_bar_loadbanlance',
+    'biz.cloud_monitor',
+    'biz.virtualmechine_bar',
+    'biz.service_bar',
 
 ]
 

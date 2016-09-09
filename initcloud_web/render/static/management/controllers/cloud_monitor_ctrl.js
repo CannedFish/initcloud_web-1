@@ -13,7 +13,7 @@ CloudApp.controller('Cloud_MonitorController',
         });
        
         $scope.cloud_monitors = [];
-        //
+        $scope.data1 = Cloud_Monitor.query()
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cloud_monitors);
         //初始化数据
         var _data = {
