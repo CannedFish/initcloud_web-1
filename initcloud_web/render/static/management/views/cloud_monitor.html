@@ -1,29 +1,37 @@
 <link rel="stylesheet" type="text/css" href="../static/assets/admin/layout/css/cloud-monitor.css">
+<style>
+    .cc2{color:#BB9209;}
+    .cc3{color:#500696;}
+    .cc4{color:#01C8ED;}
+    .cc5{color:#3CB059;}
+    .cc6{color:#B1AB3A;}
+    .cc7{color:#AD0482;}
+</style>
 <div class="main" ng-controller="Cloud_MonitorController">
   <div class="title"><span class="tx">云主机监控</span></div>
   <div class="nav">
     <div class="fl col-md-2 lselect">
         <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_03.png" alt=""></span>
-      <select  ng-model="selected_1" class="filter-status" ng-change="sel()" >
-        <option value="">物理主机 (默认) </option>
-        <option value="oa4.surdoc.com">oa4.surdoc.com</option>
-        <option value="oa2.surdoc.com">oa2.surdoc.com</option>
-      </select>
+        <select  ng-model="selected_1" class="filter-status" ng-change="sel()" >
+            <option value="">物理主机 (默认) </option>
+            <option value="oa4.surdoc.com">oa4.surdoc.com</option>
+            <option value="oa2.surdoc.com">oa2.surdoc.com</option>
+        </select>
     </div>
     <div class="fl col-md-2 lselect">
         <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_04.png" alt=""></span>
-      <select ng-model="selected_2" class="filter-status"  ng-change="sel()">
-        <option value="">24小时内 (默认) </option>
-        <option value="一周内">一周内 </option>
-        <option value="一个月内">一个月内</option>
-        <option value="一小时内">一小时内</option>
-      </select>
+        <select ng-model="selected_2" class="filter-status"  ng-change="sel()">
+            <option value="">24小时内 (默认) </option>
+            <option value="一周内">一周内 </option>
+            <option value="一个月内">一个月内</option>
+            <option value="一小时内">一小时内</option>
+        </select>
     </div>
     <div class="fr col-md-5">
       <div class="fr rlist">
         <span class="sort">
           <!-- <img src="../static/assets/admin/layout/img/common/stico_03.png" alt=""> -->
-          排序:
+        排序:
         </span>
         <span class="items">
           <a href="">主机名称</a>
@@ -51,30 +59,67 @@
                   <!-- 引入折线图 -->
                     <div class="box-nav">
                         <span class="lt">{[{item.type}]}</span>
-                        <span class="rt">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s">{[{item.param_02[1]}]}</small>
+                        <span class="rt" ng-if="(key2 == 0)">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s cc2" ng-if="(key2 == 0)">{[{item.param_02[1]}]}</small>
+                        </span>
+                        <span class="rt cc3" ng-if="(key2 == 1)">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s " ng-if="(key2 == 1)">{[{item.param_02[1]}]}</small>
+                        </span>
+                        <span class="rt cc4" ng-if="(key2 == 2)">读{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s cc5" ng-if="(key2 == 2)">写{[{item.param_02[1]}]}</small>
+                        </span>
+                        <span class="rt cc6" ng-if="(key2 == 3)">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s cc7" ng-if="(key2 == 3)">{[{item.param_02[1]}]}</small>
                         </span>
                     </div>
-                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="((key2 == 0)||(key2 == 1))" ui-options="
-                          [
-                            {[{item.data}]}
+                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 0)" ui-options="
+                          [ {
+                                data:{[{item.data}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#BB9209'
+                            }
                           ], 
                           {[{plot_style}]}
                           ">
-                    </div>  
+                    </div>
+                     <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 1)" ui-options="
+                          [ {
+                                data:{[{item.data}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#500696'
+                            }
+                          ], 
+                          {[{plot_style}]}
+                          ">
+                    </div>    
                     <!-- 云盘 -->
                     <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 2)"  ui-options="
-                          [
-                            {[{item.data[0].read_data}]},
-                            {[{item.data[1].write_data}]}
+                          [{
+                            data:{[{item.data[0].read_data}]},
+                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                            color:'#01C8ED'
+                          },{
+                            data: {[{item.data[1].write_data}]},
+                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                            color:'#3CB059'
+                          }
                           ], 
                           {[{plot_style}]}
                           ">
                     </div>
                     <!-- 网络 -->
                     <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 3)"  ui-options="
-                          [
-                            {[{item.data[0].ADSL_UP_DATA}]},
-                            {[{item.data[1].ADSL_DOWN_DATA}]}
+                          [{
+                            data:{[{item.data[0].ADSL_UP_DATA}]},
+                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                            color:'#B1AB3A'
+                          },{
+                            data:{[{item.data[1].ADSL_DOWN_DATA}]},
+                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                            color:'#AD0482'
+                          }
                           ], 
                           {[{plot_style}]}
                           ">
@@ -89,9 +134,19 @@
   <!--便利结束  -->
 
   </div>
+   <style type="text/css">
+    .pagination .con{height:100%;width:100%;text-align:center;margin-left:15px;}
+    .page_num.active{
+        background:#0077bc;
+        color:#fff;
+        
+    }
+    .page_num.active a:hover{color:#fff;}
+    .page_num.active a{background:transparent !important; color:#fff;}
+  </style>
   <!-- 分页 -->
     <div class="pagination">
-        <ul style="float:right">
+        <ul class="con">
             <li id="previous_li"><a id="previous" href="javasctip:(0)">上一页</a></li>
             <li class="page_list"><!--用于页标的显示 -->
                 <ul id="page_num_all">

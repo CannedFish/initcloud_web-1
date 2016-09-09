@@ -29,7 +29,7 @@ CloudApp.controller('Phy_NodesController',
         // ];   
         // $scope.phy_nodess = nodes;
         // checkboxGroup.syncObjects($scope.phy_nodess);
-        Phy_Nodes.query(function(data){
+        Phy_Nodes.get(function(data){
             $scope.phy_nodess = data;
             checkboxGroup.syncObjects($scope.phy_nodess);
         });

@@ -5,7 +5,7 @@
 <div class="lb-wrap fl" >
              <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon3.png"><span>存储监控</span></div> 
              <div class="ccjkbox list" style="margin-left: -15px;margin-top: -5px;">
-                <ul class="pl0 clearfix" ng-if="storage__bars.success">
+                <ul class="pl0 clearfix">
                     <li class="item w25 fl ">
                         <div class="lt">
                             <img src="../static/assets/admin/layout/img/common/cuico_07.png">
@@ -55,13 +55,8 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="pl0 clearfix" ng-if="!storage__bars.success">
-                    <li style="color:#ff0000;font-size:12px;">
-                       {[{storage__bars.msg}]}
-                    </li>
-                </ul>
                 <div class="inner-box" ng-controller="Phy_NodesController">
-                    <div class="hp45 fl" ng-if="phy_nodess.success" ng-repeat="node in phy_nodess">
+                    <div class="hp45 fl" ng-if="phy_nodess.success == true" ng-repeat="node in phy_nodess">
                         <div class="boxwrap_01" >
                             <div class="fl node" ng-if="$index==0">节点一</div>
                             <div class="fl node" ng-if="$index==1">节点二</div>
@@ -81,8 +76,8 @@
                             <!-- 控制进度条的显示 -->
                         </div>
                     </div>
-                    <div class="hp45 fl" ng-if="!phy_nodess.success">
-                        <li style="color:#ff0000;font-size:12px;margin-top:50px;text-align:center;">
+                    <div class="hp45 fl" ng-if="phy_nodess.success == false">
+                        <li style="color:#ff0000;font-size:12px;margin-top:10px;">
                            {[{phy_nodess.msg}]}
                         </li>
                     </div>
