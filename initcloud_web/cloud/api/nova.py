@@ -112,6 +112,9 @@ class Server(base.APIResourceWrapper):
                 return "-"
 
     @property
+    def host_name(self):
+        return getattr(self, 'OS-EXT-SRV-ATTR:host', "")
+    @property
     def internal_name(self):
         return getattr(self, 'OS-EXT-SRV-ATTR:instance_name', "")
 
