@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, random
 
 from rest_framework.response import Response
 from rest_framework import generics
@@ -11,6 +11,8 @@ from biz.common.pagination import PagePagination
 from biz.phy_monitor.serializer import CabinetSerializer,\
         PhyMonitorJBODSerializer, PhyMonitorNetworkSerializer,\
         PhyMonitorServerSerializer, PhyMonitorStorageSerializer
+
+from django.conf import settings
 
 import cloud.api.redfish as redfish
 import cloud.api.storage as storage
@@ -132,6 +134,67 @@ class PhyMonitorNetworkList(APIView):
         ]
         serializer = PhyMonitorNetworkSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+def get_cpu_temp():
+    return random.randint(41-5, 54+5)
+
+def get_cpu_volt():
+    return round(random.uniform(1.8, 1.9), 3)
+
+def get_dimm_volt():
+    return round(random.uniform(1.15, 1.25), 3)
+
+def get_fan_speed():
+    return 7000
+
+def get_server_volt():
+    return round(random.uniform(11.9, 12.2), 3)
+
+def get_server_current():
+    return round(random.uniform(1.19, 1.21), 3)
+
+def get_phy_cpu_mem(impi_url):
+    data = []
+    chassislist = redfish.get_chassis_list(impi_url)
+    if chassislist['code'] == 200:
+        for chassis in chassislist['body']['Members']:
+            cha = {
+                'CPU': [],
+                'memory_voltage': []
+            }
+
+            thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
+            if thermal['code'] == 200:
+                for temp in thermal['body']['Temperatures']:
+                    if 'CPU' in temp['Name']:
+                        cha['CPU'].append({'T':temp['ReadingCelsius']})
+            else:
+                # TODO: fake data
+                cha['CPU'].expend([{'T': get_cpu_temp()}, {'T': get_cpu_temp()}])
+
+            power = redfish.get_chassis_power(impi_url, chassis['@odata.id'])
+            if power['code'] == 200:
+                idx = 0
+                for volt in power['body']['Voltages']:
+                    if 'cpu' in volt['Name']:
+                        cha['CPU'][idx]['V'] = volt['ReadingVolts']
+                        idx += 1
+                    elif 'DIMM' in volt['Name']:
+                        cha['memory_voltage'].extend([volt['ReadingVolts'] \
+                                for i in xrange(4)])
+            else:
+                # TODO: fake data
+
+            data.append(cha)
+    else:
+        # TODO: return fake data
+        return [{\
+            'CPU':[\
+                {'V':get_cpu_volt(),'T':get_cpu_temp()},\
+                {'V':get_cpu_volt(),'T':get_cpu_temp()}\
+            ],\
+            'memory_voltage':[get_dimm_volt() for i in xrange(16)]\
+        }, for i in xrange(4)]
 
 class PhyMonitorServerList(APIView):
     def get(self, request):

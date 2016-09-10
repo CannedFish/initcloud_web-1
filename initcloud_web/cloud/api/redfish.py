@@ -100,100 +100,100 @@ def __delete(url):
     rsp['code'] = r.status_code
     return rsp
 
-def query(dst):
-    url = settings.REDFISH_URL + dst
+def query(r_url, dst):
+    url = r_url + dst
     return __read_requests(url)
 
 # Chassis
-def get_chassis_list():
-    url = settings.REDFISH_URL + '/redfish/v1/Chassis'
+def get_chassis_list(r_url):
+    url = r_url + '/redfish/v1/Chassis'
     return __read_requests(url)
 
-def get_chassis(no):
-    url = settings.REDFISH_URL + '/redfish/v1/Chassis/%d' % no
+def get_chassis(r_url, no):
+    url = r_url + '/redfish/v1/Chassis/%d' % no
     return __read_requests(url)
 
-def get_chassis_thermal(chassis_path):
-    url = settings.REDFISH_URL + '%s/Thermal' % chassis_path
+def get_chassis_thermal(r_url, chassis_path):
+    url = r_url + '%s/Thermal' % chassis_path
     return __read_requests(url)
 
-def get_chassis_power(chassis_path):
-    url = settings.REDFISH_URL + '%s/Power' % chassis_path
+def get_chassis_power(r_url, chassis_path):
+    url = r_url + '%s/Power' % chassis_path
     return __read_requests(url)
 
 # Systems
-def get_systems_list():
-    url = settings.REDFISH_URL + '/redfish/v1/Systems'
+def get_systems_list(r_url):
+    url = r_url + '/redfish/v1/Systems'
     return __read_requests(url)
 
-def get_systems(no):
-    url = settings.REDFISH_URL + '/redfish/v1/Systems/%d' % no
+def get_systems(r_url, no):
+    url = r_url + '/redfish/v1/Systems/%d' % no
     return __read_requests(url)
 
-def get_systems_processors(sys_no, pro_no):
-    url = settings.REDFISH_URL + '/redfish/v1/Systems/%d/Processors/%d' % (sys_no, pro_no)
+def get_systems_processors(r_url, sys_no, pro_no):
+    url = r_url + '/redfish/v1/Systems/%d/Processors/%d' % (sys_no, pro_no)
     return __read_requests(url)
 
-def get_systems_simplestorage(no):
-    url = settings.REDFISH_URL + '/redfish/v1/Systems/%d/SimpleStorage' % no
+def get_systems_simplestorage(r_url, no):
+    url = r_url + '/redfish/v1/Systems/%d/SimpleStorage' % no
     return __read_requests(url)
 
-def get_systems_ethernetinterfaces(sys_no, eth_no):
-    url = settings.REDFISH_URL + '/redfish/v1/Systems/%d/EthernetInterfaces/%d' % (sys_no, eth_no)
+def get_systems_ethernetinterfaces(r_url, sys_no, eth_no):
+    url = r_url + '/redfish/v1/Systems/%d/EthernetInterfaces/%d' % (sys_no, eth_no)
     return __read_requests(url)
 
 # SessionService
-def create_session():
+def create_session(r_url):
     """
     OK to return 201
     token and session ID
     """
-    url = settings.REDFISH_URL + '/redfish/v1/SeesionService/Sessions/'
+    url = r_url + '/redfish/v1/SeesionService/Sessions/'
     data = {
         "UserName": settings.REDFISH_USR,
         "Password": settings.REDFISH_PSD
     }
     return __create(url, json.dumps(data))
 
-def delete_session(s_id):
+def delete_session(r_url, s_id):
     """
     OK to return 200
     """
-    url = settings.REDFISH_URL + '/redfish/v1/SeesionService/Sessions/%d' % s_id
+    url = r_url + '/redfish/v1/SeesionService/Sessions/%d' % s_id
     return __delete(url)
 
-def config_session(data):
+def config_session(r_url, data):
     """
     OK to return 200
     ::data:: json object
     """
-    url = settings.REDFISH_URL + '/redfish/v1/SessionService/'
+    url = r_url + '/redfish/v1/SessionService/'
     return __update(url, json.dumps(data))
 
 # EventService
-def get_eventservices():
-    url = settings.REDFISH_URL + '/redfish/v1/EventService/'
-    return __read_requests(url)
+def get_eventservices(r_url):
+    url = r_url + '/redfish/v1/EventService/'
+    return __read_requests(r_url, url)
 
-def subscribe_event(data):
+def subscribe_event(r_url, data):
     """
     ::data:: event description object
     """
-    url = settings.REDFISH_URL + '/redfish/v1/EventService/Subscriptions/'
+    url = r_url + '/redfish/v1/EventService/Subscriptions/'
     return __create(url, json.dumps(data))
 
-def get_subscriptions():
-    url = settings.REDFISH_URL + '/redfish/v1/EventService/Subscriptions/'
+def get_subscriptions(r_url):
+    url = r_url + '/redfish/v1/EventService/Subscriptions/'
     return __read_requests(url)
 
-def delete_subscription(e_id):
-    url = settings.REDFISH_URL + '/redfish/v1/EventService/Subscriptions/%d' % e_id
+def delete_subscription(r_url, e_id):
+    url = r_url + '/redfish/v1/EventService/Subscriptions/%d' % e_id
     return __delete(url)
 
-def send_test_event(data):
+def send_test_event(r_url, data):
     """
     ::data:: like {"EventType":"Alert"}
     """
-    url = settings.REDFISH_URL + '/redfish/v1/EventService/Actions/EventService.SendTestEvent'
+    url = r_url + '/redfish/v1/EventService/Actions/EventService.SendTestEvent'
     return __actions(url, json.dumps(data))
 
