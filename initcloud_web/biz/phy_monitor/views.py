@@ -154,94 +154,77 @@ def get_server_current():
     return round(random.uniform(1.19, 1.21), 3)
 
 def get_phy_cpu_mem(impi_url):
-    data = []
     chassislist = redfish.get_chassis_list(impi_url)
     if chassislist['code'] == 200:
-        for chassis in chassislist['body']['Members']:
-            cha = {
-                'CPU': [],
-                'memory_voltage': []
-            }
+        chassis = chassislist['body']['Members'][0]
+        cha = {
+            'CPU': [],
+            'memory_voltage': []
+        }
 
-            thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
-            if thermal['code'] == 200:
-                for temp in thermal['body']['Temperatures']:
-                    if 'CPU' in temp['Name']:
-                        cha['CPU'].append({'T':temp['ReadingCelsius']})
-            else:
-                # TODO: fake data
-                cha['CPU'].expend([{'T': get_cpu_temp()}, {'T': get_cpu_temp()}])
+        thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
+        if thermal['code'] == 200:
+            for temp in thermal['body']['Temperatures']:
+                if 'CPU' in temp['Name']:
+                    cha['CPU'].append({'T':temp['ReadingCelsius']})
+        else:
+            # fake data
+            cha['CPU'].expend([{'T': get_cpu_temp()}, {'T': get_cpu_temp()}])
 
-            power = redfish.get_chassis_power(impi_url, chassis['@odata.id'])
-            if power['code'] == 200:
-                idx = 0
-                for volt in power['body']['Voltages']:
-                    if 'cpu' in volt['Name']:
-                        cha['CPU'][idx]['V'] = volt['ReadingVolts']
-                        idx += 1
-                    elif 'DIMM' in volt['Name']:
-                        cha['memory_voltage'].extend([volt['ReadingVolts'] \
-                                for i in xrange(4)])
-            else:
-                # TODO: fake data
+        power = redfish.get_chassis_power(impi_url, chassis['@odata.id'])
+        if power['code'] == 200:
+            idx = 0
+            for volt in power['body']['Voltages']:
+                if 'cpu' in volt['Name']:
+                    cha['CPU'][idx]['V'] = volt['ReadingVolts']
+                    idx += 1
+                elif 'DIMM' in volt['Name']:
+                    cha['memory_voltage'].extend([volt['ReadingVolts'] \
+                            for i in xrange(4)])
+        else:
+            # fake data
+            cha['CPU'][0]['V'] = get_cpu_volt()
+            cha['CPU'][1]['V'] = get_cpu_volt()
+            cha['memory_voltage'] = [get_dimm_volt() for i in xrange(16)]\
 
-            data.append(cha)
+        return cha
     else:
-        # TODO: return fake data
-        return [{\
-            'CPU':[\
-                {'V':get_cpu_volt(),'T':get_cpu_temp()},\
-                {'V':get_cpu_volt(),'T':get_cpu_temp()}\
-            ],\
-            'memory_voltage':[get_dimm_volt() for i in xrange(16)]\
-        }, for i in xrange(4)]
+        # return fake data
+        return {
+            'CPU': [
+                {'V':get_cpu_volt(),'T':get_cpu_temp()},
+                {'V':get_cpu_volt(),'T':get_cpu_temp()}
+            ],
+            'memory_voltage': [get_dimm_volt() for i in xrange(16)]
+        }
+
+PHY_URLs = settings['phy_server']
 
 class PhyMonitorServerList(APIView):
     def get(self, request):
         data = [
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # },
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # },
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # },
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # }
+            {
+                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            },
+            {
+                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            },
+            {
+                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            },
+            {
+                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            }
         ]
-        chassislist = redfish.get_chassis_list()
-        if chassislist['code'] == 200:
-            for chassis in chassislist['body']['Members']:
-                cha = {
-                    'CPU': [],
-                    'memory_voltage': []
-                }
-                thermal = redfish.get_chassis_thermal(chassis['@odata.id'])
-                if thermal['code'] == 200:
-                    for temp in thermal['body']['Temperatures']:
-                        if 'CPU' in temp['Name']:
-                            cha['CPU'].append({'T':temp['ReadingCelsius']})
-                power = redfish.get_chassis_power(chassis['@odata.id'])
-                if power['code'] == 200:
-                    idx = 0
-                    for volt in power['body']['Voltages']:
-                        if 'cpu' in volt['Name']:
-                            cha['CPU'][idx]['V'] = volt['ReadingVolts']
-                            idx += 1
-                        elif 'DIMM' in volt['Name']:
-                            cha['memory_voltage'].extend([volt['ReadingVolts'] \
-                                    for i in xrange(4)])
-                data.append(cha)
-        else:
-            return Response('Fail to get chassis list', \
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # if chassislist['code'] == 200:
+            
+        # else:
+            # return Response('Fail to get chassis list', \
+                    # status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         serializer = PhyMonitorServerSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -250,16 +233,16 @@ class PhyMonitorStorageDetail(APIView):
         data = {
             'nodes':[
                 {
-                'id':1,
-                'cpu1':[80,70],
-                'cpu2':[60,90],
-                'memory_voltage':[10,12,12,12,12,11,11,11,11,11,12,10,10,11,10,13]
+                    'id':1,
+                    'cpu1':[80,70],
+                    'cpu2':[60,90],
+                    'memory_voltage':[10,12,12,12,12,11,11,11,11,11,12,10,10,11,10,13]
                 },
                 {
-                'id':1,
-                'cpu1':[88,60],
-                'cpu2':[90,100],
-                'memory_voltage':[14,11,13,12,12,11,11,11,11,11,12,10,10,11,10,13]
+                    'id':1,
+                    'cpu1':[88,60],
+                    'cpu2':[90,100],
+                    'memory_voltage':[14,11,13,12,12,11,11,11,11,11,12,10,10,11,10,13]
                 }
             ],
             'disk':[

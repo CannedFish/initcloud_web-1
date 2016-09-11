@@ -287,7 +287,10 @@ DEVICEPOLICY = [{"name":"usb"}]
 VLAN_ENABLED = False 
 
 REDFISH_URL = {
-    'phy_server': ["https://172.27.9.2", "https://172.27.9.3", "https://172.27.9.4", "https://172.27.9.5"],
+    'phy_server': [
+        ["https://172.27.9.2", "https://172.27.9.3", "https://172.27.9.4", "https://172.27.9.5"],
+        ["https://172.27.9.2", "https://172.27.9.3", "https://172.27.9.4", "https://172.27.9.5"]
+    ],
     'storage_server': ["https://172.27.9.6", "https://172.27.9.7"]
 }
 REDFISH_USR = "ADMIN"
