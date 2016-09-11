@@ -16,6 +16,7 @@ CloudApp.controller('Cloud_MonitorController',
         //
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cloud_monitors);
         //初始化数据
+        var testdata = Cloud_Monitor.query()
         var _data = {
                 'test2': {
                     'network_data': {
@@ -1641,7 +1642,6 @@ CloudApp.controller('Cloud_MonitorController',
            urlParamsTrnasfer.set(id);
            // console.log(urlParamsTrnasfer)
            window.location.href = "#/cloud_monitor_detail/"
-
         }
         $scope.cloud_monitors = _data;//数据
         //设置默认值 (物理主机/24小时内)

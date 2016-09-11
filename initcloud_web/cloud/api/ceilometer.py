@@ -299,6 +299,11 @@ def resource_list(request, query=None, ceilometer_usage_object=None):
         resources.list(q=query)
     return [Resource(r, ceilometer_usage_object) for r in resources]
 
+def resource_get(request, resource_id, ceilometer_usage_object=None):
+    resource = ceilometerclient(request).\
+        resources.get(resource_id = resource_id)
+    return Resource(resource, ceilometer_usage_object)
+
 
 def sample_list(request, meter_name, query=None, limit=None):
     """List the samples for this meters."""

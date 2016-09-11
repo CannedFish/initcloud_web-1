@@ -82,8 +82,7 @@ urlpatterns += [
 
 #cloud_monitor_detail
 urlpatterns += [
-    #url(r'^cloud_monitor_detail/$', cloud_monitor_detail_view.Cloud_Monitor_DetailList.as_view()),
-    url(r'^cloud_monitor_detail/$', cloud_monitor_detail_view.get_detail),
+    url(r'^cloud_monitor_detail/$', cloud_monitor_detail_view.Cloud_Monitor_DetailList.as_view()),
 ]
 
 
