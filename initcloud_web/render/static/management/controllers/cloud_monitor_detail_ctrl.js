@@ -5,7 +5,7 @@
 CloudApp.controller('Cloud_Monitor_DetailController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Cloud_Monitor_Detail, CheckboxGroup, DataCenter,urlParamsTrnasfer){
+             Cloud_Monitor_Detail, CheckboxGroup, DataCenter,urlParamsTrnasfer,cloud_id){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -27,7 +27,9 @@ CloudApp.controller('Cloud_Monitor_DetailController',
         //         }
         //     });
         //接搜id 查找数据
-        var id = urlParamsTrnasfer.get();
+        $scope.cloud_id = urlParamsTrnasfer.get();
+	$scope.cloud_id2 = cloud_id;
+	$scope.data1 = Cloud_Monitor_Detail.query({'cloud_id':$scope.cloud_id2})
         // var data = 
         //     {
         //         'id':1,

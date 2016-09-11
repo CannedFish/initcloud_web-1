@@ -216,7 +216,7 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
             })
             // // 云主机监控-二级
             .state("cloud_monitor_detail", {
-                url: "/cloud_monitor_detail/",
+                url: "/cloud_monitor_detail/:cloud_id",
                 templateUrl: template('cloud_monitor_detail'),
                 controller:"Cloud_Monitor_DetailController",
                 resolve: {
@@ -230,7 +230,10 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                                 '../static/assets/global/plugins/footable/footable.core.css'
                             ]
                         });
-                    }]
+                    }],
+		cloud_id: function($stateParams){
+		    return $stateParams.cloud_id;
+		    }
                 }
             })
             //网络监控
