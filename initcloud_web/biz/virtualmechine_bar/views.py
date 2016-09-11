@@ -52,6 +52,10 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    cloud_allocat_mem = 0
 	    cloud_kernel = 0
 	    total_ypan = 0
+	    try:
+		total_ypan = len(pan)
+	    except:
+		total_ypan = 0
 	    for each in cm:
 		if each.status == 'ACTIVE':
 		    running_cm = running_cm + 1

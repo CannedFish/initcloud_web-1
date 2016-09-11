@@ -47,7 +47,8 @@
   <div class="row content">
   <!--便利开始  (第一层)-->
     <div class="col-md-2 pageitem" ng-repeat="(key,list) in cloud_monitors" on-finish-render-filters>
-        <a href="#/cloud_monitor_detail/" ng-click="transfer(list.cloud_id)"> <!-- 跳转二级界面 -->
+        <!--<a href="#/cloud_monitor_detail/{[{list.cloud_id}]}" ng-click="transfer(list.cloud_id)"> <!-- 跳转二级界面 -->  -->
+        <a href="#/cloud_monitor_detail/{[{list.cloud_id}]}"> <!-- 跳转二级界面 -->
             <div class="list" >
                 <div>
                     <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">

@@ -31,6 +31,7 @@ from cloud.api import ceilometer
 from cloud.api import nova
 from cloud.cloud_utils import create_rc_manually
 import traceback
+import time
 LOG = logging.getLogger(__name__)
 
 def get_sample_data(request, meter_name, resource_id, project_id = None):
@@ -68,13 +69,25 @@ class Cloud_MonitorList(generics.ListAPIView):
 	    LOG.info('------- CLOUD MONITOR ---------')
 	    rc = create_rc_manually(request)
 	    clouds = nova.server_list(rc, all_tenants = True)[0]
+	    LOG.info(clouds)
 	    return_data = {}
 	    for each in clouds:
-		LOG.info(each.host_name)
-		LOG.info(each.id)
+		#LOG.info(each.host_name)
+		#LOG.info(each.id)
 		cloud_data = {}
 		cloud_data['host'] = each.host_name
 		cloud_data['cloud_id'] = each.id
+		create_time = time.mktime(time.strptime(each.created,"%Y-%m-%dT%H:%M:%SZ")) 
+		now_time = time.time()
+		running_time = int(now_time - create_time)
+		h = running_time/3600
+		m = (running_time%3600)/60
+		s = running_time%60
+		run_time = str(h)+':'+str(m)+':'+str(s)
+		cloud_data['run_time'] = run_time 
+		#seconds = running_time.seconds
+		#LOG.info('running seconds is ' + str(seconds))
+		#LOG.info('running time is ' + str(running_time.seconds + (delta.days * 24 * 3600)))
 		cpu_data = {'type':'CPU'}
 		memory_data = {'type':'memory'}
 		disk_data = {'type':'disk'}
@@ -82,13 +95,10 @@ class Cloud_MonitorList(generics.ListAPIView):
 		try:
 	            for resource in ceilometer.resource_list(rc):
 		        if each.id == resource.resource_id:
-			    LOG.info(resource.id)
-			    LOG.info(resource.metadata['vcpus'])
 			    vcpus = resource.metadata['vcpus']
-			    LOG.info(resource.metadata['memory_mb'])
 			    memory = resource.metadata['memory_mb']
 		    cpu_data['param_01'] = ['kernal_nums',vcpus]
-		    cpu_data['param_02'] = ['frequency','3.4Chz']
+		    cpu_data['param_02'] = ['frequency',settings.CPU_FREQUENCY]
 		    memory_data['param_01'] = ['memory_size',memory]
 		    #type = {'CPU':'cpu_util','disk':['disk.read.bytes.rate','disk.write.bytes.rate'],'network':['network.incoming.bytes.rate','network.outgoing.bytes.rate']}
 		    LOG.info('------------- CPU -------------------')
@@ -127,7 +137,6 @@ class Cloud_MonitorList(generics.ListAPIView):
                     disk_data['param_01'].append({'hour':['read_total',avg_hour]})
                     disk_data['param_01'].append({'day':['read_total',avg_day]})
 		    LOG.info('------------- READ -----------------')
-		    LOG.info(disk_data['hour_data'])
 		#---------------------- write --------------	
 		    hour_data, day_data = get_sample_data(rc, 'disk.write.bytes.rate', each.id)
                     disk_data['hour_data'].append({'write_data':hour_data})
@@ -143,7 +152,6 @@ class Cloud_MonitorList(generics.ListAPIView):
 		    disk_data['param_02'].append({'hour':['write_total',avg_hour]})
                     disk_data['param_02'].append({'day':['write_total',avg_day]})
 		    LOG.info('------------- WRITE -----------------')
-		    LOG.info(disk_data['hour_data'])
 
                     cloud_data['disk_data'] = disk_data
 		except:
@@ -188,10 +196,7 @@ class Cloud_MonitorList(generics.ListAPIView):
 		except:
 		    cloud_data['network_data'] = {'hour_data': [{'ADSL_UP_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}, {'ADSL_DOWN_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}], 'param_02': [{'hour': ['ADSL_DOWN', 0]}, {'day': ['ADSL_DOWN', 0]}], 'type': 'network', 'day_data': [{'ADSL_UP_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}, {'ADSL_DOWN_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}], 'param_01': [{'hour': ['ADSL_UP', 0]}, {'day': ['ADSL_UP', 0]}]}
 		    pass
-		LOG.info(cloud_data)
-
 		return_data[each.name] = cloud_data
-	    LOG.info(return_data)
 	    return Response(return_data)
 		#LOG.info(return_data)
 		#sample_data = get_sample_data(rc, 'disk.read.bytes.rate', project_id)
