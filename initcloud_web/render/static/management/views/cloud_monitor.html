@@ -11,7 +11,7 @@
   <div class="title"><span class="tx">云主机监控</span></div>
   <div class="nav">
     <div class="fl col-md-2 lselect">
-        <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_03.png" alt=""></span>
+        <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_03.png" style="margin-bottom:6px;"></span>
         <select  ng-model="selected_1" class="filter-status" ng-change="sel()" >
             <option value="">物理主机 (默认) </option>
             <option value="oa4.surdoc.com">oa4.surdoc.com</option>
@@ -19,12 +19,12 @@
         </select>
     </div>
     <div class="fl col-md-2 lselect">
-        <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_04.png" alt=""></span>
-        <select ng-model="selected_2" class="filter-status"  ng-change="sel()">
+        <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_04.png" style="margin-bottom:6px;"></span>
+        <select ng-model="selected_2" class="filter-status"  ng-change="setTimeRange()">
             <option value="">24小时内 (默认) </option>
-            <option value="一周内">一周内 </option>
-            <option value="一个月内">一个月内</option>
-            <option value="一小时内">一小时内</option>
+            <option value="1">一周内</option>
+            <option value="2">一个月内</option>
+            <option value="3">一小时内</option>
         </select>
     </div>
     <div class="fr col-md-5">
@@ -36,7 +36,7 @@
         <span class="items">
           <a href="">主机名称</a>
           <a href="">停机时间</a>
-          <a href="" ng-click="sort('cpu')">cpu</a>
+          <a href="" ng-click="sortbykey('cpu')">cpu</a>
           <a href="" ng-click="sort('memory')">内存</a>
           <a href="" ng-click="sort('disk')">磁盘</a>
           <a href="" ng-click="sort('network')">网络</a>
@@ -47,7 +47,7 @@
   <div class="row content">
   <!--便利开始  (第一层)-->
     <div class="col-md-2 pageitem" ng-repeat="(key,list) in cloud_monitors" on-finish-render-filters>
-        <a href="#/cloud_monitor_detail/"> <!-- 跳转二级界面 -->
+        <a href="#/cloud_monitor_detail/" ng-click="transfer(list.cloud_id)"> <!-- 跳转二级界面 -->
             <div class="list" >
                 <div>
                     <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">
@@ -55,100 +55,171 @@
                 </div>
               <!-- 第二层 -->
                 <ul class="item">
-                    <li class="box" ng-repeat="(key2,item) in list[0]">
-                  <!-- 引入折线图 -->
-                    <div class="box-nav">
-                        <span class="lt">{[{item.type}]}</span>
-                        <span class="rt" ng-if="(key2 == 0)">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s cc2" ng-if="(key2 == 0)">{[{item.param_02[1]}]}</small>
-                        </span>
-                        <span class="rt cc3" ng-if="(key2 == 1)">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s " ng-if="(key2 == 1)">{[{item.param_02[1]}]}</small>
-                        </span>
-                        <span class="rt cc4" ng-if="(key2 == 2)">读{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s cc5" ng-if="(key2 == 2)">写{[{item.param_02[1]}]}</small>
-                        </span>
-                        <span class="rt cc6" ng-if="(key2 == 3)">{[{item.param_01[1]}]}&nbsp;&nbsp;<small class="inner-s cc7" ng-if="(key2 == 3)">{[{item.param_02[1]}]}</small>
-                        </span>
-                    </div>
-                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 0)" ui-options="
-                          [ {
-                                data:{[{item.data}]},
-                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
-                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
-                                color:'#BB9209'
-                            }
-                          ], 
-                          {[{plot_style}]}
-                          ">
-                    </div>
-                     <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 1)" ui-options="
-                          [ {
-                                data:{[{item.data}]},
-                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
-                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
-                                color:'#500696'
-                            }
-                          ], 
-                          {[{plot_style}]}
-                          ">
-                    </div>    
-                    <!-- 云盘 -->
-                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 2)"  ui-options="
-                          [{
-                            data:{[{item.data[0].read_data}]},
-                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
-                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
-                            color:'#01C8ED'
-                          },{
-                            data: {[{item.data[1].write_data}]},
-                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
-                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
-                            color:'#3CB059'
-                          }
-                          ], 
-                          {[{plot_style}]}
-                          ">
-                    </div>
-                    <!-- 网络 -->
-                    <div class="cavans" ui-jq="plot" ng-model="item.data" ng-if="(key2 == 3)"  ui-options="
-                          [{
-                            data:{[{item.data[0].ADSL_UP_DATA}]},
-                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
-                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
-                            color:'#B1AB3A'
-                          },{
-                            data:{[{item.data[1].ADSL_DOWN_DATA}]},
-                            show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
-                            lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
-                            color:'#AD0482'
-                          }
-                          ], 
-                          {[{plot_style}]}
-                          ">
-                    </div>    
+                    <li class="box">
+                       <!-- 引入折线图 -->
+                        <div class="box-nav">
+                            <span class="lt">{[{list.cpu_data.type}]}</span>
+                            <span class="rt">{[{list.cpu_data.param_01[1]}]}核&nbsp;&nbsp;<small class="inner-s cc2">{[{list.cpu_data.param_02[1]}]}</small>
+                            </span>
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rday')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [ {
+                                    data:{[{list.cpu_data.day_data}]},
+                                    show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                    lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                    color:'#BB9209'
+                                }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [ {
+                                    data:{[{list.cpu_data.hour_data}]},
+                                    show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                    lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                    color:'#BB9209'
+                                }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
                     </li>
-                    <div class="time" style="height:40px;color:#0077bc;text-align:center"><span style="display:inline-block;padding-top:12px;">运行时间 :</span><span style="display:inline-block;padding-top:12px;">30 : 20 : 10</span></div>
+                    <li class="box">
+                        <!-- 内存 -->
+                        <div class="box-nav">
+                            <span class="lt">{[{list.cpu_data.type}]}</span>
+                            <span class="rt cc3"><small class="inner-s" >{[{list.cpu_data.param_02[1]}]}</small>
+                            </span>
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rday')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [ {
+                                    data:{[{list.cpu_data.day_data}]},
+                                    show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                    lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                    color:'#BB9209'
+                                }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [ {
+                                    data:{[{list.cpu_data.day_data}]},
+                                    show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                    lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                    color:'#BB9209'
+                                }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
+                    </li>
+                    <li class="box">
+                        <!-- 云盘 -->
+                        <div class="box-nav">
+                            <span class="lt">云盘</span>
+                            <span class="rt cc4">读{[{list.disk_data.param_01[1].day[1]}]}MB/s&nbsp;&nbsp;<small class="inner-s cc5">写{[{list.disk_data.param_02[1].day[1]}]}MB/s</small>
+                            </span>
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rday')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [{
+                                data:{[{list.disk_data.day_data[0].read_data}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#01C8ED'
+                              },{
+                                data: {[{list.disk_data.day_data[1].write_data}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#3CB059'
+                              }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [{
+                                data:{[{list.disk_data.hour_data[0].read_data}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#01C8ED'
+                              },{
+                                data: {[{list.disk_data.hour_data[1].write_data}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#3CB059'
+                              }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
+                    </li>
+                    <!-- 网络 -->
+                    <li class="box" style="border-bottom:none">
+                        <div class="box-nav">
+                            <span class="lt">网络</span>
+                                <span class="rt cc6">上行{[{list.network_data.param_01[1].day[1]}]}MB/s&nbsp;&nbsp;<small class="inner-s cc7">下行{[{list.network_data.param_02[1].day[1]}]}MB/s</small>
+                                </span>
+                            </span>
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rday')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [{
+                                data:{[{list.network_data.day_data[0].ADSL_UP_DATA}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#B1AB3A'
+                              },{
+                                data:{[{list.network_data.day_data[1].ADSL_DOWN_DATA}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#AD0482'
+                              }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>
+                        <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
+                              [{
+                                data:{[{list.network_data.hour_data[0].ADSL_UP_DATA}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#B1AB3A'
+                              },{
+                                data:{[{list.network_data.hour_data[1].ADSL_DOWN_DATA}]},
+                                show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
+                                lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
+                                color:'#AD0482'
+                              }
+                              ], 
+                              {[{plot_style}]}
+                              ">
+                        </div>        
+                    </li>
                 </ul>
-                
+                <div class="time" style="height:40px;color:#0077bc;text-align:center;
+                border:solid 1px #0077bc;margin-top:-1px;"><span style="display:inline-block;padding-top:12px;">运行时间 :</span><span style="display:inline-block;padding-top:12px;" data-filter="{[{t_item.run_time}]}" ng-repeat="(key3,t_item) in list[1]">{[{t_item.run_time}]}</span></div>
             </div>
         </a>
     </div>
-  <!--便利结束  -->
+  <!-- 便利结束  -->
 
   </div>
-   <style type="text/css">
+  <style type="text/css">
     .pagination .con{height:100%;width:100%;text-align:center;margin-left:15px;}
     .page_num.active{
         background:#0077bc;
         color:#fff;
-        
+
     }
     .page_num.active a:hover{color:#fff;}
     .page_num.active a{background:transparent !important; color:#fff;}
   </style>
-  <!-- 分页 -->
+  <!-- 分页  -->
     <div class="pagination">
         <ul class="con">
             <li id="previous_li"><a id="previous" href="javasctip:(0)">上一页</a></li>
-            <li class="page_list"><!--用于页标的显示 -->
+            <li class="page_list">
                 <ul id="page_num_all">
                 </ul>
             </li>
@@ -157,3 +228,9 @@
         <span  style="visibility:hidden;" class="num" id="current_page"></span>
     </div>
 </div>
+
+<script>
+    // function ($, w, undefined) {
+    //         alert(1);
+    // })(jQuery, window)
+</script>

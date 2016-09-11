@@ -16,11 +16,11 @@
                <div class="box">
                    <div class="box-nav">
                        <span class="fl">CPU</span>
-                       <span class="fr">60-0/s</span>
+                       <span class="fr">5-0/min</span>
                    </div>
                    <div style="height: 150px; width:100%; margin-left:-20px;position: relative;padding: 0px;" ui-options="[
                         { 
-                            data: [[60,10],[50,30],[40,25],[30,30],[20,50],[10,60],[0,0]], points: { show: false },
+                            data: {[{cloud_monitor_details.cpu_data.day_data}]}, points: { show: false },
                             lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
                             color:'#ff0000'
                         }
@@ -52,11 +52,11 @@
                <div class="box">
                     <div class="box-nav">
                        <span class="fl">内存</span>
-                       <span class="fr">60-0/s</span>
+                       <span class="fr">5-0/min</span>
                     </div>
                     <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
                         { 
-                            data: [[60,4],[50,45],[40,70],[30,55],[20,30],[10,35],[0,0]], points: { show:false},
+                            data: {[{cloud_monitor_details.cpu_data.day_data}]}, points: { show:false},
                             lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
                             color:'#cda417'
                         }
@@ -89,14 +89,15 @@
                <div class="box">
                    <div class="box-nav">
                        <span class="fl">网络</span>
-                       <span class="fr">60-0/s</span>
+                       <span class="fr">5-0/min</span>
                    </div>
                    <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
                         { 
-                            data: [[60,25],[50,5],[40,60],[30,45],[20,30],[10,38],[0,0]], points: { show:false},
+                            data: {[{cloud_monitor_details.network_data.day_data[0].ADSL_UP_DATA}]}, points: { show:false},
                             lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
                             color:'#A8C001'
-                        }
+                        },
+                       
                       ],
                       {
                        legend: {

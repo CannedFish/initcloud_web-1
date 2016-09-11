@@ -75,7 +75,13 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    #LOG.info(return_data)
 	    return Response(return_data)
 	except:
-	    trackback.print_exc()
+	    #trackback.print_exc()
+	    return_data = []	
+	    return_data.append({"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
+                'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',
+                'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
+})
+	    return Response(return_data)	    
 
 
 @require_POST

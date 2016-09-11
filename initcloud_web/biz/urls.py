@@ -41,6 +41,7 @@ from biz.network_bar_sdn import views as network_bar_sdn_view
 from biz.network_bar_net import views as network_bar_net_view
 from biz.network_bar_router import views as network_bar_router_view
 from biz.cloud_monitor import views as cloud_monitor_view
+from biz.cloud_monitor_detail import views as cloud_monitor_detail_view
 from biz.service_bar import views as service_bar_view
 from biz.virtualmechine_bar import views as virtualmechine_bar_view
 
@@ -78,6 +79,13 @@ urlpatterns += [
 urlpatterns += [
     url(r'^cloud_monitor/$', cloud_monitor_view.Cloud_MonitorList.as_view()),
 ]
+
+#cloud_monitor_detail
+urlpatterns += [
+    #url(r'^cloud_monitor_detail/$', cloud_monitor_detail_view.Cloud_Monitor_DetailList.as_view()),
+    url(r'^cloud_monitor_detail/$', cloud_monitor_detail_view.get_detail),
+]
+
 
 #service_bar
 urlpatterns += [
