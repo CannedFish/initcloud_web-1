@@ -70,7 +70,7 @@ ul,li{
 .box-nav .lt{display:inline-block;font-size:16px;color:#0077bc;float:left;padding-left:7px;}
 .box-nav .rt{display:inline-block;font-size:12px;float:right;padding-right:7px;}
 .box-nav .rt .inner-s{}
-.box .cavans{height:64px;width:100%; padding: 0px; position: relative;}
+.box .cavans{height:60px;width:100%; padding: 0px; position: relative;}
 .pagination{height:50px;line-height:50px;width:100%;position:absolute;bottom:0px;left:0px;}
 .pagination ul{width:80%;margin:0 auto;}
 .pagination ul li{width:40px;float:left;}

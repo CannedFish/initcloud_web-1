@@ -428,6 +428,30 @@ angular.module('cloud.services', [])
             getPrice: getPrice
         };
     })
+    //定义页面传参:
+    .factory('urlParamsTrnasfer', function () { 
+        // alert(12);
+        
+            //定义factory 返回对象
+            var myServices = {};
+            // console.log(myServices)
+            //定义参数对象
+            var myObject = {};
+            //set 函数
+            var _set = function (data) {  
+               myObject = data;       
+            };  
+            //get 函数
+            var _get = function () {  
+                return myObject;  
+            }; 
+            myServices.set = _set;  
+            myServices.get = _get;  
+              
+            // 在controller中通过调set()和get()方法可实现提交或获取参数的功能  
+            return myServices;
+        
+    }) 
     .filter("humanizeDiskSize", function(){
         return function(size){
             var units = ['MB', 'GB', 'TB', 'PB'];
