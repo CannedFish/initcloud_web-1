@@ -119,6 +119,9 @@
                             <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download}]}kb</p>
                         </span>
                     </div>
+                    <div ng-if="phy_monitor_networks==''" style="height:378px;line-height:378px;text-align:center;color:#ff0000;">
+                        接口尚未连接。
+                    </div>
                     <div class="work_node" ng-controller="Phy_Monitor_StorageController">
                         <div class="node_cont node5">
                             <div class="node_pdu" style="margin-top:0px;" ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">

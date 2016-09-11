@@ -54,22 +54,11 @@ CloudApp.controller('CabinetController',
                     // }; 
             /* $scope.cabinets = status_arr; */
             Cabinet.get(function(data) {
+              // console.log(data);
               $scope.cabinets = data;
             });
             checkboxGroup.syncObjects($scope.cabinets);
-        // $scope.cabinet_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Cabinet.query(function(data){
-        //                 $scope.cabinets = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.cabinets);
-        //             });
-        //         }
-        //     });
-
+     
 
 
         var deleteCabinets = function(ids){

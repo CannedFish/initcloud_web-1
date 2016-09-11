@@ -1,11 +1,9 @@
 <div class="jg-wrap ad"  ng-controller="CabinetController">
     <div class="jigui md">
+        <div class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
+            加载中。。。
+        </div>
         <div class="inner-box-list">
-            <!-- 24接口交换机(1)-->
-            <div ng-repeat="item in cabinets._24switchboard track by $index">
-            
-            </div>
-
             <div class="tool-01">
              <!-- 24接口交换机(1)-->
                 <ul class="w1">
@@ -46,7 +44,7 @@
             </div>
             <!-- 每节点CPU温度 -->
             <div class="tool-02">
-               <ul class="l-list" ng-repeat="item in cabinets.cpu_temperature">
+               <ul class="l-list" ng-if="($index == 0) || ($index == 1)" ng-repeat="item in cabinets.cpu_temperature">
                     <li>
                         <div style="float:left;">
                             <span style="display:inline-block;width:36px;">
@@ -98,7 +96,7 @@
                <div class="w1 p-2-0-2-3 clearfix">
                     
                     <span ng-repeat="item in cabinets.jbod_status_01 track by $index">
-                       <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
+                       <img ng-if="item == 1 || item == -1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
                        <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
                     </span>      
                </div> 
@@ -106,7 +104,7 @@
             <div class="tool-03 mt2">
                <div class="w1 p-2-0-2-3 clearfix">
                    <span ng-repeat="item in cabinets.jbod_status_02 track by $index">
-                       <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
+                       <img ng-if="item == 1 || item == -1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
                        <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
                    </span>     
                </div> 
@@ -117,7 +115,7 @@
                     <div class="line5 clearfix">
                         <span><img src="../static/assets/admin/layout/img/common/jg_ico_29.png"></span>
                         <span ng-repeat="item in cabinets.memory_server_status_01 track by $index">
-                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_31.png">
+                            <img ng-if="(item == 1) || (item == -1)" src="../static/assets/admin/layout/img/common/jg_ico_31.png">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_28.png">
                         </span>
                         <span><img src="../static/assets/admin/layout/img/common/jg_ico_29.png"></span>
@@ -129,7 +127,7 @@
                     <div class="line5 clearfix">
                         <span><img src="../static/assets/admin/layout/img/common/jg_ico_29.png"></span>
                         <span ng-repeat="item in cabinets.memory_server_status_02 track by $index">
-                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_31.png">
+                            <img ng-if="(item == 1) || (item == -1)" src="../static/assets/admin/layout/img/common/jg_ico_31.png">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_28.png">
                         </span>
                         <span><img src="../static/assets/admin/layout/img/common/jg_ico_29.png"></span>

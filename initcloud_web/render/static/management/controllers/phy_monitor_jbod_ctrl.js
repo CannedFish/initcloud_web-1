@@ -14,12 +14,12 @@ CloudApp.controller('Phy_Monitor_JbodController',
         $scope.phy_monitor_jbods = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_jbods);
 
-        var init_data = Phy_Monitor_Jbod.query(function(data) {
+        var init_data = Phy_Monitor_Jbod.get(function(data) {
             }, {id: 1});
         $scope.phy_monitor_jbods = init_data; 
         checkboxGroup.syncObjects($scope.phy_monitor_jbods);
         $scope.$on('to-child-jbod',function(d,id){
-            var data = Phy_Monitor_Jbod.query(function(data) {
+            var data = Phy_Monitor_Jbod.get(function(data) {
             }, {id: id});
             $scope.phy_monitor_jbods = data; 
             checkboxGroup.syncObjects($scope.phy_monitor_jbods);
