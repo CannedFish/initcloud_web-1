@@ -1,4 +1,24 @@
 <link rel="stylesheet" type="text/css" href="../static/assets/admin/layout/css/warning-info.css">
+<style type="text/css">
+    .time-filter input{
+        background:transparent;
+        width:100px;
+        height:30px;
+        line-height:30px;
+        float:left;
+        border:none;
+        margin-top:5px;
+        text-align:center;
+    }
+    .time-filter .sep{
+        display:inline-block;
+        width:10px;
+        float:left;
+        height:30px;
+        line-height:30px;
+        margin-top:5px;
+    }
+</style>
 <div class="content" ng-controller="WarningController">
             <div class="titile">报警信息</div>
             <div class="content_center">
@@ -26,16 +46,9 @@
                             <li class="warning-info">报警信息
                             </li> 
                             <li class="time-filter">
-                                <select>
-                                    <option>2016/08/11</option>
-                                    <option>2016/08/12</option>
-                                </select>
-                                <span>  ~ </span>
-                                <select>
-                                    <option>2016/08/11</option>
-                                    <option>2016/08/12</option>
-                                    <option>2016/08/13</option>
-                                </select>
+                                <input class="start" type="text" eon-date-picker>
+                                <span class="sep">  ~ </span>
+                                <input class="end" type="text" eon-date-picker>
                             </li>        
                     </ul>
                     <table class="police_table footable" data-filter="#filter" data-filter-text-only="false">
@@ -61,11 +74,11 @@
                         <div class="fl"><span class="span1">报警类型</span></div>
                         <div class="fl">{[{rightbar.warning_type}]}</div>
                     </dd>
-                    <dd class="item">
+                    <dd class="item blob">
                         <div class="fl"><span class="span1">报警信息</span></div>
                         <div class="fl">{[{rightbar.warning_info}]}（<span class="span2">120℃</span>  <span class="span3">标准温度≤80℃</span>）</div>
                     </dd>
-                    <dd class="item blob">
+                   <!--  <dd class="item blob">
                         <div class="fl">储节点</div>
                         <div class="fl">{[{rightbar.memory_point}]}</div>
                     </dd>
@@ -76,7 +89,7 @@
                      <dd class="item blob">
                         <div class="fl"><span>云盘</span></div>
                         <div class="fl">{[{rightbar.cloud_disk}]}</div>
-                    </dd>
+                    </dd> -->
                     <dd class="item">
                         <div class="fl"><span>报警时间</span></div>
                         <div class="fl">{[{rightbar.warning_time}]}</div>

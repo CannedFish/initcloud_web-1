@@ -27,7 +27,11 @@ from biz.workflow.models import Step
 from cloud.tasks import (link_user_to_dc_task, send_notifications,
                          send_notifications_by_data_center)
 from frontend.forms import CloudUserCreateFormWithoutCapatcha
-
+from cloud.api import nova
+from cloud.api import cinder
+from cloud.api import ceilometer
+from cloud.cloud_utils import create_rc_manually
+import traceback
 LOG = logging.getLogger(__name__)
 
 
@@ -36,7 +40,42 @@ class Virtualmechine_BarList(generics.ListAPIView):
     queryset = Virtualmechine_Bar.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
     serializer_class = Virtualmechine_BarSerializer
-
+    def list(self, request):
+	try:
+	    LOG.info('111111111111111111111111111')
+	    rc = create_rc_manually(request)
+	    pan = cinder.volume_list(rc, {'all_tenants':1})
+	    LOG.info(pan)
+	    cm = nova.server_list(rc, all_tenants=True)[0]
+	    est_cm = len(cm)
+	    running_cm = 0
+	    cloud_allocat_mem = 0
+	    cloud_kernel = 0
+	    total_ypan = 0
+	    for each in cm:
+		if each.status == 'ACTIVE':
+		    running_cm = running_cm + 1
+	    LOG.info('3333333333333333333333333')
+	    #hypervisors = nova.hypervisor_list(rc)
+            #for each in hypervisors:
+                #vcpus_used = vcpus_used + each.vcpus_used
+            #    vcpus_used = vcpus_used + each.memory_mb
+            #LOG.info(vcpus_used)
+            total_kernel = nova.hypervisor_stats(rc).vcpus
+            total_memory = nova.hypervisor_stats(rc).memory_mb
+            cloud_kernel = nova.hypervisor_stats(rc).vcpus_used
+            cloud_allocat_mem = nova.hypervisor_stats(rc).memory_mb_used
+            total_capacity = nova.hypervisor_stats(rc).local_gb
+	    LOG.info('222222222222222222222222222222')
+	    return_data = []
+	    return_data.append({"total_kernel":total_kernel,'total_memory':total_memory,'cloud_kernel':cloud_kernel,'cloud_allocat_memory':cloud_allocat_mem,
+                'established_cloudmechine':est_cm,'running_cloudmechine':running_cm,'total_ypan':total_ypan,'total_capacity':total_capacity,
+                'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
+})
+	    #LOG.info(return_data)
+	    return Response(return_data)
+	except:
+	    trackback.print_exc()
 
 
 @require_POST

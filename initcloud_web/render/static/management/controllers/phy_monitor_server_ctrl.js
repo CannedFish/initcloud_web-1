@@ -49,7 +49,61 @@ CloudApp.controller('Phy_Monitor_ServerController',
         Phy_Monitor_Server.query(function(data) {
           $scope.phy_monitor_servers = data; 
         });
-
+        $scope.$on('to-child-server',function(d,data){
+            //更据id 查询显示
+            //请求地址: /api/phy_monitor_network/query-id/
+            // CommonHttpService.post("/api/phy_monitor_server/query-id/", {id: data}).then(function(data){
+            //         if (data.success) {
+            //             ToastrService.success(data.msg, $i18next("success"));
+            //          
+            //             checkboxGroup.uncheck()
+            //         } else {
+            //             ToastrService.error(data.msg, $i18next("op_failed"));
+            //         }
+            //     });
+            if(data == 1)
+            {
+                var query_data =[
+                    {
+                        'CPU':[{'V':'24','T':'90'},{'V':'14','T':'60'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    },
+                    {
+                        'CPU':[{'V':'20','T':'20'},{'V':'14','T':'50'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    },
+                    {
+                        'CPU':[{'V':'18','T':'100'},{'V':'12','T':'90'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    },
+                    {
+                        'CPU':[{'V':'12','T':'80'},{'V':'22','T':'60'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    }
+                ];
+            }else{
+                var query_data =[
+                    {
+                        'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    },
+                    {
+                        'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    },
+                    {
+                        'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    },
+                    {
+                        'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+                        'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+                    }
+                ];
+            }
+            $scope.phy_monitor_servers = query_data;
+            
+        });
         var deletePhy_Monitor_Servers = function(ids){
 
             $ngBootbox.confirm($i18next("phy_monitor_server.confirm_delete")).then(function(){

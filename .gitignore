@@ -2,6 +2,9 @@
 .venv/*
 docs/*
 initcloud_web_bak/*
+initcloud_web/
+initcloud_web/cloud/cloud_utils.py
+initcloud_web/initcloud_web/settings.py
 tests/*
 requirements.txt
 *.pyc

@@ -16,6 +16,7 @@ CloudApp.controller('Storage__BarController',
         // var storage_data ={'disk':[9999,4556],'SSD':[3000,5600],'NVMe':[4000,6000],'SAS':[6000,6000]}
         
         Storage__Bar.get(function(data){
+            // console.log(data);
             $scope.storage__bars = data;
             checkboxGroup.syncObjects($scope.storage__bars);
         });

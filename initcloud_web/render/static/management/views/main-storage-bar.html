@@ -2,7 +2,7 @@
     .c1{color:#cda417 !important}
     .c2{color:#18bb53 !important}
 </style>
-<div class="lb-wrap fl">
+<div class="lb-wrap fl" >
              <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon3.png"><span>存储监控</span></div> 
              <div class="ccjkbox list" style="margin-left: -15px;margin-top: -5px;">
                 <ul class="pl0 clearfix">
@@ -56,7 +56,7 @@
                     </li>
                 </ul>
                 <div class="inner-box" ng-controller="Phy_NodesController">
-                    <div class="hp45 fl" ng-repeat="node in phy_nodess">
+                    <div class="hp45 fl" ng-if="phy_nodess.success == true" ng-repeat="node in phy_nodess">
                         <div class="boxwrap_01" >
                             <div class="fl node" ng-if="$index==0">节点一</div>
                             <div class="fl node" ng-if="$index==1">节点二</div>
@@ -75,6 +75,11 @@
                             </div>
                             <!-- 控制进度条的显示 -->
                         </div>
+                    </div>
+                    <div class="hp45 fl" ng-if="phy_nodess.success == false">
+                        <li style="color:#ff0000;font-size:12px;margin-top:10px;">
+                           {[{phy_nodess.msg}]}
+                        </li>
                     </div>
                 </div>
              </div>

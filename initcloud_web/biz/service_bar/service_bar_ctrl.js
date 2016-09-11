@@ -2,42 +2,45 @@
  * User: arthur 
  * Date: 16-4-17
  **/
-CloudApp.controller('Service__BarController',
+CloudApp.controller('Service_BarController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Service__Bar, CheckboxGroup, DataCenter){
+             Service_Bar, CheckboxGroup, DataCenter){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
 
-        $scope.service__bars = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.service__bars);
-        // var data1 = 
-        //         [
-        //             {'name':'计算','error_status':0,'normal_status':1,'run_status':1,'run_time':'30 : 45 : 56'},
-        //             {'name':'云盘','error_status':1,'normal_status':0,'run_status':1,'run_time':'30 : 25 : 56'},
-        //             {'name':'网络','error_status':1,'normal_status':1,'run_status':0,'run_time':'30 : 25 : 56'},
-        //             {'name':'身份认证','error_status':1,'normal_status':1,'run_status':1,'run_time':'30 : 25 : 56'}
-        //         ]
-        //     ;
-    	Service__Bar.query(function(data){
-            $scope.service__bars = data;
+        $scope.service_bars = [];
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.service_bars);
 
-            checkboxGroup.syncObjects($scope.service__bars);
-        })
-        var deleteService__Bars = function(ids){
+        $scope.service_bar_table = new ngTableParams({
+                page: 1,
+                count: 10
+            },{
+                counts: [],
+                getData: function($defer, params){
+                    Service_Bar.query(function(data){
+                        $scope.service_bars = ngTableHelper.paginate(data, $defer, params);
+                        checkboxGroup.syncObjects($scope.service_bars);
+                    });
+                }
+            });
 
-            $ngBootbox.confirm($i18next("service__bar.confirm_delete")).then(function(){
+
+
+        var deleteService_Bars = function(ids){
+
+            $ngBootbox.confirm($i18next("service_bar.confirm_delete")).then(function(){
 
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
 
-                CommonHttpService.post("/api/service__bar/batch-delete/", {ids: ids}).then(function(data){
+                CommonHttpService.post("/api/service_bar/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        $scope.service__bar_table.reload();
+                        $scope.service_bar_table.reload();
                         checkboxGroup.uncheck()
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -48,12 +51,12 @@ CloudApp.controller('Service__BarController',
 
         $scope.batchDelete = function(){
 
-            deleteService__Bars(function(){
+            deleteService_Bars(function(){
                 var ids = [];
 
-                checkboxGroup.forEachChecked(function(Service__Bar){
-                    if(service__bar.checked){
-                        ids.push(service__bar.id);
+                checkboxGroup.forEachChecked(function(Service_Bar){
+                    if(service_bar.checked){
+                        ids.push(service_bar.id);
                     }
                 });
 
@@ -61,32 +64,32 @@ CloudApp.controller('Service__BarController',
             });
         };
 
-        $scope.delete = function(service__bar){
-            deleteService__Bars([service__bar.id]);
+        $scope.delete = function(service_bar){
+            deleteService_Bars([service_bar.id]);
         };
 
 
-        $scope.edit = function(service__bar){
+        $scope.edit = function(service_bar){
 
             $modal.open({
                 templateUrl: 'update.html',
-                controller: 'Service__BarUpdateController',
+                controller: 'Service_BarUpdateController',
                 backdrop: "static",
                 size: 'lg',
                 resolve: {
-                    service__bar_table: function () {
-                        return $scope.service__bar_table;
+                    service_bar_table: function () {
+                        return $scope.service_bar_table;
                     },
-                    service__bar: function(){return service__bar}
+                    service_bar: function(){return service_bar}
                 }
             });
         };
 
-        $scope.openNewService__BarModal = function(){
+        $scope.openNewService_BarModal = function(){
             $modal.open({
-                templateUrl: 'new-service__bar.html',
+                templateUrl: 'new-service_bar.html',
                 backdrop: "static",
-                controller: 'NewService__BarController',
+                controller: 'NewService_BarController',
                 size: 'lg',
                 resolve: {
                     dataCenters: function(){
@@ -94,23 +97,23 @@ CloudApp.controller('Service__BarController',
                     }
                 }
             }).result.then(function(){
-                $scope.service__bar_table.reload();
+                $scope.service_bar_table.reload();
             });
         };
     })
 
 
-    .controller('NewService__BarController',
+    .controller('NewService_BarController',
         function($scope, $modalInstance, $i18next,
-                 CommonHttpService, ToastrService, Service__BarForm, dataCenters){
+                 CommonHttpService, ToastrService, Service_BarForm, dataCenters){
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = Service__BarForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = Service_BarForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
 
             $scope.dataCenters = dataCenters;
-            $scope.service__bar = {is_resource_user: false, is_approver: false};
+            $scope.service_bar = {is_resource_user: false, is_approver: false};
             $scope.is_submitting = false;
             $scope.cancel = $modalInstance.dismiss;
             $scope.create = function(){
@@ -120,7 +123,7 @@ CloudApp.controller('Service__BarController',
                 }
 
                 $scope.is_submitting = true;
-                CommonHttpService.post('/api/service__bar/create/', $scope.service__bar).then(function(result){
+                CommonHttpService.post('/api/service_bar/create/', $scope.service_bar).then(function(result){
                     if(result.success){
                         ToastrService.success(result.msg, $i18next("success"));
                         $modalInstance.close();
@@ -134,7 +137,7 @@ CloudApp.controller('Service__BarController',
             };
         }
 
-   ).factory('Service__BarForm', ['ValidationTool', '$i18next',
+   ).factory('Service_BarForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -142,12 +145,12 @@ CloudApp.controller('Service__BarController',
                     var config = {
 
                         rules: {
-                            service__barname: {
+                            service_barname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/service__bar/is-name-unique/",
+                                    url: "/api/service_bar/is-name-unique/",
                                     data: {
-                                        service__barname: $("#service__barname").val()
+                                        service_barname: $("#service_barname").val()
                                     },
                                     async: false
                                 }
@@ -155,8 +158,8 @@ CloudApp.controller('Service__BarController',
                             user_type: 'required'
                         },
                         messages: {
-                            service__barname: {
-                                remote: $i18next('service__bar.name_is_used')
+                            service_barname: {
+                                remote: $i18next('service_bar.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -168,18 +171,18 @@ CloudApp.controller('Service__BarController',
                         }
                     };
 
-                    return ValidationTool.init('#service__barForm', config);
+                    return ValidationTool.init('#service_barForm', config);
                 }
             }
-        }]).controller('Service__BarUpdateController',
+        }]).controller('Service_BarUpdateController',
         function($rootScope, $scope, $modalInstance, $i18next,
-                 service__bar, service__bar_table,
-                 Service__Bar, UserDataCenter, service__barForm,
+                 service_bar, service_bar_table,
+                 Service_Bar, UserDataCenter, service_barForm,
                  CommonHttpService, ToastrService, ResourceTool){
 
-            $scope.service__bar = service__bar = angular.copy(service__bar);
+            $scope.service_bar = service_bar = angular.copy(service_bar);
 
-            $modalInstance.rendered.then(service__barForm.init);
+            $modalInstance.rendered.then(service_barForm.init);
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
@@ -188,21 +191,21 @@ CloudApp.controller('Service__BarController',
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = service__barForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = service_barForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
-            $scope.submit = function(service__bar){
+            $scope.submit = function(service_bar){
 
-                if(!$("#Service__BarForm").validate().form()){
+                if(!$("#Service_BarForm").validate().form()){
                     return;
                 }
 
-                service__bar = ResourceTool.copy_only_data(service__bar);
+                service_bar = ResourceTool.copy_only_data(service_bar);
 
 
-                CommonHttpService.post("/api/service__bar/update/", service__bar).then(function(data){
+                CommonHttpService.post("/api/service_bar/update/", service_bar).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        service__bar_table.reload();
+                        service_bar_table.reload();
                         $modalInstance.dismiss();
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -210,7 +213,7 @@ CloudApp.controller('Service__BarController',
                 });
             };
         }
-   ).factory('service__barForm', ['ValidationTool', '$i18next',
+   ).factory('service_barForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -218,12 +221,12 @@ CloudApp.controller('Service__BarController',
                     var config = {
 
                         rules: {
-                            service__barname: {
+                            service_barname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/service__bar/is-name-unique/",
+                                    url: "/api/service_bar/is-name-unique/",
                                     data: {
-                                        service__barname: $("#service__barname").val()
+                                        service_barname: $("#service_barname").val()
                                     },
                                     async: false
                                 }
@@ -231,8 +234,8 @@ CloudApp.controller('Service__BarController',
                             user_type: 'required'
                         },
                         messages: {
-                            service__barname: {
-                                remote: $i18next('service__bar.name_is_used')
+                            service_barname: {
+                                remote: $i18next('service_bar.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -244,7 +247,7 @@ CloudApp.controller('Service__BarController',
                         }
                     };
 
-                    return ValidationTool.init('#Service__BarForm', config);
+                    return ValidationTool.init('#Service_BarForm', config);
                 }
             }
         }]);

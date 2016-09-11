@@ -43,3 +43,15 @@ class Alarm(models.Model):
         except Exception as e:
             pass
     """
+
+class Alarm_Save(models.Model):
+    id = models.AutoField(primary_key=True)
+
+    alarm_name = models.CharField(_("Name"), max_length=128, null=True)
+    #datacenter = models.IntegerField(_("Result"), default=0, null=False)
+    deleted = models.BooleanField(_("Deleted"), default=False)
+    create_date = models.DateTimeField(_("Create Date"), auto_now_add=True)
+    alarm_object = models.CharField(null=False, default=None, max_length=128)
+    alarm_meter = models.CharField(null=False, blank=False,default=None,max_length=128)
+    alarm_count = models.CharField(default=None,max_length=128)
+    alarm_data = models.CharField(default=None,max_length=128)

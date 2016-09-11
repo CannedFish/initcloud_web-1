@@ -296,6 +296,22 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                     }]
                 }
             })
+             // 技术支持
+             .state("technology_monitor", {
+                url: "/technology_monitor/",
+                templateUrl: template('technology_monitor'),
+                resolve: {
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            name: 'CloudApp',
+                            insertBefore: '#ng_load_plugins_before',
+                            files: [
+                                '../static/management/controllers/tech_support_ctrl.js',
+                            ]
+                        });
+                    }]
+                }
+            })
             // // roles 
             // .state("roles", {
             //     url: "/roles/",
