@@ -19,64 +19,38 @@ import cloud.api.storage as storage
 
 LOG = logging.getLogger(__name__)
 
-class CabinetDetail(APIView):
-    def get(self, request):
-        data = {
-            '_24switchboard':[1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,1],
-            '_48switchboard_01':[
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,1,
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,0
-            ],
-            '_48switchboard_02':[
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,1,
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,0
-            ],
-            '_48switchboard_03':[
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,1,
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,0,0,1,0,1,0,1,1,1,0
-            ],
-            'cpu_temperature':[
-                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
-                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
-                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
-                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
-                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]},  
-            ],
-            'jbod_status_01':[
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,1,
-                1,0,1,0,1,1,1,1,0,1,1,0,0,0,0,
-                1,0,1,0,1,1,0,1,1,0,1,1,0,0,1,
-                1,1,0,1,1,0,0,0,1,1,1,0,1,1,1,
-                1,1,0,1,1,0,0,0,1,1,0,1,0,1,0,
-                1,0,1,1,0,0,0,1,1,0,0,0,1,1,1
-            ],
-            'jbod_status_02':[
-                1,0,1,1,0,1,1,0,0,0,1,1,1,1,1,
-                1,0,1,0,1,1,1,1,0,1,1,0,0,0,0,
-                1,0,1,0,1,1,0,1,1,0,1,1,0,0,1,
-                1,1,0,1,1,0,0,0,1,1,1,0,1,1,1,
-                1,1,0,1,1,0,0,0,1,1,0,1,0,1,0,
-                1,0,1,1,0,0,0,1,1,0,0,0,1,1,1
-            ],
-            'memory_server_status_01':[1,0,1,1,0,1,1,0,0,0,1,1,1,1,1,1,0,1,1,0],
-            'memory_server_status_02':[1,0,1,0,0,1,1,0,1,1,0,1,1,0,0,0,1,1,1,1]
-        }
-        serializer = CabinetSerializer(data)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+def get_jbod_current():
+    return round(random.uniform(9.8, 10.2), 1)
+
+def get_jbod_volt():
+    return round(random.uniform(219.9, 220.1), 1)
+
+def get_jbod_fan_speed():
+    return random.randint(6999, 7001)
+
+J_DATA = {
+    '1': {
+        'disk': [
+            1,1,1,1,1,1,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,1,0,0,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,1,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,0,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        ],
+        'systemUI': [[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
+        'systemUI': [[get_jbod_current(), get_jbod_volt()] for i in xrange(4)],
+        'electric_rota': [get_jbod_fan_speed() for i in xrange(5)]
+    },
+    '2': {
+        'disk': [],
+        'systemUI': [],
+        'electric_rota': []
+    }
+}
 
 class PhyMonitorJBODDetail(APIView):
-    def get(self, request):
-        data = {
-            'disk':[
-                1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-            ],
-            'systemUI':[[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
-            'electric_rota':[1200,1500,1400,1200,1800],
-        }
+    def get(self, request, j_id):
+        data = J_DATA[j_id]
         serializer = PhyMonitorJBODSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -367,4 +341,32 @@ class PhyMonitorStorageDetail(APIView):
         else:
             LOG.info("Get pool list error: %s" % poollist['error'])
             return []
+
+class CabinetDetail(APIView):
+    def get(self, request):
+        data = {
+            '_24switchboard':[1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            '_48switchboard_01':[
+                1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+            ],
+            '_48switchboard_02':[
+                1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+            ],
+            '_48switchboard_03':[],
+            'cpu_temperature':[
+                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
+                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
+                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
+                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]}, 
+                {'node1':[23,24],'node2':[23,25],'node3':[22,24],'node4':[23,25]},  
+            ],
+            'jbod_status_01': J_DATA['1']['disk'],
+            'jbod_status_02': J_DATA['2']['disk'],
+            'memory_server_status_01':[1,0,1,1,0,1,1,0,0,0,1,1,1,1,1,1,0,1,1,0],
+            'memory_server_status_02':[1,0,1,0,0,1,1,0,1,1,0,1,1,0,0,0,1,1,1,1]
+        }
+        serializer = CabinetSerializer(data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
