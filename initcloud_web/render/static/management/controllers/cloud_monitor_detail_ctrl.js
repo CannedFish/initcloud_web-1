@@ -5,7 +5,7 @@
 CloudApp.controller('Cloud_Monitor_DetailController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Cloud_Monitor_Detail, CheckboxGroup, DataCenter){
+             Cloud_Monitor_Detail, CheckboxGroup, DataCenter,urlParamsTrnasfer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -27,39 +27,760 @@ CloudApp.controller('Cloud_Monitor_DetailController',
         //         }
         //     });
         //接搜id 查找数据
-        var data = 
-            {
-                'id':1,
-                'cpu':{
-                    'usage':'10%',//利用率
-                    'speed':'0.80',
-                    'noraml_run_time':'0:02:31:08',
-                    'basic_frequency':'1.60',
-                    'logic_kernal':'4',
-                    'CPU_type':'E36608',
-                    'data':[]
-                },
-                'memory':{
-                    'using':'2.7',
-                    'surplus':'4.8',
-                    'memory_usage':'20%',
-                    'data':[]
-                },
-                'network':{
-                    'ADSL_UP':'223',
-                    'ADSL_DOWN':'225',
-                    'network_occupyrate':'56%',
-                    'data':[]
-                },
-                'cloud_disk':[
-                  {'name':'oa110.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
-                  {'name':'oa120.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
-                  {'name':'oa130.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
-                  {'name':'oa140.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
-                  {'name':'oa150.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
-                ]
-            };
-        
+        var id = urlParamsTrnasfer.get();
+        // var data = 
+        //     {
+        //         'id':1,
+        //         'cpu':{
+        //             'usage':'10%',//利用率
+        //             'speed':'0.80',
+        //             'noraml_run_time':'0:02:31:08',
+        //             'basic_frequency':'1.60',
+        //             'logic_kernal':'4',
+        //             'CPU_type':'E36608',
+        //             'data':[]
+        //         },
+        //         'memory':{
+        //             'using':'2.7',
+        //             'surplus':'4.8',
+        //             'memory_usage':'20%',
+        //             'data':[]
+        //         },
+        //         'network':{
+        //             'ADSL_UP':'223',
+        //             'ADSL_DOWN':'225',
+        //             'network_occupyrate':'56%',
+        //             'data':[]
+        //         },
+        //         'cloud_disk':[
+        //           {'name':'oa110.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+        //           {'name':'oa120.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+        //           {'name':'oa130.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+        //           {'name':'oa140.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+        //           {'name':'oa150.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+        //         ]
+        //     };
+        var data = {
+                    'network_data': {
+                        'hour_data': [
+                            {
+                                'ADSL_UP_DATA': [
+                                    [
+                                        0,
+                                        100
+                                    ],
+                                    [
+                                        1,
+                                        4
+                                    ],
+                                    [
+                                        2,
+                                        0
+                                    ],
+                                    [
+                                        3,
+                                        0
+                                    ],
+                                    [
+                                        4,
+                                        0
+                                    ],
+                                    [
+                                        5,
+                                        0
+                                    ]
+                                ]
+                            },
+                            {
+                                'ADSL_DOWN_DATA': [
+                                    [
+                                        0,
+                                        0
+                                    ],
+                                    [
+                                        1,
+                                        0
+                                    ],
+                                    [
+                                        2,
+                                        0
+                                    ],
+                                    [
+                                        3,
+                                        6
+                                    ],
+                                    [
+                                        4,
+                                        0
+                                    ],
+                                    [
+                                        5,
+                                        0
+                                    ]
+                                ]
+                            }
+                        ],
+                        'param_02': [
+                            {
+                                'hour': [
+                                    'ADSL_DOWN',
+                                    3
+                                ]
+                            },
+                            {
+                                'day': [
+                                    'ADSL_DOWN',
+                                    0
+                                ]
+                            }
+                        ],
+                        'type': 'network',
+                        'day_data': [
+                            {
+                                'ADSL_UP_DATA': [
+                                    [
+                                        0,
+                                        0
+                                    ],
+                                    [
+                                        1,
+                                        0
+                                    ],
+                                    [
+                                        2,
+                                        0
+                                    ],
+                                    [
+                                        3,
+                                        0
+                                    ],
+                                    [
+                                        4,
+                                        0
+                                    ],
+                                    [
+                                        5,
+                                        0
+                                    ],
+                                    [
+                                        6,
+                                        0
+                                    ],
+                                    [
+                                        7,
+                                        0
+                                    ],
+                                    [
+                                        8,
+                                        0
+                                    ],
+                                    [
+                                        9,
+                                        0
+                                    ],
+                                    [
+                                        10,
+                                        0
+                                    ],
+                                    [
+                                        11,
+                                        0
+                                    ],
+                                    [
+                                        12,
+                                        0
+                                    ],
+                                    [
+                                        13,
+                                        0
+                                    ],
+                                    [
+                                        14,
+                                        0
+                                    ],
+                                    [
+                                        15,
+                                        0
+                                    ],
+                                    [
+                                        16,
+                                        0
+                                    ],
+                                    [
+                                        17,
+                                        0
+                                    ],
+                                    [
+                                        18,
+                                        0
+                                    ],
+                                    [
+                                        19,
+                                        0
+                                    ],
+                                    [
+                                        20,
+                                        0
+                                    ],
+                                    [
+                                        21,
+                                        0
+                                    ],
+                                    [
+                                        22,
+                                        0
+                                    ],
+                                    [
+                                        23,
+                                        0
+                                    ]
+                                ]
+                            },
+                            {
+                                'ADSL_DOWN_DATA': [
+                                    [
+                                        0,
+                                        0
+                                    ],
+                                    [
+                                        1,
+                                        0
+                                    ],
+                                    [
+                                        2,
+                                        0
+                                    ],
+                                    [
+                                        3,
+                                        0
+                                    ],
+                                    [
+                                        4,
+                                        0
+                                    ],
+                                    [
+                                        5,
+                                        0
+                                    ],
+                                    [
+                                        6,
+                                        0
+                                    ],
+                                    [
+                                        7,
+                                        0
+                                    ],
+                                    [
+                                        8,
+                                        0
+                                    ],
+                                    [
+                                        9,
+                                        0
+                                    ],
+                                    [
+                                        10,
+                                        0
+                                    ],
+                                    [
+                                        11,
+                                        0
+                                    ],
+                                    [
+                                        12,
+                                        0
+                                    ],
+                                    [
+                                        13,
+                                        0
+                                    ],
+                                    [
+                                        14,
+                                        0
+                                    ],
+                                    [
+                                        15,
+                                        0
+                                    ],
+                                    [
+                                        16,
+                                        0
+                                    ],
+                                    [
+                                        17,
+                                        0
+                                    ],
+                                    [
+                                        18,
+                                        0
+                                    ],
+                                    [
+                                        19,
+                                        0
+                                    ],
+                                    [
+                                        20,
+                                        0
+                                    ],
+                                    [
+                                        21,
+                                        0
+                                    ],
+                                    [
+                                        22,
+                                        0
+                                    ],
+                                    [
+                                        23,
+                                        0
+                                    ]
+                                ]
+                            }
+                        ],
+                        'param_01': [
+                            {
+                                'hour': [
+                                    'ADSL_UP',
+                                    3
+                                ]
+                            },
+                            {
+                                'day': [
+                                    'ADSL_UP',
+                                    5
+                                ]
+                            }
+                        ]
+                    },
+                    'host': 'localhost',
+                    'disk_data': {
+                        'hour_data': [
+                            {
+                                'read_data': [
+                                    [
+                                        0,
+                                        0.0
+                                    ],
+                                    [
+                                        1,
+                                        0.5
+                                    ],
+                                    [
+                                        2,
+                                        0.7
+                                    ],
+                                    [
+                                        3,
+                                        0.0
+                                    ],
+                                    [
+                                        4,
+                                        0.0
+                                    ],
+                                    [
+                                        5,
+                                        0.0
+                                    ]
+                                ]
+                            },
+                            {
+                                'write_data': [
+                                    [
+                                        0,
+                                        0.9
+                                    ],
+                                    [
+                                        1,
+                                        0.0
+                                    ],
+                                    [
+                                        2,
+                                        0.0
+                                    ],
+                                    [
+                                        3,
+                                        10
+                                    ],
+                                    [
+                                        4,
+                                        0.0
+                                    ],
+                                    [
+                                        5,
+                                        0.0
+                                    ]
+                                ]
+                            }
+                        ],
+                        'param_02': [
+                            {
+                                'hour': [
+                                    'write_total',
+                                    0.0
+                                ]
+                            },
+                            {
+                                'day': [
+                                    'write_total',
+                                    0.0
+                                ]
+                            }
+                        ],
+                        'type': 'disk',
+                        'day_data': [
+                            {
+                                'read_data': [
+                                    [
+                                        0,
+                                        0.0
+                                    ],
+                                    [
+                                        1,
+                                        0.0
+                                    ],
+                                    [
+                                        2,
+                                        0.0
+                                    ],
+                                    [
+                                        3,
+                                        0
+                                    ],
+                                    [
+                                        4,
+                                        0
+                                    ],
+                                    [
+                                        5,
+                                        0
+                                    ],
+                                    [
+                                        6,
+                                        0
+                                    ],
+                                    [
+                                        7,
+                                        0
+                                    ],
+                                    [
+                                        8,
+                                        0
+                                    ],
+                                    [
+                                        9,
+                                        0
+                                    ],
+                                    [
+                                        10,
+                                        0
+                                    ],
+                                    [
+                                        11,
+                                        0
+                                    ],
+                                    [
+                                        12,
+                                        0
+                                    ],
+                                    [
+                                        13,
+                                        0
+                                    ],
+                                    [
+                                        14,
+                                        0
+                                    ],
+                                    [
+                                        15,
+                                        0
+                                    ],
+                                    [
+                                        16,
+                                        0
+                                    ],
+                                    [
+                                        17,
+                                        0
+                                    ],
+                                    [
+                                        18,
+                                        0
+                                    ],
+                                    [
+                                        19,
+                                        0
+                                    ],
+                                    [
+                                        20,
+                                        0
+                                    ],
+                                    [
+                                        21,
+                                        0
+                                    ],
+                                    [
+                                        22,
+                                        0
+                                    ],
+                                    [
+                                        23,
+                                        0
+                                    ]
+                                ]
+                            },
+                            {
+                                'write_data': [
+                                    [
+                                        0,
+                                        0.0
+                                    ],
+                                    [
+                                        1,
+                                        0.0
+                                    ],
+                                    [
+                                        2,
+                                        0.0
+                                    ],
+                                    [
+                                        3,
+                                        0
+                                    ],
+                                    [
+                                        4,
+                                        0
+                                    ],
+                                    [
+                                        5,
+                                        0
+                                    ],
+                                    [
+                                        6,
+                                        0
+                                    ],
+                                    [
+                                        7,
+                                        0
+                                    ],
+                                    [
+                                        8,
+                                        0
+                                    ],
+                                    [
+                                        9,
+                                        0
+                                    ],
+                                    [
+                                        10,
+                                        0
+                                    ],
+                                    [
+                                        11,
+                                        0
+                                    ],
+                                    [
+                                        12,
+                                        0
+                                    ],
+                                    [
+                                        13,
+                                        0
+                                    ],
+                                    [
+                                        14,
+                                        0
+                                    ],
+                                    [
+                                        15,
+                                        0
+                                    ],
+                                    [
+                                        16,
+                                        0
+                                    ],
+                                    [
+                                        17,
+                                        0
+                                    ],
+                                    [
+                                        18,
+                                        0
+                                    ],
+                                    [
+                                        19,
+                                        0
+                                    ],
+                                    [
+                                        20,
+                                        0
+                                    ],
+                                    [
+                                        21,
+                                        0
+                                    ],
+                                    [
+                                        22,
+                                        0
+                                    ],
+                                    [
+                                        23,
+                                        0
+                                    ]
+                                ]
+                            }
+                        ],
+                        'param_01': [
+                            {
+                                'hour': [
+                                    'read_total',
+                                    1.0
+                                ]
+                            },
+                            {
+                                'day': [
+                                    'read_total',
+                                    0.0
+                                ]
+                            }
+                        ]
+                    },
+                    'cloud_id':'6baa642f-529c-4e99-813b-5464b05d5436',
+                    'cpu_data': {
+                        'hour_data': [
+                            [
+                                0,
+                                4.209433560522372
+                            ],
+                            [
+                                1,
+                                4.38185458324851
+                            ],
+                            [
+                                2,
+                                7.2093578980613175
+                            ],
+                            [
+                                3,
+                                4.413223488200711
+                            ],
+                            [
+                                4,
+                                4.323602391110132
+                            ],
+                            [
+                                5,
+                                4.20569360234738
+                            ]
+                        ],
+                        'param_02': [
+                            'frequency',
+                            '3.4Chz'
+                        ],
+                        'type': 'CPU',
+                        'day_data': [
+                            [
+                                0,
+                                4.209433560522372
+                            ],
+                            [
+                                1,
+                                4.4283380716550695
+                            ],
+                            [
+                                2,
+                                4.432319924138686
+                            ],
+                            [
+                                3,
+                                0
+                            ],
+                            [
+                                4,
+                                0
+                            ],
+                            [
+                                5,
+                                0
+                            ],
+                            [
+                                6,
+                                0
+                            ],
+                            [
+                                7,
+                                0
+                            ],
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                9,
+                                0
+                            ],
+                            [
+                                10,
+                                0
+                            ],
+                            [
+                                11,
+                                0
+                            ],
+                            [
+                                12,
+                                0
+                            ],
+                            [
+                                13,
+                                0
+                            ],
+                            [
+                                14,
+                                0
+                            ],
+                            [
+                                15,
+                                0
+                            ],
+                            [
+                                16,
+                                0
+                            ],
+                            [
+                                17,
+                                0
+                            ],
+                            [
+                                18,
+                                0
+                            ],
+                            [
+                                19,
+                                0
+                            ],
+                            [
+                                20,
+                                0
+                            ],
+                            [
+                                21,
+                                0
+                            ],
+                            [
+                                22,
+                                0
+                            ],
+                            [
+                                23,
+                                0
+                            ]
+                        ],
+                        'param_01': [
+                            'kernal_nums',
+                            '4'
+                        ]
+                    }
+                }
         $scope.cloud_monitor_details = data;
          //ng-repeat 渲染完执行脚本
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
