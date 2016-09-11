@@ -13,26 +13,17 @@ CloudApp.controller('Phy_Monitor_NetworkController',
 
         $scope.phy_monitor_networks = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_networks);
-
+        //初始化数据
+        var init_data = Phy_Monitor_Network.query(function(data) {
+            }, {id: 1});
+        $scope.phy_monitor_networks = init_data; 
+        checkboxGroup.syncObjects($scope.phy_monitor_networks);
         $scope.$on('to-child-network',function(d,id){
-            Phy_Monitor_Network.query(function(data) {
-                console.log(data);
-              // $scope.phy_monitor_networks = data; 
+            var data = Phy_Monitor_Network.query(function(data) {
             }, {id: id});
-            //根据id 查询数据
-            //请求地址: /api/phy_monitor_network/query-id/
-            // CommonHttpService.post("/api/phy_monitor_network/batch-id/", {id: data}).then(function(data){
-            //         if (data.success) {
-            //             ToastrService.success(data.msg, $i18next("success"));
-            //          
-            //             checkboxGroup.uncheck()
-            //         } else {
-            //             ToastrService.error(data.msg, $i18next("op_failed"));
-            //         }
-            //     });
-            // Phy_Monitor_Network.query(function(data) {
-            //   $scope.phy_monitor_networks = data; 
-            // }, {id: data});
+            $scope.phy_monitor_networks = data; 
+            checkboxGroup.syncObjects($scope.phy_monitor_networks);
+
         })
         var deletePhy_Monitor_Networks = function(ids){
 
