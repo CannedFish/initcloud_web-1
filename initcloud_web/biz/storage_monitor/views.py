@@ -1,4 +1,4 @@
-import logging
+import logging, random
 
 from rest_framework.response import Response
 from rest_framework import generics
@@ -20,36 +20,62 @@ def byte_2_gbyte(val):
 def byte_2_kbit(val):
     return round(val/1024.0*8)
 
-class StorageNodeList(generics.ListAPIView):
-    serializer_class = StorageNodeSerializer
-    pagination_class = PagePagination
-    EmptyData = {
-        'name': None,
+def get_cpu_used():
+    return round(random.uniform(2, 65), 1)
+
+def get_cpu_frequence():
+    return round(random.uniform(2.6, 2.7), 1)
+
+def get_mem_used():
+    return round(random.uniform(2, 80), 1)
+
+def get_mem_total():
+    return 197
+
+def get_rx_per():
+    return round(random.uniform(0, 90), 1)
+
+def get_tx_per():
+    return round(random.uniform(0, 90), 1)
+
+def get_storage_node_data(name):
+    mem_used = get_mem_used()
+    mem_total = get_mem_total()
+    used = round(mem_total*mem_used/100)
+    rx_per = get_rx_per()
+    tx_per = get_tx_per()
+    max_rate = 1024*1024
+    return {
+        'name': name,
         'item': {
-            'cpu_used': [0, 0],
-            'cpu_frequence': [0, 0],
+            'cpu_used': [get_cpu_used() for i in xrange(2)],
+            'cpu_frequence': [get_cpu_frequence() for i in xrange(2)],
             'memory': {
-                'memory_used': 0,
-                'memory_total': 0,
-                'used': 0,
-                'empty': 0 
+                'memory_used': mem_used,
+                'memory_total': mem_total,
+                'used': used,
+                'empty': mem_total-used 
             },
             'network_card': {
-                'up': 0,
-                'up_rate': 0,
-                'down': 0,
-                'down_rate': 0
+                'up': tx_per,
+                'up_rate': max_rate*tx_per,
+                'down': rx_per,
+                'down_rate': max_rate*rx_per
             }
         }
     }
 
+
+class StorageNodeList(generics.ListAPIView):
+    serializer_class = StorageNodeSerializer
+    pagination_class = PagePagination
+    
     def get_queryset(self):
         clusterlist = storage.get_cluster_list()
-        EmptyData = self.__class__.EmptyData
         if clusterlist['success']:
             queryset = []
             for server in clusterlist['data']:
-                EmptyData['name'] = server['hostname']
+                EmptyData = get_storage_node_data(server['hostname'])
                 serverstatus = storage.get_server_status(server['id'])
                 if serverstatus['success']:
                     status = serverstatus['data']
@@ -60,14 +86,18 @@ class StorageNodeList(generics.ListAPIView):
                         for net in status['netIntfStatus']:
                             net['rxRate'] = byte_2_kbit(net['rxRate'])
                             net['txRate'] = byte_2_kbit(net['txRate'])
+                        nets_rx_rate = [net['rxRate'] for net in status['netIntfStatus']]
+                        nets_rx_per = [net['rxPer'] for net in status['netIntfStatus']]
+                        nets_tx_rate = [net['txRate'] for net in status['netIntfStatus']]
+                        nets_tx_per = [net['txPer'] for net in status['netIntfStatus']]
                         # constructs data
                         query = {
                             'name': server['hostname'],
                             'item': {
-                                'cpu_used': [round(status['cpu'], 3)*100, 0.0],
-                                'cpu_frequence': [0.0, 0.0] \
+                                'cpu_used': [round(status['cpu'], 3)*100, get_cpu_used()],
+                                'cpu_frequence': [get_cpu_frequence(), get_cpu_frequence()] \
                                         if status['cpuClock']=='' \
-                                        else [float(status['cpuClock'][0:-3]), 0.0],
+                                        else [float(status['cpuClock'][0:-3]), get_cpu_frequence()],
                                 'memory': {
                                     'memory_used': round(status['memUsed']\
                                             /float(status['memTotal'])*100, 1) \
@@ -77,10 +107,10 @@ class StorageNodeList(generics.ListAPIView):
                                     'empty': status['memTotal']-status['memUsed']
                                 },
                                 'network_card': {
-                                    'up': status['netIntfStatus'][0]['txPer'],
-                                    'up_rate': status['netIntfStatus'][0]['txRate'],
-                                    'down': status['netIntfStatus'][0]['rxPer'],
-                                    'down_rate': status['netIntfStatus'][0]['rxRate']
+                                    'up': round(reduce(lambda x,y: x+y, nets_tx_per)/len(nets_tx_per), 3) * 100,
+                                    'up_rate': reduce(lambda x,y: x+y, nets_tx_rate),
+                                    'down': round(reduce(lambda x,y: x+y, nets_rx_per)/len(nets_rx_per), 3) * 100,
+                                    'down_rate': reduce(lambda x,y: x+y, nets_rx_rate)
                                 }
                             }
                         }
@@ -94,7 +124,29 @@ class StorageNodeList(generics.ListAPIView):
             return queryset
         else:
             LOG.info("Get cluster list error: %s" % clusterlist['error'])
-            return []
+            return [get_storage_node_data(n) for n in ['storage10', 'storage20']]
+
+def get_node_list():
+    return [{
+        'label': 'md10',
+        'data': {
+            'status': 'online',
+            'description': 'md_raid'
+        },
+        'children': [{
+            'label': 'JBOD_5003048001aeff_f_phy20',
+            'data': {'status': 'online'}
+        }, {
+            'label': 'JBOD_5003048001aeff_f_phy19',
+            'data': {'status': 'online'}
+        }]
+    }]
+
+def get_tree_node_data(s_id):
+    return {
+        'label': s_id,
+        'nodelist': get_node_list()
+    }
 
 class TreeNodeList(generics.ListAPIView):
     serializer_class = TreeNodeSerializer
@@ -117,22 +169,24 @@ class TreeNodeList(generics.ListAPIView):
                             'label': disk['name'],\
                             'data': {'status': disk['state']}\
                         } for disk in pool['diskList']]\
-                    } for pool in filter(lambda x: x['serverId']==server['id'], poolstatus['data'])]\
+                    } for pool in filter(lambda x: x['serverId']==server['id'], poolstatus['data'])] \
+                    if server['status'] == 'online' else get_node_list()\
                 } for server in serverlist['data']]
             else:
                 LOG.info("Get cluster alive error: %s" % serverlist['error'])
+                queryset = [get_tree_node_data(s_id) for s_id in ['storage10', 'storage20']]
             return queryset
         else:
             LOG.info("Get pool status error: %s" % poolstatus['error'])
-            return []
+            return [get_tree_node_data(s_id) for s_id in ['storage10', 'storage20']]
 
 class StorageBarDetail(APIView):
     def get(self, request):
         disklist = storage.get_disk_list()
+        storage_bar = {'disk':[4,3], 'SSD':[0,0], 'NVMe':[4,3], 'SAS': [0,0]}
         if disklist['success']:
             dl = disklist['data']
             # used
-            storage_bar = {'disk':[0,0], 'SSD':[0,0], 'NVMe':[0,0], 'SAS': [0,0]}
             poollist = storage.get_pool_list()
             if poollist['success']:
                 disks_used = []
@@ -169,11 +223,21 @@ class StorageBarDetail(APIView):
                 }
             else:
                 LOG.info("Get pool list error: %s" % poollist['error'])
-            serializer = StorageBarSerializer(storage_bar)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            # serializer = StorageBarSerializer(storage_bar)
+            # return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             LOG.info("Get disk list error: %s" % disklist['error'])
-            return Response(disklist['error'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            # return Response(disklist['error'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer = StorageBarSerializer(storage_bar)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+def get_phy_node():
+    return {
+        'cpuUsed': get_cpu_used(),
+        'memUsed': get_mem_used(),
+        'rx': get_rx_per(),
+        'tx': get_rx_per()
+    }
 
 class PhyNodesList(APIView):
     def get(self, request):
@@ -210,16 +274,15 @@ class PhyNodesList(APIView):
                     else:
                         LOG.info("Get %s status error: %s" % \
                                 (server['id'], serverstatus['error']))
+                        nodes.append(get_phy_node())
                 else:
-                    nodes.append({
-                        'cpuUsed': 0.0,
-                        'memUsed': 0.0,
-                        'rx': 0.0,
-                        'tx': 0.0
-                    })
-            serializer = PhyNodesSerializer(nodes, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+                    nodes.append(get_phy_node())
+            # serializer = PhyNodesSerializer(nodes, many=True)
+            # return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             LOG.info("Get cluster alive error: %s" % clusterlist['error'])
-            return Response(clusterlist['error'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            # return Response(clusterlist['error'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            nodes = [get_phy_node() for i in xrange(2)]
+        serializer = PhyNodesSerializer(nodes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
