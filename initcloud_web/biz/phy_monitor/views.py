@@ -28,168 +28,169 @@ def get_jbod_volt():
 def get_jbod_fan_speed():
     return random.randint(6999, 7001)
 
-J_DATA = {
-    '1': {
-        'disk': [
-            1,1,1,1,1,1,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            1,1,1,0,0,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            1,1,1,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            1,1,0,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-        ],
-        'systemUI': [[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
-        'systemUI': [[get_jbod_current(), get_jbod_volt()] for i in xrange(4)],
-        'electric_rota': [get_jbod_fan_speed() for i in xrange(5)]
-    },
-    '2': {
-        'disk': [],
-        'systemUI': [],
-        'electric_rota': []
+def get_jbod_data():
+    return {
+        '1': {
+            'disk': [
+                1,1,1,1,1,1,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                1,1,1,0,0,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                1,1,1,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                1,1,0,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            ],
+            'systemUI': [[get_jbod_current(), get_jbod_volt()] for i in xrange(4)],
+            'electric_rota': [get_jbod_fan_speed() for i in xrange(5)]
+        },
+        '2': {
+            'disk': [],
+            'systemUI': [],
+            'electric_rota': []
+        }
     }
-}
 
 class PhyMonitorJBODDetail(APIView):
     def get(self, request, j_id):
-        data = J_DATA[j_id]
+        data = get_jbod_data()[j_id]
         serializer = PhyMonitorJBODSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_net_traffic():
     return round(random.uniform(1000, 2000), 1)
 
-N_DATA = {
-    '1': [
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-    ],
-    '2': [
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-    ],
-    '3': [
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-        {'link':0,'upload':0.0,'download':0.0},
-    ],
-    '4': []
-}
+def get_net_data():
+    return {
+        '1': [
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+        ],
+        '2': [
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+        ],
+        '3': [
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+            {'link':0,'upload':0.0,'download':0.0},
+        ],
+        '4': []
+    }
 
 class PhyMonitorNetworkList(APIView):
     def get(self, request, n_id):
-        data = N_DATA[n_id]
+        data = get_net_data()[n_id]
         serializer = PhyMonitorNetworkSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -197,13 +198,13 @@ def get_cpu_temp():
     return random.randint(41-5, 54+5)
 
 def get_cpu_volt():
-    return round(random.uniform(1.8, 1.9), 3)
+    return round(random.uniform(1.8, 1.9), 2)
 
 def get_dimm_volt():
-    return round(random.uniform(1.15, 1.25), 3)
+    return round(random.uniform(1.15, 1.25), 2)
 
 def get_fan_speed():
-    return 7000
+    return random.randint(6999, 7001)
 
 def get_server_volt():
     return round(random.uniform(11.9, 12.2), 3)
@@ -259,30 +260,36 @@ def get_phy_cpu_mem(impi_url):
 PHY_URLs = settings.REDFISH_URL['phy_server']
 
 class PhyMonitorServerList(APIView):
-    def get(self, request):
+    def get(self, request, s_id):
         data = [
-            {
-                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            },
-            {
-                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            },
-            {
-                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            },
-            {
-                'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-                'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            }
+            # {
+            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            # },
+            # {
+            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            # },
+            # {
+            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            # },
+            # {
+            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
+            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
+            # }
         ]
-        # if chassislist['code'] == 200:
-            
-        # else:
-            # return Response('Fail to get chassis list', \
-                    # status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        if s_id != '3':
+            for r_url in PHY_URLs[s_id]:
+                data.append(get_phy_cpu_mem(r_url))
+        else:
+            data = [{
+                'CPU': [
+                    {'V':get_cpu_volt(),'T':get_cpu_temp()},
+                    {'V':get_cpu_volt(),'T':get_cpu_temp()}
+                ],
+                'memory_voltage': [get_dimm_volt() for i in xrange(16)]
+            } for i in xrange(4)]
         serializer = PhyMonitorServerSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -344,6 +351,7 @@ class PhyMonitorStorageDetail(APIView):
 
 class CabinetDetail(APIView):
     def get(self, request):
+        J_DATA = get_jbod_data()
         data = {
             '_24switchboard':[1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
             '_48switchboard_01':[

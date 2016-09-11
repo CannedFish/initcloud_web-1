@@ -18,9 +18,10 @@ def __read_requests(url):
         my_headers = {"content-type": "application/json"}
         r = requests.get(url, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
+        rsp['code'] = r.status_code
     except Exception, e:
+        rsp['code'] = 500
         LOG.info(e)
-    rsp['code'] = r.status_code
     return rsp
 
 def __update(url, data):
@@ -32,9 +33,10 @@ def __update(url, data):
         my_headers = {"content-type": "application/json"}
         r = requests.patch(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
+        rsp['code'] = r.status_code
     except Exception, e:
+        rsp['code'] = 500
         LOG.info(e)
-    rsp['code'] = r.status_code
     return rsp
 
 def __replace(url, data):
@@ -48,9 +50,10 @@ def __replace(url, data):
         my_headers = {"content-type": "application/json"}
         r = requests.put(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
+        rsp['code'] = r.status_code
     except Exception, e:
+        rsp['code'] = 500
         LOG.info(e)
-    rsp['code'] = r.status_code
     return rsp
 
 
@@ -68,9 +71,10 @@ def __create(url, data):
         r = requests.post(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
         rsp['header'] = r.headers
+        rsp['code'] = r.status_code
     except Exception, e:
+        rsp['code'] = 500
         LOG.info(e)
-    rsp['code'] = r.status_code
     return rsp
 
 def __actions(url, data):
@@ -82,9 +86,10 @@ def __actions(url, data):
     try:
         r = requests.post(url, data=data, headers=my_headers, auth=__AUTH, verify=False)
         rsp['body'] = r.json()
+        rsp['code'] = r.status_code
     except Exception, e:
+        rsp['code'] = 500
         LOG.info(e)
-    rsp['code'] = r.status_code
     return rsp
 
 def __delete(url):
@@ -95,9 +100,10 @@ def __delete(url):
     try:
         my_headers = {"content-type": "application/json"}
         r = requests.delete(url, auth=__AUTH, headers=my_headers, verify=False)
+        rsp['code'] = r.status_code
     except Exception, e:
+        rsp['code'] = 500
         LOG.info(e)
-    rsp['code'] = r.status_code
     return rsp
 
 def query(r_url, dst):
