@@ -2,55 +2,143 @@
  * User: arthur 
  * Date: 16-4-17
  **/
-CloudApp.controller('Phy_MonitorController',
+CloudApp.controller('Phy_Monitor_NetworkController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Phy_Monitor, CheckboxGroup, DataCenter){
+             Phy_Monitor_Network, CheckboxGroup, DataCenter){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
-
         });
-        $scope.phy_monitors = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitors);
-        // 网络监控
-        $scope.$on('to-parent-network',function(d,data){
-            //接收参数 广播给指定的孩子节点
-            $scope.$broadcast('to-child-network',data);
-        })
-        // 服务器监控
-        $scope.$on('to-parent-server',function(d,data){
-            $scope.$broadcast('to-child-server',data);
-        })
-        //jbod
-        $scope.$on('to-parent-jbod',function(d,data){
-            $scope.$broadcast('to-child-jbod',data);
-        })
-        // $scope.phy_monitor_table = new ngTableParams({
+
+        $scope.phy_monitor_networks = [];
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_networks);
+
+        // $scope.phy_monitor_network_table = new ngTableParams({
         //         page: 1,
         //         count: 10
         //     },{
         //         counts: [],
         //         getData: function($defer, params){
-        //             Phy_Monitor.query(function(data){
-        //                 $scope.phy_monitors = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.phy_monitors);
+        //             Phy_Monitor_Network.query(function(data){
+        //                 $scope.phy_monitor_networks = ngTableHelper.paginate(data, $defer, params);
+        //                 checkboxGroup.syncObjects($scope.phy_monitor_networks);
         //             });
         //         }
         //     });
 
-        var deletePhy_Monitors = function(ids){
+        /* $scope.phy_monitor_networks = data; */
+        Phy_Monitor_Network.query(function(data) {
+          $scope.phy_monitor_networks = data; 
+        }, {id: 1});
+        $scope.$on('to-child-network',function(d,data){
+            //根据id 查询数据
+            //请求地址: /api/phy_monitor_network/query-id/
+            // CommonHttpService.post("/api/phy_monitor_network/batch-id/", {id: data}).then(function(data){
+            //         if (data.success) {
+            //             ToastrService.success(data.msg, $i18next("success"));
+            //          
+            //             checkboxGroup.uncheck()
+            //         } else {
+            //             ToastrService.error(data.msg, $i18next("op_failed"));
+            //         }
+            //     });
+            Phy_Monitor_Network.query(function(data) {
+              $scope.phy_monitor_networks = data; 
+            }, {id: data});
+            /* if(data == 1){ */
+                // var query_data =[
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'0','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'}
+                // ];
+            // }else{
+                // var query_data = [
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'0','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'},
+                    // {'link':'1','upload':'1234.0','download':'1235.0'}
+                // ];
+            // }
+            /* $scope.phy_monitor_networks = query_data; */
+        })
+        var deletePhy_Monitor_Networks = function(ids){
 
-            $ngBootbox.confirm($i18next("phy_monitor.confirm_delete")).then(function(){
+            $ngBootbox.confirm($i18next("phy_monitor_network.confirm_delete")).then(function(){
 
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
 
-                CommonHttpService.post("/api/phy_monitor/batch-delete/", {ids: ids}).then(function(data){
+                CommonHttpService.post("/api/phy_monitor_network/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        $scope.phy_monitor_table.reload();
+                        $scope.phy_monitor_network_table.reload();
                         checkboxGroup.uncheck()
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -61,12 +149,12 @@ CloudApp.controller('Phy_MonitorController',
 
         $scope.batchDelete = function(){
 
-            deletePhy_Monitors(function(){
+            deletePhy_Monitor_Networks(function(){
                 var ids = [];
 
-                checkboxGroup.forEachChecked(function(Phy_Monitor){
-                    if(phy_monitor.checked){
-                        ids.push(phy_monitor.id);
+                checkboxGroup.forEachChecked(function(Phy_Monitor_Network){
+                    if(phy_monitor_network.checked){
+                        ids.push(phy_monitor_network.id);
                     }
                 });
 
@@ -74,32 +162,32 @@ CloudApp.controller('Phy_MonitorController',
             });
         };
 
-        $scope.delete = function(phy_monitor){
-            deletePhy_Monitors([phy_monitor.id]);
+        $scope.delete = function(phy_monitor_network){
+            deletePhy_Monitor_Networks([phy_monitor_network.id]);
         };
 
 
-        $scope.edit = function(phy_monitor){
+        $scope.edit = function(phy_monitor_network){
 
             $modal.open({
                 templateUrl: 'update.html',
-                controller: 'Phy_MonitorUpdateController',
+                controller: 'Phy_Monitor_NetworkUpdateController',
                 backdrop: "static",
                 size: 'lg',
                 resolve: {
-                    phy_monitor_table: function () {
-                        return $scope.phy_monitor_table;
+                    phy_monitor_network_table: function () {
+                        return $scope.phy_monitor_network_table;
                     },
-                    phy_monitor: function(){return phy_monitor}
+                    phy_monitor_network: function(){return phy_monitor_network}
                 }
             });
         };
 
-        $scope.openNewPhy_MonitorModal = function(){
+        $scope.openNewPhy_Monitor_NetworkModal = function(){
             $modal.open({
-                templateUrl: 'new-phy_monitor.html',
+                templateUrl: 'new-phy_monitor_network.html',
                 backdrop: "static",
-                controller: 'NewPhy_MonitorController',
+                controller: 'NewPhy_Monitor_NetworkController',
                 size: 'lg',
                 resolve: {
                     dataCenters: function(){
@@ -107,23 +195,23 @@ CloudApp.controller('Phy_MonitorController',
                     }
                 }
             }).result.then(function(){
-                $scope.phy_monitor_table.reload();
+                $scope.phy_monitor_network_table.reload();
             });
         };
     })
 
 
-    .controller('NewPhy_MonitorController',
+    .controller('NewPhy_Monitor_NetworkController',
         function($scope, $modalInstance, $i18next,
-                 CommonHttpService, ToastrService, Phy_MonitorForm, dataCenters){
+                 CommonHttpService, ToastrService, Phy_Monitor_NetworkForm, dataCenters){
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = Phy_MonitorForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = Phy_Monitor_NetworkForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
 
             $scope.dataCenters = dataCenters;
-            $scope.phy_monitor = {is_resource_user: false, is_approver: false};
+            $scope.phy_monitor_network = {is_resource_user: false, is_approver: false};
             $scope.is_submitting = false;
             $scope.cancel = $modalInstance.dismiss;
             $scope.create = function(){
@@ -133,7 +221,7 @@ CloudApp.controller('Phy_MonitorController',
                 }
 
                 $scope.is_submitting = true;
-                CommonHttpService.post('/api/phy_monitor/create/', $scope.phy_monitor).then(function(result){
+                CommonHttpService.post('/api/phy_monitor_network/create/', $scope.phy_monitor_network).then(function(result){
                     if(result.success){
                         ToastrService.success(result.msg, $i18next("success"));
                         $modalInstance.close();
@@ -147,7 +235,7 @@ CloudApp.controller('Phy_MonitorController',
             };
         }
 
-   ).factory('Phy_MonitorForm', ['ValidationTool', '$i18next',
+   ).factory('Phy_Monitor_NetworkForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -155,12 +243,12 @@ CloudApp.controller('Phy_MonitorController',
                     var config = {
 
                         rules: {
-                            phy_monitorname: {
+                            phy_monitor_networkname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/phy_monitor/is-name-unique/",
+                                    url: "/api/phy_monitor_network/is-name-unique/",
                                     data: {
-                                        phy_monitorname: $("#phy_monitorname").val()
+                                        phy_monitor_networkname: $("#phy_monitor_networkname").val()
                                     },
                                     async: false
                                 }
@@ -168,8 +256,8 @@ CloudApp.controller('Phy_MonitorController',
                             user_type: 'required'
                         },
                         messages: {
-                            phy_monitorname: {
-                                remote: $i18next('phy_monitor.name_is_used')
+                            phy_monitor_networkname: {
+                                remote: $i18next('phy_monitor_network.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -181,18 +269,18 @@ CloudApp.controller('Phy_MonitorController',
                         }
                     };
 
-                    return ValidationTool.init('#phy_monitorForm', config);
+                    return ValidationTool.init('#phy_monitor_networkForm', config);
                 }
             }
-        }]).controller('Phy_MonitorUpdateController',
+        }]).controller('Phy_Monitor_NetworkUpdateController',
         function($rootScope, $scope, $modalInstance, $i18next,
-                 phy_monitor, phy_monitor_table,
-                 Phy_Monitor, UserDataCenter, phy_monitorForm,
+                 phy_monitor_network, phy_monitor_network_table,
+                 Phy_Monitor_Network, UserDataCenter, phy_monitor_networkForm,
                  CommonHttpService, ToastrService, ResourceTool){
 
-            $scope.phy_monitor = phy_monitor = angular.copy(phy_monitor);
+            $scope.phy_monitor_network = phy_monitor_network = angular.copy(phy_monitor_network);
 
-            $modalInstance.rendered.then(phy_monitorForm.init);
+            $modalInstance.rendered.then(phy_monitor_networkForm.init);
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
@@ -201,21 +289,21 @@ CloudApp.controller('Phy_MonitorController',
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = phy_monitorForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = phy_monitor_networkForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
-            $scope.submit = function(phy_monitor){
+            $scope.submit = function(phy_monitor_network){
 
-                if(!$("#Phy_MonitorForm").validate().form()){
+                if(!$("#Phy_Monitor_NetworkForm").validate().form()){
                     return;
                 }
 
-                phy_monitor = ResourceTool.copy_only_data(phy_monitor);
+                phy_monitor_network = ResourceTool.copy_only_data(phy_monitor_network);
 
 
-                CommonHttpService.post("/api/phy_monitor/update/", phy_monitor).then(function(data){
+                CommonHttpService.post("/api/phy_monitor_network/update/", phy_monitor_network).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        phy_monitor_table.reload();
+                        phy_monitor_network_table.reload();
                         $modalInstance.dismiss();
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -223,7 +311,7 @@ CloudApp.controller('Phy_MonitorController',
                 });
             };
         }
-   ).factory('phy_monitorForm', ['ValidationTool', '$i18next',
+   ).factory('phy_monitor_networkForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -231,12 +319,12 @@ CloudApp.controller('Phy_MonitorController',
                     var config = {
 
                         rules: {
-                            phy_monitorname: {
+                            phy_monitor_networkname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/phy_monitor/is-name-unique/",
+                                    url: "/api/phy_monitor_network/is-name-unique/",
                                     data: {
-                                        phy_monitorname: $("#phy_monitorname").val()
+                                        phy_monitor_networkname: $("#phy_monitor_networkname").val()
                                     },
                                     async: false
                                 }
@@ -244,8 +332,8 @@ CloudApp.controller('Phy_MonitorController',
                             user_type: 'required'
                         },
                         messages: {
-                            phy_monitorname: {
-                                remote: $i18next('phy_monitor.name_is_used')
+                            phy_monitor_networkname: {
+                                remote: $i18next('phy_monitor_network.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -257,7 +345,7 @@ CloudApp.controller('Phy_MonitorController',
                         }
                     };
 
-                    return ValidationTool.init('#Phy_MonitorForm', config);
+                    return ValidationTool.init('#Phy_Monitor_NetworkForm', config);
                 }
             }
         }]);
