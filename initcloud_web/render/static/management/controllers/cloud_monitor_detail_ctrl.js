@@ -30,6 +30,20 @@ CloudApp.controller('Cloud_Monitor_DetailController',
         $scope.cloud_id = urlParamsTrnasfer.get();
 	$scope.cloud_id2 = cloud_id;
 	$scope.data1 = Cloud_Monitor_Detail.query({'cloud_id':$scope.cloud_id2})
+        var id = urlParamsTrnasfer.get(); // 得到id的值
+        console.log(id);
+        CommonHttpService.post("/api/cloud_monitor_detail/query/", {id:id}).then(function(data){
+            console.log(data);
+            // if (data.success) {
+            //     ToastrService.success(data.msg, $i18next("success"));
+            //     $scope.cloud_monitor_detail_table.reload();
+            //     checkboxGroup.uncheck()
+            // } else {
+            //     ToastrService.error(data.msg, $i18next("op_failed"));
+            // }
+        });
+
+>>>>>>> 0a03eff5fd9be0ed9f75a68fcd78f47345e1305b
         // var data = 
         //     {
         //         'id':1,

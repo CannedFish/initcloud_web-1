@@ -14,76 +14,18 @@ CloudApp.controller('Phy_Monitor_JbodController',
         $scope.phy_monitor_jbods = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_jbods);
 
-        /* $scope.phy_monitor_jbod_table = new ngTableParams({ */
-                // page: 1,
-                // count: 10
-            // },{
-                // counts: [],
-                // getData: function($defer, params){
-                    // Phy_Monitor_Jbod.query(function(data){
-                        // $scope.phy_monitor_jbods = ngTableHelper.paginate(data, $defer, params);
-                        // checkboxGroup.syncObjects($scope.phy_monitor_jbods);
-                    // });
-                // }
-            // });
+        var init_data = Phy_Monitor_Jbod.query(function(data) {
+            }, {id: 1});
+        $scope.phy_monitor_jbods = init_data; 
+        checkboxGroup.syncObjects($scope.phy_monitor_jbods);
+        $scope.$on('to-child-jbod',function(d,id){
+            var data = Phy_Monitor_Jbod.query(function(data) {
+            }, {id: id});
+            $scope.phy_monitor_jbods = data; 
+            checkboxGroup.syncObjects($scope.phy_monitor_jbods);
 
-         // var data ={
-            // 'disk':[
-                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                    // 1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                // ],
-            // 'systemUI':[[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
-            // 'electric_rota':[1200,1500,1400,1200,1800],
-        // };
-        /* $scope.phy_monitor_jbods = data; */
-        Phy_Monitor_Jbod.get(function(data) {
-          $scope.phy_monitor_jbods = data;
-        });
-         $scope.$on('to-child-jbod',function(d,data){
-            //根据id 查询数据
-            //请求地址: /api/phy_monitor_network/query-id/
-            // CommonHttpService.post("/api/phy_monitor_jbod/query-id/", {id: data}).then(function(data){
-            //         if (data.success) {
-            //             ToastrService.success(data.msg, $i18next("success"));
-            //          
-            //             checkboxGroup.uncheck()
-            //         } else {
-            //             ToastrService.error(data.msg, $i18next("op_failed"));
-            //         }
-            //     });
-            if(data == 1)
-            {
-                var query_data = {
-                    'disk':[
-                            1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                            1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                            1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                            1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                            1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                        ],
-                    'systemUI':[[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
-                    'electric_rota':[1200,1500,1400,1200,1800],
-                };
-            }else{
-         
-               var query_data = {
-                            'disk':[
-                                    1,1,1,1,-1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                                    1,1,1,1,1,1,0,-1,0,1,1,1,1,1,1,1,1,1,
-                                    1,1,1,-1,1,1,0,1,0,1,-1,1,-1,1,1,1,1,1,
-                                    1,1,1,1,1,-1,0,1,0,1,1,1,-1,-1,1,1,1,1,
-                                    1,1,1,1,1,1,0,-1,0,1,1,-1,1,1,1,1,1,1,
-                                ],
-                            'systemUI':[[1.2,12],[1.4,12],[1.4,15],[1.2,15]],
-                            'electric_rota':[1200,1500,1400,1200,1800],
-                        };
-                    }
-                $scope.phy_monitor_jbods = query_data;
-            
-        });
+        })
+
         var deletePhy_Monitor_Jbods = function(ids){
 
             $ngBootbox.confirm($i18next("phy_monitor_jbod.confirm_delete")).then(function(){

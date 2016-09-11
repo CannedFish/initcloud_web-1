@@ -9,10 +9,11 @@ CloudApp.controller('Phy_MonitorController',
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
-
         });
+
         $scope.phy_monitors = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitors);
+        //接受传递过来的参数查询显示 
         // 网络监控
         $scope.$on('to-parent-network',function(d,data){
             //接收参数 广播给指定的孩子节点
@@ -26,19 +27,6 @@ CloudApp.controller('Phy_MonitorController',
         $scope.$on('to-parent-jbod',function(d,data){
             $scope.$broadcast('to-child-jbod',data);
         })
-        // $scope.phy_monitor_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Phy_Monitor.query(function(data){
-        //                 $scope.phy_monitors = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.phy_monitors);
-        //             });
-        //         }
-        //     });
-
         var deletePhy_Monitors = function(ids){
 
             $ngBootbox.confirm($i18next("phy_monitor.confirm_delete")).then(function(){

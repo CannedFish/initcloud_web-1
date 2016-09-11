@@ -4,10 +4,10 @@ from rest_framework import serializers
 
 # Cabinet
 class CpuTempratureSerializer(serializers.Serializer):
-    node1 = serializers.ListField(child=serializers.IntegerField())
-    node2 = serializers.ListField(child=serializers.IntegerField())
-    node3 = serializers.ListField(child=serializers.IntegerField())
-    node4 = serializers.ListField(child=serializers.IntegerField())
+    node1 = serializers.ListField(child=serializers.FloatField())
+    node2 = serializers.ListField(child=serializers.FloatField())
+    node3 = serializers.ListField(child=serializers.FloatField())
+    node4 = serializers.ListField(child=serializers.FloatField())
 
 class CabinetSerializer(serializers.Serializer):
     _24switchboard = serializers.ListField(child=serializers.IntegerField())
@@ -40,7 +40,7 @@ class CPUSerializer(serializers.Serializer):
 
 class PhyMonitorServerSerializer(serializers.Serializer):
     CPU = CPUSerializer(many=True)
-    memory_voltage = serializers.ListField(child=serializers.IntegerField())
+    memory_voltage = serializers.ListField(child=serializers.FloatField())
 
 # PhyMonitorStorage
 class PhyNodeSerializer(serializers.Serializer):
