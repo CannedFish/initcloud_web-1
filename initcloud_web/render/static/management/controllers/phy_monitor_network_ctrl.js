@@ -14,24 +14,11 @@ CloudApp.controller('Phy_Monitor_NetworkController',
         $scope.phy_monitor_networks = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_networks);
 
-        // $scope.phy_monitor_network_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Phy_Monitor_Network.query(function(data){
-        //                 $scope.phy_monitor_networks = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.phy_monitor_networks);
-        //             });
-        //         }
-        //     });
-
-        /* $scope.phy_monitor_networks = data; */
-        Phy_Monitor_Network.query(function(data) {
-          $scope.phy_monitor_networks = data; 
-        }, {id: 1});
-        $scope.$on('to-child-network',function(d,data){
+        $scope.$on('to-child-network',function(d,id){
+            Phy_Monitor_Network.query(function(data) {
+                console.log(data);
+              // $scope.phy_monitor_networks = data; 
+            }, {id: id});
             //根据id 查询数据
             //请求地址: /api/phy_monitor_network/query-id/
             // CommonHttpService.post("/api/phy_monitor_network/batch-id/", {id: data}).then(function(data){
@@ -43,89 +30,9 @@ CloudApp.controller('Phy_Monitor_NetworkController',
             //             ToastrService.error(data.msg, $i18next("op_failed"));
             //         }
             //     });
-            Phy_Monitor_Network.query(function(data) {
-              $scope.phy_monitor_networks = data; 
-            }, {id: data});
-            /* if(data == 1){ */
-                // var query_data =[
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'0','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'}
-                // ];
-            // }else{
-                // var query_data = [
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'0','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'},
-                    // {'link':'1','upload':'1234.0','download':'1235.0'}
-                // ];
-            // }
-            /* $scope.phy_monitor_networks = query_data; */
+            // Phy_Monitor_Network.query(function(data) {
+            //   $scope.phy_monitor_networks = data; 
+            // }, {id: data});
         })
         var deletePhy_Monitor_Networks = function(ids){
 
