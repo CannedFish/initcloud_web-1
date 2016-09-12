@@ -43,6 +43,7 @@ from biz.network_bar_router import views as network_bar_router_view
 from biz.cloud_monitor import views as cloud_monitor_view
 from biz.cloud_monitor_detail import views as cloud_monitor_detail_view
 from biz.service_bar import views as service_bar_view
+from biz.network_bar import views as network_bar_view
 from biz.virtualmechine_bar import views as virtualmechine_bar_view
 
 
@@ -90,6 +91,12 @@ urlpatterns += [
 urlpatterns += [
     url(r'^service__bar/$', service_bar_view.Service_BarList.as_view()),
 ]
+
+#network_bar
+urlpatterns += [
+    url(r'^network_bar/$', network_bar_view.Network_BarList.as_view()),
+]
+
 
 #virtualmechine_bar
 urlpatterns += [
