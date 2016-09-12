@@ -137,4 +137,36 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 	    return_array.append(return_data)
 	    return Response(return_array)	
         except:
-	    trackback.print_exc()
+	    #trackback.print_exc()
+	    return_array = [{
+		'id':1,
+                'cpu':{
+                    'usage':'10%',
+                    'speed':'0.80',
+                    'noraml_run_time':'0:02:31:08',
+                    'basic_frequency':'1.60',
+                    'logic_kernal':'4',
+                    'CPU_type':'E36608',
+                    'data':[]
+                },
+                'memory':{
+                    'using':'2.7',
+                    'surplus':'4.8',
+                    'memory_usage':'20%',
+                    'data':[]
+                },
+                'network':{
+                    'ADSL_UP':'223',
+                    'ADSL_DOWN':'225',
+                    'network_occupyrate':'56%',
+                    'data':[]
+                },
+                'cloud_disk':[
+                  {'name':'oa110.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+                  {'name':'oa120.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+                  {'name':'oa130.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+                  {'name':'oa140.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+                  {'name':'oa150.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
+                ]
+            }]
+	    return Response(return_array)

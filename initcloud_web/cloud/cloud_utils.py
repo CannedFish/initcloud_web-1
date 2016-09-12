@@ -118,7 +118,7 @@ def create_rc_manually(request):
     rc["username"] = "admin"
     rc["password"] = "admin"
     rc["tenant_name"] = "admin"
-    rc["tenant_uuid"] = "4296a1c5a206402c8917bc9c991cadcc"
+    rc["tenant_uuid"] = "32100ee9bd024d09b5e226d1c18bcd70"
     rc["auth_url"] = "http://localhost:5000/v2.0/"
 
     return rc

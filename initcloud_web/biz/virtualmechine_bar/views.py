@@ -34,6 +34,23 @@ from cloud.cloud_utils import create_rc_manually
 import traceback
 LOG = logging.getLogger(__name__)
 
+def get_sample_data(request, meter_name, resource_id, project_id = None):
+    query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
+    sample_data = ceilometer.sample_list(request, meter_name, query, limit = 7)
+    hour_data = []
+    for hour in range(0,6):
+        try:
+            hour_data.append([hour, sample_data[hour].counter_volume])
+        except IndexError:
+            hour_data.append([hour, 0])
+        except:
+            hour_data.append([hour, 4])
+    sum = 0
+    for hour in hour_data:
+        sum = sum + hour[1]
+    avg = sum/len(hour_data)
+    return avg
+
 
 class Virtualmechine_BarList(generics.ListAPIView):
     LOG.info("--------- I am virtualmechine_bar list in Virtualmechine_BarList ----------")
@@ -42,10 +59,8 @@ class Virtualmechine_BarList(generics.ListAPIView):
     serializer_class = Virtualmechine_BarSerializer
     def list(self, request):
 	try:
-	    LOG.info('111111111111111111111111111')
 	    rc = create_rc_manually(request)
 	    pan = cinder.volume_list(rc, {'all_tenants':1})
-	    LOG.info(pan)
 	    cm = nova.server_list(rc, all_tenants=True)[0]
 	    est_cm = len(cm)
 	    running_cm = 0
@@ -56,10 +71,22 @@ class Virtualmechine_BarList(generics.ListAPIView):
 		total_ypan = len(pan)
 	    except:
 		total_ypan = 0
+	    write_rate = []
+	    read_rate = []
+	    cpu_util = []
 	    for each in cm:
 		if each.status == 'ACTIVE':
 		    running_cm = running_cm + 1
-	    LOG.info('3333333333333333333333333')
+		avg_write = get_sample_data(rc, 'disk.write.bytes.rate', each.id)
+                write_rate.append(avg_write)
+		avg_read = get_sample_data(rc, 'disk.read.bytes.rate', each.id)
+                read_rate.append(avg_read)
+		avg_util = get_sample_data(rc, 'cpu_util', each.id)
+                cpu_util.append(avg_util)
+	    write = sum(write_rate)/len(write_rate)
+	    read = sum(read_rate)/len(read_rate)
+	    cpu_loadbalance = sum(cpu_util)/len(cpu_util)
+
 	    #hypervisors = nova.hypervisor_list(rc)
             #for each in hypervisors:
                 #vcpus_used = vcpus_used + each.vcpus_used
@@ -70,9 +97,8 @@ class Virtualmechine_BarList(generics.ListAPIView):
             cloud_kernel = nova.hypervisor_stats(rc).vcpus_used
             cloud_allocat_mem = nova.hypervisor_stats(rc).memory_mb_used
             total_capacity = nova.hypervisor_stats(rc).local_gb
-	    LOG.info('222222222222222222222222222222')
 	    return_data = []
-	    return_data.append({"total_kernel":total_kernel,'total_memory':total_memory,'cloud_kernel':cloud_kernel,'cloud_allocat_memory':cloud_allocat_mem,
+	    return_data.append({'write':write,'read':read,'cpu_loadbalance':cpu_loadbalance,"total_kernel":total_kernel,'total_memory':total_memory,'cloud_kernel':cloud_kernel,'cloud_allocat_memory':cloud_allocat_mem,
                 'established_cloudmechine':est_cm,'running_cloudmechine':running_cm,'total_ypan':total_ypan,'total_capacity':total_capacity,
                 'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
 })
@@ -81,7 +107,7 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	except:
 	    #trackback.print_exc()
 	    return_data = []	
-	    return_data.append({"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
+	    return_data.append({'write':5,'read':4,'cpu_loadbalance':3,"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
                 'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',
                 'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
 })

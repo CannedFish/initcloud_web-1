@@ -20,6 +20,7 @@ CloudApp.controller('Network_BarController',
         'uprate':[[60,25],[50,5],[40,60],[30,45],[20,30],[10,38],[0,0]],
         'downrate':[[60,4],[50,45],[40,40],[30,55],[20,30],[10,55],[0,0]]
          }
+	var data1 = Network_Bar.query()
         $scope.network_bars = data;
         checkboxGroup.syncObjects($scope.network_bars);
         //非table 接口数据
