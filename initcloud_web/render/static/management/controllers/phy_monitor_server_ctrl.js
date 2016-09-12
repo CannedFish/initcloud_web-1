@@ -11,15 +11,9 @@ CloudApp.controller('Phy_Monitor_ServerController',
                 Metronic.initAjax();
         });
 
-        $scope.phy_monitor_servers = [];
+        $scope.phy_monitor_servers = "";
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_servers);
 
-        // Phy_Monitor_Server.query(function(data) {
-
-        //     $scope.phy_monitor_servers = data;
-        //     checkboxGroup.syncObjects($scope.phy_monitor_servers);
-        //     console.log($scope.phy_monitor_servers)
-        // }, {id: 1});
         $scope.$on('to-child-server',function(d,id){
             var data = Phy_Monitor_Server.query(function(data) {
                

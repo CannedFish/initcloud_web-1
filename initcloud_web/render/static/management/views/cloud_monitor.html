@@ -44,10 +44,11 @@
       </div>  
     </div>
   </div>
-  <div class="row content">
-  <!--便利开始  (第一层)-->
+  <div class="row content">{[{cloud_monitors}]}
+   <div style="height:200px;line-height:200px;text-align:center;color:#ff0000;">加载中。。。</div>
+    <!--便利开始  (第一层)-->
     <div class="col-md-2 pageitem" ng-repeat="(key,list) in cloud_monitors" on-finish-render-filters>
-        <!--<a href="#/cloud_monitor_detail/{[{list.cloud_id}]}" ng-click="transfer(list.cloud_id)"> <!-- 跳转二级界面 -->  -->
+        <!--<a href="#/cloud_monitor_detail/{[{list.cloud_id}]}" ng-click="transfer(list.cloud_id)"> 跳转二级界面 --> 
         <a href="#/cloud_monitor_detail/{[{list.cloud_id}]}"> <!-- 跳转二级界面 -->
             <div class="list" >
                 <div>
