@@ -9,7 +9,8 @@
                 <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">
                 <span class="site"> oa1.surdoc.com</span>
             </div>
-            <div class="back fr"><img src=""><span>返回</span></div>
+            <div class="back fr"><img src=""><a href="javascript:goback()"><span style="color:
+            #00d8ff">返回</span></a></div>
         </div>
        <div class="crow">
            <div class="warpper fl">
@@ -20,7 +21,7 @@
                    </div>
                    <div style="height: 150px; width:100%; margin-left:-20px;position: relative;padding: 0px;" ui-options="[
                         { 
-                            data: {[{cloud_monitor_details.cpu_data.day_data}]}, points: { show: false },
+                            data: {[{cloud_monitor_details.cpu.data}]}, points: { show: false },
                             lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
                             color:'#ff0000'
                         }
@@ -56,7 +57,7 @@
                     </div>
                     <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
                         { 
-                            data: {[{cloud_monitor_details.cpu_data.day_data}]}, points: { show:false},
+                            data: {[{cloud_monitor_details.memory.data}]}, points: { show:false},
                             lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
                             color:'#cda417'
                         }
@@ -93,10 +94,15 @@
                    </div>
                    <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
                         { 
-                            data: {[{cloud_monitor_details.network_data.day_data[0].ADSL_UP_DATA}]}, points: { show:false},
+                            data: {[{cloud_monitor_details.network.data[0].incoming}]}, points: { show:false},
                             lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
                             color:'#A8C001'
                         },
+                        { 
+                            data: {[{cloud_monitor_details.network.data[1].outgoing}]}, points: { show:false},
+                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                            color:'#A8C001'
+                        }
                        
                       ],
                       {
@@ -117,7 +123,7 @@
                       }" ui-jq="plot"> 
                     </div>
                     <div class="network-info">
-                        <div><span>上行：{[{cloud_monitor_details.network.ADSL_UP}]}</span><span>下行：{[{cloud_monitor_details.network.ADSL_DOWN}]}</span><span>网络占用率：{[{cloud_monitor_details.network.network_occupyrate}]}</span></div>
+                        <div><span>上行：{[{cloud_monitor_details.network.ADSL_UP}]}</span><span>下行：{[{cloud_monitor_details.network.ADSL_DOWN}]}</span><span></span></div>
                     </div>
                </div>
            </div>
@@ -133,7 +139,6 @@
                     text-align:center;
                     height:35px;
                     background:#0a264c;
-                    /*opacity:0.5;*/
                 }
                  .disk_table td{
                     color:#0077bc;
@@ -141,7 +146,6 @@
                     border-bottom:solid 1px #0077bc;
                     text-align:center;
                     height:30px;
-                   /* border-right:none;*/
                 }
                 .pagination li.footable-page-arrow:nth-child(1){
                     display:none;
@@ -196,13 +200,6 @@
                                     <td>{[{item.volumn}]}</td>
                                 </tr>
                             </tbody>
-                           <!--  <tfoot class="hide-if-no-paging">
-                              <tr>
-                                  <td colspan="5" class="text-center">
-                                     
-                                  </td>
-                              </tr>
-                            </tfoot> -->
                         </table>
                     </div>
                </div>
@@ -211,5 +208,8 @@
     </div>
 </div>
 <script>
-   
+   function goback()
+   {
+        history.go(-1);
+   }
 </script>

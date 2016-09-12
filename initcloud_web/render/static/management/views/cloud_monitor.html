@@ -6,6 +6,12 @@
     .cc5{color:#3CB059;}
     .cc6{color:#B1AB3A;}
     .cc7{color:#AD0482;}
+    .sortitem.active{
+      color:#ff0000 !important;
+    }
+    .items .sortitem:active{
+      color:#00d8ff;
+    }
 </style>
 <div class="main" ng-controller="Cloud_MonitorController">
   <div class="title"><span class="tx">云主机监控</span></div>
@@ -34,12 +40,12 @@
         排序:
         </span>
         <span class="items">
-          <a href="" ng-click="sortbykey('me-name')">主机名称</a>
-          <a href="">停机时间</a>
-          <a href="" ng-click="sortbykey('data_cpu')">cpu</a>
-          <a href="" ng-click="sortbykey('data_memory')">内存</a>
-          <a href="" ng-click="sortbykey('data_disk')">磁盘</a>
-          <a href="" ng-click="sortbykey('data_network')">网络</a>
+          <a class="sortitem" href="#" ng-click="sortbykey('me-name')">主机名称</a>
+          <a class="sortitem" href="#" ng-click="sortbykey('data_stop')">停机时间</a>
+          <a class="sortitem" href="#" ng-click="sortbykey('data_cpu')">cpu</a>
+          <a class="sortitem" href="#" ng-click="sortbykey('data_memory')">内存</a>
+          <a class="sortitem" href="#" ng-click="sortbykey('data_disk')">磁盘</a>
+          <a class="sortitem" href="#" ng-click="sortbykey('data_network')">网络</a>
         </span>
       </div>  
     </div>
@@ -852,9 +858,3 @@
         <span  style="visibility:hidden;" class="num" id="current_page"></span>
     </div>
 </div>
-
-<script>
-    // function ($, w, undefined) {
-    //         alert(1);
-    // })(jQuery, window)
-</script>
