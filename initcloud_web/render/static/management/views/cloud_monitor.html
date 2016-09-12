@@ -50,7 +50,7 @@
       </div>  
     </div>
   </div>
-  <div class="row content">
+  <div class="row content" ng-if="cloud_monitors != ''">
   <!--便利开始  (第一层)-->
     <div class="col-md-2 pageitem" ng-if="(sortname == 'mechine')" ng-repeat="(key,list) in cloud_monitors track by $index" on-finish-render-filters>
         <a href="#/cloud_monitor_detail/" ng-click="transfer(list.cloud_id)"> <!-- 跳转二级界面 -->
@@ -834,6 +834,9 @@
     </div>
   <!-- 便利结束  -->
 
+  </div>
+  <div ng-if="cloud_monitors == ''">
+    
   </div>
   <style type="text/css">
     .pagination .con{height:100%;width:100%;text-align:center;margin-left:15px;}
