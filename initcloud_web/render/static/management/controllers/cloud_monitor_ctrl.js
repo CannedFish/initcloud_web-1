@@ -16,6 +16,15 @@ CloudApp.controller('Cloud_MonitorController',
         //
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cloud_monitors);
         //初始化数据
+        var df = Cloud_Monitor.query(function(data){
+            $scope.cloud_monitors = data; 
+            
+        });
+        if(!df){
+            console.log(12345);
+        }
+        checkboxGroup.syncObjects($scope.cloud_monitors);
+
         var _data = {
                 "adfadfa": {
                     "cloud_id": "d6bf3768-0a6d-4fde-ace2-f8f0124c2577",
@@ -6516,7 +6525,7 @@ CloudApp.controller('Cloud_MonitorController',
                     "run_time": "1319:1:45"
                 }
             }
-    
+        
         var plot_style = {
             colors: ['#23b7e5', '#7266ba'],
             series: { shadowSize: 3 },
@@ -6780,55 +6789,6 @@ CloudApp.controller('Cloud_MonitorController',
                 }
             }
         };
-        $scope.filter = function(){
-            var v = $('.filter-status').find(':selected').text();
-            console.log(v);
-            // var runtime = [];
-            // if(typeof $scope.cloud_monitors == 'object'){
-            //     for (var o in $scope.cloud_monitors){
-            //         runtime.push($scope.cloud_monitors[o][1][0].run_time);
-            //     }
-            // }
-            // runtime.sort(function(a,b){
-            //     console.log(this);
-            //      return a-b;
-            // })
-            // console.log(runtime);
-            // console.log($scope.cloud_monitors)
-            //data-time-filter
-            // 排序
-          //   function sort(content){
-          //       console.log(content)
-          //       for(var i =1;i<content.length;++i)
-          //       {
-          //           var tmp = content[i];
-          //           var j = i-1;
-          //           while(j>=0 && content[j]>tmp){
-          //               content[j+1] = content[j];
-          //               --j;
-          //           }
-          //           console.log(tmp)
-          //           console.log(j)
-          //           content[j+1] = tmp;
-          //           console.log(content)
-          //       }
-          //       console.log(content);
-          //   }
-          // sort(runtime);
-          // console.log(runtime);
-        }
-       
-       
-        $scope.selected_1 = '';
-        $scope.selected_2 = '';
-        
-        //filter过滤查询函数 
-        // $scope.select = function()
-        // { 
-        //     var selected = $('.filter-status').find(':selected').text();
-        //     console.log(selected);
-        //     // console.log($scope.selected);
-        // }
         var deleteCloud_Monitors = function(ids){
 
             $ngBootbox.confirm($i18next("cloud_monitor.confirm_delete")).then(function(){
