@@ -1,0 +1,120 @@
+#!/bin/sh
+
+# 1 install software
+yum -y groupinstall "Development tools"
+yum -y install openldap-devel libffi-devel python-pip mariadb-devel python-dev ldap
+
+# 2 add initcloud user/group
+groupadd initcloud
+useradd initcloud -g initcloud -m -d /home/initcloud
+echo "initcloud ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/initcloud
+
+# 3 log
+mkdir -p /var/log/initcloud
+chown -R initcloud:initcloud /var/log/initcloud
+
+# 4 config initcloud_web
+#pushd .
+#cp -a ../initcloud_web /var/www/
+#cd /var/www/initcloud_web
+#pip install virtualenv
+#virtualenv .venv
+#/var/www/initcloud_web/.venv/bin/pip install -r requirements.txt
+#popd
+
+
+# 5 create db and user
+/usr/bin/mysql -u root < cloud_web.sql
+
+# 6 generate local_settings.py
+pushd .
+cd /var/www/initcloud_web/
+/var/www/initcloud_web/.venv/bin/python initcloud_web/manage.py migrate_settings
+popd
+
+# 7 migrate db
+pushd .
+cd /var/www/initcloud_web/
+/var/www/initcloud_web/.venv/bin/python initcloud_web/manage.py migrate
+popd
+
+# 8 create super user
+pushd .
+cd /var/www/initcloud_web/
+/var/www/initcloud_web/.venv/bin/python initcloud_web/manage.py createsuperuser
+popd
+
+#Username (leave blank to use 'root'): dongdong
+#Email address: yang_sirone@163.com
+#Password: 
+#Password (again): 
+#Superuser created successfully.
+
+# 9 init flavor
+pushd .
+cd /var/www/initcloud_web/
+/var/www/initcloud_web/.venv/bin/python initcloud_web/manage.py init_flavor
+popd
+
+# 10 test webserver 
+#pushd .
+#cd /var/www/initcloud_web/
+#/var/www/initcloud_web/.venv/bin/python initcloud_web/manage.py runserver 0.0.0.0:8081
+#popd
+
+
+# 11 rabbit configure 
+rabbitmqctl add_user initcloud_web password
+rabbitmqctl add_vhost initcloud
+rabbitmqctl set_permissions -p initcloud initcloud_web ".*" ".*" ".*"
+cp celery/celeryd.conf /etc/default/celeryd
+cp celery/celeryd /etc/init.d/celeryd
+cp celery/celerybeat /etc/init.d/celerybeat
+chown -R initcloud:initcloud /var/log/initcloud/celery_task.log
+chgrp -R initcloud /var/log/initcloud/celery_task.log
+chown -R initcloud:initcloud /var/log/initcloud/initcloud.log
+chgrp -R initcloud /var/log/initcloud/initcloud.log
+chmod +x /etc/init.d/celeryd
+/etc/init.d/celeryd restart
+/etc/init.d/celeryd status
+chmod +x /etc/init.d/celerybeat
+/etc/init.d/celerybeat restart
+/etc/init.d/celerybeat status
+
+
+# 12 run_celery with auto start
+#vim /etc/rc.d/rc.local
+echo -e 'su - initcloud -c "cd /var/www/initcloud_web/initcloud_web/;/var/www/initcloud_web/.venv/bin/celery multi restart initcloud_worker -A cloud --pidfile=/var/log/initcloud/celery_%n.pid --logfile=/var/log/initcloud/celery_%n.log &"' >> /etc/rc.local
+chmod +x /etc/rc.d/rc.local
+
+
+# 13 deploy on apache (nginx in beta3)
+echo "Listen 8081" >> /etc/httpd/conf/ports.conf
+cp 16-evercloud.conf /etc/httpd/conf.d/
+systemctl restart httpd.service
+
+# 14 create test project
+
+source /root/keystonerc_admin
+openstack project create surcloud 
+
+# 15 create data for template storage
+
+mkdir /data/
+chmod 777 /data/
+
+# 16 set up default network && router  for the project
+
+
+# 17 set up spice vnc connect
+
+cd /var/www/initcloud_web/
+mkdir /var/www/initcloud_web/initcloud_web/render/static/software
+cp docs/software/* /var/www/initcloud_web/initcloud_web/render/static/software/
+
+
+
+
+#18 add docker image & software
+
+
