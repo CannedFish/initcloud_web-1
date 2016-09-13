@@ -38,13 +38,16 @@ def get_rx_per():
 def get_tx_per():
     return round(random.uniform(0, 90), 1)
 
+def get_max_rate():
+    return 1024*1024
+
 def get_storage_node_data(name):
     mem_used = get_mem_used()
     mem_total = get_mem_total()
     used = round(mem_total*mem_used/100)
     rx_per = get_rx_per()
     tx_per = get_tx_per()
-    max_rate = 1024*1024
+    max_rate = get_max_rate()
     return {
         'name': name,
         'item': {
@@ -65,6 +68,20 @@ def get_storage_node_data(name):
         }
     }
 
+def get_net_data(status):
+    for net in status['netIntfStatus']:
+        net['rxRate'] = byte_2_kbit(net['rxRate'])
+        net['txRate'] = byte_2_kbit(net['txRate'])
+    nets_rx_rate = [net['rxRate'] for net in status['netIntfStatus']]
+    nets_rx_per = [net['rxPer'] for net in status['netIntfStatus']]
+    nets_tx_rate = [net['txRate'] for net in status['netIntfStatus']]
+    nets_tx_per = [net['txPer'] for net in status['netIntfStatus']]
+    # real data
+    up = round(reduce(lambda x,y: x+y, nets_tx_per)/float(len(nets_tx_per)), 1)
+    up_rate = reduce(lambda x,y: x+y, nets_tx_rate)
+    down = round(reduce(lambda x,y: x+y, nets_rx_per)/float(len(nets_rx_per)), 1)
+    down_rate = reduce(lambda x,y: x+y, nets_rx_rate)
+    return up, up_rate, down, down_rate
 
 class StorageNodeList(generics.ListAPIView):
     serializer_class = StorageNodeSerializer
@@ -83,21 +100,32 @@ class StorageNodeList(generics.ListAPIView):
                         # unit conversion
                         status['memUsed'] = byte_2_gbyte(status['memUsed'])
                         status['memTotal'] = byte_2_gbyte(status['memTotal'])
-                        for net in status['netIntfStatus']:
-                            net['rxRate'] = byte_2_kbit(net['rxRate'])
-                            net['txRate'] = byte_2_kbit(net['txRate'])
-                        nets_rx_rate = [net['rxRate'] for net in status['netIntfStatus']]
-                        nets_rx_per = [net['rxPer'] for net in status['netIntfStatus']]
-                        nets_tx_rate = [net['txRate'] for net in status['netIntfStatus']]
-                        nets_tx_per = [net['txPer'] for net in status['netIntfStatus']]
+                        # for net in status['netIntfStatus']:
+                        #     net['rxRate'] = byte_2_kbit(net['rxRate'])
+                        #     net['txRate'] = byte_2_kbit(net['txRate'])
+                        # nets_rx_rate = [net['rxRate'] for net in status['netIntfStatus']]
+                        # nets_rx_per = [net['rxPer'] for net in status['netIntfStatus']]
+                        # nets_tx_rate = [net['txRate'] for net in status['netIntfStatus']]
+                        # nets_tx_per = [net['txPer'] for net in status['netIntfStatus']]
+                        # # real data
+                        # up = round(reduce(lambda x,y: x+y, nets_tx_per)/float(len(nets_tx_per)), 1)
+                        # up_rate = reduce(lambda x,y: x+y, nets_tx_rate)
+                        # down = round(reduce(lambda x,y: x+y, nets_rx_per)/float(len(nets_rx_per)), 1)
+                        # down_rate = reduce(lambda x,y: x+y, nets_rx_rate)
+                        up, up_rate, down, down_rate = get_net_data(status)
+                        # tempral data
+                        max_rate = get_max_rate()
+                        rx_per = get_rx_per()
+                        tx_per = get_tx_per()
                         # constructs data
                         query = {
                             'name': server['hostname'],
                             'item': {
-                                'cpu_used': [round(status['cpu'], 3)*100, get_cpu_used()],
+                                'cpu_used': [round(status['cpu'], 1), get_cpu_used()],
                                 'cpu_frequence': [get_cpu_frequence(), get_cpu_frequence()] \
                                         if status['cpuClock']=='' \
-                                        else [float(status['cpuClock'][0:-3]), get_cpu_frequence()],
+                                        else [float(status['cpuClock'][0:-3])/1000.0, \
+                                        get_cpu_frequence()],
                                 'memory': {
                                     'memory_used': round(status['memUsed']\
                                             /float(status['memTotal'])*100, 1) \
@@ -107,10 +135,10 @@ class StorageNodeList(generics.ListAPIView):
                                     'empty': status['memTotal']-status['memUsed']
                                 },
                                 'network_card': {
-                                    'up': round(reduce(lambda x,y: x+y, nets_tx_per)/len(nets_tx_per), 3) * 100,
-                                    'up_rate': reduce(lambda x,y: x+y, nets_tx_rate),
-                                    'down': round(reduce(lambda x,y: x+y, nets_rx_per)/len(nets_rx_per), 3) * 100,
-                                    'down_rate': reduce(lambda x,y: x+y, nets_rx_rate)
+                                    'up': up if up != 0 else tx_per,
+                                    'up_rate': up_rate if up != 0 else max_rate*tx_per,
+                                    'down': down if down != 0 else rx_per,
+                                    'down_rate': down_rate if down != 0 else max_rate*rx_per
                                 }
                             }
                         }
@@ -236,7 +264,7 @@ def get_phy_node():
         'cpuUsed': get_cpu_used(),
         'memUsed': get_mem_used(),
         'rx': get_rx_per(),
-        'tx': get_rx_per()
+        'tx': get_tx_per()
     }
 
 class PhyNodesList(APIView):
@@ -265,11 +293,16 @@ class PhyNodesList(APIView):
                     serverstatus = storage.get_server_status(server['id'])
                     if serverstatus['success']:
                         ss = serverstatus['data']
+                        up, up_rate, down, down_rate = get_net_data(ss)
+                        # tempral data
+                        max_rate = get_max_rate()
+                        rx_per = get_rx_per()
+                        tx_per = get_tx_per()
                         nodes.append({
                             'cpuUsed': round(ss['cpu'], 3)*100,
                             'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
-                            'rx': ss['netIntfStatus'][0]['rxPer'],
-                            'tx': ss['netIntfStatus'][0]['txPer']
+                            'tx': up if up != 0 else tx_per,
+                            'rx': down if down != 0 else rx_per
                         })
                     else:
                         LOG.info("Get %s status error: %s" % \
