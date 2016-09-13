@@ -139,7 +139,7 @@ ul, li{list-style-type:none;}
 }
 .police_table td:nth-child(3){
    width:285px;
-   text-align:left;
+   /*text-align:left;*/
 }
 .time-filter{
 

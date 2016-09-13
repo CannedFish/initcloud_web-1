@@ -1,91 +1,99 @@
 <link rel="stylesheet" href="../static/assets/admin/layout/css/second-common.css">
 <link rel="stylesheet" href="../static/assets/admin/layout/css/cloud-monitor-detail.css">
+<style type="text/css">
+    .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
+</style>
 <div class="content">
     <div class="titile">云主机监控</div>
     <div class="content_center">
        <!-- 详情 -->
         <div class="nav">
             <div class="title fl">
-                <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">
-                <span class="site"> oa1.surdoc.com</span>
+                <img src="../static/assets/admin/layout/img/common/stico_03.png">
+                <span class="site">{[{cloud_monitor_details.name}]}</span>
             </div>
             <div class="back fr"><img src=""><a href="javascript:goback()"><span style="color:
             #00d8ff">返回</span></a></div>
-        </div>
-       <div class="crow">
-           <div class="warpper fl">
-               <div class="box">
-                   <div class="box-nav">
-                       <span class="fl">CPU</span>
-                       <span class="fr">5-0/min</span>
+        </div>{[{cloud_monitor_details}]}
+        <div class="loaded">
+           <div class="crow clearfix">
+               <!-- <div class="warpper fl">
+                   <div class="box">
+                       <div class="box-nav">
+                           <span class="fl">CPU</span>
+                           <span class="fr">5-0/min</span>
+                       </div>
+                       <div style="height: 150px; width:100%; margin-left:-20px;position: relative;padding: 0px;" ui-options="[
+                            { 
+                                data: {[{cloud_monitor_details[0].cpu.data}]}, points: { show: false },
+                                lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                color:'#ff0000'
+                            }
+                          ],
+                          {
+                           legend: {
+                                show:true,
+                                labelBoxBorderColor:'transparent',
+                                margin:[-10,-20],
+                                position:'nw',
+                                backgroundColor:'transparent',
+                            },
+                            colors: [],
+                            series: { shadowSize: 1 },
+                            xaxis:{ show: true,font: { color: '#0077bc' },tickSize:20 },
+                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                            grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                            tooltip: true,
+                            tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                          }" ui-jq="plot"> 
+                        </div>
+                        <div class="cpu-info">
+                            <div><span>利用率：{[{cloud_monitor_details[0].cpu.usage}]}</span><span>正常运行时间：{[{cloud_monitor_details[0].cpu.noraml_run_time}]}</span></div>
+                            <div><span>主频：{[{cloud_monitor_details[0].cpu.basic_frequency}]}</span><span>逻辑内核：{[{cloud_monitor_details[0].cpu.logic_kernal}]}个</span><span>CPU型号：{[{cloud_monitor_details[0].cpu.CPU_type}]}</span></div>
+                        </div>
+                    </div>
+               </div> -->
+               <!-- <div class="warpper fr">
+                   <div class="box">
+                        <div class="box-nav">
+                           <span class="fl">内存</span>
+                           <span class="fr">5-0/min</span>
+                        </div>
+                        <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
+                            { 
+                                data: {[{cloud_monitor_details.memory.data}]}, points: { show:false},
+                                lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
+                                color:'#cda417'
+                            }
+                          ],
+                          {
+                           legend: {
+                                show:true,
+                                labelBoxBorderColor:'transparent',
+                                margin:[-10,-20],
+                                position:'nw',
+                                backgroundColor:'transparent',
+                            },
+                            colors: [],
+                            series: { shadowSize: 1 },
+                            xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
+                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                            grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                            tooltip: true,
+                            tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                          }" ui-jq="plot"> 
+                        </div>
+                        <div class="memory-info">
+                            <div><span>使用中：{[{cloud_monitor_details.memory.using}]}</span><span>可用：{[{cloud_monitor_details.memory.surplus}]}</span><span>内存使用率：{[{cloud_monitor_details.memory.memory_usage}]}</span></div>
+                        </div>
                    </div>
-                   <div style="height: 150px; width:100%; margin-left:-20px;position: relative;padding: 0px;" ui-options="[
-                        { 
-                            data: {[{cloud_monitor_details.cpu.data}]}, points: { show: false },
-                            lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
-                            color:'#ff0000'
-                        }
-                      ],
-                      {
-                       legend: {
-                            show:true,
-                            labelBoxBorderColor:'transparent',
-                            margin:[-10,-20],
-                            position:'nw',
-                            backgroundColor:'transparent',
-                        },
-                        colors: [],
-                        series: { shadowSize: 1 },
-                        xaxis:{ show: true,font: { color: '#0077bc' },tickSize:20 },
-                        yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
-                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                        tooltip: true,
-                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
-                      }" ui-jq="plot"> 
-                    </div>
-                    <div class="cpu-info">
-                        <div><span>利用率：{[{cloud_monitor_details.cpu.usage}]}</span><span>速度：{[{cloud_monitor_details.cpu.speed}]}</span><span>正常运行时间：{[{cloud_monitor_details.cpu.noraml_run_time}]}</span></div>
-                        <div><span>主频：{[{cloud_monitor_details.cpu.basic_frequency}]}</span><span>逻辑内核：{[{cloud_monitor_details.cpu.logic_kernal}]}</span><span>CPU型号：{[{cloud_monitor_details.cpu.CPU_type}]}</span></div>
-                    </div>
-                </div>
+               </div> -->
            </div>
-           <div class="warpper fr">
-               <div class="box">
-                    <div class="box-nav">
-                       <span class="fl">内存</span>
-                       <span class="fr">5-0/min</span>
-                    </div>
-                    <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
-                        { 
-                            data: {[{cloud_monitor_details.memory.data}]}, points: { show:false},
-                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
-                            color:'#cda417'
-                        }
-                      ],
-                      {
-                       legend: {
-                            show:true,
-                            labelBoxBorderColor:'transparent',
-                            margin:[-10,-20],
-                            position:'nw',
-                            backgroundColor:'transparent',
-                        },
-                        colors: [],
-                        series: { shadowSize: 1 },
-                        xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
-                        yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
-                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                        tooltip: true,
-                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
-                      }" ui-jq="plot"> 
-                    </div>
-                    <div class="memory-info">
-                        <div><span>使用中：{[{cloud_monitor_details.memory.using}]}</span><span>可用：{[{cloud_monitor_details.memory.surplus}]}</span><span>内存使用率：{[{cloud_monitor_details.memory.memory_usage}]}</span></div>
-                    </div>
-               </div>
-           </div>
-       </div>
-       <div class="crow">
+        </div>
+        <!-- <div class="loading" ng-if="cloud_monitor_details==''">
+            加载中。。。
+        </div> -->
+       <!-- <div class="crow clearfix">
            <div class="warpper fl">
                <div class="box">
                    <div class="box-nav">
@@ -182,10 +190,10 @@
                                      云盘名称
                                     </th>
                                     <th width="130">
-                                    读取速度(MB/s)
+                                    读取速度(kB/s)
                                     </th>
                                     <th data-hide="" width="130">
-                                    写入速度(MB/s)
+                                    写入速度(kB/s)
                                     </th>
                                     <th data-hide="" data-name="" width="70">
                                     容量(T)
@@ -204,7 +212,7 @@
                     </div>
                </div>
            </div>
-       </div>
+       </div> -->
     </div>
 </div>
 <script>

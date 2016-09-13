@@ -13,10 +13,13 @@ CloudApp.controller('Cloud_MonitorController',
         });
        
         $scope.cloud_monitors = '';
+        $scope.tempdata = '';
         //
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cloud_monitors);
         //初始化数据
         Cloud_Monitor.get(function(data){
+            //保存一份临时数据
+            $scope.tempdata = data;
             $scope.cloud_monitors = data;
         })
         var plot_style = {
@@ -44,10 +47,10 @@ CloudApp.controller('Cloud_MonitorController',
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
              $scope.table_page();
         })
-        //得到物理主机名称
-        // for(var n in _data)
+        // //得到物理主机名称
+        // for(var n in $scope.tempdata)
         // {
-        //     console.log(_data[n].host);
+        //     console.log($scope.tempdata[n].host);
         // }
         // 分页函数
         $scope.table_page = function(){
