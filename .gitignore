@@ -1,6 +1,10 @@
 # common
 .venv/*
 docs/*
+alarms.tar.gz
+docs.tar.gz
+slyt.tar.gz
+venv.tar.gz
 initcloud_web_bak/*
 initcloud_web/
 initcloud_web/cloud/cloud_utils.py
