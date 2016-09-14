@@ -299,7 +299,7 @@ class PhyNodesList(APIView):
                         rx_per = get_rx_per()
                         tx_per = get_tx_per()
                         nodes.append({
-                            'cpuUsed': round(ss['cpu'], 3)*100,
+                            'cpuUsed': round(ss['cpu'], 1),
                             'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
                             'tx': up if up != 0 else tx_per,
                             'rx': down if down != 0 else rx_per
