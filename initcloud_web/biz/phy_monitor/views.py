@@ -212,6 +212,15 @@ def get_server_volt():
 def get_server_current():
     return round(random.uniform(1.19, 1.21), 2)
 
+def get_fake_cpu_mem():
+    return {
+        'CPU': [
+            {'V':get_cpu_volt(),'T':get_cpu_temp()},
+            {'V':get_cpu_volt(),'T':get_cpu_temp()}
+        ],
+        'memory_voltage': [get_dimm_volt() for i in xrange(16)]
+    }
+
 def get_phy_cpu_mem(impi_url):
     chassislist = redfish.get_chassis_list(impi_url)
     if chassislist['code'] == 200:
@@ -249,13 +258,7 @@ def get_phy_cpu_mem(impi_url):
         return cha
     else:
         # return fake data
-        return {
-            'CPU': [
-                {'V':get_cpu_volt(),'T':get_cpu_temp()},
-                {'V':get_cpu_volt(),'T':get_cpu_temp()}
-            ],
-            'memory_voltage': [get_dimm_volt() for i in xrange(16)]
-        }
+        return get_fake_cpu_mem()
 
 PHY_URLs = settings.REDFISH_URL['phy_server']
 
@@ -279,8 +282,11 @@ class PhyMonitorServerList(APIView):
             #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
             # }
         ]
-        for r_url in PHY_URLs[s_id]:
-            data.append(get_phy_cpu_mem(r_url))
+        if settings.REDFISH_SIMULATE:
+            data = [get_fake_cpu_mem() for i in xrange(4)]
+        else:
+            for r_url in PHY_URLs[s_id]:
+                data.append(get_phy_cpu_mem(r_url))
         serializer = PhyMonitorServerSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -297,8 +303,11 @@ def get_pdu_watt():
 
 def get_storage_data():
     ssbs = []
-    for ssb in S_URL:
-        ssbs.append(get_phy_cpu_mem(ssb))
+    if settings.REDFISH_SIMULATE:
+        ssbs = [get_fake_cpu_mem() for i in xrange(2)]
+    else:
+        for ssb in S_URL:
+            ssbs.append(get_phy_cpu_mem(ssb))
     return {
         'nodes': [
             {
@@ -364,22 +373,25 @@ def get_cpu_temperatures():
         cpus = {'node1':[],'node2':[],'node3':[],'node4':[]}
         idx = 1
         for impi_url in PHY_URLs[phys]:
-            chassislist = redfish.get_chassis_list(impi_url)
-            t = []
-            if chassislist['code'] == 200:
-                chassis = chassislist['body']['Members'][0]
-                thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
-                if thermal['code'] == 200:
-                    for temp in thermal['body']['Temperatures']:
-                        if 'CPU' in temp['Name']:
-                            t.append(round(temp['ReadingCelsius']))
+            if settings.REDFISH_SIMULATE:
+                cpus['node%d' % idx] = [round(get_cpu_temp()), round(get_cpu_temp())]
+            else:
+                chassislist = redfish.get_chassis_list(impi_url)
+                t = []
+                if chassislist['code'] == 200:
+                    chassis = chassislist['body']['Members'][0]
+                    thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
+                    if thermal['code'] == 200:
+                        for temp in thermal['body']['Temperatures']:
+                            if 'CPU' in temp['Name']:
+                                t.append(round(temp['ReadingCelsius']))
+                    else:
+                        # fake data
+                        t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
                 else:
                     # fake data
                     t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
-            else:
-                # fake data
-                t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
-            cpus['node%d' % idx] = t
+                cpus['node%d' % idx] = t
             idx += 1
         c_temps.append(cpus)
     return c_temps
