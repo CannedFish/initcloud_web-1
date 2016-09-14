@@ -231,9 +231,9 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                             ]
                         });
                     }],
-		cloud_id: function($stateParams){
-		    return $stateParams.cloud_id;
-		    }
+    		        cloud_id: function($stateParams){
+        		         return $stateParams.cloud_id;
+        		    }
                 }
             })
             //网络监控

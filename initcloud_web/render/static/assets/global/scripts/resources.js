@@ -225,7 +225,9 @@ angular.module('cloud.resources', [])
     return $resource("/api/cloud_monitor/:id", {id: '@id'});
 }])
 .factory('Cloud_Monitor_Detail', ['$resource', function ($resource) {//云主机详情页
-    return $resource("/api/cloud_monitor_detail/:id", {id: '@id'});
+    return $resource("/api/cloud_monitor_detail/:id", {id: '@id'},{
+        query: {method: 'get', isArray: true}
+    });
 }])
 .factory('Phy_Monitor_Network', ['$resource', function ($resource) { //物理监控-网络监控
     return $resource("/api/phy_monitor_network/:id", {id: '@id'}, {

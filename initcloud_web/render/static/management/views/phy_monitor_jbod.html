@@ -80,6 +80,7 @@
 .disk_cont .a3{
     background:url(../static/assets/admin/layout/img/second/phy-monitor/yingpan_icon3.png) no-repeat;
     }
+.loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
 </style>
 <div class="phy_cont" ng-controller="Phy_Monitor_JbodController">
                     <div class="work_title clearfix">
@@ -102,49 +103,53 @@
                             </ul>
                         </div> 
                     </div>
-                    <div class="disk_cont">
-                            <span ng-repeat="list in phy_monitor_jbods.disk track by $index">
-                                <a ng-if="(list == 1)" class="a1"></a>
-                                <a ng-if="(list == -1)" class="a2"></a>
-                                <a ng-if="(list == 0)" class="a3"></a>
-                            </span>
-                    </div>
-                    <div class="work_node">        
-                        <div class="node_cont node4" style="width:100%;float:none;">
-                            <p class="node_title">系统电流、电压监控</p>
-                            <div class="node_model model1" style="width:50%;float:left" ng-repeat="item in phy_monitor_jbods.systemUI">
-                                <div style="height:100%;width:50%;float:left">
-                                    <p class="fan_p1">电流</p>
-                                    <div class="fan_line">
-                                        <div class="fan_lineCont"></div>
-                                    </div>
-                                    <p class="fan_p2">电流：{[{item[0]}]}A</p>
-                                </div>
-                                <div style="height:100%;width:50%;float:left">
-                                    <p class="fan_p1">电压</p>
-                                    <div class="fan_line">
-                                        <div class="fan_lineCont"></div>
-                                    </div>
-                                    <p class="fan_p2">电压：{[{item[1]}]}V</p>
-                                </div>
-                            </div>
+                    <div class="loaded" ng-if="phy_monitor_jbods!=''">
+                        <div class="disk_cont">
+                                <span ng-repeat="list in phy_monitor_jbods.disk track by $index">
+                                    <a ng-if="(list == 1)" class="a1"></a>
+                                    <a ng-if="(list == -1)" class="a2"></a>
+                                    <a ng-if="(list == 0)" class="a3"></a>
+                                </span>
                         </div>
-                        <div class="node_cont node3" style="width:100%;">
-                            <p class="node_title">风扇转速监控</p>
-                            <div class="node_model model1" style="width:20%;float:left;" ng-repeat="item in phy_monitor_jbods.electric_rota track by $index">
-                                <p class="fan_p1">风扇</p>
-                                <p class="fan_p2">转速：{[{item}]}r/s</p>
+                        <div class="work_node">        
+                            <div class="node_cont node4" style="width:100%;float:none;">
+                                <p class="node_title">系统电流、电压监控</p>
+                                <div class="node_model model1" style="width:50%;float:left" ng-repeat="item in phy_monitor_jbods.systemUI">
+                                    <div style="height:100%;width:50%;float:left">
+                                        <p class="fan_p1">电流</p>
+                                        <div class="fan_line">
+                                            <div class="fan_lineCont"></div>
+                                        </div>
+                                        <p class="fan_p2">电流：{[{item[0]}]}A</p>
+                                    </div>
+                                    <div style="height:100%;width:50%;float:left">
+                                        <p class="fan_p1">电压</p>
+                                        <div class="fan_line">
+                                            <div class="fan_lineCont"></div>
+                                        </div>
+                                        <p class="fan_p2">电压：{[{item[1]}]}V</p>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="node_cont node3" style="width:100%;">
+                                <p class="node_title">风扇转速监控</p>
+                                <div class="node_model model1" style="width:20%;float:left;" ng-repeat="item in phy_monitor_jbods.electric_rota track by $index">
+                                    <p class="fan_p1">风扇</p>
+                                    <p class="fan_p2">转速：{[{item}]}r/s</p>
+                                </div>
+                            </div>
+                            <!-- <div class="node_cont node5"  ng-controller="Phy_Monitor_StorageController">
+                                <div class="node_pdu"  ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
+                                    <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
+                                    <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
+                                    <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
+                                    <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
+                                    <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
+                                </div>
+                            </div> -->
                         </div>
-                        <!-- <div class="node_cont node5"  ng-controller="Phy_Monitor_StorageController">
-                            <div class="node_pdu"  ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
-                                <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
-                                <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
-                                <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
-                                <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
-                                <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
-                            </div>
-                        </div> -->
                     </div>
-                    
+                    <div class="loading" ng-if="phy_monitor_jbods==''">
+                        加载中。。。
+                    </div>
                 </div>

@@ -1,14 +1,26 @@
 <link rel="stylesheet" type="text/css" href="/static/assets/admin/layout/css/warning-info.css">
 <style type="text/css">
-    table tr th{color:#5DDBF5}
+    table tr th{
+    height: 34px;
+    background: url(../static/assets/admin/layout/img/second/warning-img/th_bg.png) repeat;
+    line-height: 34px;
+    font-size: 14px;
+    color: #86edff;
+    border-right: 1px solid #0a1231;
+    /*width: 140px;*/
+    text-align:center;
+    }
+    table tr th{
+        text-align:center;
+    }
 </style>
 <div class="content" ng-controller="Volume_MonitorController">
     <div class="titile">云盘监控</div>
         <div class="content_center">       
-            <table table="volume_monitor_table"  class="police_table footable" data-filter="#filter" data-filter-text-only="false">
+            <table table="volume_monitor_table"  class="police_table footable volume_monitor_table" data-filter="#filter" data-filter-text-only="false">
                <tbody>
                     <tr>
-                        <th width="25%">名字</th>
+                        <th align="center" width="25%">名字</th>
                         <th width="25%">位置</th>
                         <th width="10%">容量</th>
                         <th width="10%">状态</th>
@@ -16,12 +28,12 @@
                         <th width="20%">挂载</th>
                     </tr>
                     <tr ng-repeat="item in volume_monitors">
-                        <td  align="left">{[{item.name}]}</td>
-                        <td  align="left">{[{item.location}]}</td>
-                        <td align="left">{[{item.capacity}]}</td>
-                        <td align="left">{[{item.status}]}</td>
-                        <td align="left">{[{item.type}]}</td>
-                        <td align="left">{[{item.mounting}]}</td>
+                        <td>{[{item.name}]}</td>
+                        <td>{[{item.location}]}</td>
+                        <td>{[{item.capacity}]}</td>
+                        <td>{[{item.status}]}</td>
+                        <td>{[{item.type}]}</td>
+                        <td>{[{item.mounting}]}</td>
                     </tr>
                 </tbody>
             </table>
