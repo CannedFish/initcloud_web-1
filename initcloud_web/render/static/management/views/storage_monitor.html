@@ -25,11 +25,11 @@
                                     }" ui-jq="easyPieChart" style="width: 188px; height: 188px; line-height: 188px;
                                   }" class="inline m-t"></span>
                                    <span>
-                                       <p class="num">{[{node.item.cpu_used[0]}]}%</p>
+                                       <p class="num">{[{node.item.cpu_used[0] | number:2}]}%</p>
                                        <p class="tx">CPU1</p>
                                    </span>
                                 </div>
-                                <p class="pl">CPU1频率:{[{node.item.cpu_frequence[0]}]}GHz</p>
+                                <p class="pl">CPU1频率:{[{node.item.cpu_frequence[0] | number:2}]}GHz</p>
                             </div>
                             <div class="cpubg02 fl">
                                 <div class="clearfix">
@@ -45,11 +45,11 @@
                                     }" ui-jq="easyPieChart" style="width: 188px; height: 188px; line-height: 188px;
                                   }" class="inline m-t"></span>
                                     <span>
-                                       <p class="num">{[{node.item.cpu_used[1]}]}%</p>
+                                       <p class="num">{[{node.item.cpu_used[1] | number:2}]}%</p>
                                        <p class="tx">CPU2</p>
                                     </span>
                                 </div>
-                                <p class="pl">CPU1频率:{[{node.item.cpu_frequence[1]}]}GHz</p>  
+                                <p class="pl">CPU1频率:{[{node.item.cpu_frequence[1] | number:2}]}GHz</p>  
                             </div>
                         </dd>
                         <dt>内存占用</dt>
@@ -57,17 +57,17 @@
                             <p>
                                 <span class="m1">内存占用</span>
                                 <progressbar value="node.item.memory.memory_used" class="bg-color" style="float:left;height:10px;margin:0px;width:125px;margin-left:24px;margin-top:5px;" animate="true" type="primary"></progressbar>
-                                <span class="num">{[{node.item.memory.memory_used}]}%</span>
+                                <span class="num">{[{node.item.memory.memory_used | number:2}]}%</span>
                             </p>
                             <p>
                                 <span class="m2">内存总容量 :</span>
                                 <span></span>
-                                <span class="num">{[{node.item.memory.memory_total}]}GB</span>
+                                <span class="num">{[{node.item.memory.memory_total | number:2}]}GB</span>
                             </p>
                             <p style="width:94%;margin-top:18px;margin-left:3%;border-top:solid 1px #0077bc;height:5px;"></p>
                             <p style="margin-top:-6px;">
-                                <span class="m3" ><i class="ico_used"></i>已用：{[{node.item.memory.used}]}GB</span>
-                                <span class="m4"><i class="ico_empty"></i>可用：{[{node.item.memory.empty}]}GB</span>
+                                <span class="m3" ><i class="ico_used"></i>已用：{[{node.item.memory.used | number:2}]}GB</span>
+                                <span class="m4"><i class="ico_empty"></i>可用：{[{node.item.memory.empty | number:2}]}GB</span>
                             </p>
                         </dd>
                         <dt>网卡监控</dt>
@@ -76,12 +76,12 @@
                                 <p>
                                     <span class="m1">网络上行</span>
                                       <progressbar value="node.item.network_card.up" class="bg-color" style="float:left;height:10px;margin:0px;width:125px;margin-left:24px;margin-top:5px;" animate="true" type="primary"></progressbar>
-                                    <span class="num">{[{node.item.network_card.up}]}%</span>
+                                    <span class="num">{[{node.item.network_card.up | number:2}]}%</span>
                                 </p>
                                 <p>
                                     <span class="m1"><i class="ico_nup"></i>网卡上行流量</span>
                                     <span></span>
-                                    <span class="num">{[{node.item.network_card.up_rate}]}Kb/s</span>
+                                    <span class="num">{[{node.item.network_card.up_rate | number:2}]}Kb/s</span>
                                 </p>
                             </div>
                             <p style="width:94%;margin-top:19px;margin-left:3%;border-top:solid 1px #0077bc;height:5px;"></p>
@@ -89,12 +89,12 @@
                                 <p>
                                     <span class="m1">网络下行</span>
                                       <progressbar value="node.item.network_card.down" class="bg-color" style="float:left;height:10px;margin:0px;width:125px;margin-left:24px;margin-top:5px;" animate="true" type="warning"></progressbar>
-                                    <span class="num">{[{node.item.network_card.down}]}%</span>
+                                    <span class="num">{[{node.item.network_card.down | number:2}]}%</span>
                                 </p>
                                 <p>
                                     <span class="m1"><i class="ico_dup"></i>网卡下行流量</span>
                                     <span></span>
-                                    <span class="num">{[{node.item.network_card.down_rate}]}Kb/s</span>
+                                    <span class="num">{[{node.item.network_card.down_rate | number:2}]}Kb/s</span>
                                 </p>
                             </div>
                         </dd>

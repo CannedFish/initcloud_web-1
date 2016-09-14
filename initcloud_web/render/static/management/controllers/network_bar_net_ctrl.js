@@ -26,9 +26,9 @@ CloudApp.controller('Network_Bar_NetController',
           return $scope.output = "APPLE! : " + branch.label;
         };
 
-        Network_Bar_Net.query(function(data){
-            // console.log(data);
-            $scope.my_data = data ;
+        Network_Bar_Net.get(function(data){
+            $scope.my_data = data.list;
+            $scope.$emit('to-parent-net', data.total);
             checkboxGroup.syncObjects($scope.my_data);
         })
         //初始化数据绑定--

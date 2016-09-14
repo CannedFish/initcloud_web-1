@@ -2,6 +2,46 @@
 <link rel="stylesheet" href="../static/assets/admin/layout/css/cloud-monitor-detail.css">
 <style type="text/css">
     .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
+
+    .disk_table{
+        border:solid 1px #0077bc;
+        width:100%;
+    }
+    .disk_table th{
+        color:#0077bc;
+        font-size:14px;
+        border:solid 1px #0077bc;
+        text-align:center;
+        height:35px;
+        background:#0a264c;
+    }
+     .disk_table td{
+        color:#0077bc;
+        font-size:14px;
+        border-bottom:solid 1px #0077bc;
+        text-align:center;
+        height:30px;
+    }
+    .pagination li.footable-page-arrow:nth-child(1){
+        display:none;
+    }
+    .pagination li.footable-page-arrow:nth-child(2){
+        background:transparent !important;
+    }
+    .pagination li.footable-page-arrow:nth-child(3){
+        display:none !important;
+    }
+    .footable-odd {
+         background-color:transparent !important; 
+    }
+    .pagination>li>a{
+      position: relative;
+      float: left;
+      padding:0px !important;
+    }
+    .pagination {
+        margin: 3px 0px !important;
+    }
 </style>
 <div class="content">
     <div class="titile">云主机监控</div>
@@ -10,20 +50,20 @@
         <div class="nav">
             <div class="title fl">
                 <img src="../static/assets/admin/layout/img/common/stico_03.png">
-                <span class="site">{[{cloud_monitor_details.name}]}</span>
+                <span class="site" ng-if="cloud_monitor_details!=''">{[{cloud_monitor_details[0].name}]}</span>
             </div>
             <div class="back fr"><img src=""><a href="javascript:goback()"><span style="color:
             #00d8ff">返回</span></a></div>
-        </div>{[{cloud_monitor_details}]}
-        <div class="loaded">
+        </div>
+        <div ng-if="cloud_monitor_details!=''" class="loaded">
            <div class="crow clearfix">
-               <!-- <div class="warpper fl">
-                   <div class="box">
-                       <div class="box-nav">
+               <div class="warpper fl clearfix">
+                   <div class="box clearfix">
+                       <div class="box-nav clearfix">
                            <span class="fl">CPU</span>
                            <span class="fr">5-0/min</span>
                        </div>
-                       <div style="height: 150px; width:100%; margin-left:-20px;position: relative;padding: 0px;" ui-options="[
+                       <div style="height: 150px; width:103%; margin-left:-24px;position: relative;padding: 0px;" ui-options="[
                             { 
                                 data: {[{cloud_monitor_details[0].cpu.data}]}, points: { show: false },
                                 lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
@@ -31,37 +71,30 @@
                             }
                           ],
                           {
-                           legend: {
-                                show:true,
-                                labelBoxBorderColor:'transparent',
-                                margin:[-10,-20],
-                                position:'nw',
-                                backgroundColor:'transparent',
-                            },
-                            colors: [],
                             series: { shadowSize: 1 },
-                            xaxis:{ show: true,font: { color: '#0077bc' },tickSize:20 },
-                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                            xaxis:{ show: true,font: { color: '#0077bc' },tickSize:1 },
+                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:1},
                             grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
                             tooltip: true,
-                            tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                            tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 },font: { color: '#0077bc' } }
                           }" ui-jq="plot"> 
                         </div>
                         <div class="cpu-info">
-                            <div><span>利用率：{[{cloud_monitor_details[0].cpu.usage}]}</span><span>正常运行时间：{[{cloud_monitor_details[0].cpu.noraml_run_time}]}</span></div>
+                            <div><span>利用率：{[{cloud_monitor_details[0].cpu.usage | number:2}]}</span>
+                            <span>正常运行时间：{[{cloud_monitor_details[0].cpu.noraml_run_time}]}</span></div>
                             <div><span>主频：{[{cloud_monitor_details[0].cpu.basic_frequency}]}</span><span>逻辑内核：{[{cloud_monitor_details[0].cpu.logic_kernal}]}个</span><span>CPU型号：{[{cloud_monitor_details[0].cpu.CPU_type}]}</span></div>
                         </div>
                     </div>
-               </div> -->
-               <!-- <div class="warpper fr">
-                   <div class="box">
-                        <div class="box-nav">
+               </div>
+               <div class="warpper fr clearfix">
+                   <div class="box clearfix">
+                        <div class="box-nav clearfix">
                            <span class="fl">内存</span>
                            <span class="fr">5-0/min</span>
                         </div>
-                        <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
+                        <div style="height: 150px; width:106%;margin-left:-26px; position: relative;padding: 0px;" ui-options="[
                             { 
-                                data: {[{cloud_monitor_details.memory.data}]}, points: { show:false},
+                                data: {[{cloud_monitor_details[0].memory.data}]}, points: { show:false},
                                 lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
                                 color:'#cda417'
                             }
@@ -76,148 +109,97 @@
                             },
                             colors: [],
                             series: { shadowSize: 1 },
-                            xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
-                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
+                            xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:1 },
+                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:20},
                             grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
                             tooltip: true,
                             tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
                           }" ui-jq="plot"> 
                         </div>
                         <div class="memory-info">
-                            <div><span>使用中：{[{cloud_monitor_details.memory.using}]}</span><span>可用：{[{cloud_monitor_details.memory.surplus}]}</span><span>内存使用率：{[{cloud_monitor_details.memory.memory_usage}]}</span></div>
+                            <div><span>使用中：{[{cloud_monitor_details[0].memory.using | number:2}]}MB</span><span>可用：{[{cloud_monitor_details[0].memory.surplus | number:2}]}MB</span><span>内存使用率：{[{cloud_monitor_details[0].memory.memory_usage | number:2}]}</span></div>
                         </div>
                    </div>
-               </div> -->
+               </div>
+           </div>
+        
+           <div class="crow clearfix">
+               <div class="warpper fl clearfix">
+                   <div class="box clearfix">
+                       <div class="box-nav clearfix">
+                           <span class="fl">网络</span>
+                           <span class="fr">5-0/min</span>
+                       </div>
+                       <div style="height: 150px; width:103%;margin-left:-27px; position: relative;padding: 0px;" ui-options="[
+                            { 
+                                data: {[{cloud_monitor_details[0].network.data[0].incoming}]}, points: { show:false},
+                                lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                color:'#A8C001'
+                            },
+                            { 
+                                data: {[{cloud_monitor_details[0].network.data[1].outgoing}]}, points: { show:false},
+                                lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                color:'#A8C001'
+                            }
+                           
+                          ],
+                          {
+                            series: { shadowSize: 1 },
+                            xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:1 },
+                            yaxis:{ show: true,font: { color: '#0a122f' },tickSize:1},
+                            grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                            tooltip: true,
+                            tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                          }" ui-jq="plot"> 
+                        </div>
+                        <div class="network-info">
+                            <div><span>上行：{[{cloud_monitor_details[0].network.ADSL_UP | number:2}]}MB/s</span><span>下行：{[{cloud_monitor_details[0].network.ADSL_DOWN | number:2}]}MB/s</span><span></span></div>
+                        </div>
+                   </div>
+               </div>
+               <div class="warpper fr">
+                   <div class="box">
+                        <div class="box-nav">
+                           <span class="fl">云盘</span>
+                           <span class="fr"><ul class="pagination"></ul></span>
+                        </div>
+                        <div> 
+                            <table class="disk_table footable" ui-jq="footable" data-filter="#filter" data-filter-text-only="false"  data-page-size="4" style="margin-top:-20px;">
+                                <thead>
+                                    <tr>
+                                        <th data-toggle="true" width="150">
+                                         云盘名称
+                                        </th>
+                                        <th width="130">
+                                        读取速度(kB/s)
+                                        </th>
+                                        <th data-hide="" width="130">
+                                        写入速度(kB/s)
+                                        </th>
+                                        <th data-hide="" data-name="" width="70">
+                                        容量(T)
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in cloud_monitor_details[0].cloud_disk" on-finish-render-filters>
+                                        <td>{[{item.name}]}</td>
+                                        <td>{[{item.read_speed | number:2}]}</td>
+                                        <td>{[{item.write_speed | number:2}]}</td>
+                                        <td>{[{item.volumn | number:2}]}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                   </div>
+               </div>
            </div>
         </div>
-        <!-- <div class="loading" ng-if="cloud_monitor_details==''">
-            加载中。。。
-        </div> -->
-       <!-- <div class="crow clearfix">
-           <div class="warpper fl">
-               <div class="box">
-                   <div class="box-nav">
-                       <span class="fl">网络</span>
-                       <span class="fr">5-0/min</span>
-                   </div>
-                   <div style="height: 150px; width:100%;margin-left:-20px; position: relative;padding: 0px;" ui-options="[
-                        { 
-                            data: {[{cloud_monitor_details.network.data[0].incoming}]}, points: { show:false},
-                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
-                            color:'#A8C001'
-                        },
-                        { 
-                            data: {[{cloud_monitor_details.network.data[1].outgoing}]}, points: { show:false},
-                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
-                            color:'#A8C001'
-                        }
-                       
-                      ],
-                      {
-                       legend: {
-                            show:true,
-                            labelBoxBorderColor:'transparent',
-                            margin:[-10,-20],
-                            position:'nw',
-                            backgroundColor:'transparent',
-                        },
-                        colors: [],
-                        series: { shadowSize: 1 },
-                        xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
-                        yaxis:{ show: true,font: { color: '#0a122f' },tickSize:10},
-                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                        tooltip: true,
-                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
-                      }" ui-jq="plot"> 
-                    </div>
-                    <div class="network-info">
-                        <div><span>上行：{[{cloud_monitor_details.network.ADSL_UP}]}</span><span>下行：{[{cloud_monitor_details.network.ADSL_DOWN}]}</span><span></span></div>
-                    </div>
-               </div>
-           </div>
-           <style type="text/css">
-                .disk_table{
-                    border:solid 1px #0077bc;
-                    width:100%;
-                }
-                .disk_table th{
-                    color:#0077bc;
-                    font-size:14px;
-                    border:solid 1px #0077bc;
-                    text-align:center;
-                    height:35px;
-                    background:#0a264c;
-                }
-                 .disk_table td{
-                    color:#0077bc;
-                    font-size:14px;
-                    border-bottom:solid 1px #0077bc;
-                    text-align:center;
-                    height:30px;
-                }
-                .pagination li.footable-page-arrow:nth-child(1){
-                    display:none;
-                }
-                .pagination li.footable-page-arrow:nth-child(2){
-                    background:transparent !important;
-                }
-                .pagination li.footable-page-arrow:nth-child(3){
-                    display:none !important;
-                }
-                .footable-odd {
-                     background-color:transparent !important; 
-                }
-                .pagination>li>a{
-                  position: relative;
-                  float: left;
-                  padding:0px !important;
-                }
-                .pagination {
-                    margin: 3px 0px !important;
-                }
-           </style>
-           <div class="warpper fr">
-               <div class="box">
-                    <div class="box-nav">
-                       <span class="fl">云盘</span>
-                       <span class="fr"><ul class="pagination"></ul></span>
-                    </div>
-                    <div> 
-                        <table class="disk_table footable" ui-jq="footable" data-filter="#filter" data-filter-text-only="false"  data-page-size="2" style="margin-top:-20px;">
-                            <thead>
-                                <tr>
-                                    <th data-toggle="true" width="150">
-                                     云盘名称
-                                    </th>
-                                    <th width="130">
-                                    读取速度(kB/s)
-                                    </th>
-                                    <th data-hide="" width="130">
-                                    写入速度(kB/s)
-                                    </th>
-                                    <th data-hide="" data-name="" width="70">
-                                    容量(T)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in cloud_monitor_details.cloud_disk" on-finish-render-filters>
-                                    <td>{[{item.name}]}</td>
-                                    <td>{[{item.read_speed}]}</td>
-                                    <td>{[{item.write_speed}]}</td>
-                                    <td>{[{item.volumn}]}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-               </div>
-           </div>
-       </div> -->
     </div>
 </div>
 <script>
    function goback()
    {
-        history.go(-1);
+        window.history.go(-1);
    }
 </script>

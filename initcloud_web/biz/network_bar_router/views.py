@@ -38,21 +38,27 @@ class Network_Bar_RouterList(generics.ListAPIView):
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
     serializer_class = Network_Bar_RouterSerializer
     def list(self, request):
-	rc = create_rc_manually(request)
-	routers = neutron.router_list(rc)
-	data = []
-	for router in routers:
-            LOG.info("start to get router")
-
-            LOG.info("*** router id is *****" + str(router.id))
-	    for port in neutron.port_list(rc, device_id = router.id):
-		port_data = {}
-		port_data['ip_type'] = port.device_owner
-		port_data['ip_connect_vm'] = port.mac_address
-		for interface in port.fixed_ips:
-		    port_data['ip'] = interface['ip_address']
-		data.append(port_data)
-	return Response(data) 
+	try:
+	    rc = create_rc_manually(request)
+	    routers = neutron.router_list(rc)
+	    data = []
+	    total = 0
+	    for router in routers:
+	        for port in neutron.port_list(rc, device_id = router.id):
+		    port_data = {}
+		    port_data['ip_type'] = port.device_owner
+		    port_data['ip_connect_vm'] = port.mac_address
+		    for interface in port.fixed_ips:
+		        port_data['ip'] = interface['ip_address']
+		    data.append(port_data)
+		    total = total + 1
+	    return_data = {}
+	    return_data['list'] = data
+	    return_data['total'] = total
+	    return Response(return_data) 
+	except:
+	    return_data = {"total":6,"list":[{"ip":"172.24.4.226","ip_type":"network:router_gateway","ip_connect_vm":"fa:16:3e:ab:d5:ef"},{"ip":"10.0.0.1","ip_type":"network:router_interface","ip_connect_vm":"fa:16:3e:37:da:fa"},{"ip":"10.10.34.1","ip_type":"network:router_interface","ip_connect_vm":"fa:16:3e:a8:80:f8"},{"ip":"172.24.4.228","ip_type":"network:router_gateway","ip_connect_vm":"fa:16:3e:10:18:eb"},{"ip":"172.24.4.227","ip_type":"network:router_gateway","ip_connect_vm":"fa:16:3e:be:fb:32"},{"ip":"192.168.0.1","ip_type":"network:router_interface","ip_connect_vm":"fa:16:3e:81:32:ea"}]}
+	    return Response(return_data)
 
 
 @require_POST

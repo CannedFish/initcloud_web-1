@@ -19,20 +19,20 @@
                                     <p class="model_title">CPU监控</p>
                                     <div class="model_inform">
                                         <div class="inform_cont fl" >
-                                            <span class="tmp">温度：{[{nodes.cpu1[0]}]}°C</span> 
+                                            <span class="tmp">温度：{[{nodes.cpu1[0] | number:2 }]}°C</span> 
                                             <span class="inform_titP">CPU-1</span>
-                                            <span class="eu">电压：{[{nodes.cpu1[1]}]}V</span>
+                                            <span class="eu">电压：{[{nodes.cpu1[1] | number:2}]}V</span>
                                         </div>
                                         <div class="inform_cont fl" >
-                                            <span class="tmp">温度：{[{nodes.cpu2[0]}]}°C</span> 
+                                            <span class="tmp">温度：{[{nodes.cpu2[0] | number:2}]}°C</span> 
                                             <span class="inform_titP">CPU-2</span>
-                                            <span class="eu">电压：{[{nodes.cpu2[1]}]}V</span>
+                                            <span class="eu">电压：{[{nodes.cpu2[1] | number:2}]}V</span>
                                         </div>
                                     </div>
                                     <p class="model_title">内存电压监控</p>
                                     <ul class="voltage_ul">
                                         <li ng-repeat="list in nodes.memory_voltage track by $index">
-                                            <p>{[{list}]}V</p>
+                                            <p>{[{list | number:2}]}V</p>
                                             <div class="line">
                                                 <div class="line_cont"></div>
                                             </div>
@@ -76,12 +76,12 @@
                                     <div class="fan_line">
                                         <div class="fan_lineCont"></div>
                                     </div>
-                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[0]}]}r/s</p>
+                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[0] | number:2}]}r/s</p>
                                     <p class="fan_p1">风扇</p>
                                     <div class="fan_line">
                                         <div class="fan_lineCont"></div>
                                     </div>
-                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[1]}]}r/s</p>
+                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[1] | number:2}]}r/s</p>
                                 </div>
                             </div>
                             
@@ -93,14 +93,14 @@
                                         <div class="fan_line">
                                             <div class="fan_lineCont"></div>
                                         </div>
-                                        <p class="fan_p2">电流：{[{phy_monitor_storages.systemUI[0]}]}A</p>
+                                        <p class="fan_p2">电流：{[{phy_monitor_storages.systemUI[0] | number:2}]}A</p>
                                     </div>
                                     <div style="height:100%;width:50%;float:left">
                                         <p class="fan_p1">电压</p>
                                         <div class="fan_line">
                                             <div class="fan_lineCont"></div>
                                         </div>
-                                        <p class="fan_p2">电压：{[{phy_monitor_storages.systemUI[1]}]}V</p>
+                                        <p class="fan_p2">电压：{[{phy_monitor_storages.systemUI[1] | number:2}]}V</p>
                                     </div>
                                 </div>
                             </div>

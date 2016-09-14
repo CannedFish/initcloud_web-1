@@ -19,7 +19,7 @@ CloudApp.controller('Phy_Monitor_JbodController',
         // $scope.phy_monitor_jbods = init_data; 
         // checkboxGroup.syncObjects($scope.phy_monitor_jbods);
         $scope.$on('to-child-jbod',function(d,id){
-            var data = Phy_Monitor_Jbod.query(function(data) {
+            var data = Phy_Monitor_Jbod.get(function(data) {
             }, {id: id});
             $scope.phy_monitor_jbods = data; 
             checkboxGroup.syncObjects($scope.phy_monitor_jbods);

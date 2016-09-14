@@ -15,7 +15,7 @@ CloudApp.controller('Network_Bar_LoadbanlanceController',
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_loadbanlances);
 
         // var data1= {'lb_pool_num':'4,532,165','lb_virtualip_num':'25,654'};
-        Network_Bar_Loadbanlance.get(function(data){
+        Network_Bar_Loadbanlance.query(function(data){
             $scope.network_bar_loadbanlances = data;
             checkboxGroup.syncObjects($scope.network_bar_loadbanlances);
         });

@@ -135,13 +135,14 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 		    data.append(volume_data)
 	    LOG.info('VOLUMES ISSSSSSSSSSSSSSSSS ' + str(data))
 	    return_data['cloud_disk'] = data
-	    #return_array = []
-	    #return_array.append(return_data)
-	    #return Response(return_array)	
-	    return Response(return_data)	
+	    return_array = []
+	    return_array.append(return_data)
+	    return Response(return_array)	
+	    #return Response(return_data)	
         except:
-	    #trackback.print_exc()
-	    return_array = {
+	    LOG.info("ERROR!!!!")
+	    trackback.print_exc()
+	    return_array = [{
 		'id':1,
                 'cpu':{
                     'usage':'10%',
@@ -171,5 +172,5 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
                   {'name':'oa140.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
                   {'name':'oa150.cn.com','read_speed':'234','write_speed':'235','volumn':'256'}, 
                 ]
-            }
+            }]
 	    return Response(return_array)

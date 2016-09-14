@@ -57,14 +57,15 @@
             // alert('数据加载中。。。。');
           }
           // 长度
+          console.log(scope.treeData)
           // if (scope.treeData.length == null) {
-          //   if (treeData.label != null) {
-          //     scope.treeData = [treeData]; //给树赋值
+            // if (treeData.label != null) {
+            //   scope.treeData = [treeData]; //给树赋值
 
-          //   } else {
-          //     // alert('treeData should be an array of root branches');
-          //     return;
-          //   }
+            // } else {
+            //   // alert('treeData should be an array of root branches');
+            //   return;
+            // }
           // }
           //便利树分支（参数:回调函数）
           for_each_branch = function(f) {
@@ -84,7 +85,7 @@
               }
             };
             // 先执行 划分根节点
-            _ref = scope.treeData; //
+            _ref = scope.treeData || 0; //
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               root_branch = _ref[_i];//分割树的分支
@@ -250,7 +251,7 @@
                 return _results;
               }
             };
-            _ref = scope.treeData;
+            _ref = scope.treeData  || {};
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               root_branch = _ref[_i];
@@ -268,8 +269,8 @@
               }
             });
           }
-          n = scope.treeData.length;
-          console.log('num root branches = ' + n);
+          // n = scope.treeData.length?scope.treeData.length:0;
+          // console.log('num root branches = ' + n);
           for_each_branch(function(b, level) {
             b.level = level;
             return b.expanded = b.level < expand_level;

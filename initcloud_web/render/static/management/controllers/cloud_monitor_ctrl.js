@@ -33,7 +33,6 @@ CloudApp.controller('Cloud_MonitorController',
            window.location.href = "#/cloud_monitor_detail/"
 
         }
-        // $scope.cloud_monitors = _data;//数据
         //设置默认值 (物理主机/24小时内)
         $scope.defaultTimeRange = 'rday';
         $scope.plot_style = plot_style;//图标样式
@@ -84,7 +83,8 @@ CloudApp.controller('Cloud_MonitorController',
                return false;
             });
             //点击下一页
-            $("#next").click(function(){//下一页
+            $("#next_li").click(function(){//下一页
+                // alert($("#current_page").text())
                 var new_page=parseInt($("#current_page").text())+1;//当前页标
                 if(new_page<=page_num){//判断是否为最后或第一页
                     $('#page_num_all li').removeClass('active');
@@ -234,26 +234,26 @@ CloudApp.controller('Cloud_MonitorController',
                     break;
                 }
                 //内存 排序
-                case 'da_network':
+                case 'data_memory':
                 {
-                    $('.sortitem').eq(4).addClass('active');
-                    var network_data ={};
-                    var network_arr = [];
-                    angular.forEach($('.data_network'),function(v,i){
-                        network_arr.push( eval('(' + $(v).data('network')+ ')'))//字符串转为json对象
+                    $('.sortitem').eq(3).addClass('active');
+                    var memory_data ={};
+                    var memory_arr = [];
+                    angular.forEach($('.data_memory'),function(v,i){
+                        memory_arr.push( eval('(' + $(v).data('memory')+ ')'))//字符串转为json对象
                     })
-                    var sdisk =  network_arr.sort(function(x,y){
-                        return (y.updata - x.updata)
+                    var sdisk =  memory_arr.sort(function(x,y){
+                        return (y.mnum - x.mnum)
                     });//排序
                     for(var i=0;i<sdisk.length;i++)
                     {
                         var key = sdisk[i].name;//键值
-                        network_data[key] = deepCopy($scope.cloud_monitors[key]);
+                        memory_data[key] = deepCopy($scope.cloud_monitors[key]);
                        
                     }
-                    $scope.cloud_monitors = network_data;
+                    $scope.cloud_monitors = memory_data;
                     checkboxGroup.syncObjects($scope.cloud_monitors);
-                    $scope.sortname = 'network';
+                    $scope.sortname = 'memory';
                     break;
                 }
                 //网络 排序
