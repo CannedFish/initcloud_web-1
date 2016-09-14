@@ -17,12 +17,9 @@ CloudApp.controller('Cloud_Monitor_DetailController',
         //接搜id 查找数据
         $scope.cloud_id = cloud_id;
         //id 为传递的参数
-	    Cloud_Monitor_Detail.get(function(id){
-            $scope.cloud_monitor_details = data;
-        },{'id':$scope.cloud_id});
-        // $scope.cloud_monitor_details = data;
+	    var data = Cloud_Monitor_Detail.query({'cloud_id':$scope.cloud_id});
+        $scope.cloud_monitor_details = data;
         checkboxGroup.syncObjects($scope.cloud_monitor_details);
-        console.log($scope.cloud_monitor_details)
          //ng-repeat 渲染完执行脚本
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
              $('.disk_table tr th').removeClass('footable-sortable');

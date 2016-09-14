@@ -76,17 +76,21 @@ class Network_BarList(generics.ListAPIView):
 	    #for each in incoming:
 	    #	for ele in range(0, 6):
 	    #	uprate.append(each)    
-	    uprate = sum(incoming)/len(incoming)
-	    downrate = sum(outgoing)/len(incoming)
-	    uppacket = sum(incoming_pkg)/len(incoming)
-	    downpacket = sum(outgoing_pkg)/len(incoming)
+	    #uprate = sum(incoming)/len(incoming)
+	    #downrate = sum(outgoing)/len(incoming)
+	    #uppacket = sum(incoming_pkg)/len(incoming)
+	    #downpacket = sum(outgoing_pkg)/len(incoming)
+	    uprate = incoming[0]
+	    downrate = outgoing[0]
+	    uppacket = incoming_pkg[0]
+	    downpacket = outgoing_pkg[0]
 	    LOG.info([uprate, downrate, uppacket, downpacket])
 	    return_data = []
 	    return_data.append({'uprate':uprate,'downrate':downrate,'uppacket':uppacket,'downpacket':downpacket})
 	    return Response(return_data)
 	except:
 	    #trackback.print_exc()
-	    return Response({'uprate':1,'downrate':2,'uppacket':3,'downpacket':4})
+	    return Response({'uprate':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downrate':[[0,1.7],[1,2.2],[2,2.2],[3,2.1],[4,2.1],[5,1.7]],'uppacket':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downpacket':[[0,1],[1,2],[2,2.2],[3,1.6],[4,2.5],[5,1.7]]})
 
 
 	

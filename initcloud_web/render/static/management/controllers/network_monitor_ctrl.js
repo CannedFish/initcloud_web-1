@@ -13,21 +13,11 @@ CloudApp.controller('Network_MonitorController',
 
         $scope.network_monitors = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_monitors);
-
-        // $scope.network_monitor_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Network_Monitor.query(function(data){
-        //                 $scope.network_monitors = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.network_monitors);
-        //             });
-        //         }
-        //     });
-        $scope.$on('to-parent',function(d,data){
-             $scope.network_total = data;
+        $scope.$on('to-parent-route',function(d,data){
+             $scope.route_total = data;
+        })
+        $scope.$on('to-parent-net',function(d,data){
+             $scope.net_total = data;
         })
         checkboxGroup.syncObjects($scope.network_total);
         

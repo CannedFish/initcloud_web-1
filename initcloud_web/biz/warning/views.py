@@ -45,7 +45,7 @@ class WarningList(generics.ListAPIView):
             data.append({'name':'网络设备','warning_type':'虚拟机报警', 'warning_info': alarm_save.alarm_meter, 'memory_point': alarm_save.alarm_data, 'warning_time': alarm_save.create_date})
 
         LOG.info("data is" + str(data))
-        data = [{'name':'9号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'9','virtual_mechine':'9','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},{'name':'10号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'10','virtual_mechine':'10','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'}]
+        #data = [{'name':'9号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'9','virtual_mechine':'9','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'},{'name':'10号超级微服务器','warning_type':'系统报警','warning_info':'CPU温度过高','memory_point':'10','virtual_mechine':'10','cloud_disk':'123','warning_time':'2016/08/12/ 11:23:34'}]
         return Response(data)
 
 @require_POST

@@ -31,7 +31,7 @@ from frontend.forms import CloudUserCreateFormWithoutCapatcha
 
 LOG = logging.getLogger(__name__)
 
-from openstack_auth.openstack.common import policy
+#from openstack_auth.openstack.common import policy
 import traceback
 
 from oslo_serialization import jsonutils
@@ -64,6 +64,7 @@ class Policy_CinderList(generics.ListAPIView):
     def list(self, request):
 	#queryset = Policy_Cinder.objects.all()
         LOG.info("******** list method **********")
+        policy = None
 	mypolicy = policy.Enforcer()
         LOG.info("********* mypolicy is ***********" + str(mypolicy))
         mypolicy._load_policy_file('/etc/cinder/policy.json', False)

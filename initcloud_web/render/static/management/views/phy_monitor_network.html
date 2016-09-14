@@ -116,8 +116,8 @@
                         <div class="list">
                         	<span ng-class="item.link == 1?'bg03':'bg04'" class="item" ng-repeat="item in phy_monitor_networks">
                                 <i ng-class="item.link == 1?'numbg03':'numbg04'" class="indexnum">{[{$index+1}]}</i>
-                                <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload}]}kb</p>
-                                <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download}]}kb</p>
+                                <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload  | number:2}]}kb</p>
+                                <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download | number:2}]}kb</p>
                             </span>
                         </div>
                         <div class="work_node" ng-controller="Phy_Monitor_StorageController">
