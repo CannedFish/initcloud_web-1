@@ -241,7 +241,7 @@ angular.module('cloud.resources', [])
 }])
 .factory('Phy_Monitor_Jbod', ['$resource', function ($resource) {  //物理监控-JBOD监控
     return $resource("/api/phy_monitor_jbod/:id", {id: '@id'},{
-      query: {method: 'get', isArray: true}
+      query: {method: 'get', isArray: false}
     });
 }])
 .factory('Phy_Monitor_Storage', ['$resource', function ($resource) { //物理监控-存储监控
