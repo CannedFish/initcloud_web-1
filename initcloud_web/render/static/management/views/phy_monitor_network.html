@@ -86,7 +86,7 @@
         color:#0a122f;
     }
     .mt10{margin-top:8px !important;}
-
+    .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
 </style>
 <div class="phy_cont" ng-controller="Phy_Monitor_NetworkController">
                     <div class="work_title clearfix">
@@ -112,26 +112,27 @@
                             </ul>
                         </div> 
                     </div>
-                    <div class="list">
-                    	<span ng-class="item.link == 1?'bg03':'bg04'" class="item" ng-repeat="item in phy_monitor_networks">
-                            <i ng-class="item.link == 1?'numbg03':'numbg04'" class="indexnum">{[{$index+1}]}</i>
-                            <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload}]}kb</p>
-                            <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download}]}kb</p>
-                        </span>
-                    </div>
-                    <div ng-if="phy_monitor_networks==''" style="height:378px;line-height:378px;text-align:center;color:#ff0000;">
-                        接口尚未连接。
-                    </div>
-                    <div class="work_node" ng-controller="Phy_Monitor_StorageController">
-                        <div class="node_cont node5">
-                            <div class="node_pdu" style="margin-top:0px;" ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
-                                <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
-                                <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
-                                <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
-                                <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
-                                <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
+                    <div class="loaded" ng-if="phy_monitor_networks!=''">
+                        <div class="list">
+                        	<span ng-class="item.link == 1?'bg03':'bg04'" class="item" ng-repeat="item in phy_monitor_networks">
+                                <i ng-class="item.link == 1?'numbg03':'numbg04'" class="indexnum">{[{$index+1}]}</i>
+                                <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload  | number:2}]}kb</p>
+                                <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download | number:2}]}kb</p>
+                            </span>
+                        </div>
+                        <div class="work_node" ng-controller="Phy_Monitor_StorageController">
+                            <div class="node_cont node5">
+                                <div class="node_pdu" style="margin-top:0px;" ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
+                                    <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
+                                    <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
+                                    <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
+                                    <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
+                                    <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="loading" ng-if="phy_monitor_networks==''">
+                        加载中。。。
+                    </div>
                 </div>

@@ -11,13 +11,13 @@ CloudApp.controller('Phy_Monitor_JbodController',
                 Metronic.initAjax();
         });
 
-        $scope.phy_monitor_jbods = [];
+        $scope.phy_monitor_jbods = '';
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_jbods);
 
-        var init_data = Phy_Monitor_Jbod.get(function(data) {
-            }, {id: 1});
-        $scope.phy_monitor_jbods = init_data; 
-        checkboxGroup.syncObjects($scope.phy_monitor_jbods);
+        // var init_data = Phy_Monitor_Jbod.get(function(data) {
+        //     }, {id: 1});
+        // $scope.phy_monitor_jbods = init_data; 
+        // checkboxGroup.syncObjects($scope.phy_monitor_jbods);
         $scope.$on('to-child-jbod',function(d,id){
             var data = Phy_Monitor_Jbod.get(function(data) {
             }, {id: id});

@@ -58,7 +58,7 @@
 </style>
 <div class="IPcontent" ng-controller="Network_Bar_RouterController">
 	<div class="iplist fl">
-		<div class="itemtitle"><span class="tx m10">IP地址</span><small class="num ml5">({[{network_total}]}个)</small></div>
+		<div class="itemtitle"><span class="tx m10">IP地址</span><small class="num ml5">({[{route_total | number:2}]}个)</small></div>
 		<ul class="box">
 			<li ng-repeat="item in network_bar_routers" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)">
 				&nbsp;&nbsp;&nbsp;&nbsp;<img src="../static/assets/admin/layout/img/second/network-monitor/nico4_03.png">&nbsp;&nbsp;{[{item.ip}]}

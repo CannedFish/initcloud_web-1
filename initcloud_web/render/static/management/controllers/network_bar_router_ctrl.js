@@ -12,47 +12,13 @@ CloudApp.controller('Network_Bar_RouterController',
         });
 
         $scope.network_bar_routers = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_routers);
-
-        // $scope.network_bar_router_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Network_Bar_Router.query(function(data){
-        //                 $scope.network_bar_routers = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.network_bar_routers);
-        //             });
-        //         }
-        //     });
-        Network_Bar_Router.query(function(data){
-            // console.log(data);
-            $scope.rightbar = data[0];//初始ip值
-            $scope.network_bar_routers = data;
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_routers)
+        Network_Bar_Router.get(function(data){
+            $scope.rightbar = data.list[0];//初始ip值
+            $scope.network_bar_routers = data.list;
+            $scope.$emit('to-parent-route', data.total);
             checkboxGroup.syncObjects($scope.network_bar_routers);
         })
-	// var data = Network_Bar_Router.query()
- //        var data1 =[
- //            {
- //                'ip':'192.168.2.0',
- //                'ip_type':'网关1',
- //                'ip_connect_vm':'NAT模式'
- //            },
- //            {
- //                'ip':'192.168.2.1',
- //                'ip_type':'网关2',
- //                'ip_connect_vm':'NAT模式'
- //            },
- //            {
- //                'ip':'192.172.2.0',
- //                'ip_type':'网关3',
- //                'ip_connect_vm':'NAT模式'
- //            }
- //        ] ;
- //        $scope.initData = data[0];//初始值
- //        $scope.network_bar_routers = data;
- //        checkboxGroup.syncObjects($scope.network_bar_routers);
         // 点击触发右边列表
         $scope.triggerRightBar = function(item){
            $scope.rightbar = item;

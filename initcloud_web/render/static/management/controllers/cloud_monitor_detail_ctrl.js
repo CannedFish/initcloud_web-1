@@ -11,53 +11,15 @@ CloudApp.controller('Cloud_Monitor_DetailController',
                 Metronic.initAjax();
         });
 
-        $scope.cloud_monitor_details = [];
+        $scope.cloud_monitor_details = '';
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cloud_monitor_details);
 
         //接搜id 查找数据
-    $scope.cloud_id = urlParamsTrnasfer.get();
-	$scope.cloud_id2 = cloud_id;
-	// $scope.data1 = Cloud_Monitor_Detail.query({'cloud_id':$scope.cloud_id2})
- //        var id = urlParamsTrnasfer.get(); // 得到id的值
- //        console.log(id);
- //        CommonHttpService.post("/api/cloud_monitor_detail/query/", {id:id}).then(function(data){
- //            console.log(data);
- //            // if (data.success) {
- //            //     ToastrService.success(data.msg, $i18next("success"));
- //            //     $scope.cloud_monitor_detail_table.reload();
- //            //     checkboxGroup.uncheck()
- //            // } else {
- //            //     ToastrService.error(data.msg, $i18next("op_failed"));
- //            // }
- //        });
-        var data = 
-            [{
-                'memory': {
-                    'using': 202.0, 
-                    'data': [[0, 202.0], [1, 202.0], [2, 202.0], [3, 202.0], [4, 202.0], [5, 202.0]], 
-                    'surplus': 310.0, 
-                    'memory_usage': 0.39453125
-                }, 
-                'cloud_disk': [
-                    {'write_speed': 0.0, 'volumn': 1, 'name': 'test3', 'read_speed': 0.0}
-                ], 
-                'cpu': {
-                    'usage': 2.9322809834434036, 
-                    'data': [[0, 0.0], [1, 0.0], [2, 4.44055770444396], [3, 4.409101633990061], [4, 4.457331874865461], [5, 4.2866946873609395]], 
-                    'basic_frequency': '3.4kHz', 
-                    'logic_kernal': '1', 
-                    'CPU_type': 'E36608'
-                }, 
-                'network': {
-                    'ADSL_DOWN': 0, 
-                    'ADSL_UP': 0, 
-                    'data': [{'incoming': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}, 
-                        {'outgoing': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}
-                    ]
-                }
-            }]
-        ;
-        $scope.cloud_monitor_details = data[0];
+        $scope.cloud_id = cloud_id;
+        //id 为传递的参数
+	    var data = Cloud_Monitor_Detail.query({'cloud_id':$scope.cloud_id});
+        $scope.cloud_monitor_details = data;
+        checkboxGroup.syncObjects($scope.cloud_monitor_details);
          //ng-repeat 渲染完执行脚本
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
              $('.disk_table tr th').removeClass('footable-sortable');

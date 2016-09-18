@@ -45,14 +45,15 @@ class Network_Bar_NetList(generics.ListAPIView):
 	    rc = create_rc_manually(request)
 	    networks = neutron.network_list(rc)
             data = []
+	    total = 0
 	    for each in networks:
+		total = total + 1
 	        LOG.info(each.name)
 		network= {}
 		network['label'] = each.name
 		network['data'] = {'num':11124875,'description':'1,104'}
 		network['children'] = []
                 #LOG.info(" network is" +str(network))
-		#LOG.info('~~~~~~~~')
 		for subnets in each.subnets:
 		    subnet = {}
 		    subnet['label'] = subnets.name
@@ -74,6 +75,9 @@ class Network_Bar_NetList(generics.ListAPIView):
 				    subnet['children'].append(router)
                 data.append(network)
 	    LOG.info(data)
+	    return_data = {}
+	    return_data['list'] = data
+	    return_data['total'] = total
 	    #LOG.info('---------ROUTER-------------')
 	    #for each in neutron.router_list(rc):
                 #LOG.info("router is " + each.name)
@@ -82,60 +86,61 @@ class Network_Bar_NetList(generics.ListAPIView):
 		    #LOG.info(ports)
 		    #for subnet in ports.fixed_ips:
 			#LOG.info("subnetid_id is" + subnet['subnet_id'])    
-	    treedata_network=[
-		{
-		    'label':'net1',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet1',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router1',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		},
-		{
-		    'label':'net2',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet2',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router2',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		},
-		{
-		    'label':'net3',
-		    'data':{'num':'11124875','description':'1104'},
-		    'children':[
-			{
-			    'label':'subnet3',
-			    'data':{'num':'65124875','description':'1104'},
-			    'children':[
-				{
-				    'label':'router3',
-				    'data':{'num':'57824875','description':'1104'},
-				}
-			    ]
-			}
-		    ]
-		}
-	    ];
 	    #return Response(treedata_network)
-	    return Response(data)
+	    return Response(return_data)
 	except:
-	    traceback.print_exc()
+	    #traceback.print_exc()
+	    treedata_network=[
+	    {
+		'label':'net1',
+		'data':{'num':'11124875','description':'1104'},
+		'children':[
+		    {
+			'label':'subnet1',
+			'data':{'num':'65124875','description':'1104'},
+			'children':[
+			    {
+				'label':'router1',
+				'data':{'num':'57824875','description':'1104'},
+			    }
+			]
+		    }
+		]
+	    },
+	    {
+		'label':'net2',
+		'data':{'num':'11124875','description':'1104'},
+		'children':[
+		    {
+			'label':'subnet2',
+			'data':{'num':'65124875','description':'1104'},
+			'children':[
+			    {
+				'label':'router2',
+				'data':{'num':'57824875','description':'1104'},
+			    }
+			]
+		    }
+		]
+	    },
+	    {
+		'label':'net3',
+		'data':{'num':'11124875','description':'1104'},
+		'children':[
+		    {
+			'label':'subnet3',
+			'data':{'num':'65124875','description':'1104'},
+			'children':[
+			    {
+				'label':'router3',
+				'data':{'num':'57824875','description':'1104'},
+			    }
+			]
+		    }
+		]
+	    }
+	    ];
+	    return Response(treedata_network)
 
 
 

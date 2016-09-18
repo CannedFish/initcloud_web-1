@@ -271,7 +271,7 @@ logging.config.dictConfig(LOG_CONFIG)
 
 # Added by arthur
 
-ADMIN_TOKEN = "f14e712d84e243ca8a02dbc799e3184b"
+ADMIN_TOKEN = "d91d301a60af498b8d31e17c6b2b86d6"
 ADMIN_NAME = "admin"
 EDNPOINT = "http://localhost:35357/v2.0"
 ADMIN_TENANT_NAME = "admin"
@@ -290,6 +290,7 @@ COMPUTE_HOSTS = {'libertyall': "192.168.223.108"}
 DEVICEPOLICY = [{"name":"usb"}]
 VLAN_ENABLED = False 
 
+REDFISH_SIMULATE = True
 REDFISH_URL = {
     'phy_server': {
         '1': ["https://172.27.9.2", "https://172.27.9.3", "https://172.27.9.4", "https://172.27.9.5"],
@@ -309,3 +310,4 @@ STORAGE_URL = [
 ]
 CPU_FREQUENCY = '3.4kHz'
 CPU_TYPE = 'E36608'
+CLOUD_MONITOR_FAKE = True

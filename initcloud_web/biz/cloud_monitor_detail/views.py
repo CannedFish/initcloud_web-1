@@ -32,8 +32,15 @@ from cloud.api import ceilometer
 from cloud.api import cinder
 from django.conf import settings
 import traceback
+import random
 
 LOG = logging.getLogger(__name__)
+
+def make_fake(period = 6, mi = 0, ma = 10):
+    return_data = []
+    for i in range(0, period - 1):
+        return_data.append([i, round(random.uniform(mi, ma),2)])
+    return return_data
 
 def get_sample_data(request, meter_name, resource_id, project_id = None):
     query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
@@ -60,11 +67,17 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 	    rc = create_rc_manually(request)
 	    return_data = {}
 	    resource = ceilometer.resource_get(rc, cloud_id)
+	    name = resource.metadata['display_name']
+	    return_data['name'] = name
             vcpus = resource.metadata['vcpus']
             memory = resource.metadata['memory_mb']
 	#LOG.info(resource)
 	#-------------------------- CPU -------------------------
-	    hour_data = get_sample_data(rc, 'cpu_util', cloud_id)
+	    if settings.CLOUD_MONITOR_FAKE:
+                hour_data = make_fake(6, 2, 8)
+                day_data = make_fake(24, 2, 8)
+            else:
+	        hour_data = get_sample_data(rc, 'cpu_util', cloud_id)
 	    hour_cpu = 0
             for hour in hour_data:
                 hour_cpu = hour_cpu + hour[1]
@@ -76,9 +89,13 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 	    data['basic_frequency'] = settings.CPU_FREQUENCY
 	    data['CPU_type'] = settings.CPU_TYPE
 	    return_data['cpu'] = data
-	    LOG.info(return_data)
+	    #LOG.info(return_data)
 	#------------------------- NETWORK ------------------------
-	    hour_data = get_sample_data(rc, 'network.incoming.bytes.rate', cloud_id)
+	    if settings.CLOUD_MONITOR_FAKE:
+                hour_data = make_fake(6, 0.1, 1.2)
+                day_data = make_fake(24, 0.1, 1.2)
+            else:	
+	        hour_data = get_sample_data(rc, 'network.incoming.bytes.rate', cloud_id)
             hour_incoming = 0
             for hour in hour_data:
                 hour_incoming = hour_incoming + hour[1]
@@ -87,7 +104,11 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
             data['data'] = []
 	    data['data'].append({'incoming':hour_data})
             data['ADSL_UP'] = avg_incoming
-	    hour_data = get_sample_data(rc, 'network.outgoing.bytes.rate', cloud_id)
+	    if settings.CLOUD_MONITOR_FAKE:
+                hour_data = make_fake(6, 0.1, 1.2)
+                day_data = make_fake(24, 0.1, 1.2)
+            else:
+	        hour_data = get_sample_data(rc, 'network.outgoing.bytes.rate', cloud_id)
             hour_outgoing = 0
             for hour in hour_data:
                 hour_outgoing = hour_outgoing + hour[1]
@@ -95,22 +116,26 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 	    data['data'].append({'outgoing':hour_data})
             data['ADSL_DOWN'] = avg_outgoing
             return_data['network'] = data
-	    LOG.info(return_data)
+	    #LOG.info(return_data)
 	#------------------------ MEMORY --------------------------
-	    hour_data = get_sample_data(rc, 'memory.resident', cloud_id)
+	    if settings.CLOUD_MONITOR_FAKE:
+                hour_data = make_fake(6, 5, 20)
+                day_data = make_fake(24, 5, 20)
+            else:
+	        hour_data = get_sample_data(rc, 'memory.resident', cloud_id)
 	    data = {}
 	    data['using'] = hour_data[0][1]
 	    data['surplus'] = float(memory) - data['using']
-	    data['memory_usage'] = data['using']/float(memory)
+	    data['memory_usage'] = data['using']/float(memory) * 100
 	    data['data'] = hour_data
 	    return_data['memory'] = data
-	    LOG.info(return_data)
+	    #LOG.info(return_data)
 	#----------------------- CINDER ---------------------------
 	    volumes = cinder.volume_list(rc, {'all_tenants':1})
-	    LOG.info(volumes)
+	    #LOG.info(volumes)
 	    data = []
 	    for each in volumes:
-		LOG.info(each.attachments)
+		#LOG.info(each.attachments)
 		if len(each.attachments) == 0:
 		    continue
 		if each.attachments[0]['server_id'] == cloud_id:
@@ -118,23 +143,61 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 		    volume_data['volumn'] = each.size
 		    volume_data['name'] = each.name
 		    volume_id = each.id
-		    hour_data = get_sample_data(rc, 'disk.write.bytes.rate', cloud_id)
+		    if settings.CLOUD_MONITOR_FAKE:
+                        hour_data = make_fake(6, 1, 4)
+                        day_data = make_fake(24, 1, 4)
+                    else:
+		        hour_data = get_sample_data(rc, 'disk.write.bytes.rate', cloud_id)
 		    hour_write = 0
             	    for hour in hour_data:
                 	hour_write = hour_write + hour[1]
             	    avg_write = hour_write/len(hour_data)
 		    volume_data['write_speed'] = avg_write
-		    hour_data = get_sample_data(rc, 'disk.read.bytes.rate', cloud_id)
+		    if settings.CLOUD_MONITOR_FAKE:
+	                hour_data = make_fake(6, 1, 4)
+        	        day_data = make_fake(24, 1, 4)
+            	    else:
+		        hour_data = get_sample_data(rc, 'disk.read.bytes.rate', cloud_id)
                     hour_read = 0
                     for hour in hour_data:
                         hour_read = hour_read + hour[1]
                     avg_read = hour_read/len(hour_data)
                     volume_data['read_speed'] = avg_read
 		    data.append(volume_data)
-	    LOG.info('VOLUMES ISSSSSSSSSSSSSSSSS ' + str(data))
 	    return_data['cloud_disk'] = data
 	    return_array = []
 	    return_array.append(return_data)
 	    return Response(return_array)	
+	    #return Response(return_data)	
         except:
-	    trackback.print_exc()
+	    LOG.info("ERROR!!!!")
+	    #trackback.print_exc()
+	    return_array = [{
+		'name':1,
+                'cpu':{
+                    'usage':'10%',
+                    'speed':'0.80',
+                    'noraml_run_time':'0:02:31:08',
+                    'basic_frequency':'1.60',
+                    'logic_kernal':'4',
+                    'CPU_type':'E36608',
+                    'data':make_fake(6, 2, 8)
+                },
+                'memory':{
+                    'using':'2.7',
+                    'surplus':'4.8',
+                    'memory_usage':'2.4%',
+                    'data':make_fake(6, 5, 20)
+                },
+                'network':{
+                    'ADSL_UP':'0.67',
+                    'ADSL_DOWN':'0.8',
+                    'network_occupyrate':'56%',
+                    'data':[{'incoming':make_fake(6, 0.1, 1.2)},{'outgoing':make_fake(6, 0.1, 1.2)}]
+                },
+                'cloud_disk':[
+                  {'name':'test1','read_speed':'1.2','write_speed':'2.2','volumn':'512'}, 
+                  {'name':'test2','read_speed':'1.4','write_speed':'1.5','volumn':'512'}, 
+                ]
+            }]
+	    return Response(return_array)

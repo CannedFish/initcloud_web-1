@@ -59,82 +59,87 @@
     background: #16bb53;
     border-radius: 15px;
 }
+.loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
 </style>
 <div class="phy_cont" ng-controller="Phy_Monitor_ServerController">
                     <div class="work_title clearfix">
                     	<p class="title">服务器监控</p>
                         <p class="type_code">型号：SSG-2028R-DN2R40L</p>
                     </div>
-                    <div class="list-wrapper clearfix">
-                        <div class="list" ng-repeat="list in phy_monitor_servers">
-                            <div class="node_title" ng-if="$index == 0">节点一</div>
-                            <div class="node_title" ng-if="$index == 1">节点二</div>
-                            <div class="node_title" ng-if="$index == 2">节点三</div>
-                            <div class="node_title" ng-if="$index == 3">节点四</div>
-                            <div class="item">
-                                <div class="tx">CPU监控</div>
-                                <div class="cpu">
-                                    <span class="v">{[{list.CPU[0].V}]}V</span>
-                                    <span class="t">{[{list.CPU[0].T}]}℃</span>
-                                    <span class="v">{[{list.CPU[1].V}]}V</span>
-                                    <span class="t">{[{list.CPU[1].T}]}℃</span>
+                    <div class="loaded" ng-if="phy_monitor_servers!=''">
+                        <div class="list-wrapper clearfix">
+                            <div class="list" ng-repeat="list in phy_monitor_servers">
+                                <div class="node_title" ng-if="$index == 0">节点一</div>
+                                <div class="node_title" ng-if="$index == 1">节点二</div>
+                                <div class="node_title" ng-if="$index == 2">节点三</div>
+                                <div class="node_title" ng-if="$index == 3">节点四</div>
+                                <div class="item">
+                                    <div class="tx">CPU监控</div>
+                                    <div class="cpu">
+                                        <span class="v">{[{list.CPU[0].V}]}V</span>
+                                        <span class="t">{[{list.CPU[0].T}]}℃</span>
+                                        <span class="v">{[{list.CPU[1].V}]}V</span>
+                                        <span class="t">{[{list.CPU[1].T}]}℃</span>
+                                    </div>
+                                    <div class="tx">内存电压监控</div>
+                                    <div class="memory" style="padding-left:8px;">
+                                        <span class="m" ng-repeat="v in list.memory_voltage track by $index">
+                                            <p>{[{v}]}</p>
+                                            <p>
+                                                <div class="fan_line">
+                                                    <div class="fan_lineCont"></div>
+                                                </div> 
+                                            </p>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="tx">内存电压监控</div>
-                                <div class="memory" style="padding-left:8px;">
-                                    <span class="m" ng-repeat="v in list.memory_voltage track by $index">
-                                        <p>{[{v}]}</p>
-                                        <p>
-                                            <div class="fan_line">
-                                                <div class="fan_lineCont"></div>
-                                            </div> 
-                                        </p>
-                                    </span>
+                            </div> 
+                        </div>
+                        <div class="work_node"  ng-controller="Phy_Monitor_StorageController">
+                            <div class="node_cont node3">
+                                <p class="node_title">风扇转速监控</p>
+                                <div class="node_model model1">
+                                    <p class="fan_p1">风扇</p>
+                                    <div class="fan_line">
+                                        <div class="fan_lineCont"></div>
+                                    </div>
+                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[0]}]}r/s</p>
+                                    
                                 </div>
                             </div>
-                        </div> 
+                            
+                            <div class="node_cont node4">
+                                <p class="node_title">系统电流、电压监控</p>
+                                <div class="node_model model1">
+                                    <div style="height:100%;width:50%;float:left">
+                                        <p class="fan_p1">电流</p>
+                                        <div class="fan_line">
+                                            <div class="fan_lineCont"></div>
+                                        </div>
+                                        <p class="fan_p2">电流：{[{phy_monitor_storages.systemUI[0]}]}A</p>
+                                    </div>
+                                    <div style="height:100%;width:50%;float:left">
+                                        <p class="fan_p1">电压</p>
+                                        <div class="fan_line">
+                                            <div class="fan_lineCont"></div>
+                                        </div>
+                                        <p class="fan_p2">电压：{[{phy_monitor_storages.systemUI[1]}]}V</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="node_cont node5">
+                                <div class="node_pdu"  ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
+                                    <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
+                                    <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
+                                    <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
+                                    <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
+                                    <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div  class="list-wrapper" ng-if="phy_monitor_servers == ''" style="height:200px;line-height:200px;text-align:center;color:#ff0000;">加载中。。。</div>
-                    <div class="work_node"  ng-controller="Phy_Monitor_StorageController">
-                        <div class="node_cont node3">
-                            <p class="node_title">风扇转速监控</p>
-                            <div class="node_model model1">
-                                <p class="fan_p1">风扇</p>
-                                <div class="fan_line">
-                                    <div class="fan_lineCont"></div>
-                                </div>
-                                <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[0]}]}r/s</p>
-                                
-                            </div>
-                        </div>
-                        
-                        <div class="node_cont node4">
-                            <p class="node_title">系统电流、电压监控</p>
-                            <div class="node_model model1">
-                                <div style="height:100%;width:50%;float:left">
-                                    <p class="fan_p1">电流</p>
-                                    <div class="fan_line">
-                                        <div class="fan_lineCont"></div>
-                                    </div>
-                                    <p class="fan_p2">电流：{[{phy_monitor_storages.systemUI[0]}]}A</p>
-                                </div>
-                                <div style="height:100%;width:50%;float:left">
-                                    <p class="fan_p1">电压</p>
-                                    <div class="fan_line">
-                                        <div class="fan_lineCont"></div>
-                                    </div>
-                                    <p class="fan_p2">电压：{[{phy_monitor_storages.systemUI[1]}]}V</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="node_cont node5">
-                            <div class="node_pdu"  ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
-                                <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
-                                <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
-                                <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
-                                <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
-                                <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
-                            </div>
-                        </div>
+                    <div class="loading" ng-if="phy_monitor_servers==''">
+                        加载中。。。
                     </div>
                     
                 </div>

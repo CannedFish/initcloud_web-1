@@ -28,32 +28,16 @@ CloudApp.controller('Storage_MonitorController',
         //     });
         //query 操作。
         Storage_Monitor.get(function(data){
+            if(data.results){
+                for(var o in data.results){
+                    var nc = data.results[o].item.network_card;
+                    nc.up_rate ='2'+nc.up_rate.substring(1);
+                    nc.down_rate ='2'+nc.down_rate.substring(1);
+                } 
+            }
             $scope.storage_monitors = data.results;
             checkboxGroup.syncObjects($scope.storage_monitors);
         });
-        // var data = [
-        //     {
-        //         'name':'节点一',
-        //         'item':{
-        //             'cpu_used':[80,60], // 每个CPU的占用率
-        //             'cpu_frequence':[3.5,4], // 每个CPU的主频
-        //             'memory':{'memory_used':'80','memory_total':'300','used':'243','empty':'57'},
-        //             'network_card':{'up':'80','up_rate':'223456','down':'90','down_rate':'225779'} 
-        //             // 上行流量，上行带宽占用率，下行流量，下行带宽占用率
-        //         }
-        //     },
-        //     {
-        //         'name':'节点二',
-        //         'item':{
-        //             'cpu_used':[90,70],
-        //             'cpu_frequence':[3.2,4],
-        //             'memory':{'memory_used':'90','memory_total':'300','used':'260','empty':'60'},
-        //             'network_card':{'up':'80','up_rate':'223456','down':'60','down_rate':'225779'}
-        //         }
-        //     }
-        // ];
-        // console.log(data);
-        // $scope.storage_monitors = data;
         var deleteStorage_Monitors = function(ids){
 
             $ngBootbox.confirm($i18next("storage_monitor.confirm_delete")).then(function(){

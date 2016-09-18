@@ -10,10 +10,9 @@ CloudApp.controller('Network_BarController',
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
-
         $scope.network_bars = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bars);
-        //初始化假数据
+        //初始化假数据 上行数据包/下行数据包/上行流量/下行流量
         var data = {
         'updatapackage':[[60,10],[50,30],[40,25],[30,30],[20,50],[10,60],[0,0]],
         'downdatapackage':[[60,4],[50,45],[40,70],[30,55],[20,30],[10,35],[0,0]],
@@ -21,7 +20,24 @@ CloudApp.controller('Network_BarController',
         'downrate':[[60,4],[50,45],[40,40],[30,55],[20,30],[10,55],[0,0]]
          }
         $scope.network_bars = data;
+        //$scope.network_bars = Network_Bar.query();
         checkboxGroup.syncObjects($scope.network_bars);
+     //    $scope.network_bars = '';
+     //    var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bars);
+	    // // Network_Bar.query(function(data){
+     // //         $scope.network_bars = data[0];
+     // //         checkboxGroup.syncObjects($scope.network_bars);
+     // //    })
+     // //     checkboxGroup.syncObjects($scope.network_bars);
+     //     var data = [{
+     //            'upuppacket':[[60,10],[50,30],[40,25],[30,30],[20,50],[10,60],[0,0]],
+     //            'downpacket':[[60,4],[50,45],[40,70],[30,55],[20,30],[10,35],[0,0]],
+     //            'uprate':[[60,25],[50,5],[40,60],[30,45],[20,30],[10,38],[0,0]],
+     //            'downrate':[[60,4],[50,45],[40,40],[30,55],[20,30],[10,55],[0,0]]
+     //         }]
+     //    $scope.network_bars = data[0];
+     //    checkboxGroup.syncObjects($scope.network_bars);
+        // console.log($scope.network_bars)
         //非table 接口数据
         // $scope.network_bar_table = new ngTableParams({
         //         page: 1,

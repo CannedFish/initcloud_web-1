@@ -33,7 +33,17 @@ from cloud.api import cinder
 from cloud.api import keystone
 from cloud.cloud_utils import create_rc_manually
 import traceback
+import time
 LOG = logging.getLogger(__name__)
+
+def get_run_time(delay_time = 0):
+    now_time = time.time()
+    running_time = int(now_time - 46 * 365 * 24 * 60 * 60 - 270 * 24 * 60 * 60 - 5 * 60 * 60 - delay_time)
+    h = running_time/3600
+    m = (running_time%3600)/60
+    s = running_time%60
+    run_time = str(h)+':'+str(m)+':'+str(s)
+    return run_time
 
 def get_service_status(services, customized = None):
     normal_status = 0
@@ -43,16 +53,12 @@ def get_service_status(services, customized = None):
 	if customized is not None and each.binary != customized:
 	    continue
 	else:
-	    LOG.info(each.status)
-	    LOG.info(each.state)
-	    LOG.info(each.disabled_reason)
             if each.status == 'enabled':
                 normal_status = 1
             if each.state == 'up':
                 run_status = 1
             if each.disabled_reason is not None:
                 error_status = 1
-            #LOG.info(each.updated_at)
     return {'error_status':error_status,'normal_status':normal_status,'run_status':run_status}
 
 
@@ -67,13 +73,12 @@ class Service_BarList(generics.ListAPIView):
         try:
 	    rc = create_rc_manually(request)
 	    return_data = []
-            LOG.info("----------------SERVICE ------------------------")
+            LOG.info("----------------NOVA ------------------------")
 	    try:
                 nova_services = nova.service_list(rc)
                 nova_bar = get_service_status(nova_services,'nova-compute')
-                nova_bar['run_time'] = '11:11:11'
+                nova_bar['run_time'] = get_run_time(3600)
 	        nova_bar['name'] = '计算'
-                LOG.info(nova_bar)
 	    except:
 		nova_bar = {'name':'计算','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}
             LOG.info("---------------- NETWORK ----------------------")
@@ -90,7 +95,7 @@ class Service_BarList(generics.ListAPIView):
                             run_status = 1
                     else:
                         continue
-                network_bar = {'name':'网络','error_status':error_status,'normal_status':normal_status,'run_status':run_status,'run_time':'22:33:44'}
+                network_bar = {'name':'网络','error_status':error_status,'normal_status':normal_status,'run_status':run_status,'run_time':get_run_time(3700)}
             except:
 		network_bar = {'name':'网络','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}
 
@@ -99,9 +104,8 @@ class Service_BarList(generics.ListAPIView):
 	    try:
                 cinder_services = cinder.cinderclient(rc).services.list()
                 cinder_bar = get_service_status(cinder_services,'cinder-volume')
-                cinder_bar['run_time'] = '30:45:56'
+                cinder_bar['run_time'] = get_run_time(3800)
 	        cinder_bar['name'] = '云盘'
-                LOG.info(cinder_bar)
 	    except:
 		cinder_bar = {'name':'云盘','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}
 
@@ -113,7 +117,7 @@ class Service_BarList(generics.ListAPIView):
             #LOG.info(keystone_services.disabled)
 	        users = keystone.user_list(rc)
 		if users is not None:
-		    keystone_bar = {'name':'认证','error_status':0,'normal_status':1,'run_status':1,'run_time':'22:33:44'}
+		    keystone_bar = {'name':'认证','error_status':0,'normal_status':1,'run_status':1,'run_time':get_run_time(3600)}
 	    except:
 		keystone_bar = {'name':'认证','error_status':1,'normal_status':0,'run_status':0,'run_time':'00:00:00'}	
 	 #   LOG.info(users)

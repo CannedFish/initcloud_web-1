@@ -1,7 +1,7 @@
 #-*- coding=utf-8 -*-
 from datetime import timedelta
 import ldap
-from django_auth_ldap.config import LDAPSearch
+#from django_auth_ldap.config import LDAPSearch
 
 #### site config
 

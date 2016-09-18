@@ -212,14 +212,19 @@
             height:32px;
             background:url('../img/common/line05_03.png') no-repeat;
             background-position: 20px 4px;
+            white-space:nowrap; 
+            overflow:hidden; 
+            text-overflow:ellipsis;
          }   
          .btm-line span{
             display: inline-block;
-            width: 25%;
+            width: auto;
             color: #00d8ff;
             font-size: 14px;
             line-height: 31px;
             margin-left: 25px;
+            overflow:hidden;
+
          } 
         .lt,.lb{
             text-align: left;
