@@ -91,6 +91,10 @@ class StorageNodeList(generics.ListAPIView):
         clusterlist = storage.get_cluster_list()
         if clusterlist['success']:
             queryset = []
+            # temp
+            if len(clusterlist['data']) == 1:
+                clusterlist['data'].append({'hostname':'storagesbb2', 'id':'storagesbb2'})
+            # temp end
             for server in clusterlist['data']:
                 EmptyData = get_storage_node_data(server['hostname'])
                 serverstatus = storage.get_server_status(server['id'])
@@ -100,18 +104,6 @@ class StorageNodeList(generics.ListAPIView):
                         # unit conversion
                         status['memUsed'] = byte_2_gbyte(status['memUsed'])
                         status['memTotal'] = byte_2_gbyte(status['memTotal'])
-                        # for net in status['netIntfStatus']:
-                        #     net['rxRate'] = byte_2_kbit(net['rxRate'])
-                        #     net['txRate'] = byte_2_kbit(net['txRate'])
-                        # nets_rx_rate = [net['rxRate'] for net in status['netIntfStatus']]
-                        # nets_rx_per = [net['rxPer'] for net in status['netIntfStatus']]
-                        # nets_tx_rate = [net['txRate'] for net in status['netIntfStatus']]
-                        # nets_tx_per = [net['txPer'] for net in status['netIntfStatus']]
-                        # # real data
-                        # up = round(reduce(lambda x,y: x+y, nets_tx_per)/float(len(nets_tx_per)), 1)
-                        # up_rate = reduce(lambda x,y: x+y, nets_tx_rate)
-                        # down = round(reduce(lambda x,y: x+y, nets_rx_per)/float(len(nets_rx_per)), 1)
-                        # down_rate = reduce(lambda x,y: x+y, nets_rx_rate)
                         up, up_rate, down, down_rate = get_net_data(status)
                         # tempral data
                         max_rate = get_max_rate()
@@ -185,6 +177,10 @@ class TreeNodeList(generics.ListAPIView):
         if poolstatus['success']:
             serverlist = storage.get_cluster_alive()
             if serverlist['success']:
+                # temp
+                if len(serverlist['data']) == 1:
+                    serverlist['data'].append({'id':'storagesbb2', 'status':'offline'})
+                # temp end
                 queryset = [{\
                     'label': server['id'],\
                     'nodelist': [{\
