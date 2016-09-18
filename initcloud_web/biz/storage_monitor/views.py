@@ -283,6 +283,10 @@ class PhyNodesList(APIView):
         """
         clusterlist = storage.get_cluster_alive()
         if clusterlist['success']:
+            # temp
+            if len(clusterlist['data']) == 1:
+                clusterlist['data'].append({'id':'storagesbb2', 'status':'offline'})
+            # temp end
             nodes = []
             for server in clusterlist['data']:
                 if server['status'] == 'online':
