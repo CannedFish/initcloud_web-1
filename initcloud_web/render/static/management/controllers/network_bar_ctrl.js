@@ -20,6 +20,7 @@ CloudApp.controller('Network_BarController',
         'downrate':[[60,4],[50,45],[40,40],[30,55],[20,30],[10,55],[0,0]]
          }
         $scope.network_bars = data;
+        //$scope.network_bars = Network_Bar.query();
         checkboxGroup.syncObjects($scope.network_bars);
      //    $scope.network_bars = '';
      //    var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bars);
