@@ -40,7 +40,13 @@ CloudApp.controller('Cloud_MonitorController',
         
         //ng-repeat 渲染完执行脚本
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-             $scope.table_page();
+        	 if($scope.sortname == ''){
+ 				$scope.table_page();
+        	 }else{
+        	 	$scope.table_page(false);
+        	 }
+             ngRepeatFinishedEvent.stopPropagation(); // 终止事件继续“冒泡”
+             // ngRepeatFinishedEvent.destroy();
         })
         // //得到物理主机名称
         // for(var n in $scope.tempdata)
@@ -48,8 +54,7 @@ CloudApp.controller('Cloud_MonitorController',
         //     console.log($scope.tempdata[n].host);
         // }
         // 分页函数
-        $scope.table_page = function(){
-           
+        $scope.table_page = function(compl){
             var show_page = 5;
             var totalitem = $('.content .pageitem').length;
             var current_page=1;//当前页
@@ -69,8 +74,9 @@ CloudApp.controller('Cloud_MonitorController',
             $("#current_page").html(" "+current_page+" ");//显示当前页
             $("#page_all").html(" "+page_num+" ");//显示总页数
             $('#page_num_all li:eq(0)').addClass('active');
+            if(compl == false)  return;
             //点击上一页
-            $('#previous').click(function(){
+            $('#previous_li').click(function(){
                 var new_page = parseInt($('#current_page').text()) - 1; 
                 // alert(new_page);
                 if(new_page>0)
@@ -83,9 +89,10 @@ CloudApp.controller('Cloud_MonitorController',
                return false;
             });
             //点击下一页
-            $("#next_li").click(function(){//下一页
-                // alert($("#current_page").text())
+            $("#next_li").click(function(){//下一
+            
                 var new_page=parseInt($("#current_page").text())+1;//当前页标
+             
                 if(new_page<=page_num){//判断是否为最后或第一页
                     $('#page_num_all li').removeClass('active');
                     $('#page_num_all li:eq('+$("#current_page").text()+')').addClass('active');

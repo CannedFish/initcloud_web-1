@@ -31,6 +31,8 @@ from cloud.cloud_utils import create_rc_manually
 from cloud.api import ceilometer
 from cloud.api import nova
 import traceback
+import random
+
 LOG = logging.getLogger(__name__)
 
 def get_sample_data(request, meter_name, resource_id, project_id = None):
@@ -58,33 +60,28 @@ class Network_BarList(generics.ListAPIView):
 	    outgoing = []
 	    incoming_pkg = []
 	    outgoing_pkg = []
+	    if settings.CLOUD_MONITOR_FAKE:
+	        uprate = make_fake(6, 0.1, 1.2)
+	        downrate = make_fake(6, 0.1, 1.2)
+	        uppacket = make_fake(6, 1, 12)
+	        downpacket = make_fake(6, 1, 12)
+		return_data = []
+                return_data.append({'uprate':uprate,'downrate':downrate,'updatapackage':uppacket,'downdatapackage':downpacket})
+                return Response(return_data)
 	    for each in clouds:
 		avg_incoming = get_sample_data(rc, 'network.incoming.bytes.rate', each.id)
 		incoming.append(avg_incoming)
-		
 		avg_outgoing = get_sample_data(rc, 'network.outgoing.bytes.rate', each.id)
                 outgoing.append(avg_outgoing)
 		avg_incoming_pkg = get_sample_data(rc, 'network.outgoing.packets.rate', each.id)
                 incoming_pkg.append(avg_incoming_pkg)
 		avg_outgoing_pkg = get_sample_data(rc, 'network.outgoing.packets.rate', each.id)
                 outgoing_pkg.append(avg_outgoing_pkg)
-	    LOG.info(incoming)
-	    LOG.info(outgoing)
-	    LOG.info(incoming_pkg)
-	    LOG.info(outgoing_pkg)
-	    #uprate = []
-	    #for each in incoming:
-	    #	for ele in range(0, 6):
-	    #	uprate.append(each)    
-	    #uprate = sum(incoming)/len(incoming)
-	    #downrate = sum(outgoing)/len(incoming)
-	    #uppacket = sum(incoming_pkg)/len(incoming)
-	    #downpacket = sum(outgoing_pkg)/len(incoming)
-	    uprate = incoming[0]
-	    downrate = outgoing[0]
-	    uppacket = incoming_pkg[0]
-	    downpacket = outgoing_pkg[0]
-	    LOG.info([uprate, downrate, uppacket, downpacket])
+	    #uprate = incoming[0]
+	    #downrate = outgoing[0]
+	    #uppacket = incoming_pkg[0]
+	    #downpacket = outgoing_pkg[0]
+	    #LOG.info([uprate, downrate, uppacket, downpacket])
 	    return_data = []
 	    return_data.append({'uprate':uprate,'downrate':downrate,'uppacket':uppacket,'downpacket':downpacket})
 	    return Response(return_data)

@@ -32,7 +32,14 @@ from cloud.api import cinder
 from cloud.api import ceilometer
 from cloud.cloud_utils import create_rc_manually
 import traceback
+import random
 LOG = logging.getLogger(__name__)
+
+def make_fake(period = 6, mi = 0, ma = 10):
+    return_data = []
+    for i in range(0, period - 1):
+        return_data.append([i, round(random.uniform(mi, ma),2)])
+    return return_data
 
 def get_sample_data(request, meter_name, resource_id, project_id = None):
     query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
@@ -77,15 +84,29 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    for each in cm:
 		if each.status == 'ACTIVE':
 		    running_cm = running_cm + 1
-		avg_write = get_sample_data(rc, 'disk.write.bytes.rate', each.id)
-                write_rate.append(avg_write)
-		avg_read = get_sample_data(rc, 'disk.read.bytes.rate', each.id)
-                read_rate.append(avg_read)
-		avg_util = get_sample_data(rc, 'cpu_util', each.id)
-                cpu_util.append(avg_util)
-	    write = sum(write_rate)/len(write_rate)
-	    read = sum(read_rate)/len(read_rate)
-	    cpu_loadbalance = sum(cpu_util)/len(cpu_util)
+	        if settings.CLOUD_MONITOR_FAKE:
+		    sum = 0
+    		    for hour in make_fake(6, 1, 4):
+        	        sum = sum + hour[1]
+    		    write = round(sum/6, 2)
+		    sum = 0
+                    for hour in make_fake(6, 1, 4):
+                        sum = sum + hour[1]
+                    read = round(sum/6, 2)
+		    sum = 0
+                    for hour in make_fake(6, 2, 8):
+                        sum = sum + hour[1]
+                    cpu_loadbalance = round(sum/6, 2)
+                else:
+		    avg_write = get_sample_data(rc, 'disk.write.bytes.rate', each.id)
+                    write_rate.append(avg_write)
+		    avg_read = get_sample_data(rc, 'disk.read.bytes.rate', each.id)
+                    read_rate.append(avg_read)
+		    avg_util = get_sample_data(rc, 'cpu_util', each.id)
+                    cpu_util.append(avg_util)
+	            write = sum(write_rate)/len(write_rate)
+	            read = sum(read_rate)/len(read_rate)
+	            cpu_loadbalance = sum(cpu_util)/len(cpu_util)
 
 	    #hypervisors = nova.hypervisor_list(rc)
             #for each in hypervisors:
