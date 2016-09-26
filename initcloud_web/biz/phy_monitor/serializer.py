@@ -26,21 +26,38 @@ class PhyMonitorJBODSerializer(serializers.Serializer):
     systemUI = serializers.ListField(child=\
             serializers.ListField(child=serializers.FloatField()))
     electric_rota = serializers.ListField(child=serializers.IntegerField())
+    model = serializers.CharField()
 
 # PhyMonitorNetwork
-class PhyMonitorNetworkSerializer(serializers.Serializer):
+class PhyMonitorNetworkTrafficSerializer(serializers.Serializer):
     link = serializers.IntegerField()
     upload = serializers.FloatField()
     download = serializers.FloatField()
+
+class PhyMonitorNetworkSerializer(serializers.Serializer):
+    model = serializers.CharField()
+    traffic = PhyMonitorNetworkTrafficSerializer(many=True)
+    traffic_40GB = PhyMonitorNetworkTrafficSerializer(many=True)
 
 # PhyMonitorServer
 class CPUSerializer(serializers.Serializer):
     V = serializers.FloatField()
     T = serializers.FloatField()
 
-class PhyMonitorServerSerializer(serializers.Serializer):
+class PDUSerializer(serializers.Serializer):
+    volt = serializers.FloatField()
+    current = serializers.FloatField()
+    watt = serializers.FloatField()
+
+class NodeSerializer(serializers.Serializer):
     CPU = CPUSerializer(many=True)
     memory_voltage = serializers.ListField(child=serializers.FloatField())
+    fan_speed = serializers.IntegerField()
+    PDU = PDUSerializer()
+
+class PhyMonitorServerSerializer(serializers.Serializer):
+    model = serializers.CharField()
+    nodes = NodeSerializer(many=True)
 
 # PhyMonitorStorage
 class PhyNodeSerializer(serializers.Serializer):
@@ -53,7 +70,9 @@ class PhyMonitorStorageSerializer(serializers.Serializer):
     nodes = PhyNodeSerializer(many=True)
     disk = serializers.ListField(child=serializers.IntegerField())
     disk_status = serializers.DictField(child=serializers.CharField())
-    electric_rota = serializers.ListField(child=serializers.IntegerField())
+    electric_rota = serializers.ListField(child=\
+            serializers.ListField(child=serializers.IntegerField()))
     systemUI = serializers.ListField(child=serializers.FloatField())
     PDU = serializers.ListField(child=\
             serializers.ListField(child=serializers.FloatField()))
+    model = serializers.CharField()
