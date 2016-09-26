@@ -22,19 +22,12 @@ CloudApp.controller('Cloud_Monitor_DetailController',
         checkboxGroup.syncObjects($scope.cloud_monitor_details);
          //ng-repeat 渲染完执行脚本
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-             $('.disk_table tr th').removeClass('footable-sortable');
-             $('.footable-sort-indicator').remove();
-             $('.pagination li.footable-page').css('display','none');
-             angular.forEach($('.pagination li.footable-page-arrow'),function(t){
-                if($(t).index() == 0 || $(t).index() == 6)
-                {
-                    $(t).css({'display':'none','border':'solid 1px #ff0000'});
-                }else if($(t).index() == 1){
-                    $(t).find('a').text('上一页').css({'background':'transparent','border':'solid 1px #0077bc','height':'28px;','marginRight':'10px'});
-                }else if($(t).index() == 5){
-                     $(t).find('a').text('下一页').css({'background':'transparent','border':'solid 1px #0077bc','height':'28px;'});
-                }
-             });
+            console.log($('.pagination').find('.footable-page-arrow:eq(0)')
+            .find('a').text());
+            $('.pagination').find('.footable-page-arrow:eq(0)')
+            .find('a').text('上一页').css({'background':'transparent','border':'solid 1px #0077bc','height':'28px;','marginRight':'10px'});
+            $('.pagination').find('.footable-page-arrow:eq(1)')
+            .find('a').text('下一页').css({'background':'transparent','border':'solid 1px #0077bc','height':'28px;'});
         })
         var deleteCloud_Monitor_Details = function(ids){
 

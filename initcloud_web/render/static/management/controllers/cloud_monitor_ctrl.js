@@ -74,6 +74,13 @@ CloudApp.controller('Cloud_MonitorController',
             $("#current_page").html(" "+current_page+" ");//显示当前页
             $("#page_all").html(" "+page_num+" ");//显示总页数
             $('#page_num_all li:eq(0)').addClass('active');
+            //页面跳转
+            $(".page_num").click(function(){//页标跳转
+                $('#page_num_all li').removeClass('active');
+                $(this).addClass('active');
+                var new_page=parseInt($(this).text());
+                tab_page(new_page);
+            });
             if(compl == false)  return;
             //点击上一页
             $('#previous_li').click(function(){
@@ -100,13 +107,7 @@ CloudApp.controller('Cloud_MonitorController',
                     tab_page(new_page);
                 }
             });
-            //页面跳转
-            $(".page_num").click(function(){//页标跳转
-                $('#page_num_all li').removeClass('active');
-                $(this).addClass('active');
-                var new_page=parseInt($(this).text());
-                tab_page(new_page);
-            });
+            
             //切换页面
             function tab_page(index){
                 var start=(index-1)*show_page;//开始截取的页标

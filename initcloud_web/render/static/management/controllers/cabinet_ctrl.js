@@ -5,7 +5,7 @@
 CloudApp.controller('CabinetController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Cabinet, CheckboxGroup, DataCenter){
+             Cabinet, CheckboxGroup, DataCenter,$timeout){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -53,8 +53,59 @@ CloudApp.controller('CabinetController',
                           // 'memory_server_status_02':[1,0,1,0,0,1,1,0,1,1,0,1,1,0,0,0,1,1,1,1]
                     // }; 
             /* $scope.cabinets = status_arr; */
+            //创建定时器
+            function Timer() {
+                ///<summary>Simple timer object created around a timeout.</summary>
+                var t = this;
+                t.id = null;
+                t.busy = false;
+                t.start = function (code, milliseconds) {
+                    ///<summary>Starts the timer and waits the specified amount of <paramref name="milliseconds"/> before executing the supplied <paramref name="code"/>.</summary>
+                    ///<param name="code">The code to execute once the timer runs out.</param>
+                    ///<param name="milliseconds">The time in milliseconds to wait before executing the supplied <paramref name="code"/>.</param>
+
+                    if (t.busy) {
+                        return;
+                    }
+                    t.stop();
+                    t.id = setInterval(function () {
+                        code();
+                        t.id = null;
+                        t.busy = false;
+                    }, milliseconds);
+                    t.busy = true;
+                };
+                t.stop = function () {
+                    ///<summary>Stops the timer if its runnning and resets it back to its starting state.</summary>
+
+                    if (t.id !== null) {
+                        clearTimeout(t.id);
+                        t.id = null;
+                        t.busy = false;
+                    }
+                };
+            }
+            var timer = new Timer();
+            // console.log(timer);
+            timer.start(function(){
+                // alert(1);
+                Cabinet.get(function(data) {
+                  $scope.cabinets = data;
+                });
+            },30000);
+            // $scope.$watch(function(){
+            //    $timeout(
+            //         function() {
+                        // console.log(1)
+            //             Cabinet.get(function(data) {
+            //               $scope.cabinets = data;
+            //             });
+            //         },
+            //         30000
+            //     );
+            // })
+            // var timer = 
             Cabinet.get(function(data) {
-              // console.log(data);
               $scope.cabinets = data;
             });
             checkboxGroup.syncObjects($scope.cabinets);

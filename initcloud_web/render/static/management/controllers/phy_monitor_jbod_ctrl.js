@@ -13,13 +13,46 @@ CloudApp.controller('Phy_Monitor_JbodController',
 
         $scope.phy_monitor_jbods = '';
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_jbods);
+        function Timer() {
+            ///<summary>Simple timer object created around a timeout.</summary>
+            var t = this;
+            t.id = null;
+            t.busy = false;
+            t.start = function (code, milliseconds) {
+                ///<summary>Starts the timer and waits the specified amount of <paramref name="milliseconds"/> before executing the supplied <paramref name="code"/>.</summary>
+                ///<param name="code">The code to execute once the timer runs out.</param>
+                ///<param name="milliseconds">The time in milliseconds to wait before executing the supplied <paramref name="code"/>.</param>
 
-        // var init_data = Phy_Monitor_Jbod.get(function(data) {
-        //     }, {id: 1});
-        // $scope.phy_monitor_jbods = init_data; 
-        // checkboxGroup.syncObjects($scope.phy_monitor_jbods);
+                if (t.busy) {
+                    return;
+                }
+                t.stop();
+                t.id = setInterval(function () {
+                    code();
+                    t.id = null;
+                    t.busy = false;
+                }, milliseconds);
+                t.busy = true;
+            };
+            t.stop = function () {
+                ///<summary>Stops the timer if its runnning and resets it back to its starting state.</summary>
+
+                if (t.id !== null) {
+                    clearTimeout(t.id);
+                    t.id = null;
+                    t.busy = false;
+                }
+            };
+        }
+        var timer = new Timer();
         $scope.$on('to-child-jbod',function(d,id){
-            var data = Phy_Monitor_Jbod.get(function(data) {
+            var data = '';
+            timer.start(function(){
+                data = Phy_Monitor_Jbod.get(function(data) { 
+                }, {id: id});
+                $scope.phy_monitor_jbods = data; 
+            },30000);
+            data = Phy_Monitor_Jbod.get(function(data) {
             }, {id: id});
             $scope.phy_monitor_jbods = data; 
             checkboxGroup.syncObjects($scope.phy_monitor_jbods);
