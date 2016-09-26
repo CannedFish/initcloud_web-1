@@ -290,11 +290,12 @@ COMPUTE_HOSTS = {'libertyall': "192.168.223.108"}
 DEVICEPOLICY = [{"name":"usb"}]
 VLAN_ENABLED = False 
 
+# phy_monitor
 REDFISH_SIMULATE = True
 REDFISH_URL = {
     'phy_server': {
         '1': ["https://172.27.9.2", "https://172.27.9.3", "https://172.27.9.4", "https://172.27.9.5"],
-        '2': ["https://172.27.9.12", "https://172.27.9.13", "https://172.27.9.14", "https://172.27.9.15"],
+        '2': ["https://172.27.9.12", None, "https://172.27.9.14", "https://172.27.9.15"],
         '3': [],
         '4': [],
         '5': []
@@ -303,11 +304,31 @@ REDFISH_URL = {
 }
 REDFISH_USR = "ADMIN"
 REDFISH_PSD = "ADMIN"
+SWITCH_MODEL = {
+    "1": "model1", 
+    "2": "model2", 
+    "3": "model3",
+    "4": ""
+}
+SERVER_MODEL = {
+    '1': 'model1',
+    '2': 'model2',
+    '3': 'model3',
+    '4': 'model4',
+    '5': 'model5'
+}
+JBOD_MODEL = {
+    '1': 'model1',
+    '2': 'model2'
+}
+STORAGE_MODEL = 'model'
 
+# storage_monitor
 STORAGE_URL = [
     "http://221.239.81.82:17331", "http://221.239.81.82:17332",
     "http://10.0.76.10:9331", "http://10.0.76.20:9331"
 ]
+
 CPU_FREQUENCY = '3.4kHz'
 CPU_TYPE = 'E36608'
 CLOUD_MONITOR_FAKE = True

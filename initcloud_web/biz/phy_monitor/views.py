@@ -39,12 +39,14 @@ def get_jbod_data():
                 1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
             ],
             'systemUI': [[get_jbod_current(), get_jbod_volt()] for i in xrange(4)],
-            'electric_rota': [get_jbod_fan_speed() for i in xrange(5)]
+            'electric_rota': [get_jbod_fan_speed() for i in xrange(5)],
+            'model': settings.JBOD_MODEL['1']
         },
         '2': {
             'disk': [],
             'systemUI': [],
-            'electric_rota': []
+            'electric_rota': [],
+            'model': settings.JBOD_MODEL['2']
         }
     }
 
@@ -59,139 +61,165 @@ def get_net_traffic():
 
 def get_net_data():
     return {
-        '1': [
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-        ],
-        '2': [
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-        ],
-        '3': [
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-            {'link':0,'upload':0.0,'download':0.0},
-        ],
-        '4': []
+        '1': {
+            'model': settings.SWITCH_MODEL['1'],
+            'traffic': [
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+            ],
+            'traffic_40GB': []
+        },
+        '2': {
+            'model': settings.SWITCH_MODEL['2'],
+            'traffic': [
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+            ],
+            'traffic_40GB': [
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0}
+            ]
+        },
+        '3': {
+            'model': settings.SWITCH_MODEL['3'],
+            'traffic': [
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0},
+            ],
+            'traffic_40GB': [
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':1,'upload':get_net_traffic(),'download':get_net_traffic()},
+                {'link':0,'upload':0.0,'download':0.0},
+                {'link':0,'upload':0.0,'download':0.0}
+            ]
+        },
+        '4': {
+            'model': settings.SWITCH_MODEL['4'],
+            'traffic': [],
+            'traffic_40GB': []
+        }
     }
 
 class PhyMonitorNetworkList(APIView):
     def get(self, request, n_id):
         data = get_net_data()[n_id]
-        serializer = PhyMonitorNetworkSerializer(data, many=True)
+        serializer = PhyMonitorNetworkSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_cpu_temp():
@@ -218,7 +246,13 @@ def get_fake_cpu_mem():
             {'V':get_cpu_volt(),'T':get_cpu_temp()},
             {'V':get_cpu_volt(),'T':get_cpu_temp()}
         ],
-        'memory_voltage': [get_dimm_volt() for i in xrange(16)]
+        'memory_voltage': [get_dimm_volt() for i in xrange(16)],
+        'fan_speed': get_fan_speed(),
+        'PDU': {
+            'volt': get_pdu_volt(),
+            'current': get_pdu_current(),
+            'watt': get_pdu_watt()
+        }
     }
 
 def get_phy_cpu_mem(impi_url):
@@ -227,7 +261,13 @@ def get_phy_cpu_mem(impi_url):
         chassis = chassislist['body']['Members'][0]
         cha = {
             'CPU': [],
-            'memory_voltage': []
+            'memory_voltage': [],
+            'fan_speed': get_fan_speed(),
+            'PDU': {
+                'volt': get_pdu_volt(),
+                'current': get_pdu_current(),
+                'watt': get_pdu_watt()
+            }
         }
 
         thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
@@ -264,30 +304,17 @@ PHY_URLs = settings.REDFISH_URL['phy_server']
 
 class PhyMonitorServerList(APIView):
     def get(self, request, s_id):
-        data = [
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # },
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # },
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # },
-            # {
-            #     'CPU':[{'V':'12','T':'80'},{'V':'14','T':'70'}],
-            #     'memory_voltage':[12,12,12,12,12,12,12,13,14,15,16,17,18,19,12,11]
-            # }
-        ]
+        nodes = []
         if settings.REDFISH_SIMULATE:
-            data = [get_fake_cpu_mem() for i in xrange(4)]
+            nodes = [get_fake_cpu_mem() if r_url != None else None for r_url in PHY_URLs[s_id]]
         else:
             for r_url in PHY_URLs[s_id]:
-                data.append(get_phy_cpu_mem(r_url))
-        serializer = PhyMonitorServerSerializer(data, many=True)
+                nodes.append(get_phy_cpu_mem(r_url) if r_url != None else None)
+        data = {
+            'model': settings.SERVER_MODEL[s_id],
+            'nodes': nodes
+        }
+        serializer = PhyMonitorServerSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 S_URL = settings.REDFISH_URL['storage_server']
@@ -328,10 +355,11 @@ def get_storage_data():
             -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
         ],
         'disk_status': {'-1':'no disk','0':'not assgin','1':'assigned'},
-        'electric_rota': [get_fan_speed() for i in xrange(2)],
+        'electric_rota': [[get_fan_speed() for i in xrange(2)] for i in xrange(2)],
         'systemUI':[get_server_current(), get_server_volt()],
         'PDU':[[get_pdu_volt(), get_pdu_current(), get_pdu_watt()] \
-                for i in xrange(2)]
+                for i in xrange(2)],
+        'model': settings.STORAGE_MODEL
     }
 
 class PhyMonitorStorageDetail(APIView):
@@ -373,25 +401,26 @@ def get_cpu_temperatures():
         cpus = {'node1':[],'node2':[],'node3':[],'node4':[]}
         idx = 1
         for impi_url in PHY_URLs[phys]:
-            if settings.REDFISH_SIMULATE:
-                cpus['node%d' % idx] = [round(get_cpu_temp()), round(get_cpu_temp())]
-            else:
-                chassislist = redfish.get_chassis_list(impi_url)
-                t = []
-                if chassislist['code'] == 200:
-                    chassis = chassislist['body']['Members'][0]
-                    thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
-                    if thermal['code'] == 200:
-                        for temp in thermal['body']['Temperatures']:
-                            if 'CPU' in temp['Name']:
-                                t.append(round(temp['ReadingCelsius']))
+            if impi_url != None:
+                if settings.REDFISH_SIMULATE:
+                    cpus['node%d' % idx] = [round(get_cpu_temp()), round(get_cpu_temp())]
+                else:
+                    chassislist = redfish.get_chassis_list(impi_url)
+                    t = []
+                    if chassislist['code'] == 200:
+                        chassis = chassislist['body']['Members'][0]
+                        thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
+                        if thermal['code'] == 200:
+                            for temp in thermal['body']['Temperatures']:
+                                if 'CPU' in temp['Name']:
+                                    t.append(round(temp['ReadingCelsius']))
+                        else:
+                            # fake data
+                            t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
                     else:
                         # fake data
                         t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
-                else:
-                    # fake data
-                    t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
-                cpus['node%d' % idx] = t
+                    cpus['node%d' % idx] = t
             idx += 1
         c_temps.append(cpus)
     return c_temps
@@ -402,10 +431,14 @@ class CabinetDetail(APIView):
         J_DATA = get_jbod_data()
         SS_DATA = get_storage_data()
         data = {
-            '_24switchboard':[net['link'] for net in N_DATA['1']],
-            '_48switchboard_01':[net['link'] for net in N_DATA['2']],
-            '_48switchboard_02':[net['link'] for net in N_DATA['3']],
-            '_48switchboard_03':[net['link'] for net in N_DATA['4']],
+            '_24switchboard':[net['link'] for net in N_DATA['1']['traffic']] \
+                    + [net['link'] for net in N_DATA['1']['traffic_40GB']],
+            '_48switchboard_01':[net['link'] for net in N_DATA['2']['traffic']] \
+                    + [net['link'] for net in N_DATA['2']['traffic_40GB']],
+            '_48switchboard_02':[net['link'] for net in N_DATA['3']['traffic']] \
+                    + [net['link'] for net in N_DATA['3']['traffic_40GB']],
+            '_48switchboard_03':[net['link'] for net in N_DATA['4']['traffic']] \
+                    + [net['link'] for net in N_DATA['4']['traffic_40GB']],
             'cpu_temperature': get_cpu_temperatures(),
             'jbod_status_01': J_DATA['1']['disk'],
             'jbod_status_02': J_DATA['2']['disk'],
