@@ -74,7 +74,7 @@ class Network_Bar_NetList(generics.ListAPIView):
 				    #router['data'] = {'description':routers.}
 				    subnet['children'].append(router)
                 data.append(network)
-	    LOG.info(data)
+	    #LOG.info(data)
 	    return_data = {}
 	    return_data['list'] = data
 	    return_data['total'] = total
