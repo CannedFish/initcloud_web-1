@@ -10,10 +10,14 @@ class CpuTempratureSerializer(serializers.Serializer):
     node4 = serializers.ListField(child=serializers.FloatField())
 
 class CabinetSerializer(serializers.Serializer):
-    _24switchboard = serializers.ListField(child=serializers.IntegerField())
-    _48switchboard_01 = serializers.ListField(child=serializers.IntegerField())
-    _48switchboard_02 = serializers.ListField(child=serializers.IntegerField())
-    _48switchboard_03 = serializers.ListField(child=serializers.IntegerField())
+    _24switchboard = serializers.ListField(child=\
+            serializers.ListField(child=serializers.IntegerField()))
+    _48switchboard_01 = serializers.ListField(child=\
+            serializers.ListField(child=serializers.IntegerField()))
+    _48switchboard_02 = serializers.ListField(child=\
+            serializers.ListField(child=serializers.IntegerField()))
+    _48switchboard_03 = serializers.ListField(child=\
+            serializers.ListField(child=serializers.IntegerField()))
     cpu_temperature = CpuTempratureSerializer(many=True)
     jbod_status_01 = serializers.ListField(child=serializers.IntegerField())
     jbod_status_02 = serializers.ListField(child=serializers.IntegerField())

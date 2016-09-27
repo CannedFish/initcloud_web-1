@@ -431,14 +431,14 @@ class CabinetDetail(APIView):
         J_DATA = get_jbod_data()
         SS_DATA = get_storage_data()
         data = {
-            '_24switchboard':[net['link'] for net in N_DATA['1']['traffic']] \
-                    + [net['link'] for net in N_DATA['1']['traffic_40GB']],
-            '_48switchboard_01':[net['link'] for net in N_DATA['2']['traffic']] \
-                    + [net['link'] for net in N_DATA['2']['traffic_40GB']],
-            '_48switchboard_02':[net['link'] for net in N_DATA['3']['traffic']] \
-                    + [net['link'] for net in N_DATA['3']['traffic_40GB']],
-            '_48switchboard_03':[net['link'] for net in N_DATA['4']['traffic']] \
-                    + [net['link'] for net in N_DATA['4']['traffic_40GB']],
+            '_24switchboard':[[net['link'] for net in N_DATA['1']['traffic']] \
+                    , [net['link'] for net in N_DATA['1']['traffic_40GB']]],
+            '_48switchboard_01':[[net['link'] for net in N_DATA['2']['traffic']] \
+                    , [net['link'] for net in N_DATA['2']['traffic_40GB']]],
+            '_48switchboard_02':[[net['link'] for net in N_DATA['3']['traffic']] \
+                    , [net['link'] for net in N_DATA['3']['traffic_40GB']]],
+            '_48switchboard_03':[[net['link'] for net in N_DATA['4']['traffic']] \
+                    , [net['link'] for net in N_DATA['4']['traffic_40GB']]],
             'cpu_temperature': get_cpu_temperatures(),
             'jbod_status_01': J_DATA['1']['disk'],
             'jbod_status_02': J_DATA['2']['disk'],
