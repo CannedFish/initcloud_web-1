@@ -4,10 +4,13 @@
     .ml10{margin-left:10px;}
     .ml5{margin-left:6px;}
     .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
+    .work_node .node_cont.jbod{
+        width:100%;
+    }
 </style>
 <div class="phy_cont" ng-controller="Phy_Monitor_StorageController">
                     <div class="work_title">
-                        <p class="title_p2">型号：SSG-2028R-DN2R40L</p>
+                        <p class="title_p2">型号：{[{phy_monitor_storages.model}]}</p>
                         <p class="title_p1">储存监控</p>
                     </div>
                     <div class="loaded" ng-if="phy_monitor_storages!=''">
@@ -42,7 +45,7 @@
                             </div>
                         </div>
                         
-                        <div class="work_disk clearfix">
+                        <div class="work_disk clearfix" style="margin-top:6px;">
                             <div class="disk_title clearfix">
                                 <div class="title_ul clearfix">
                                     <ul >
@@ -67,50 +70,31 @@
                                 </span>
                             </div>
                         </div>
-                        
                         <div class="work_node">
-                            <div class="node_cont node3">
-                                <p class="node_title">风扇转速监控</p>
-                                <div class="node_model model1">
-                                    <p class="fan_p1">风扇</p>
-                                    <div class="fan_line">
-                                        <div class="fan_lineCont"></div>
+                            <div class="node_cont node3 jbod clearfix">
+                                <p class="node_title" style="margin-top:2px;margin-bottom:5px;">风扇转速监控</p>
+                                <div class="node_model model1" style="float:left;width:50%;" ng-repeat="item in phy_monitor_storages.electric_rota">
+                                    <div style="height:100%;width:50%;float:left">
+                                        <p class="fan_p1">风扇</p>
+                                        <p class="fan_p2">转速：{[{item[0] | number:2}]}r/s</p>
                                     </div>
-                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[0] | number:2}]}r/s</p>
-                                    <p class="fan_p1">风扇</p>
-                                    <div class="fan_line">
-                                        <div class="fan_lineCont"></div>
+                                    <div style="height:100%;width:50%;float:left">
+                                        <p class="fan_p1">风扇</p>
+                                        <p class="fan_p2">转速：{[{item[1] | number:2}]}r/s</p>
                                     </div>
-                                    <p class="fan_p2">转速：{[{phy_monitor_storages.electric_rota[1] | number:2}]}r/s</p>
                                 </div>
                             </div>
-                            
-                            <div class="node_cont node4">
-                                <p class="node_title">系统电流、电压监控</p>
-                                <div class="node_model model1">
+                            <div class="node_cont node3 jbod clearfix">
+                                <p class="node_title" style="margin-top:2px;margin-bottom:5px;">系统电流、电压监控</p>
+                                <div class="node_model model1" style="float:left;width:50%;" ng-repeat="item in phy_monitor_storages.PDU">
                                     <div style="height:100%;width:50%;float:left">
                                         <p class="fan_p1">电流</p>
-                                        <div class="fan_line">
-                                            <div class="fan_lineCont"></div>
-                                        </div>
-                                        <p class="fan_p2">电流：{[{phy_monitor_storages.systemUI[0] | number:2}]}A</p>
+                                        <p class="fan_p2">电流：{[{item[1] | number:2}]}A</p>
                                     </div>
                                     <div style="height:100%;width:50%;float:left">
                                         <p class="fan_p1">电压</p>
-                                        <div class="fan_line">
-                                            <div class="fan_lineCont"></div>
-                                        </div>
-                                        <p class="fan_p2">电压：{[{phy_monitor_storages.systemUI[1] | number:2}]}V</p>
+                                        <p class="fan_p2">电压：{[{item[0] | number:2}]}V</p>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="node_cont node5">
-                                <div class="node_pdu"  ng-class="(key2 == 1)?'ml5':''" ng-repeat="(key2,pdu) in phy_monitor_storages.PDU">
-                                    <p class="pdu_p1" ng-if="(key2 == 0)">PDU1</p>
-                                    <p class="pdu_p1" ng-if="(key2 == 1)">PDU2</p>
-                                    <p class="pdu_p2">电压：{[{pdu[0]}]}V</p>
-                                    <p class="pdu_p3">电流：{[{pdu[1]}]}A</p>
-                                    <p class="pdu_p3">功率：{[{pdu[2]}]}Kw</p>
                                 </div>
                             </div>
                         </div>

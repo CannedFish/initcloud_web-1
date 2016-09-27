@@ -11,14 +11,44 @@ CloudApp.controller('Network_Bar_RouterController',
                 Metronic.initAjax();
         });
 
-        $scope.network_bar_routers = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_routers)
-        Network_Bar_Router.get(function(data){
-            $scope.rightbar = data.list[0];//初始ip值
-            $scope.network_bar_routers = data.list;
-            $scope.$emit('to-parent-route', data.total);
-            checkboxGroup.syncObjects($scope.network_bar_routers);
-        })
+        $scope.network_bar_routers = '';
+        // var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.network_bar_routers)
+        // Network_Bar_Router.get(function(data){
+        //     $scope.rightbar = data.list[0];//初始ip值
+        //     $scope.network_bar_routers = data.list;
+        //     $scope.$emit('to-parent-route', data.total);
+        //     checkboxGroup.syncObjects($scope.network_bar_routers);
+        // })
+        //临时数据
+        $scope.network_bar_routers = {'total': 2, 
+        'list': [
+        {'ips': [{'ip': '172.24.4.230', 'ip_type': 'network:router_gateway', 'ip_connect_vm': 'fa:16:3e:48:91:3e'}],
+         'name': 'test_router2'}, 
+        {'ips': [
+            {'ip': '172.24.4.226', 'ip_type': 'network:router_gateway', 'ip_connect_vm': 'fa:16:3e:d5:50:1f'}, 
+            {'ip': '10.0.0.1', 'ip_type':'network:router_interface', 'ip_connect_vm': 'fa:16:3e:bc:c6:7f'}
+        ], 
+        'name': 'router1'}
+        ]}
+        //折叠函数
+        $scope.floder = function(e){
+            var speed =1000;
+            // $(e.target).trigger();
+            
+            $(e.target).find('.ipbox').slideDown(speed).end().addClass("selected");
+            // console.log($(this).next().html())
+            //             $(this).next().slideDown(speed).end().addClass("selected");
+            //             if($(this).find("b")){
+            //                 $(this).find("b").html("-");
+            //             }
+            //         }else{
+            //             $(obj_c).slideUp(speed);
+            //             $(obj).removeClass("selected");
+            //             $(this).next().slideDown(speed).end().addClass("selected");
+            //         }
+            //     }
+            // });
+        }
         // 点击触发右边列表
         $scope.triggerRightBar = function(item){
            $scope.rightbar = item;

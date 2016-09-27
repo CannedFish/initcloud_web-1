@@ -40,6 +40,7 @@ CloudApp.controller('Cloud_MonitorController',
         
         //ng-repeat 渲染完执行脚本
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+             $scope.filter_host();
         	 if($scope.sortname == ''){
  				$scope.table_page();
         	 }else{
@@ -48,11 +49,30 @@ CloudApp.controller('Cloud_MonitorController',
              ngRepeatFinishedEvent.stopPropagation(); // 终止事件继续“冒泡”
              // ngRepeatFinishedEvent.destroy();
         })
+        //数组去重
+        Array.prototype.unique = function()
+        {
+            this.sort();
+            var re=[this[0]];
+            for(var i = 1; i < this.length; i++)
+            {
+                if( this[i] !== re[re.length-1] && this[i]!==undefined)
+                {
+                    re.push(this[i]);
+                }
+            }
+            return re;
+        }
         // //得到物理主机名称
-        // for(var n in $scope.tempdata)
-        // {
-        //     console.log($scope.tempdata[n].host);
-        // }
+        // $scope.hostname= [];
+        $scope.filter_host = function(){
+            hostname = [];
+            for(var h in $scope.cloud_monitors){
+               hostname.push($scope.cloud_monitors[h].host)
+            } 
+            hostname = hostname.unique();
+            $scope.hostname = hostname;
+        }
         // 分页函数
         $scope.table_page = function(compl){
             var show_page = 5;
@@ -121,7 +141,7 @@ CloudApp.controller('Cloud_MonitorController',
         //按时间查询  1周内/一个月内/一小时内
         $scope.setTimeRange = function(key){
             switch($scope.selected_2){
-                case '0':
+                case '':
                 {
                     
                     $scope.defaultTimeRange = 'rday'; 

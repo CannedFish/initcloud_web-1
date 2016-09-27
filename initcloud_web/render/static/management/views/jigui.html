@@ -1,3 +1,26 @@
+<style type="text/css">
+    .rw2{
+        height: 7px;
+        line-height: 7px;
+        width: 124px;
+        float: left;
+        margin-left: 4px;
+    }
+    .rw3{
+        height: 7px;
+        line-height: 7px;
+        width: 16px;
+        float: left;
+        margin-left: 3px;
+        /*margin-top: 1px;*/
+    }
+    .w4{
+        width:4px !important;
+    }
+    .w5{
+        width:7px !important;
+    }
+</style>
 <div class="jg-wrap ad"  ng-controller="CabinetController">
     <div class="jigui md">
         <div class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
@@ -16,26 +39,66 @@
                 </ul>
             <!-- 48接口交换机(3-1) -->
                 <ul class="w1">
-                    <li class="w2">
-                         <span ng-repeat="item in cabinets._48switchboard_01 track by $index">
-                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_03.png">
-                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png">
+                    <li class="rw2">
+                        <!-- 显示0-23 -->
+                        <span class="w4" ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_01 track by $index">
+                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_01.png">
+                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_06.png">
+                        </span>
+                        <!-- 显示24-48 -->
+                        <span class="w4" ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_01 track by $index">
+                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_02.png">
+                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_05.png">
+                        </span>
+                    </li>
+                    <li class="rw3">
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_03.png">
+                        </span>
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_07.png">
+                        </span>
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_04.png">
+                        </span>
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_08.png">
                         </span>
                     </li>
                 </ul>
             <!-- 48接口交换机(3-2) -->
-                <ul class="w1" style="margin-top:1px;">
-                    <li class="w2">
-                         <span ng-repeat="item in cabinets._48switchboard_02 track by $index">
-                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_03.png">
-                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png">
+                <ul class="w1" style="margin-top:3px;">
+                     <li class="rw2">
+                        <!-- 显示0-23 -->
+                        <span class="w4" ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_02 track by $index">
+                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_01.png">
+                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_06.png">
+                        </span>
+                        <!-- 显示24-48 -->
+                        <span class="w4" ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_02 track by $index">
+                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_02.png">
+                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_05.png">
+                        </span>
+                    </li>
+                    <li class="rw3">
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_03.png">
+                        </span>
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_07.png">
+                        </span>
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_04.png">
+                        </span>
+                        <span class="w5">
+                            <img src="../static/assets/admin/layout/img/common/ju_ico_08.png">
                         </span>
                     </li>
                 </ul>
             <!-- 48接口交换机(3-3) -->
                 <ul class="w1" style="margin-top:1px;">
-                    <li class="w2">
-                         <span ng-repeat="item in cabinets._48switchboard_02 track by $index">
+                    <li class="w2" ng-if="cabinets._48switchboard_03!=''">
+                         <span ng-repeat="item in cabinets._48switchboard_03 track by $index">
                             <img src="../static/assets/admin/layout/img/common/jg_ico_03.png">
                             <!-- <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png"> -->
                         </span>
@@ -44,9 +107,9 @@
             </div>
             <!-- 每节点CPU温度 -->
             <div class="tool-02">
-               <ul class="l-list" ng-if="($index == 0) || ($index == 1)" ng-repeat="item in cabinets.cpu_temperature">
+               <ul class="l-list" ng-if="(item!='')" ng-repeat="item in cabinets.cpu_temperature">
                     <li>
-                        <div style="float:left;">
+                        <div style="float:left;" ng-if="(item.node1!='')">
                             <span style="display:inline-block;width:36px;">
                                <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
                                <small class="tx">{[{item.node1[0]}]}℃</small>
@@ -56,7 +119,7 @@
                                <small class="tx">{[{item.node1[1]}]}℃</small>
                             </span>
                         </div>
-                        <div style="float:right;margin-left:3px;">
+                        <div style="float:right;margin-left:3px;" ng-if="(item.node2!='')">
                             <span style="display:inline-block;width:36px;">
                                <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
                                <small class="tx">{[{item.node2[0]}]}℃</small>
@@ -68,7 +131,7 @@
                         </div>
                     </li>
                     <li style="margin-top:1px;">
-                        <div style="float:left;">
+                        <div style="float:left;" ng-if="(item.node3!='')">
                             <span style="display:inline-block;width:36px;">
                                <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
                                <small class="tx">{[{item.node3[0]}]}℃</small>
@@ -78,7 +141,7 @@
                                <small class="tx">{[{item.node3[1]}]}℃</small>
                             </span>
                         </div>
-                        <div style="float:right;margin-left:3px;">
+                        <div style="float:right;margin-left:3px;" ng-if="(item.node4!='')">
                             <span style="display:inline-block;width:36px;">
                                <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
                                <small class="tx">{[{item.node4[0]}]}℃</small>

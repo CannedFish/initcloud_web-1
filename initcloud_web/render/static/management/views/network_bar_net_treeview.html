@@ -28,7 +28,7 @@
             </a>
             <span  ng-if="(row.level == 1) && (row.branch.data.status == 'online')" class="tree-bg01">{{row.branch.data.status}}</span>
             <span  ng-if="(row.level == 1) && (row.branch.data.status == 'offline')" class="tree-bg03">{{row.branch.data.status}}</span>
-            <span  ng-if="(row.level == 1) && (row.branch.data.status == 'degrade')" class="tree-bg04">{{row.branch.data.status}}</span>
+            <span  ng-if="(row.level == 1) && (row.branch.data.status == 'degraded')" class="tree-bg04">{{row.branch.data.status}}</span>
             <span  ng-if="(row.level == 2)" class="tree-bg0_1">{{row.branch.data.status}}</span>
             <span style="float:left;display:inline-block;height:24px;margin-left:22px;margin-top:5px;font-size:14px;color:#0077bc">{{row.branch.data.description}}</span>
       </li>

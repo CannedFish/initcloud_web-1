@@ -19,14 +19,14 @@
     <div class="fl col-md-2 lselect">
         <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_03.png" style="margin-bottom:6px;"></span>
         <select  ng-model="selected_1" class="filter-status" >
-            <option value="">物理主机 (默认) </option>
-            <option ng-if="$index==0" ng-repeat="(key,list) in cloud_monitors track by $index" on-finish-render-filters>{[{list.host}]}</option>
+            <option value="" select="selected">物理主机</option>
+            <option ng-repeat="host in hostname">{[{host}]}</option>
         </select>
     </div>
     <div class="fl col-md-2 lselect">
         <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_04.png" style="margin-bottom:6px;"></span>
         <select ng-model="selected_2" class="filter-status"  ng-change="setTimeRange()">
-            <option value="0">24小时内 (默认) </option>
+            <option value="" select="selected">24小时内</option>
             <option value="1">一周内</option>
             <option value="2">一个月内</option>
             <option value="3">一小时内</option>

@@ -204,9 +204,9 @@
 
 .fan_p1{
 	width:52px;
-	height:37px;
+	height:30px;
 	text-align:center;
-	line-height:37px;
+	line-height:30px;
 	margin:2px 0 0 2px;
 	background:#0e4a91;
 	font-size:14px;
@@ -228,7 +228,7 @@
 	border-radius:15px;
 	}
 .fan_p2{
-	line-height:40px;
+	line-height:30px;
 	margin:0 0 0 9px;
 	font-size:14px;
 	color:#00d8ff;

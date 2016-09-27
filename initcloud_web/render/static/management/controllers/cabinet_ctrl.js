@@ -86,32 +86,17 @@ CloudApp.controller('CabinetController',
                 };
             }
             var timer = new Timer();
-            // console.log(timer);
             timer.start(function(){
-                // alert(1);
                 Cabinet.get(function(data) {
                   $scope.cabinets = data;
                 });
             },30000);
-            // $scope.$watch(function(){
-            //    $timeout(
-            //         function() {
-                        // console.log(1)
-            //             Cabinet.get(function(data) {
-            //               $scope.cabinets = data;
-            //             });
-            //         },
-            //         30000
-            //     );
-            // })
-            // var timer = 
+    
             Cabinet.get(function(data) {
               $scope.cabinets = data;
             });
             checkboxGroup.syncObjects($scope.cabinets);
-     
-
-
+            
         var deleteCabinets = function(ids){
 
             $ngBootbox.confirm($i18next("cabinet.confirm_delete")).then(function(){

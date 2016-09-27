@@ -26,6 +26,7 @@ var CloudApp = angular.module("CloudApp", [
     "ui.load",
     "ui.jq",
     'abn.tree',
+    // 'ui.nav',
     "cloud.services",
     "cloud.resources",
     "cloud.directives"

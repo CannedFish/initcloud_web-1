@@ -10,6 +10,7 @@
         line-height:38px;
         width:100%;
         float:none;
+        margin-bottom:6px !important;
     }
     .list-wrapper .list{
         width:24.6%;
@@ -85,7 +86,7 @@
 <div class="phy_cont" ng-controller="Phy_Monitor_JbodController">
                     <div class="work_title clearfix">
                         <p class="title">JBOD监控</p>
-                        <p class="type_code">型号：CSE-946ED-R2KJBOD</p>  
+                        <p class="type_code">型号：{[{phy_monitor_jbods.model}]}</p>  
                     </div>
                     <div class="list-wrapper clearfix">
                         <div class="node_title" style="width:50%">硬盘监控</div>
@@ -113,26 +114,20 @@
                         </div>
                         <div class="work_node">        
                             <div class="node_cont node4" style="width:100%;float:none;">
-                                <p class="node_title">系统电流、电压监控</p>
+                                <p class="node_title" style="margin-top:2px;margin-bottom:5px;">系统电流、电压监控</p>
                                 <div class="node_model model1" style="width:50%;float:left" ng-repeat="item in phy_monitor_jbods.systemUI">
                                     <div style="height:100%;width:50%;float:left">
                                         <p class="fan_p1">电流</p>
-                                        <div class="fan_line">
-                                            <div class="fan_lineCont"></div>
-                                        </div>
                                         <p class="fan_p2">电流：{[{item[0] | number:2}]}A</p>
                                     </div>
                                     <div style="height:100%;width:50%;float:left">
                                         <p class="fan_p1">电压</p>
-                                        <div class="fan_line">
-                                            <div class="fan_lineCont"></div>
-                                        </div>
                                         <p class="fan_p2">电压：{[{item[1] | number:2}]}V</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="node_cont node3" style="width:100%;">
-                                <p class="node_title">风扇转速监控</p>
+                                <p class="node_title" style="margin-top:5px;margin-bottom:5px;">风扇转速监控</p>
                                 <div class="node_model model1" style="width:20%;float:left;" ng-repeat="item in phy_monitor_jbods.electric_rota track by $index">
                                     <p class="fan_p1">风扇</p>
                                     <p class="fan_p2">转速：{[{item | number:2}]}r/s</p>

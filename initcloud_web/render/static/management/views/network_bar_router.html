@@ -48,25 +48,38 @@
 		overflow-y:auto;
 	}
 	li{list-style:none;}
-    ul.box li{height:24px;line-height:24px;color:#0077bc;padding-left:5px;}
+    ul.box li{line-height:24px;color:#0077bc;padding-left:5px;}
     ul.box li:hover{cursor:pointer;}
      ul.box li img{margin-top:-2px;}
     .odd{background:transparent;}
     .even{background:#1b2346;}
     .even:hover{background:#00d8ff;}
     .odd:hover{background:#00d8ff;}
+    .iplist .box .ipbox{
+    	display:block;
+    	height:auto;
+    	padding-left:10px;
+    }
+    .iplist .box .ipbox li{
+        line-height:24px;color:#0077bc;margin-left:5px;
+    }
 </style>
 <div class="IPcontent" ng-controller="Network_Bar_RouterController">
 	<div class="iplist fl">
-		<div class="itemtitle"><span class="tx m10">IP地址</span><small class="num ml5">({[{route_total | number:2}]}个)</small></div>
+		<div class="itemtitle"><span class="tx m10">路由器列表</span><small class="num ml5">({[{route_total | number:2}]}个)</small></div>
 		<ul class="box">
-			<li ng-repeat="item in network_bar_routers" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)">
-				&nbsp;&nbsp;&nbsp;&nbsp;<img src="../static/assets/admin/layout/img/second/network-monitor/nico4_03.png">&nbsp;&nbsp;{[{item.ip}]}
+			<!-- <li ng-repeat="item in network_bar_routers" ng-class="($index+1)%2==0?'even':'odd'" ng-click="triggerRightBar(item)"> -->
+			<li ng-repeat="item in network_bar_routers.list" ng-click="floder($event)">
+				&nbsp;&nbsp;&nbsp;&nbsp;<img src="../static/assets/admin/layout/img/second/network-monitor/nico4_03.png">&nbsp;&nbsp;{[{item.name}]}
+				<!-- 便利IP -->
+				<ul class="ipbox" style="display:none;">
+					<li ng-repeat="iplist in item.ips" ng-click="triggerRightBar(item);$event.stopPropagation();">{[{iplist.ip}]}</li>
+				</ul>
 			</li>
 		</ul>
 	</div>
 	<div class="ipinfo fl" ng-init="rightbar = initData">
-		<div class="_itemtitle"><span class="tx">IP详细信息</span></div>
+		<div class="_itemtitle"><span class="tx">路由详细信息</span></div>
 		<ul class="box">
 			<li>
 				<span>IP的类型：</span>{[{rightbar.ip_type}]}	

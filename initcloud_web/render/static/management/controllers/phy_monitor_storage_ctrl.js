@@ -44,7 +44,8 @@ CloudApp.controller('Phy_Monitor_StorageController',
         // }
        /* $scope.phy_monitor_storages = data; */
         Phy_Monitor_Storage.get(function(data) {
-          $scope.phy_monitor_storages = data; 
+           $scope.phy_monitor_storages = data; 
+           console.log($scope.phy_monitor_storages);
         });
         var deletePhy_Monitor_Storages = function(ids){
 

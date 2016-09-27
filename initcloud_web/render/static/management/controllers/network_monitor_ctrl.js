@@ -21,7 +21,6 @@ CloudApp.controller('Network_MonitorController',
         })
         checkboxGroup.syncObjects($scope.network_total);
         
-
         var deleteNetwork_Monitors = function(ids){
 
             $ngBootbox.confirm($i18next("network_monitor.confirm_delete")).then(function(){
