@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework import status
+from pysnmp.hlapi import *
 
 from biz.common.pagination import PagePagination
 from biz.phy_monitor.serializer import CabinetSerializer,\
@@ -59,8 +60,8 @@ class PhyMonitorJBODDetail(APIView):
 def get_net_traffic():
     return round(random.uniform(1000, 2000), 1)
 
-def get_net_data():
-    return {
+def get_net_data(no):
+    SWITCH_DATA = {
         '1': {
             'model': settings.SWITCH_MODEL['1'],
             'traffic': [
@@ -216,9 +217,61 @@ def get_net_data():
         }
     }
 
+    addr = settings.SWITCH_ADDR[no]
+    if settings.REDFISH_SIMULATE or not addr:
+        return SWITCH_DATA[no]
+    else:
+        try:
+            # incoming traffic
+            incoming = nextCmd(SnmpEngine(), \
+                    CommunityData('PUBLIC'), \
+                    UdpTransportTarget((addr, 161)), \
+                    ContextData(), \
+                    ObjectType(ObjectIdentity('IF-MIB', 'ifInOctets')))
+
+            # outgoing traffic
+            outgoing = nextCmd(SnmpEngine(), \
+                    CommunityData('PUBLIC'), \
+                    UdpTransportTarget((addr, 161)), \
+                    ContextData(), \
+                    ObjectType(ObjectIdentity('IF-MIB', 'ifOutOctets')))
+
+            if no == '1':
+                ifno, if40 = 24, 0
+            else:
+                ifno, if40 = 48, 4
+            data = {
+                'model': settings.SWITCH_MODEL[no],
+                'traffic': [],
+                'traffic_40GB': []
+            }
+            # normal port
+            for i in xrange(ifno):
+                errIndication, errStatus, errIdx, inVar = next(incoming)
+                errIndication, errStatus, errIdx, outVar = next(outgoing)
+                data['traffic'].append({
+                    'link': 0 if int(inVar[0][1]) == int(outVar[0][1]) == 0 else 1,
+                    'upload': round(int(inVar[0][1])/1024.0, 1),
+                    'download': round(int(outVar[0][1])/1024.0, 1)
+                })
+            # 40GB port
+            for i in xrange(if40):
+                errIndication, errStatus, errIdx, inVar = next(incoming)
+                errIndication, errStatus, errIdx, outVar = next(outgoing)
+                data['traffic_40GB'].append({
+                    'link': 0 if int(inVar[0][1]) == int(outVar[0][1]) == 0 else 1,
+                    'upload': round(int(inVar[0][1])/1024.0, 1),
+                    'download': round(int(outVar[0][1])/1024.0, 1)
+                })
+
+            return data
+        except Exception, e:
+            LOG.info(e)
+            return SWITCH_DATA[no]
+        
 class PhyMonitorNetworkList(APIView):
     def get(self, request, n_id):
-        data = get_net_data()[n_id]
+        data = get_net_data(n_id)
         serializer = PhyMonitorNetworkSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -427,7 +480,12 @@ def get_cpu_temperatures():
 
 class CabinetDetail(APIView):
     def get(self, request):
-        N_DATA = get_net_data()
+        N_DATA = {
+            '1': get_net_data('1'),
+            '2': get_net_data('2'),
+            '3': get_net_data('3'),
+            '4': get_net_data('4')
+        }
         J_DATA = get_jbod_data()
         SS_DATA = get_storage_data()
         data = {
