@@ -304,6 +304,7 @@ REDFISH_URL = {
 }
 REDFISH_USR = "ADMIN"
 REDFISH_PSD = "ADMIN"
+# phy_monitor_model
 SWITCH_MODEL = {
     "1": "model1", 
     "2": "model2", 
@@ -322,6 +323,14 @@ JBOD_MODEL = {
     '2': 'model2'
 }
 STORAGE_MODEL = 'model'
+
+# phy_monitor_switch_address
+SWITCH_ADDR = {
+    '1': None,
+    '2': None,
+    '3': None,
+    '4': None
+}
 
 # storage_monitor
 STORAGE_URL = [
