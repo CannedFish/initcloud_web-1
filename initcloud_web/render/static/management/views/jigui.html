@@ -31,7 +31,7 @@
              <!-- 24接口交换机(1)-->
                 <ul class="w1">
                     <li class="w2">
-                        <span ng-repeat="item in cabinets._24switchboard track by $index">
+                        <span ng-repeat="item in cabinets._24switchboard[0] track by $index">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_03.png">
                             <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png">
                         </span>
@@ -41,28 +41,24 @@
                 <ul class="w1">
                     <li class="rw2">
                         <!-- 显示0-23 -->
-                        <span class="w4" ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_01 track by $index">
+                        <span class="w4" ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_01[0] track by $index">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_01.png">
                             <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_06.png">
                         </span>
                         <!-- 显示24-48 -->
-                        <span class="w4" ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_01 track by $index">
+                        <span class="w4" ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_01[0] track by $index">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_02.png">
                             <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_05.png">
                         </span>
                     </li>
                     <li class="rw3">
-                        <span class="w5">
-                            <img src="../static/assets/admin/layout/img/common/ju_ico_03.png">
+                        <span class="w5" ng-if="$index<2" ng-repeat="item in cabinets._48switchboard_01[1] track by $index">
+                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_03.png">
+                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_07.png">
                         </span>
-                        <span class="w5">
-                            <img src="../static/assets/admin/layout/img/common/ju_ico_07.png">
-                        </span>
-                        <span class="w5">
-                            <img src="../static/assets/admin/layout/img/common/ju_ico_04.png">
-                        </span>
-                        <span class="w5">
-                            <img src="../static/assets/admin/layout/img/common/ju_ico_08.png">
+                        <span class="w5" ng-if="$index>=2" ng-repeat="item in cabinets._48switchboard_01[1] track by $index">
+                            <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_04.png">
+                            <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_08.png">
                         </span>
                     </li>
                 </ul>
@@ -70,12 +66,12 @@
                 <ul class="w1" style="margin-top:3px;">
                      <li class="rw2">
                         <!-- 显示0-23 -->
-                        <span class="w4" ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_02 track by $index">
+                        <span class="w4" ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_02[0] track by $index">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_01.png">
                             <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_06.png">
                         </span>
                         <!-- 显示24-48 -->
-                        <span class="w4" ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_02 track by $index">
+                        <span class="w4" ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_02[0] track by $index">
                             <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_02.png">
                             <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_05.png">
                         </span>
@@ -97,9 +93,9 @@
                 </ul>
             <!-- 48接口交换机(3-3) -->
                 <ul class="w1" style="margin-top:1px;">
-                    <li class="w2" ng-if="cabinets._48switchboard_03!=''">
+                    <!-- <li class="w2" ng-if="cabinets._48switchboard_03!=''">
                          <span ng-repeat="item in cabinets._48switchboard_03 track by $index">
-                            <img src="../static/assets/admin/layout/img/common/jg_ico_03.png">
+                            <img src="../static/assets/admin/layout/img/common/jg_ico_03.png"> -->
                             <!-- <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png"> -->
                         </span>
                     </li>
@@ -154,26 +150,6 @@
                     </li>
                </ul>
             </div>
-            <!-- JBOD 90块盘运行状态 JBOD_status -->
-            <div class="tool-03">
-               <div class="w1 p-2-0-2-3 clearfix">
-                    
-                    <span ng-repeat="item in cabinets.jbod_status_01 track by $index">
-                       <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
-                       <img ng-if="item == -1" src="../static/assets/admin/layout/img/common/jg_ico_12.png">
-                       <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
-                    </span>      
-               </div> 
-            </div>
-            <div class="tool-03 mt2">
-               <div class="w1 p-2-0-2-3 clearfix">
-                   <span ng-repeat="item in cabinets.jbod_status_02 track by $index">
-                       <img ng-if="item == 1 || item == -1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
-                       <img ng-if="item == -1" src="../static/assets/admin/layout/img/common/jg_ico_12.png">
-                       <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
-                   </span>     
-               </div> 
-            </div>
             <!-- 存储服务器20块盘 运行状态 -->
             <div class="tool-05">
                 <div class="w1 p2">
@@ -201,6 +177,30 @@
                     </div>
                 </div>
             </div>
+            <div class="tool-05">
+                
+            </div>
+            <!-- JBOD 90块盘运行状态 JBOD_status -->
+            <div class="tool-03">
+               <div class="w1 p-2-0-2-3 clearfix">
+                    
+                    <span ng-repeat="item in cabinets.jbod_status_01 track by $index">
+                       <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
+                       <img ng-if="item == -1" src="../static/assets/admin/layout/img/common/jg_ico_12.png">
+                       <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
+                    </span>      
+               </div> 
+            </div>
+            <div class="tool-03 mt2">
+               <div class="w1 p-2-0-2-3 clearfix">
+                   <span ng-repeat="item in cabinets.jbod_status_02 track by $index">
+                       <img ng-if="item == 1 || item == -1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
+                       <img ng-if="item == -1" src="../static/assets/admin/layout/img/common/jg_ico_12.png">
+                       <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
+                   </span>     
+               </div> 
+            </div>
+            
         </div>
     </div>
 </div>

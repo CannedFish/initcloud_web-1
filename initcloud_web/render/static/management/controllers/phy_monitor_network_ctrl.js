@@ -5,7 +5,7 @@
 CloudApp.controller('Phy_Monitor_NetworkController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Phy_Monitor_Network, CheckboxGroup, DataCenter){
+             Phy_Monitor_Network, CheckboxGroup, DataCenter,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -13,12 +13,22 @@ CloudApp.controller('Phy_Monitor_NetworkController',
 
         $scope.phy_monitor_networks = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_networks);
-        //初始化数据
+        //初始化数 显示第一个
         var init_data = Phy_Monitor_Network.query(function(data) {
             }, {id: 1});
         $scope.phy_monitor_networks = init_data; 
         checkboxGroup.syncObjects($scope.phy_monitor_networks);
+       
         $scope.$on('to-child-network',function(d,id){
+        	d.preventDefault();
+            var Timer  = custimer.getInstance();//创建自定义定时器
+            Timer.stop();
+            var data = '';
+            Timer.start(function(){
+                data = Phy_Monitor_Network.query(function(data) { 
+                }, {id: id});
+                $scope.phy_monitor_networks = data; 
+            },30000);
             var data = Phy_Monitor_Network.query(function(data) {
             }, {id: id});
             $scope.phy_monitor_networks = data; 

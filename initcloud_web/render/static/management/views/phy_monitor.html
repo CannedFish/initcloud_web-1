@@ -10,13 +10,13 @@
     }
 
     #net-conntype-list li{
-        height:16px;
+        height:17px;
     }
     #cpu-temperature-list li{
         height:35px;
     }
     #jbod-list li{
-        height:67px;
+        height:64px;
     }
 </style>
     <div class="content" ng-controller="Phy_MonitorController">
@@ -24,13 +24,14 @@
         <div class="content_center" ng-controller="TabController">
             <div class="cabinet" data-ng-include="'../static/management/views/jigui.html'"></div>
             <!-- 机柜tab导航 -->
-            <div style="height:409px;width:155px;background:transparent;position:absolute;z-index:888;top:50px;">
-            	<ul class="hd" style="height:409px;">
-            		<li ng-class="{'active': tabs[0]}" ng-click="tab(0)" style="height:70px;cursor:pointer">
+            <div style="height:409px;width:179px;background:transparent;position:absolute;z-index:888;top:60px;left:19px;">
+                <div style="position:absolute;width:10px;height:100%;left:0px;top:0px;cursor:pointer;" ng-click="tab_pdu()"></div>
+            	<ul class="hd" style="height:409px;width:157px;margin-left:11px">
+            		<li ng-class="{'active': tabs[0]}" ng-click="tab(0)" style="height:52px;cursor:pointer">
                         <ul id="net-conntype-list" >
-                            <li ng-click="tabById(1,'network')"></li>
-                            <li ng-click="tabById(2,'network')"></li>
-                            <li ng-click="tabById(3,'network')"></li>
+                            <li ng-click="tabById(1,'network',$event);"></li>
+                            <li ng-click="tabById(2,'network',$event);"></li>
+                            <li ng-click="tabById(3,'network',$event)"></li>
                             <!-- <li ng-click="tabById(4,'network')"></li> -->
                         </ul>      
                     </li>
@@ -43,21 +44,24 @@
                             <li ng-click="tabById(5,'server')"></li> -->
                         </ul>      
                     </li>
-            		<li ng-class="{'active': tabs[2]}" ng-click="tab(2)" style="height:134px;cursor:pointer">
+                    <li ng-class="{'active': tabs[2]}" ng-click="tab(2)" style="height:52px;cursor:pointer"></li>
+            		<li ng-class="{'active': tabs[3]}" ng-click="tab(3)" style="height:129px;cursor:pointer">
                         <ul id="jbod-list">
                             <li ng-click="tabById(1,'jbod')"></li>
                             <!-- <li ng-click="tabById(2,'jbod')"></li> -->
                         </ul>      
                     </li>
-            		<li ng-class="{'active': tabs[3]}" ng-click="tab(3)" style="height:35px;cursor:pointer"></li>
+                    <!-- <li ng-class="{'active': tabs[4]}" ng-click="tab(4)" style="height:18px;cursor:pointer"></li> -->
             	</ul>
+                <div style="position:absolute;width:11px;height:100%;right:0px;top:0px;cursor:pointer;" ng-click="tab_pdu()"></div>
             </div>
             <!-- tab 内容-->
             <div class="bd fr">
 	            <div class="tab-pane fr" ng-class="{'active': tabs[0]}" data-ng-include="'../static/management/views/phy_monitor_network.html'"></div>
 	            <div class="tab-pane fr" ng-class="{'active': tabs[1]}" data-ng-include="'../static/management/views/phy_monitor_server.html'"></div>
-	            <div class="tab-pane fr" ng-class="{'active': tabs[2]}" data-ng-include="'../static/management/views/phy_monitor_jbod.html'"></div>
-	            <div class="tab-pane fr" ng-class="{'active': tabs[3]}" data-ng-include="'../static/management/views/phy_monitor_storage.html'"></div>
+	            <div class="tab-pane fr" ng-class="{'active': tabs[2]}" data-ng-include="'../static/management/views/phy_monitor_storage.html'"></div>
+	            <div class="tab-pane fr" ng-class="{'active': tabs[3]}" data-ng-include="'../static/management/views/phy_monitor_jbod.html'"></div>
+                <div class="tab-pane fr" ng-class="{'active': tabs[5]}" data-ng-include="'../static/management/views/phy_monitor_pdu.html'"></div>
             </div>
         </div>
     </div>

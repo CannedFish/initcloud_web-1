@@ -42,8 +42,15 @@ CloudApp.controller('TabController',
             });
             $scope.tabs[index] = true;
         }
-         //根据id 查询显示(向父级传递)
-        $scope.tabById = function(id,sect){
+        // pdu tab切换
+        $scope.tab_pdu =  function(){
+            angular.forEach($scope.tabs, function(i, v) {
+              $scope.tabs[v] = false;
+            }); 
+            $scope.tabs[5] = true;
+        }
+        //根据id 查询显示(向父级传递)
+        $scope.tabById = function(id,sect,$event,element,attr){
             $scope.$emit('to-parent-'+sect,id);
         }
         var deleteTabs = function(ids){

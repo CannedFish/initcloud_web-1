@@ -29,6 +29,10 @@
     background-repeat: no-repeat;
     background-position: center;
     height: 485px !important;
-    left: 0% !important; 
+    left: 8px !important; 
 }
 .clearfix:after{ visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; } 
+.page-container .jg-wrap .jigui .inner-box-list {
+    height: 100%;
+    padding: 28px 8px 19px 9px !important;
+}

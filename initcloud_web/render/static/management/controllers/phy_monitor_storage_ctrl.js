@@ -5,7 +5,7 @@
 CloudApp.controller('Phy_Monitor_StorageController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Phy_Monitor_Storage, CheckboxGroup, DataCenter){
+             Phy_Monitor_Storage, CheckboxGroup, DataCenter,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -43,10 +43,19 @@ CloudApp.controller('Phy_Monitor_StorageController',
             // 'PDU':[[220,12,1.2],[220,12,1.5]]
         // }
        /* $scope.phy_monitor_storages = data; */
+        var Timer  = custimer.getInstance();//创建自定义定时器
+        Timer.stop();
+        Timer.start(function(){
+            Phy_Monitor_Storage.get(function(data) { 
+                $scope.phy_monitor_storages = data;
+                checkboxGroup.syncObjects($scope.phy_monitor_storages);
+            });
+             
+        },30000);
         Phy_Monitor_Storage.get(function(data) {
            $scope.phy_monitor_storages = data; 
-           console.log($scope.phy_monitor_storages);
         });
+        checkboxGroup.syncObjects($scope.phy_monitor_storages);
         var deletePhy_Monitor_Storages = function(ids){
 
             $ngBootbox.confirm($i18next("phy_monitor_storage.confirm_delete")).then(function(){

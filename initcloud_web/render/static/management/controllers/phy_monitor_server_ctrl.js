@@ -5,7 +5,7 @@
 CloudApp.controller('Phy_Monitor_ServerController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Phy_Monitor_Server, CheckboxGroup, DataCenter){
+             Phy_Monitor_Server, CheckboxGroup, DataCenter,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -13,48 +13,19 @@ CloudApp.controller('Phy_Monitor_ServerController',
 
         $scope.phy_monitor_servers = "";
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_servers);
-        function Timer() {
-            ///<summary>Simple timer object created around a timeout.</summary>
-            var t = this;
-            t.id = null;
-            t.busy = false;
-            t.start = function (code, milliseconds) {
-                ///<summary>Starts the timer and waits the specified amount of <paramref name="milliseconds"/> before executing the supplied <paramref name="code"/>.</summary>
-                ///<param name="code">The code to execute once the timer runs out.</param>
-                ///<param name="milliseconds">The time in milliseconds to wait before executing the supplied <paramref name="code"/>.</param>
-
-                if (t.busy) {
-                    return;
-                }
-                t.stop();
-                t.id = setInterval(function () {
-                    code();
-                    t.id = null;
-                    t.busy = false;
-                }, milliseconds);
-                t.busy = true;
-            };
-            t.stop = function () {
-                ///<summary>Stops the timer if its runnning and resets it back to its starting state.</summary>
-
-                if (t.id !== null) {
-                    clearTimeout(t.id);
-                    t.id = null;
-                    t.busy = false;
-                }
-            };
-        }
-        var timer = new Timer();
         $scope.$on('to-child-server',function(d,id){
+            var Timer  = custimer.getInstance();
+            d.preventDefault();
+            Timer.stop();
             var data = '';
-            timer.start(function(){
+            Timer.start(function(){
                 data = Phy_Monitor_Server.query(function(data) { 
                 }, {id: id});
                 $scope.phy_monitor_servers = data; 
             },30000);
             data = Phy_Monitor_Server.query(function(data) {
             }, {id: id});
-            $scope.phy_monitor_servers = data; 
+            $scope.phy_monitor_servers = data;
             checkboxGroup.syncObjects($scope.phy_monitor_servers);
         })
         checkboxGroup.syncObjects($scope.phy_monitor_servers);

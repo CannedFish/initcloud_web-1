@@ -18,6 +18,13 @@
         line-height:30px;
         margin-top:5px;
     }
+    .bc1{
+        /*background:#122652 !important;*/
+    }
+    .bc2{
+
+
+    }
 </style>
 <div class="content" ng-controller="WarningController">
             <div class="titile">报警信息</div>
@@ -53,7 +60,7 @@
                     </ul>
                     <table class="police_table footable" data-filter="#filter" data-filter-text-only="false">
                        <tbody>
-                            <tr ng-repeat="item in warnings" ng-click="setDatatoLeftBar(item)">
+                            <tr ng-repeat="item in warnings" ng-class="$index%2==0?'bc1':''" ng-click="setDatatoLeftBar(item)">
                                 <td align="center">{[{item.warning_type}]}</td>
                                 <td >{[{item.name}]}</td>
                                 <td align="center">{[{item.warning_info}]}</td>

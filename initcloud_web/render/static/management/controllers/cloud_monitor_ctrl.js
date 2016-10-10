@@ -5,15 +5,20 @@
 CloudApp.controller('Cloud_MonitorController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Cloud_Monitor, CheckboxGroup, DataCenter,urlParamsTrnasfer){
+             Cloud_Monitor, CheckboxGroup, DataCenter,urlParamsTrnasfer,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
             Metronic.initAjax();
             
         });
-        
+        var Timer = custimer.getInstance();//创建自定义定时器
         $scope.cloud_monitors = '';
         var checkboxGroup = $scope.checkboxGroup =  CheckboxGroup.init($scope.cloud_monitors);
+        Timer.start(function(){
+            Cloud_Monitor.get(function(data) { 
+                 $scope.cloud_monitors = data; 
+            })
+        },30000);
         Cloud_Monitor.get(function(data){
             $scope.cloud_monitors = data;  
         });
@@ -47,7 +52,6 @@ CloudApp.controller('Cloud_MonitorController',
         	 	$scope.table_page(false);
         	 }
              ngRepeatFinishedEvent.stopPropagation(); // 终止事件继续“冒泡”
-             // ngRepeatFinishedEvent.destroy();
         })
         //数组去重
         Array.prototype.unique = function()
@@ -63,8 +67,7 @@ CloudApp.controller('Cloud_MonitorController',
             }
             return re;
         }
-        // //得到物理主机名称
-        // $scope.hostname= [];
+        //得到物理主机名称
         $scope.filter_host = function(){
             hostname = [];
             for(var h in $scope.cloud_monitors){
@@ -105,7 +108,6 @@ CloudApp.controller('Cloud_MonitorController',
             //点击上一页
             $('#previous_li').click(function(){
                 var new_page = parseInt($('#current_page').text()) - 1; 
-                // alert(new_page);
                 if(new_page>0)
                 {
                     $('#page_num_all li').removeClass('active');
@@ -137,7 +139,35 @@ CloudApp.controller('Cloud_MonitorController',
                 $("#current_page").html(" "+current_page+" ");
             }
         }
-        //指定列查询
+        //js获取对象的长度
+        function getPropertyCount(o){
+            var n,count = 0;
+            for(var n in o){
+                if(o.hasOwnProperty(n))
+                    count++;
+            }
+            return count;
+        }
+        //指定物理主机查询
+        $scope.setHostName = function(){
+            if($scope.cloud_monitors == '') return;
+            var host_data = {};
+            if($scope.selected_1 == ''){
+                //查询所有主机
+                checkboxGroup.syncObjects($scope.cloud_monitors);
+            }else{
+                for(var o in $scope.cloud_monitors){
+                    if(!$scope.cloud_monitors.hasOwnProperty(o)) continue;
+                    var hname = $scope.cloud_monitors[o].host;
+                    if(hname!== undefined && hname == $scope.selected_1 )
+                    {
+                       host_data[o] = deepCopy($scope.cloud_monitors[o]); 
+                    }
+                }
+                $scope.cloud_monitors = host_data;
+                checkboxGroup.syncObjects($scope.cloud_monitors);
+            }
+        }
         //按时间查询  1周内/一个月内/一小时内
         $scope.setTimeRange = function(key){
             switch($scope.selected_2){

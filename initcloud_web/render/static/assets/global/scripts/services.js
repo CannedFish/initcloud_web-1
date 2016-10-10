@@ -211,13 +211,9 @@ angular.module('cloud.services', [])
     var initDatePickers = function(selector){
 
         selector = selector || '.date-picker';
-        if (jQuery().datepicker) {
-            $(selector).datepicker({
-                rtl: Metronic.isRTL(),
-                orientation: "left",
-                format: 'yyyy-mm-dd',
-                autoclose: true
-            });
+        if (jQuery.datepicker) {
+            $.datepicker.setDefaults({dateFormat:'yy-mm-dd' });
+            $(selector).datepicker({});
         }
     };
 
@@ -451,7 +447,56 @@ angular.module('cloud.services', [])
             // 在controller中通过调set()和get()方法可实现提交或获取参数的功能  
             return myServices;
         
-    }) 
+    })
+    //定义时间函数
+    .factory('custimer',function(){
+        return single = (function(){
+            var unique;//定义单例对象
+            function getInstance(){
+                if(unique === undefined)
+                {
+                    unique = new Construct();
+                }
+                return unique;
+            }
+            function Construct(){
+                //生成单例的构造函数的代码
+                var t = this;
+                t.id = null;
+                // t.busy = false;
+                t.start = function (code, milliseconds) {
+                    ///<summary>Starts the timer and waits the specified amount of <paramref name="milliseconds"/> before executing the supplied <paramref name="code"/>.</summary>
+                    ///<param name="code">The code to execute once the timer runs out.</param>
+                    ///<param name="milliseconds">The time in milliseconds to wait before executing the supplied <paramref name="code"/>.</param>
+                    // t.busy = false;
+                    // console.log(t.busy);
+                    // if (t.busy) {
+                    //     return;
+                    // }
+                    t.stop();
+                    t.id = setInterval(function () {
+                        code();
+                        // t.id = null;
+                        // t.busy = false;
+                    }, milliseconds);
+                    // t.busy = true;
+                };
+                t.stop = function () {
+                    ///<summary>Stops the timer if its runnning and resets it back to its starting state.</summary>
+
+                    if (t.id !== null) {
+                        clearTimeout(t.id);
+                        // t.id = null;
+                        // t.busy = false;
+                    }
+                };     
+            }
+            return {
+                getInstance : getInstance
+            }
+
+        })();
+    })
     .filter("humanizeDiskSize", function(){
         return function(size){
             var units = ['MB', 'GB', 'TB', 'PB'];

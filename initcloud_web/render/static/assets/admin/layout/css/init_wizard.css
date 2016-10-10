@@ -17,6 +17,7 @@
         max-width:500px;
         margin:10px;
         position:relative;
+        margin-top:-3px;
     }
     .rb-wrap{background:transparent url(../img/common/kuang_04.png) no-repeat scroll 0% 0%;z-index:999999;
         height:254px;
@@ -24,6 +25,7 @@
         max-width:500px;
         margin:10px;
         position:relative;
+        margin-top:-3px;
     }
     .lt-wrap .nav{position:absolute;left:10px;top: -12px;font-size:16px;color:#86edff;}
     .lb-wrap .nav{position:absolute;left:10px;bottom: -6px;font-size:16px;color:#86edff;}

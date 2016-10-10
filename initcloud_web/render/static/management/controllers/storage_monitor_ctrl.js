@@ -5,39 +5,45 @@
 CloudApp.controller('Storage_MonitorController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,$timeout,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Storage_Monitor, CheckboxGroup, DataCenter){
+             Storage_Monitor, CheckboxGroup, DataCenter,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
 
-        $scope.storage_monitors = [];
+        $scope.storage_monitors = '';
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.storage_monitors);
-
-        // $scope.storage_monitor_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Storage_Monitor.query(function(data){
-        //                 $scope.storage_monitors = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.storage_monitors);
-        //             });
-        //         }
-        //     });
-        //query 操作。
+        var Timer = custimer.getInstance();//创建自定义定时器
+        Timer.start(function(){
+            Storage_Monitor.get(function(data) { 
+                if(data.results){
+                    for(var o in data.results){
+                        // var nc = data.results[o].item.network_card;
+                        // nc.up_rate ='2'+nc.up_rate.substring(1);
+                        // nc.down_rate ='2'+nc.down_rate.substring(1);
+                    } 
+                    $scope.storage_monitors = data.results;
+                    checkboxGroup.syncObjects($scope.storage_monitors);
+                }
+                
+            })
+        },30000);
+        
         Storage_Monitor.get(function(data){
             if(data.results){
                 for(var o in data.results){
-                    var nc = data.results[o].item.network_card;
-                    nc.up_rate ='2'+nc.up_rate.substring(1);
-                    nc.down_rate ='2'+nc.down_rate.substring(1);
-                } 
+                    // var nc = data.results[o];
+                    // if(nc == undefined) return;
+                    // nc.item.network_card.up_rate ='2'+nc.up_rate.substring(1);
+                    // nc.item.network_card.down_rate ='2'+nc.down_rate.substring(1);
+                }
+                $scope.storage_monitors = data.results;
+                checkboxGroup.syncObjects($scope.storage_monitors); 
             }
-            $scope.storage_monitors = data.results;
-            checkboxGroup.syncObjects($scope.storage_monitors);
+           
         });
+        // $scope.storage_monitors = data.results;
+        checkboxGroup.syncObjects($scope.storage_monitors);
         var deleteStorage_Monitors = function(ids){
 
             $ngBootbox.confirm($i18next("storage_monitor.confirm_delete")).then(function(){

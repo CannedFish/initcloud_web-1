@@ -244,6 +244,11 @@ angular.module('cloud.resources', [])
       query: {method: 'get', isArray: false}
     });
 }])
+.factory('Phy_Monitor_Pdu', ['$resource', function ($resource) { //物理监控 - pdu
+    return $resource("/api/phy_monitor_pdu/:id", {id: '@id'},{
+       query: {method: 'get', isArray: false}
+    });
+}])
 .factory('Phy_Monitor_Storage', ['$resource', function ($resource) { //物理监控-存储监控
     return $resource("/api/phy_monitor_storage/:id", {id: '@id'});
 }])

@@ -1,10 +1,16 @@
 <!-- 二级页主展示区 -->
+<style type="text/css">
+    .ml40{margin-left:46px;}
+</style>
 </style>
 <link rel="stylesheet" type="text/css" href="../static/assets/admin/layout/css/storage-monitor.css">
 <div class="main" ng-controller="Storage_MonitorController" style="background:#0a122f;">
     <div class="title"><span class="tx">存储监控</span></div>
     <div class="nav">
-        <div class="fl wp48 node" ng-repeat="node in storage_monitors">
+        <div ng-if="storage_monitors == ''">
+            <div class="load" style="height:200px;line-height:200px;color:#ff0000;text-align:center;">加载中。。。</div>
+        </div>
+        <div ng-if="storage_monitors != ''" class="fl wp48 node" ng-class="($index==1)?'ml40':''" ng-repeat="node in storage_monitors">
             <img src="../static/assets/admin/layout/img/common/stico_03.png" alt="">
             <span class="tx">存储{[{node.name}]}</span>
             <div class="item clearfix">

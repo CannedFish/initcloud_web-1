@@ -59,6 +59,27 @@
     background: #16bb53;
     border-radius: 15px;
 }
+.t1{
+    width: 52px;
+    background: #0e4a91;
+    font-size: 14px;
+    color: #00d8ff;
+    float: left;
+}
+.t2{
+    margin: 0 0 0 9px;
+    font-size: 14px;
+    color: #00d8ff;
+    float: left;
+}
+.device{
+    width: 50%;
+    float: left;
+    height: 29px;
+    line-height: 25px;
+    padding: 2px;
+    text-align: center;
+}
 .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
 </style>
 <div class="phy_cont" ng-controller="Phy_Monitor_ServerController">
@@ -98,14 +119,14 @@
                             <div class="work_node">
                                 <div class="node_cont node4" style="width:100%;float:none;">
                                     <p class="node_title server">系统电流、电压监控</p>
-                                    <div class="node_model model1" style="width:50%;float:left"  ng-repeat="list in phy_monitor_servers.nodes">
-                                        <div style="height:100%;width:50%;float:left">
-                                            <p class="fan_p1">电压</p>
-                                            <p class="fan_p2">电压：{[{list.PDU.volt | number:2}]}A</p>
+                                    <div style="float:left;width:50%;height:31px;border:1px solid #0e4a91;overflow:hidden;" ng-repeat="list in phy_monitor_servers.nodes">
+                                        <div class="device">
+                                            <p class="t1">电流</p>
+                                            <p class="t2">电流：{[{list.PDU.current | number:2}]}A</p>
                                         </div>
-                                        <div style="height:100%;width:50%;float:left">
-                                            <p class="fan_p1">电流</p>
-                                            <p class="fan_p2">电流：{[{list.PDU.current | number:2}]}V</p>
+                                        <div class="device">
+                                            <p class="t1">电压</p>
+                                            <p class="t2">电压：{[{list.PDU.volt | number:2}]}V</p>
                                         </div>
                                     </div>
                                 </div>

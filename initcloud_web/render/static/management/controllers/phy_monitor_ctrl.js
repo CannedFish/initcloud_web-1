@@ -16,15 +16,20 @@ CloudApp.controller('Phy_MonitorController',
         //接受传递过来的参数查询显示 
         // 网络监控
         $scope.$on('to-parent-network',function(d,data){
+    
+             d.stopPropagation();
             //接收参数 广播给指定的孩子节点
             $scope.$broadcast('to-child-network',data);
+           
         })
         // 服务器监控
         $scope.$on('to-parent-server',function(d,data){
+            d.stopPropagation();
             $scope.$broadcast('to-child-server',data);
         })
         //jbod
         $scope.$on('to-parent-jbod',function(d,data){
+            d.stopPropagation();
             $scope.$broadcast('to-child-jbod',data);
         })
         var deletePhy_Monitors = function(ids){

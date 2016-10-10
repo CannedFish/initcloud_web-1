@@ -10,8 +10,8 @@ CloudApp.controller('WarningController',
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
                //过滤筛选条件
-                $('table').footable().bind('footable_filtering', function(e) {
-                    var selected = "";
+                    $('table').footable().bind('footable_filtering', function(e) {
+                        var selected = "";
                         angular.forEach($('.filter-status'),function(v,i){
                             selected += $(v).find(':selected').text()+' ';
                         })
@@ -20,11 +20,75 @@ CloudApp.controller('WarningController',
                            e.filter = (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
                            e.clear = !e.filter;
                         }
-                      });
-              
+
+                    });
+
+                    var dpattern = /^(\d{4})(-|\/)(\d{1,2})(-|\/)(\d{1,2})/;
+                    $('.time-filter input').change(function(){
+                        
+                        $('table.footable').data('footable-filter').filter();
+                        stime();
+                        
+                    })
+                    // 其他选择
+                    // function otsel(){
+
+                    // }
+                    // 日期筛选函数
+                    function  stime(){
+                        var st = '', et = ''
+                        ,tdiff = 0;
+                        st = $('.start').val().replace('-','').replace('-','');
+                        et = $('.end').val().replace('-','').replace('-','');
+                        if(st>et){
+                            angular.forEach($('.police_table tr'),function(v,i){
+                                $(v).css('display','none')
+                                return false;
+                            });
+                        }else{
+                            //寻找td 元素
+                            angular.forEach($('.police_table tr'),function(v,i){
+                                var dt = $(v).find('td:eq(3)').text().match(dpattern)[0].replace('-','').replace('-','');
+                                if(dt>=st && dt<=et){
+                                   
+                                    $(v).css('display','table-row')
+                                     
+                                }else{
+                                    $(v).css('display','none')
+                                }
+
+                            })
+                        }
+                    }
                     $('.filter-status').change(function(e) {
                         e.preventDefault();
-                        $('table.footable').data('footable-filter').filter();    
+                        $('table.footable').data('footable-filter').filter(); 
+                        var st = '', et = ''
+                        ,tdiff = 0;
+                        st = $('.start').val().replace('-','').replace('-','');
+                        et = $('.end').val().replace('-','').replace('-','');
+                        if(st>et){
+                            angular.forEach($('.police_table tr'),function(v,i){
+                                $(v).css('display','none')
+                                return false;
+                            });
+                        }else{
+                            //寻找td 元素
+                            angular.forEach($('.police_table tr'),function(v,i){
+                                var dt = $(v).find('td:eq(3)').text().match(dpattern)[0].replace('-','').replace('-','');
+                                if(dt>=st && dt<=et){
+                                    if($(v).css('display') == 'none'){
+
+                                    }else{
+                                        $(v).css('display','table-row')
+                                    }   
+                                }else{
+                                    $(v).css('display','none')
+                                }
+
+                            })
+                        }
+                          
                     });
         });
 

@@ -12,15 +12,23 @@
     .items .sortitem:active{
       color:#00d8ff;
     }
+    .pagination .con{height:100%;width:100%;text-align:center;margin-left:15px;}
+    .page_num.active{
+        background:#0077bc;
+        color:#fff;
+
+    }
+    .page_num.active a:hover{color:#fff;}
+    .page_num.active a{background:transparent !important; color:#fff;}
 </style>
 <div class="main" ng-controller="Cloud_MonitorController">
   <div class="title"><span class="tx">云主机监控</span></div>
   <div class="nav">
     <div class="fl col-md-2 lselect">
         <span style="display:inline-block;"><img src="../static/assets/admin/layout/img/common/lsico_03.png" style="margin-bottom:6px;"></span>
-        <select  ng-model="selected_1" class="filter-status" >
+        <select  ng-model="selected_1" class="filter-status" ng-change="setHostName()">
             <option value="" select="selected">物理主机</option>
-            <option ng-repeat="host in hostname">{[{host}]}</option>
+            <option value="{[{host}]}" ng-repeat="host in hostname">{[{host}]}</option>
         </select>
     </div>
     <div class="fl col-md-2 lselect">
@@ -110,7 +118,7 @@
                             </div>
                             <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
                                   [ {
-                                        data:{[{list.memroy.day_data}]},
+                                        data:{[{list.memroy.hour_data}]},
                                         show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
                                         lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
                                         color:'#BB9209'
@@ -266,7 +274,7 @@
                             </div>
                             <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
                                   [ {
-                                        data:{[{list.memroy.day_data}]},
+                                        data:{[{list.memroy.hour_data}]},
                                         show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
                                         lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
                                         color:'#BB9209'
@@ -422,7 +430,7 @@
                             </div>
                             <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
                                   [ {
-                                        data:{[{list.memroy.day_data}]},
+                                        data:{[{list.memroy.hour_data}]},
                                         show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
                                         lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
                                         color:'#BB9209'
@@ -578,7 +586,7 @@
                             </div>
                             <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
                                   [ {
-                                        data:{[{list.memroy.day_data}]},
+                                        data:{[{list.memroy.hour_data}]},
                                         show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
                                         lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
                                         color:'#BB9209'
@@ -734,7 +742,7 @@
                             </div>
                             <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
                                   [ {
-                                        data:{[{list.memroy.day_data}]},
+                                        data:{[{list.memroy.hour_data}]},
                                         show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
                                         lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
                                         color:'#BB9209'
@@ -890,7 +898,7 @@
                             </div>
                             <div ng-if="(defaultTimeRange == 'rhouse')" class="cavans" ui-jq="plot" ng-model="item.data" ui-options="
                                   [ {
-                                        data:{[{list.memroy.day_data}]},
+                                        data:{[{list.memroy.hour_data}]},
                                         show:'showSpline, tension: 0.4, lineWidth: 1, fill: 0.8',
                                         lines: { show: true, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}]}},
                                         color:'#BB9209'
@@ -993,16 +1001,6 @@
     <div class="row content" ng-if="cloud_monitors == ''">
           <div class="load" style="height:200px;line-height:200px;color:#ff0000;text-align:center;">加载中。。。</div>
     </div>
-  <style type="text/css">
-    .pagination .con{height:100%;width:100%;text-align:center;margin-left:15px;}
-    .page_num.active{
-        background:#0077bc;
-        color:#fff;
-
-    }
-    .page_num.active a:hover{color:#fff;}
-    .page_num.active a{background:transparent !important; color:#fff;}
-  </style>
   <!-- 分页  -->
     <div class="pagination" ng-if="cloud_monitors != ''">
         <ul class="con">

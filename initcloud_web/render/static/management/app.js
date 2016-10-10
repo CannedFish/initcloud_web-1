@@ -155,7 +155,8 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                                 '/static/management/controllers/phy_monitor_network_ctrl.js',//网络
                                 '/static/management/controllers/phy_monitor_jbod_ctrl.js',//JBOD
                                 '/static/management/controllers/phy_monitor_server_ctrl.js',//server
-                                '/static/management/controllers/phy_monitor_storage_ctrl.js'
+                                '/static/management/controllers/phy_monitor_storage_ctrl.js', // 存储
+                                '/static/management/controllers/phy_monitor_pdu_ctrl.js', // pdu
                             ]
                         });
                     }]
