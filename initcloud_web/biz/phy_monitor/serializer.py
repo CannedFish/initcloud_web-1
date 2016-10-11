@@ -80,3 +80,21 @@ class PhyMonitorStorageSerializer(serializers.Serializer):
     PDU = serializers.ListField(child=\
             serializers.ListField(child=serializers.FloatField()))
     model = serializers.CharField()
+
+# PhyPDU
+class PDUDataSerializer(serializers.Serializer):
+    voltdata = serializers.ListField(child=\
+            serializers.ListField(child=serializers.FloatField()))
+    currentdata = serializers.ListField(child=\
+            serializers.ListField(child=serializers.FloatField()))
+    wattdata = serializers.ListField(child=\
+            serializers.ListField(child=serializers.FloatField()))
+
+class PDUSerializer(serializers.Serializer):
+    currentdata = serializers.ListField(child=serializers.FloatField())
+    data = PDUDataSerializer()
+
+class PhyPDUSerializer(serializers.Serializer):
+    PDU1 = PDUSerializer()
+    PDU2 = PDUSerializer()
+

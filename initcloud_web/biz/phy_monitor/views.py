@@ -11,7 +11,8 @@ from pysnmp.hlapi import *
 from biz.common.pagination import PagePagination
 from biz.phy_monitor.serializer import CabinetSerializer,\
         PhyMonitorJBODSerializer, PhyMonitorNetworkSerializer,\
-        PhyMonitorServerSerializer, PhyMonitorStorageSerializer
+        PhyMonitorServerSerializer, PhyMonitorStorageSerializer,\
+        PhyPDUSerializer
 
 from django.conf import settings
 
@@ -504,5 +505,28 @@ class CabinetDetail(APIView):
             'memory_server_status_02': SS_DATA['disk'][20:40]
         }
         serializer = CabinetSerializer(data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class PhyMonitorPDUDetail(APIView):
+    def get(self, request):
+        data = {
+            'PDU1':{
+                'currentdata':[123.12,45.12,258.12],
+                'data':{
+                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]],
+                    'currentdata':[[0,4.81],[1,7.31],[2,7.55],[3,6.35],[4,3.76]],
+                    'wattdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]]
+                }
+            },
+            'PDU2':{
+                'currentdata':[124.12,46.12,259.12],
+                'data':{
+                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,5.15],[4,3.76]],
+                    'currentdata':[[0,2.81],[1,7.31],[2,2.55],[3,4.15],[4,4.76]],
+                    'wattdata':[[0,1.81],[1,7.38],[2,8.55],[3,2.15],[4,5.16]]
+                }
+            },
+        }
+        serializer = PhyPDUSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
