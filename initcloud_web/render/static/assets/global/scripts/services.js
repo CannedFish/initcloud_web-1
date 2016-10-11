@@ -2,7 +2,7 @@
  * User: bluven
  * Date: 2015-7-13 2:36
  */
-
+var timer_ids = [];
 angular.module('cloud.services', [])
 
 .factory('settings', ['$rootScope', function ($rootScope) {
@@ -448,7 +448,7 @@ angular.module('cloud.services', [])
             return myServices;
         
     })
-    //定义时间函数
+    //定义时间函数  danli
     .factory('custimer',function(){
         return single = (function(){
             var unique;//定义单例对象
@@ -465,14 +465,7 @@ angular.module('cloud.services', [])
                 t.id = null;
                 // t.busy = false;
                 t.start = function (code, milliseconds) {
-                    ///<summary>Starts the timer and waits the specified amount of <paramref name="milliseconds"/> before executing the supplied <paramref name="code"/>.</summary>
-                    ///<param name="code">The code to execute once the timer runs out.</param>
-                    ///<param name="milliseconds">The time in milliseconds to wait before executing the supplied <paramref name="code"/>.</param>
-                    // t.busy = false;
-                    // console.log(t.busy);
-                    // if (t.busy) {
-                    //     return;
-                    // }
+                 
                     t.stop();
                     t.id = setInterval(function () {
                         code();
@@ -496,6 +489,36 @@ angular.module('cloud.services', [])
             }
 
         })();
+    })
+    //全局时间函数 保存id
+    .factory('global_custimer',function(){
+        ///<summary>Simple timer object created around a timeout.</summary>
+        return function(){
+            var t = this; 
+            t.id = null
+            t.start = function (code, milliseconds) {
+                t.stop();
+                t.id = setInterval(function () {
+                    code() 
+                    if(window.location.hash!='#/overview/'){
+                        clearTimeout(t.id);
+                        t.id = null;   
+                    }; 
+                }, milliseconds)
+                t.getids(t.id);
+            };
+            t.stop = function () {
+                if (t.id !== null) {
+                    clearTimeout(t.id);
+                    t.id = null;
+                }
+            };
+            t.getids = function(curr_id){
+                
+                timer_ids.push(curr_id);
+            };
+        }
+
     })
     .filter("humanizeDiskSize", function(){
         return function(size){

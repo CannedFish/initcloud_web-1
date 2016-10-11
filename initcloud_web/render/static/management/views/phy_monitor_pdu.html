@@ -1,0 +1,135 @@
+ <style type="text/css">
+.nav{
+    border-bottom: solid 1px #01598E;
+}
+.nav .title,.back{
+    height:40px;
+    line-height:42px;
+    margin-top:5px;
+  
+}
+.nav .title .site {
+    font-size: 18px;
+    color: #00d8ff;
+    margin-left: 10px;
+}
+.crow{
+    width:100%;
+  /*  padding:5px 10px 0px 10px;*/
+    height:150px;
+}
+.crow .warpper{
+    width:100%;
+}
+.crow .box .box-nav{
+    height:25px;
+    line-height:28px;
+    padding:0px 10px 0px 10px;
+}
+.crow .box .box-nav span{
+    font-size:14px;
+    color:#0077bc;
+}
+.pc1{
+    color:#f9c101 !important;
+}
+.pc2{
+    color:#2ecc66 !important;
+}
+.pc3{
+    color:#cc0497 !important;
+}
+</style>
+<div class="phy_cont" ng-controller="Phy_Monitor_PduController">
+        <div class="work_title">
+           <!--  <p class="title_p2">型号：11111</p> -->
+            <p class="title_p1">PDU监控</p>
+        </div>
+        <div class="loaded" style="height:475px;clear:both;" ng-if="phy_monitor_pdus!=''">
+            <div class="work_node fl" style="clear:none;margin-top:0px;" ng-repeat="(key,nodes) in phy_monitor_pdus">
+                <div class="node_cont clearfix" style="float:none;">
+                    <p class="node_title" ng-if="($index == 0)"  style="margin-bottom:0px;margin:0px 10px 0px 10px;border-bottom:solid 1px #0077bc;"><img src="../static/assets/admin/layout/img/second/phy-monitor/pdu_ico_03.png" style="margin-top:-3px;margin-right:2px;">&nbsp;PDU1</p>
+                    <p class="node_title" ng-if="($index == 1)" style="margin-bottom:0px;margin-left:15px;border-bottom:solid 1px #0077bc;"><img src="../static/assets/admin/layout/img/second/phy-monitor/pdu_ico_03.png" style="margin-top:-3px;margin-right:2px;">&nbsp;PDU2</p>
+                </div>          
+                <div class="crow clearfix" ng-class="($index == 1)?'ml10':''">
+                    <div class="warpper clearfix">
+                        <div class="box clearfix">
+                            <div class="box-nav clearfix">
+                               <span class="fl">电压</span>
+                               <span class="fr pc1">当前电压：{[{nodes.currentdata[0]}]}V</span>
+                            </div>
+                           <div style="height:104px; width:100%;position: relative;padding: 0px;" ui-options="[
+                                { 
+                                    data: {[{nodes.data.voltdata}]}, points: { show: false },
+                                    lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                    color:'#f9c101'
+                                }
+                              ],
+                              {
+                                series: { shadowSize: 1 },
+                                xaxis:{ show: true,font: { color: '#0077bc' },tickSize:1 },
+                                yaxis:{ show: true,font: { color: '#0a122f' },tickSize:1},
+                                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                                tooltip: true,
+                                tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 },font: { color: '#0077bc' } }
+                              }" ui-jq="plot"> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="crow clearfix" ng-class="($index == 1)?'ml10':''">
+                    <div class="warpper fl clearfix">
+                        <div class="box clearfix">
+                            <div class="box-nav clearfix">
+                               <span class="fl">电流</span>
+                               <span class="fr pc2">当前电流：{[{nodes.currentdata[1]}]}A </span>
+                            </div>
+                           <div style="height:104px; width:100%;position: relative;padding: 0px;" ui-options="[
+                                { 
+                                    data: {[{nodes.data.currentdata}]}, points: { show: false },
+                                    lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                    color:'#2ecc66'
+                                }
+                              ],
+                              {
+                                series: { shadowSize: 1 },
+                                xaxis:{ show: true,font: { color: '#0077bc' },tickSize:1 },
+                                yaxis:{ show: true,font: { color: '#0a122f' },tickSize:1},
+                                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                                tooltip: true,
+                                tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 },font: { color: '#0077bc' } }
+                              }" ui-jq="plot"> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="crow clearfix" ng-class="($index == 1)?'ml10':''">
+                    <div class="warpper fl clearfix">
+                        <div class="box clearfix">
+                            <div class="box-nav clearfix">
+                               <span class="fl">功率</span>
+                               <span class="fr pc3">当前功率：{[{nodes.currentdata[2]}]}Kw </span>
+                            </div>
+                           <div style="height:104px; width:100%;position: relative;padding: 0px;" ui-options="[
+                                { 
+                                    data: {[{nodes.data.wattdata}]}, points: { show: false },
+                                    lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                    color:'#cc0497'
+                                }
+                              ],
+                              {
+                                series: { shadowSize: 1 },
+                                xaxis:{ show: true,font: { color: '#0077bc' },tickSize:1 },
+                                yaxis:{ show: true,font: { color: '#0a122f' },tickSize:1},
+                                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                                tooltip: true,
+                                tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 },font: { color: '#0077bc' } }
+                              }" ui-jq="plot"> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                   <!--  <div class="loading" ng-if="phy_monitor_storages==''">加载中。。。</div> -->
+</div>

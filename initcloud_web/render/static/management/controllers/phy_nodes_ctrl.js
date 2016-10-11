@@ -5,30 +5,20 @@
 CloudApp.controller('Phy_NodesController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Phy_Nodes, CheckboxGroup, DataCenter){
+             Phy_Nodes, CheckboxGroup, DataCenter,custimer,global_custimer){
         
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
-
+        var timer = new global_custimer();
+        timer.start(function(){
+            Phy_Nodes.query(function(data){
+                $scope.phy_nodess = data;
+                checkboxGroup.syncObjects($scope.phy_nodess);
+            });
+        },5000);
         $scope.phy_nodess = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_nodess);
-        // var nodes = [
-        //     {
-        //         'cpuUsed':'70',
-        //         'memUsed':'10',
-        //         'rx':'85',
-        //         'tx':'100'
-        //     },
-        //     {
-        //         'cpuUsed':'75',
-        //         'memUsed':'30',
-        //         'rx':'95',
-        //         'tx':'60'
-        //     },
-        // ];   
-        // $scope.phy_nodess = nodes;
-        // checkboxGroup.syncObjects($scope.phy_nodess);
         Phy_Nodes.query(function(data){
             $scope.phy_nodess = data;
             checkboxGroup.syncObjects($scope.phy_nodess);

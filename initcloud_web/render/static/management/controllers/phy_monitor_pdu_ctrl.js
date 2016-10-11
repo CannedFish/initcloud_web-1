@@ -2,44 +2,50 @@
  * User: arthur 
  * Date: 16-4-17
  **/
-CloudApp.controller('Virtualmechine_BarController',
+CloudApp.controller('Phy_Monitor_PduController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Virtualmechine_Bar, CheckboxGroup, DataCenter,custimer){
+             Phy_Monitor_Pdu, CheckboxGroup, DataCenter){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
-       
-        $scope.virtualmechine_bars = [];
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.virtualmechine_bars);
-        var Timer = custimer.getInstance();//创建自定义定时器
-        
-        Timer.start(function(){
-            Virtualmechine_Bar.query(function(data){
-                $scope.virtualmechine_bars = data;
-                checkboxGroup.syncObjects($scope.virtualmechine_bars);
-            })
-        },5000);
-        Virtualmechine_Bar.query(function(data){
-            $scope.virtualmechine_bars = data;
-            checkboxGroup.syncObjects($scope.virtualmechine_bars);
-        })
 
+        $scope.phy_monitor_pdus = [];
+        //pdu 监控
+        $scope.phy_monitor_pdus =
+        {
+            'PDU1':{
+                'currentdata':[123.12,45.12,258.12],
+                'data':{
+                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]],
+                    'currentdata':[[0,4.81],[1,7.31],[2,7.55],[3,6.35],[4,3.76]],
+                    'wattdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]]
+                }
+            },
+            'PDU2':{
+                'currentdata':[124.12,46.12,259.12],
+                'data':{
+                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,5.15],[4,3.76]],
+                    'currentdata':[[0,2.81],[1,7.31],[2,2.55],[3,4.15],[4,4.76]],
+                    'wattdata':[[0,1.81],[1,7.38],[2,8.55],[3,2.15],[4,5.16]]
+                }
+            },
+        }
+        console.log($scope.phy_monitor_pdus);
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_pdus);
+        var deletePhy_Monitor_Pdus = function(ids){
 
-
-        var deleteVirtualmechine_Bars = function(ids){
-
-            $ngBootbox.confirm($i18next("virtualmechine_bar.confirm_delete")).then(function(){
+            $ngBootbox.confirm($i18next("phy_monitor_pdu.confirm_delete")).then(function(){
 
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
 
-                CommonHttpService.post("/api/virtualmechine_bar/batch-delete/", {ids: ids}).then(function(data){
+                CommonHttpService.post("/api/phy_monitor_pdu/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        $scope.virtualmechine_bar_table.reload();
+                        $scope.phy_monitor_pdu_table.reload();
                         checkboxGroup.uncheck()
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -50,12 +56,12 @@ CloudApp.controller('Virtualmechine_BarController',
 
         $scope.batchDelete = function(){
 
-            deleteVirtualmechine_Bars(function(){
+            deletePhy_Monitor_Pdus(function(){
                 var ids = [];
 
-                checkboxGroup.forEachChecked(function(Virtualmechine_Bar){
-                    if(virtualmechine_bar.checked){
-                        ids.push(virtualmechine_bar.id);
+                checkboxGroup.forEachChecked(function(Phy_Monitor_Pdu){
+                    if(phy_monitor_pdu.checked){
+                        ids.push(phy_monitor_pdu.id);
                     }
                 });
 
@@ -63,32 +69,32 @@ CloudApp.controller('Virtualmechine_BarController',
             });
         };
 
-        $scope.delete = function(virtualmechine_bar){
-            deleteVirtualmechine_Bars([virtualmechine_bar.id]);
+        $scope.delete = function(phy_monitor_pdu){
+            deletePhy_Monitor_Pdus([phy_monitor_pdu.id]);
         };
 
 
-        $scope.edit = function(virtualmechine_bar){
+        $scope.edit = function(phy_monitor_pdu){
 
             $modal.open({
                 templateUrl: 'update.html',
-                controller: 'Virtualmechine_BarUpdateController',
+                controller: 'Phy_Monitor_PduUpdateController',
                 backdrop: "static",
                 size: 'lg',
                 resolve: {
-                    virtualmechine_bar_table: function () {
-                        return $scope.virtualmechine_bar_table;
+                    phy_monitor_pdu_table: function () {
+                        return $scope.phy_monitor_pdu_table;
                     },
-                    virtualmechine_bar: function(){return virtualmechine_bar}
+                    phy_monitor_pdu: function(){return phy_monitor_pdu}
                 }
             });
         };
 
-        $scope.openNewVirtualmechine_BarModal = function(){
+        $scope.openNewPhy_Monitor_PduModal = function(){
             $modal.open({
-                templateUrl: 'new-virtualmechine_bar.html',
+                templateUrl: 'new-phy_monitor_pdu.html',
                 backdrop: "static",
-                controller: 'NewVirtualmechine_BarController',
+                controller: 'NewPhy_Monitor_PduController',
                 size: 'lg',
                 resolve: {
                     dataCenters: function(){
@@ -96,23 +102,23 @@ CloudApp.controller('Virtualmechine_BarController',
                     }
                 }
             }).result.then(function(){
-                $scope.virtualmechine_bar_table.reload();
+                $scope.phy_monitor_pdu_table.reload();
             });
         };
     })
 
 
-    .controller('NewVirtualmechine_BarController',
+    .controller('NewPhy_Monitor_PduController',
         function($scope, $modalInstance, $i18next,
-                 CommonHttpService, ToastrService, Virtualmechine_BarForm, dataCenters){
+                 CommonHttpService, ToastrService, Phy_Monitor_PduForm, dataCenters){
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = Virtualmechine_BarForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = Phy_Monitor_PduForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
 
             $scope.dataCenters = dataCenters;
-            $scope.virtualmechine_bar = {is_resource_user: false, is_approver: false};
+            $scope.phy_monitor_pdu = {is_resource_user: false, is_approver: false};
             $scope.is_submitting = false;
             $scope.cancel = $modalInstance.dismiss;
             $scope.create = function(){
@@ -122,7 +128,7 @@ CloudApp.controller('Virtualmechine_BarController',
                 }
 
                 $scope.is_submitting = true;
-                CommonHttpService.post('/api/virtualmechine_bar/create/', $scope.virtualmechine_bar).then(function(result){
+                CommonHttpService.post('/api/phy_monitor_pdu/create/', $scope.phy_monitor_pdu).then(function(result){
                     if(result.success){
                         ToastrService.success(result.msg, $i18next("success"));
                         $modalInstance.close();
@@ -136,7 +142,7 @@ CloudApp.controller('Virtualmechine_BarController',
             };
         }
 
-   ).factory('Virtualmechine_BarForm', ['ValidationTool', '$i18next',
+   ).factory('Phy_Monitor_PduForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -144,12 +150,12 @@ CloudApp.controller('Virtualmechine_BarController',
                     var config = {
 
                         rules: {
-                            virtualmechine_barname: {
+                            phy_monitor_pduname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/virtualmechine_bar/is-name-unique/",
+                                    url: "/api/phy_monitor_pdu/is-name-unique/",
                                     data: {
-                                        virtualmechine_barname: $("#virtualmechine_barname").val()
+                                        phy_monitor_pduname: $("#phy_monitor_pduname").val()
                                     },
                                     async: false
                                 }
@@ -157,8 +163,8 @@ CloudApp.controller('Virtualmechine_BarController',
                             user_type: 'required'
                         },
                         messages: {
-                            virtualmechine_barname: {
-                                remote: $i18next('virtualmechine_bar.name_is_used')
+                            phy_monitor_pduname: {
+                                remote: $i18next('phy_monitor_pdu.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -170,18 +176,18 @@ CloudApp.controller('Virtualmechine_BarController',
                         }
                     };
 
-                    return ValidationTool.init('#virtualmechine_barForm', config);
+                    return ValidationTool.init('#phy_monitor_pduForm', config);
                 }
             }
-        }]).controller('Virtualmechine_BarUpdateController',
+        }]).controller('Phy_Monitor_PduUpdateController',
         function($rootScope, $scope, $modalInstance, $i18next,
-                 virtualmechine_bar, virtualmechine_bar_table,
-                 Virtualmechine_Bar, UserDataCenter, virtualmechine_barForm,
+                 phy_monitor_pdu, phy_monitor_pdu_table,
+                 Phy_Monitor_Pdu, UserDataCenter, phy_monitor_pduForm,
                  CommonHttpService, ToastrService, ResourceTool){
 
-            $scope.virtualmechine_bar = virtualmechine_bar = angular.copy(virtualmechine_bar);
+            $scope.phy_monitor_pdu = phy_monitor_pdu = angular.copy(phy_monitor_pdu);
 
-            $modalInstance.rendered.then(virtualmechine_barForm.init);
+            $modalInstance.rendered.then(phy_monitor_pduForm.init);
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
@@ -190,21 +196,21 @@ CloudApp.controller('Virtualmechine_BarController',
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = virtualmechine_barForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = phy_monitor_pduForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
-            $scope.submit = function(virtualmechine_bar){
+            $scope.submit = function(phy_monitor_pdu){
 
-                if(!$("#Virtualmechine_BarForm").validate().form()){
+                if(!$("#Phy_Monitor_PduForm").validate().form()){
                     return;
                 }
 
-                virtualmechine_bar = ResourceTool.copy_only_data(virtualmechine_bar);
+                phy_monitor_pdu = ResourceTool.copy_only_data(phy_monitor_pdu);
 
 
-                CommonHttpService.post("/api/virtualmechine_bar/update/", virtualmechine_bar).then(function(data){
+                CommonHttpService.post("/api/phy_monitor_pdu/update/", phy_monitor_pdu).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        virtualmechine_bar_table.reload();
+                        phy_monitor_pdu_table.reload();
                         $modalInstance.dismiss();
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -212,7 +218,7 @@ CloudApp.controller('Virtualmechine_BarController',
                 });
             };
         }
-   ).factory('virtualmechine_barForm', ['ValidationTool', '$i18next',
+   ).factory('phy_monitor_pduForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -220,12 +226,12 @@ CloudApp.controller('Virtualmechine_BarController',
                     var config = {
 
                         rules: {
-                            virtualmechine_barname: {
+                            phy_monitor_pduname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/virtualmechine_bar/is-name-unique/",
+                                    url: "/api/phy_monitor_pdu/is-name-unique/",
                                     data: {
-                                        virtualmechine_barname: $("#virtualmechine_barname").val()
+                                        phy_monitor_pduname: $("#phy_monitor_pduname").val()
                                     },
                                     async: false
                                 }
@@ -233,8 +239,8 @@ CloudApp.controller('Virtualmechine_BarController',
                             user_type: 'required'
                         },
                         messages: {
-                            virtualmechine_barname: {
-                                remote: $i18next('virtualmechine_bar.name_is_used')
+                            phy_monitor_pduname: {
+                                remote: $i18next('phy_monitor_pdu.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -246,7 +252,7 @@ CloudApp.controller('Virtualmechine_BarController',
                         }
                     };
 
-                    return ValidationTool.init('#Virtualmechine_BarForm', config);
+                    return ValidationTool.init('#Phy_Monitor_PduForm', config);
                 }
             }
         }]);

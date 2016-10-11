@@ -575,7 +575,6 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
 /* Init global settings and run the app */
 CloudApp.run(["$rootScope", "settings", "$state", "$http", "$cookies", "$interval", "current_user", "site_config",
     function ($rootScope, settings, $state, $http, $cookies, $interval, current_user, site_config) {
-        // alert(1);
         $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
         $rootScope.$state = $state;
         $rootScope.current_user = current_user;

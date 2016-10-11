@@ -19,18 +19,18 @@
 <div class="lt-wrap fl">
     <div class="fwjkbox list" style="width:485px;">
         <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon1.png"><span>网络监控</span>
-        </div> 
+        </div>
          <!-- <line class="chart" zx id="main" legend="legend" item="item" data="data"></line> -->
-        <div class="panel panel-default">
+        <div class="panel panel-default" ng-if="network_bars!=''">
           <div class="panel-body">
-                        <div style="height:190px;width:430px;position: relative;margin-top:28px;" ui-options="[
+              <div style="height:190px;width:430px;position: relative;margin-top:28px;" ui-options="[
                 {   label:'上行数据包',
-                    data: {[{network_bars.updatapackage}]}, points: { show: false },
+                    data: {[{network_bars.uppacket}]}, points: { show: false },
                     lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
                     color:'#ff0000'
                 }, 
                 {   label:'下行数据包', 
-                    data: {[{network_bars.downdatapackage}]}, points: { show:false},
+                    data: {[{network_bars.downpacket}]}, points: { show:false},
                     lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
                     color:'#cda417'
                 },
@@ -55,12 +55,14 @@
                 },
                 colors: [],
                 series: { shadowSize: 1 },
-                xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20 },
-                yaxis:{ show: true,font: { color: '#00d8ff' },tickSize:10},
+                xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:5 },
+                yaxis:{ show: true,font: { color: '#00d8ff' },tickSize:3},
                 grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
                 tooltip: true,
                 tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
               }" ui-jq="plot">        
+        }
+        }
         </div>
     </div>
 </div>

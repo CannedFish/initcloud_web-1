@@ -5,7 +5,7 @@
 CloudApp.controller('Storage__BarController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Storage__Bar,CheckboxGroup, DataCenter){
+             Storage__Bar,CheckboxGroup, DataCenter,custimer,global_custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -13,10 +13,15 @@ CloudApp.controller('Storage__BarController',
 
         $scope.storage__bars = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.storage__bars);
-        // var storage_data ={'disk':[9999,4556],'SSD':[3000,5600],'NVMe':[4000,6000],'SAS':[6000,6000]}
-        
+        var timer = new global_custimer();
+
+        timer.start(function(){
+            Storage__Bar.get(function(data) { 
+                $scope.storage__bars = data;
+                checkboxGroup.syncObjects($scope.storage__bars);
+            })
+        },5000);
         Storage__Bar.get(function(data){
-            // console.log(data);
             $scope.storage__bars = data;
             checkboxGroup.syncObjects($scope.storage__bars);
         });

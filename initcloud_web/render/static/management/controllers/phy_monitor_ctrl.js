@@ -10,7 +10,6 @@ CloudApp.controller('Phy_MonitorController',
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
-
         $scope.phy_monitors = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitors);
         //接受传递过来的参数查询显示 

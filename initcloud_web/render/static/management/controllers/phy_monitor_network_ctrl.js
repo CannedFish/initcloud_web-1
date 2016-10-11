@@ -28,7 +28,7 @@ CloudApp.controller('Phy_Monitor_NetworkController',
                 data = Phy_Monitor_Network.query(function(data) { 
                 }, {id: id});
                 $scope.phy_monitor_networks = data; 
-            },30000);
+            },5000);
             var data = Phy_Monitor_Network.query(function(data) {
             }, {id: id});
             $scope.phy_monitor_networks = data; 

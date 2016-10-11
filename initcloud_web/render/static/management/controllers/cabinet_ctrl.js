@@ -90,7 +90,7 @@ CloudApp.controller('CabinetController',
                 Cabinet.get(function(data) {
                   $scope.cabinets = data;
                 });
-            },30000);
+            },5000);
     
             Cabinet.get(function(data) {
               $scope.cabinets = data;

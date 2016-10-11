@@ -5,7 +5,7 @@
 CloudApp.controller('WarningController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Warning, CheckboxGroup, DataCenter){
+             Warning, CheckboxGroup, DataCenter,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -91,7 +91,8 @@ CloudApp.controller('WarningController',
                           
                     });
         });
-
+        var Timer = custimer.getInstance();//创建自定义定时器
+        Timer.stop();
         $scope.warnings = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.warnings);
         Warning.query(function(data){

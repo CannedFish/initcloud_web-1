@@ -5,7 +5,7 @@
 CloudApp.controller('Volume_MonitorController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             Volume_Monitor, CheckboxGroup, DataCenter){
+             Volume_Monitor, CheckboxGroup, DataCenter,custimer){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
@@ -13,6 +13,8 @@ CloudApp.controller('Volume_MonitorController',
 
         $scope.volume_monitors = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.volume_monitors);
+        var Timer = custimer.getInstance();//创建自定义定时器
+        Timer.stop();
         // $scope.volume_monitor_table = new ngTableParams({
         //          page: 1,
         //          count: 10
@@ -60,8 +62,7 @@ CloudApp.controller('Volume_MonitorController',
             $scope.volume_monitors = data ;
             checkboxGroup.syncObjects($scope.volume_monitors);
         })
-        // $scope.volume_monitors = data ;
-        // alert("cccc");
+
         checkboxGroup.syncObjects($scope.volume_monitors);
         var deleteVolume_Monitors = function(ids){
 
