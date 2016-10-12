@@ -13,6 +13,7 @@ from biz.phy_monitor.serializer import CabinetSerializer,\
         PhyMonitorJBODSerializer, PhyMonitorNetworkSerializer,\
         PhyMonitorServerSerializer, PhyMonitorStorageSerializer,\
         PhyPDUSerializer
+from biz.phy_monitor.models import PhyMonitorPDU
 
 from django.conf import settings
 
@@ -508,25 +509,77 @@ class CabinetDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PhyMonitorPDUDetail(APIView):
-    def get(self, request):
-        data = {
-            'PDU1':{
-                'currentdata':[123.12,45.12,258.12],
-                'data':{
-                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]],
-                    'currentdata':[[0,4.81],[1,7.31],[2,7.55],[3,6.35],[4,3.76]],
-                    'wattdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]]
-                }
-            },
-            'PDU2':{
-                'currentdata':[124.12,46.12,259.12],
-                'data':{
-                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,5.15],[4,3.76]],
-                    'currentdata':[[0,2.81],[1,7.31],[2,2.55],[3,4.15],[4,4.76]],
-                    'wattdata':[[0,1.81],[1,7.38],[2,8.55],[3,2.15],[4,5.16]]
-                }
-            },
+    def __create_or_update(self, queryset, pdu, volt, current, watt):
+        if len(queryset) < 4:
+            PhyMonitorPDU(name=pdu, volt=volt, current=current,\
+                    watt=watt).save()
+        else:
+            oldest = queryset[0]
+            oldest.volt = volt
+            oldest.current = current
+            oldest.watt = watt
+            oldest.save()
+
+    def __pdu_data_init(self, dlist):
+        ret = {
+            'currentdata': dlist,
+            'data': {
+                'voltdata': [[i, 0.0] for i in xrange(4)],
+                'currentdata': [[i, 0.0] for i in xrange(4)],
+                'wattdata': [[i, 0.0] for i in xrange(4)]
+            }
         }
+        ret['data']['voltdata'].append([4, dlist[0]])
+        ret['data']['currentdata'].append([4, dlist[1]])
+        ret['data']['wattdata'].append([4, dlist[2]])
+        return ret
+
+    def __pdu_data_assign(self, data, key, dlist):
+        idx = 4-len(dlist)
+        for d in dlist:
+            data[key]['data']['voltdata'][idx][1] = d.volt
+            data[key]['data']['currentdata'][idx][1] = d.current
+            data[key]['data']['wattdata'][idx][1] = d.watt
+            idx += 1
+
+    def get(self, request):
+        # data = {
+            # 'PDU1':{
+                # 'currentdata':[123.12,45.12,258.12],
+                # 'data':{
+                    # 'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]],
+                    # 'currentdata':[[0,4.81],[1,7.31],[2,7.55],[3,6.35],[4,3.76]],
+                    # 'wattdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]]
+                # }
+            # },
+            # 'PDU2':{
+                # 'currentdata':[124.12,46.12,259.12],
+                # 'data':{
+                    # 'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,5.15],[4,3.76]],
+                    # 'currentdata':[[0,2.81],[1,7.31],[2,2.55],[3,4.15],[4,4.76]],
+                    # 'wattdata':[[0,1.81],[1,7.38],[2,8.55],[3,2.15],[4,5.16]]
+                # }
+            # },
+        # }
+        # PDU1
+        p1_now = [get_pdu_volt(),get_pdu_current(),get_pdu_watt()]
+        p1_last4 = PhyMonitorPDU.last4('PDU1')
+        # PDU2
+        p2_now = [get_pdu_volt(),get_pdu_current(),get_pdu_watt()]
+        p2_last4 = PhyMonitorPDU.last4('PDU2')
+        # Generate data
+        data = {
+            'PDU1': self.__pdu_data_init(p1_now),
+            'PDU2': self.__pdu_data_init(p2_now)
+        }
+        self.__pdu_data_assign(data, 'PDU1', p1_last4)
+        self.__pdu_data_assign(data, 'PDU2', p2_last4)
+        # Update database
+        self.__create_or_update(p1_last4, 'PDU1', p1_now[0], \
+                p1_now[1], p1_now[2])
+        self.__create_or_update(p2_last4, 'PDU2', p2_now[0], \
+                p2_now[1], p2_now[2])
+
         serializer = PhyPDUSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
