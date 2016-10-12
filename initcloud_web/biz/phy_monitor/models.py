@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
-
 class Phy_Monitor(models.Model):
     #user = models.ForeignKey(User)
     #udc = models.ForeignKey('idc.UserDataCenter')
@@ -27,3 +25,20 @@ class Phy_Monitor(models.Model):
         except Exception as e:
             pass
     """
+
+class PhyMonitorPDU(models.Model):
+    name = models.CharField(_("PDU"), max_length=16, default=False, null=False)
+    volt = models.FloatField(_("Volt"), null=False)
+    current = models.FloatField(_("Current"), null=False)
+    watt = models.FloatField(_("Watt"), null=False)
+    create_date = models.DateTimeField(_("Create Date"), auto_now=True)
+
+    @classmethod
+    def last4(cls, pdu):
+        return PhyMonitorPDU.objects.filter(name=pdu)\
+                .order_by('create_date')
+
+    def __str__(self):
+        return "%s: <%f, %f, %f>" % (self.name, \
+                self.volt, self.current, self.watt)
+
