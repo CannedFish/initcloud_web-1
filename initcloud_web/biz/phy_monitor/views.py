@@ -327,15 +327,19 @@ def get_phy_cpu_mem(impi_url):
 
         thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
         if thermal['code'] == 200:
+            # get temperatures
             for temp in thermal['body']['Temperatures']:
                 if 'CPU' in temp['Name']:
                     cha['CPU'].append({'T':temp['ReadingCelsius']})
+            # get fan speed
+            cha['fan_speed'] = thermal['body']['Fans'][0]['Reading'] # unit RPM
         else:
             # fake data
             cha['CPU'].expend([{'T': get_cpu_temp()}, {'T': get_cpu_temp()}])
 
         power = redfish.get_chassis_power(impi_url, chassis['@odata.id'])
         if power['code'] == 200:
+            # get CPU's and DIMM's power
             idx = 0
             for volt in power['body']['Voltages']:
                 if 'cpu' in volt['Name']:
@@ -344,6 +348,9 @@ def get_phy_cpu_mem(impi_url):
                 elif 'DIMM' in volt['Name']:
                     cha['memory_voltage'].extend([volt['ReadingVolts'] \
                             for i in xrange(4)])
+            # get PDU's power
+            cha['PDU']['volt'] = power['body']['PowerSupplies'][0]['LineInputVoltage']
+            cha['PDU']['watt'] = power['body']['PowerControl'][0]['PowerConsumedWatts']
         else:
             # fake data
             cha['CPU'][0]['V'] = get_cpu_volt()
