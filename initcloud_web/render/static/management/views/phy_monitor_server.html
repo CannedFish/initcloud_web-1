@@ -134,7 +134,7 @@
                                     <p class="node_title server">风扇转速监控</p>
                                     <div class="node_model model1" style="width:25%;float:left;" ng-repeat="list in phy_monitor_servers.nodes">
                                         <p class="fan_p1">风扇</p>
-                                        <p class="fan_p2">转速：{[{list.fan_speed | number:2}]}r/s</p>
+                                        <p class="fan_p2">转速：{[{list.fan_speed[0] | number:2}]}RPM</p>
                                     </div>
                                 </div>
                             </div> 
