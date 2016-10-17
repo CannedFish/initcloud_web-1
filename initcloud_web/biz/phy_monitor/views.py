@@ -302,7 +302,7 @@ def get_fake_cpu_mem():
             {'V':get_cpu_volt(),'T':get_cpu_temp()}
         ],
         'memory_voltage': [get_dimm_volt() for i in xrange(16)],
-        'fan_speed': get_fan_speed(),
+        'fan_speed': [get_fan_speed() for i in xrange(2)],
         'PDU': {
             'volt': get_pdu_volt(),
             'current': get_pdu_current(),
@@ -317,7 +317,7 @@ def get_phy_cpu_mem(impi_url):
         cha = {
             'CPU': [],
             'memory_voltage': [],
-            'fan_speed': get_fan_speed(),
+            'fan_speed': [get_fan_speed() for i in xrange(2)],
             'PDU': {
                 'volt': get_pdu_volt(),
                 'current': get_pdu_current(),
@@ -327,15 +327,20 @@ def get_phy_cpu_mem(impi_url):
 
         thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
         if thermal['code'] == 200:
+            # get temperatures
             for temp in thermal['body']['Temperatures']:
                 if 'CPU' in temp['Name']:
                     cha['CPU'].append({'T':temp['ReadingCelsius']})
+            # get fan speed
+            cha['fan_speed'] = [thermal['body']['Fans'][i]['Reading'] \
+                    for i in xrange(2)] # unit RPM
         else:
             # fake data
             cha['CPU'].expend([{'T': get_cpu_temp()}, {'T': get_cpu_temp()}])
 
         power = redfish.get_chassis_power(impi_url, chassis['@odata.id'])
         if power['code'] == 200:
+            # get CPU's and DIMM's power
             idx = 0
             for volt in power['body']['Voltages']:
                 if 'cpu' in volt['Name']:
@@ -344,6 +349,9 @@ def get_phy_cpu_mem(impi_url):
                 elif 'DIMM' in volt['Name']:
                     cha['memory_voltage'].extend([volt['ReadingVolts'] \
                             for i in xrange(4)])
+            # get PDU's power
+            cha['PDU']['volt'] = power['body']['PowerSupplies'][0]['LineInputVoltage']
+            cha['PDU']['watt'] = power['body']['PowerControl'][0]['PowerConsumedWatts']
         else:
             # fake data
             cha['CPU'][0]['V'] = get_cpu_volt()
@@ -410,9 +418,9 @@ def get_storage_data():
             -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
         ],
         'disk_status': {'-1':'no disk','0':'not assgin','1':'assigned'},
-        'electric_rota': [[get_fan_speed() for i in xrange(2)] for i in xrange(2)],
+        'electric_rota': [ssbs[i]['fan_speed'] for i in xrange(2)],
         'systemUI':[get_server_current(), get_server_volt()],
-        'PDU':[[get_pdu_volt(), get_pdu_current(), get_pdu_watt()] \
+        'PDU':[[ssbs[i]['PDU']['volt'], ssbs[i]['PDU']['current'], ssbs[i]['PDU']['watt']] \
                 for i in xrange(2)],
         'model': settings.STORAGE_MODEL
     }
@@ -420,6 +428,9 @@ def get_storage_data():
 class PhyMonitorStorageDetail(APIView):
     def get(self, request):
         data = get_storage_data()
+        if not settings.REDFISH_SIMULATE:
+            disks = self.__get_disk_status()
+            data['disk'] = disks if len(disks) != 0 else data['disk']
         serializer = PhyMonitorStorageSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

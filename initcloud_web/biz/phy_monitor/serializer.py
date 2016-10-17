@@ -56,7 +56,7 @@ class PDUSerializer(serializers.Serializer):
 class NodeSerializer(serializers.Serializer):
     CPU = CPUSerializer(many=True)
     memory_voltage = serializers.ListField(child=serializers.FloatField())
-    fan_speed = serializers.IntegerField()
+    fan_speed = serializers.ListField(child=serializers.IntegerField())
     PDU = PDUSerializer()
 
 class PhyMonitorServerSerializer(serializers.Serializer):
