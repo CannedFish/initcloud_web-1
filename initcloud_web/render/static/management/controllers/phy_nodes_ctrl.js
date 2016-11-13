@@ -13,14 +13,39 @@ CloudApp.controller('Phy_NodesController',
         var timer = new global_custimer();
         timer.start(function(){
             Phy_Nodes.query(function(data){
-                $scope.phy_nodess = data;
+            	// 如果有SBB 传递数据加标示位
+	        	data.datatype = "IO";
+	        	if(data.datatype == "IO"){
+	        		// 模拟数据
+			        var _data = {
+			            'updatapackage':[[24,5],[23,50],[18,40],[12,30],[8,20],[10,10],[0,0]],
+			        	'downdatapackage':[[24,8],[23,45],[18,70],[12,55],[8,30],[10,35],[0,0]],
+			        	'datatype':'IO',
+			        };
+	        	}else if(data.datatype == "SBB"){
+	        		_data = data;
+	        	}
+                $scope.phy_nodess = _data;
                 checkboxGroup.syncObjects($scope.phy_nodess);
             });
         },5000);
         $scope.phy_nodess = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_nodess);
         Phy_Nodes.query(function(data){
-            $scope.phy_nodess = data;
+        	// 如果有SBB 传递数据加标示位
+        	data.datatype = "IO";
+        	if(data.datatype == "IO"){
+        		// 模拟数据
+		        var _data = {
+		            'updatapackage':[[-24,5],[-23,50],[-18,40],[-12,30],[-8,20],[-4,10],[-2,35],[-0,0]],
+			        'downdatapackage':[[-24,8],[-23,45],[-18,70],[-12,55],[-8,30],[-4,35],[-2,60],[0,0]],
+			        'datatype':'IO',
+		         
+		        };
+        	}else if(data.datatype == "SBB"){
+        		_data = data;
+        	}
+            $scope.phy_nodess = _data;
             checkboxGroup.syncObjects($scope.phy_nodess);
         });
         // $scope.phy_nodes_table = new ngTableParams({

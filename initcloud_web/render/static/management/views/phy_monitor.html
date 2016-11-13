@@ -18,11 +18,15 @@
     #jbod-list li{
         height:64px;
     }
+    .block-img{
+        background:url('../static/assets/admin/layout/img/second/phy-monitor/phy_jg_bottom1.png') no-repeat;
+    }
 </style>
     <div class="content" ng-controller="Phy_MonitorController">
         <div class="titile">物理监控</div>
         <div class="content_center" ng-controller="TabController">
             <div class="cabinet" data-ng-include="'../static/management/views/jigui.html'"></div>
+
             <!-- 机柜tab导航 -->
             <div style="height:409px;width:179px;background:transparent;position:absolute;z-index:888;top:60px;left:19px;">
                 <div style="position:absolute;width:10px;height:100%;left:0px;top:0px;cursor:pointer;" ng-click="tab_pdu()"></div>
@@ -54,6 +58,9 @@
                     <!-- <li ng-class="{'active': tabs[4]}" ng-click="tab(4)" style="height:18px;cursor:pointer"></li> -->
             	</ul>
                 <div style="position:absolute;width:11px;height:100%;right:0px;top:0px;cursor:pointer;" ng-click="tab_pdu()"></div>
+            </div>
+            <div class="jz-bottom" style="position:absolute;bottom:10px;height:40px;width:210px;left:4px;">
+                 <div class="block-img" style="height:100%;width:100%;"></div>
             </div>
             <!-- tab 内容-->
             <div class="bd fr">

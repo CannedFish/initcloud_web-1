@@ -1,6 +1,9 @@
 <style>
     .c1{color:#cda417 !important}
     .c2{color:#18bb53 !important}
+    .stor .legendColorBox>div>div{
+        border-radius:5px !important;
+    }
 </style>
 <div class="lb-wrap fl" >
              <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon3.png"><span>存储监控</span></div> 
@@ -56,7 +59,8 @@
                     </li>
                 </ul>
                 <div class="inner-box" ng-controller="Phy_NodesController">
-                    <div class="hp45 fl" ng-repeat="node in phy_nodess">
+                <!-- 有SBB -->
+                    <div class="hp45 fl" ng-if="phy_nodess.datatype =='SBB'" ng-repeat="node in phy_nodess">
                         <div class="boxwrap_01" >
                             <div class="fl node" ng-if="$index==0">节点一</div>
                             <div class="fl node" ng-if="$index==1">节点二</div>
@@ -74,6 +78,42 @@
                                 </p>
                             </div>
                             <!-- 控制进度条的显示 -->
+                        </div>
+                    </div>
+                    <!-- 没有SBB -->
+                    <div class="stor fl" style="height:70%;width:100%;" ng-if="phy_nodess.datatype =='IO'">
+                        <div class="panel panel-default" style="height:100%">
+                            <div class="panel-body storage" style="height:100%;width:434px;">
+                                <div style="height:100%;width:434px;position: relative;margin-left:15px;margin-top:18px;" ui-options="[
+                                        {   label:'读(MB/s)',
+                                            data: {[{phy_nodess.updatapackage}]}, points: { show: false },
+                                            lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                            color:'#9a40d4'
+                                        }, 
+                                        {   label:'写(MB/s)', 
+                                            data: {[{phy_nodess.downdatapackage}]}, points: { show:false},
+                                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
+                                            color:'#55cb5d'
+                                        }
+                                      ],
+                                      {
+                                       legend: {
+                                            show:true,
+                                            labelBoxBorderColor:'transparent',
+                                            margin:[242,-20],
+                                            position:'nw',
+                                            backgroundColor:'transparent',
+                                        },
+                                        colors: [],
+                                        series: { shadowSize: 1 },
+                                        xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:2 },
+                                        yaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20},
+                                        grid: { hoverable: true, clickable: true, borderWidth: 0, },
+                                        tooltip: true,
+                                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                                      }" ui-jq="plot">        
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
