@@ -56,4 +56,6 @@ class PhyNodesSerializer(serializers.Serializer):
     memUsed = serializers.FloatField()
     rx = serializers.FloatField()
     tx = serializers.FloatField()
+    read = serializers.FloatField()
+    write = serializers.FloatField()
 
