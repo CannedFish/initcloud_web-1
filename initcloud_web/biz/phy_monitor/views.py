@@ -19,6 +19,7 @@ from django.conf import settings
 
 import cloud.api.redfish as redfish
 import cloud.api.storage as storage
+import cloud.api.warning as warning
 
 LOG = logging.getLogger(__name__)
 
@@ -277,6 +278,16 @@ class PhyMonitorNetworkList(APIView):
         serializer = PhyMonitorNetworkSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+def check_and_warn(data, th_max, th_min, meter, name, count):
+    if data > th_max:
+        meter += '_max'
+    elif data < th_min:
+        meter += '_min'
+    else:
+        return
+    content = settings.REQ_CONTENT_FMT % (name, meter, str(data), count)
+    warning.warn(name, meter, content, count)
+
 def get_cpu_temp():
     return random.randint(41-5, 54+5)
 
@@ -369,16 +380,36 @@ class PhyMonitorServerList(APIView):
     def get(self, request, s_id):
         nodes = []
         if settings.REDFISH_SIMULATE:
-            nodes = [get_fake_cpu_mem() if r_url != None else None for r_url in PHY_URLs[s_id]]
+            nodes = [get_fake_cpu_mem() if r_url != None else None \
+                    for r_url in PHY_URLs[s_id]]
         else:
             for r_url in PHY_URLs[s_id]:
                 nodes.append(get_phy_cpu_mem(r_url) if r_url != None else None)
+        self._check_and_warn(nodes, s_id)
         data = {
             'model': settings.SERVER_MODEL[s_id],
             'nodes': nodes
         }
         serializer = PhyMonitorServerSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def _check_and_warn(self, data, s_id):
+        thres = settings.PHY_THRES['phy'][s_id]
+        name = '物理服务器%s报警' % s_id
+        for node in data:
+            if node == None:
+                continue
+            for cpu in node['CPU']:
+                # temp
+                check_and_warn(cpu['T'], thres['cpu_temp_max'], \
+                        thres['cpu_temp_min'], 'cpu_temp', name, 1)
+                # volt
+                check_and_warn(cpu['V'], thres['cpu_volt_max'], \
+                        thres['cpu_volt_min'], 'cpu_volt', name, 1)
+            for mem in node['memory_voltage']:
+                # volt
+                check_and_warn(mem, thres['mem_volt_max'], \
+                        thres['mem_volt_min'], 'mem_volt', name, 1)
 
 S_URL = settings.REDFISH_URL['storage_server']
 
@@ -431,8 +462,24 @@ class PhyMonitorStorageDetail(APIView):
         if not settings.REDFISH_SIMULATE:
             disks = self.__get_disk_status()
             data['disk'] = disks if len(disks) != 0 else data['disk']
+        self._check_and_warn(data['nodes'])
         serializer = PhyMonitorStorageSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def _check_and_warn(self, data):
+        thres = settings.PHY_THRES['store']
+        name = '存储服务器%d报警'
+        for node, th, num in zip(data, thres, [1, 2]):
+            # cpu
+            for cpu in ['cpu1', 'cpu2']:
+                check_and_warn(node[cpu][0], th['cpu_temp_max'], \
+                        th['cpu_temp_min'], 'cpu_temp', name % num, 1)
+                check_and_warn(node[cpu][1], th['cpu_volt_max'], \
+                        th['cpu_volt_min'], 'cpu_volt', name % num, 1)
+            # mem
+            for mem in node['memory_voltage']:
+                check_and_warn(mem, th['mem_volt_max'], \
+                        th['mem_volt_min'], 'mem_volt', name % num, 1)
 
     def __get_disk_status(self):
         poollist = storage.get_pool_list()
