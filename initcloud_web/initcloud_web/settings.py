@@ -339,6 +339,106 @@ STORAGE_URL = [
     "http://10.0.76.10:9331", "http://10.0.76.20:9331"
 ]
 
+# warning address
+REQ_URL = "http://10.10.21.97:8081"
+REQ_USERNAME = "root"
+REQ_PASSWD = "123456"
+REQ_CONTENT_FMT = '服务器提醒 %s 发送告警。事件是 %s，到达 %s，告警次数 %d'
+
+# warning threshold
+PHY_THRES = {
+    'phy': {
+        '1': {
+            'cpu_temp_max': 80,
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5,
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        },
+        '2': {
+            'cpu_temp_max': 80,
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5,
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        },
+        '3': {
+            'cpu_temp_max': 80,
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5,
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        },
+        '4': {
+            'cpu_temp_max': 80,
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5,
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        },
+        '5': {
+            'cpu_temp_max': 80,
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5,
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        }
+    },
+    'store': [
+        {
+            'cpu_temp_max': 80, # degree cetigrade
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5, # volt
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        },
+        {
+            'cpu_temp_max': 80,
+            'cpu_temp_min': 20,
+            'cpu_volt_max': 5,
+            'cpu_volt_min': 1,
+            'mem_volt_max': 5,
+            'mem_volt_min': 1
+        }
+    ]
+}
+
+STORAGE_THRES = {
+    'read_min': 500, # MB/s
+    'read_max': 5000,
+    'write_min': 500,
+    'write_max': 5000
+}
+
+STORAGE_THRES_SSB = [
+    { # node1
+        'cpu_util_min': 50, # %
+        'cpu_util_max': 50,
+        'mem_util_min': 50,
+        'mem_util_max': 50,
+        'read_min': 500,
+        'read_max': 5000,
+        'write_min': 500,
+        'write_max': 5000
+    },
+    { # node2
+        'cpu_util_min': 50,
+        'cpu_util_max': 50,
+        'mem_util_min': 50,
+        'mem_util_max': 50,
+        'read_min': 500,
+        'read_max': 5000,
+        'write_min': 500,
+        'write_max': 5000
+    }
+]
+
 CPU_FREQUENCY = '3.4kHz'
 CPU_TYPE = 'E36608'
 CLOUD_MONITOR_FAKE = True

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import logging, random
 
 from rest_framework.response import Response
@@ -10,6 +11,9 @@ from biz.storage_monitor.serializer import StorageNodeSerializer, TreeNodeSerial
         StorageBarSerializer, PhyNodesSerializer
 
 import cloud.api.storage as storage
+import cloud.api.warning as warning
+
+from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
@@ -255,12 +259,20 @@ class StorageBarDetail(APIView):
         serializer = StorageBarSerializer(storage_bar)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+def get_read_speed():
+    return randint(0, 1000)
+
+def get_write_speed():
+    return randint(0, 1000)
+
 def get_phy_node():
     return {
         'cpuUsed': get_cpu_used(),
         'memUsed': get_mem_used(),
         'rx': get_rx_per(),
-        'tx': get_tx_per()
+        'tx': get_tx_per(),
+        'read': get_read_speed(),
+        'write': get_write_speed() 
     }
 
 class PhyNodesList(APIView):
@@ -271,13 +283,17 @@ class PhyNodesList(APIView):
                 'cpuUsed': 70,
                 'memUsed': 10,
                 'rx': 85,
-                'tx': 100
+                'tx': 100,
+                'read': 500,
+                'write': 500
             },
             {
                 'cpuUsed': 75,
                 'memUsed': 30,
                 'rx': 95,
-                'tx': 60
+                'tx': 60,
+                'read': 500,
+                'write': 500
             }  
         ]
         """
@@ -302,7 +318,9 @@ class PhyNodesList(APIView):
                             'cpuUsed': round(ss['cpu'], 1),
                             'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
                             'tx': up if up != 0 else tx_per,
-                            'rx': down if down != 0 else rx_per
+                            'rx': down if down != 0 else rx_per,
+                            'read': ss['zfsIOStat']['readBandwidth'],
+                            'write': ss['zfsIOStat']['WriteBandwidth']
                         })
                     else:
                         LOG.info("Get %s status error: %s" % \
@@ -316,6 +334,43 @@ class PhyNodesList(APIView):
             LOG.info("Get cluster alive error: %s" % clusterlist['error'])
             # return Response(clusterlist['error'], status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             nodes = [get_phy_node() for i in xrange(2)]
+        # check and warn
+        self._check_and_warn(nodes)
         serializer = PhyNodesSerializer(nodes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def __check_and_warn(self, data, th_max, th_min, meter, name, count):
+        if data > th_max:
+            meter += '_max'
+        elif data < th_min:
+            meter += '_min'
+        else:
+            return
+        content = settings.REQ_CONTENT_FMT % (name, meter, str(data), count)
+        warning.warn(name, meter, content, count)
+    
+    def _check_and_warn(self, data):
+        thres = settings.STORAGE_THRES_SSB
+        name = '存储服务器%d报警'
+        for node_data, node_thres, num in zip(data, thres, [1, 2]):
+            # CPU
+            self.__check_and_warn(node_data['cpuUsed'], \
+                    node_thres['cpu_util_max'], \
+                    node_thres['cpu_util_min'], \
+                    'cpu_util', name % num, 1)
+            # Memory
+            self.__check_and_warn(node_data['memUsed'], \
+                    node_thres['mem_util_max'], \
+                    node_thres['mem_util_min'], \
+                    'mem_util', name % num, 1)
+            # Read 
+            self.__check_and_warn(node_data['read'], \
+                    node_thres['read_max'], \
+                    node_thres['read_min'], \
+                    'read', name % num, 1)
+            # Write
+            self.__check_and_warn(node_data['write'], \
+                    node_thres['write_max'], \
+                    node_thres['write_min'], \
+                    'write', name % num, 1)
 
