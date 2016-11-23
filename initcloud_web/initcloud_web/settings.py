@@ -272,6 +272,7 @@ logging.config.dictConfig(LOG_CONFIG)
 # Added by arthur
 
 ADMIN_TOKEN = "d91d301a60af498b8d31e17c6b2b86d6"
+ADMIN_TENANT_ID = "4296a1c5a206402c8917bc9c991cadcc"
 ADMIN_NAME = "admin"
 EDNPOINT = "http://localhost:35357/v2.0"
 ADMIN_TENANT_NAME = "admin"
