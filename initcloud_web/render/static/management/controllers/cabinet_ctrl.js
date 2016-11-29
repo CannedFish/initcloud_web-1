@@ -10,7 +10,6 @@ CloudApp.controller('CabinetController',
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
-        
         $scope.cabinets = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cabinets);
         // 机柜数据信息:
@@ -88,11 +87,13 @@ CloudApp.controller('CabinetController',
             var timer = new Timer();
             timer.start(function(){
                 Cabinet.get(function(data) {
-                  $scope.cabinets = data;
+                    data.cabinet_type = _config.cabinet_show_index.cabinet_type;
+                    $scope.cabinets = data;
                 });
             },5000);
     
             Cabinet.get(function(data) {
+              data.cabinet_type = _config.cabinet_show_index.cabinet_type;
               $scope.cabinets = data;
             });
             checkboxGroup.syncObjects($scope.cabinets);

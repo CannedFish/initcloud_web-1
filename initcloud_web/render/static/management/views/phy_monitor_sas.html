@@ -1,0 +1,111 @@
+ <style type="text/css">
+    .inform_cont span{display:inline-block;height:100%;line-height:37px;float:left;font-size: 12px;color: #01cef4;}
+    .model_inform .inform_cont{width:50%;height:40px;line-height:40px;}
+    .ml10{margin-left:10px;}
+    .ml5{margin-left:6px;}
+    .list-wrapper .node_title{
+        color:#00d8ff;
+        font-size:14px;
+        height:40px;
+        line-height:40px;
+        margin:0px;
+        padding:0px;
+        float:left !important;
+    }
+    .list-wrapper .status_bar{
+        color:#0077bc;
+        font-size:12px;
+        height:40px;
+        line-height:40px;
+        margin:0px;
+        padding:0px;
+        float:right !important;
+    }
+    .work_title .title{
+        float: left;
+        color: #01cef4;
+        margin:0px;
+    }
+    .work_title .type_code{
+        float: right;
+        color: #01cef4;
+        margin:0px;
+    }
+    .ml15{margin-left:15px;}
+    .smark{
+        height:7px;
+        width:7px;
+        /*background:#ff0000;*/
+        display:inline-block;
+        margin-right:8px;
+    }
+    .c1{background:#0e4a91;}
+    .c2{background:#3a4b71;}
+    .c3{background:#14a44e;}
+    .c4{background:#00d8ff;} 
+    .c5{color:#14a44e;}
+    .c6{color:#00d8ff;}
+    .c7{color:#3a4b71;}
+    .list .bg03{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico1_03.png') no-repeat;
+        display:inline-block;
+        height: 63px;
+        width: 122px;
+        margin-left:4px;
+        position:relative;
+    }
+    .list .bg04{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico5_03.png') no-repeat;
+        display:inline-block;
+        height: 63px;
+        width: 122px;
+        margin-left:4px;
+        position:relative;
+    }
+    .list .item .tool{
+        text-align:center;
+        font-size:12px;
+        padding:0px;
+        margin:0px;
+        margin-left:23px;
+    }
+    .list .item .indexnum{
+        position:absolute;
+        display:inline-block;
+        height:29px;
+        width:29px;
+        background-position:-1px -1px;
+        
+    }
+    .numbg03{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico3_03.png') no-repeat;
+        color:#00d8ff;
+    }
+    .numbg04{
+        background:url('../static/assets/admin/layout/img/second/network-monitor/bico6_03.png') no-repeat;
+        color:#0a122f;
+    }
+    .mt10{margin-top:8px !important;}
+    .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
+</style>
+<div class="phy_cont" ng-controller="Phy_Monitor_NetworkController">
+                    <div class="work_title clearfix">
+                        <p class="title">网络监控</p>
+                        <p class="type_code">型号：{[{phy_monitor_sass.model}]}</p>  
+                    </div>
+                    <div class="list-wrapper clearfix">
+                        <div class="node_title" style="width:50%">网络端口监控</div>
+                    </div>
+                    <div class="loaded" ng-if="phy_monitor_sass!=''">
+                        <div class="list">
+                            <span ng-class="item.link == 1?'bg03':'bg04'" class="item" ng-repeat="item in phy_monitor_sass.traffic">
+                                <i ng-class="item.link == 1?'numbg03':'numbg04'" class="indexnum">{[{$index+1}]}</i>
+                                <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload  | number:2}]}kb</p>
+                                <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download | number:2}]}kb</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="loading" ng-if="phy_monitor_sass==''">
+                        加载中。。。
+                    </div>
+                </div>

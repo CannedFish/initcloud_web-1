@@ -74,8 +74,8 @@ ul, li{list-style-type:none;}
     font-size: 14px;
     color: #86edff;
     border-right: 1px solid #0a1231;
-     width:259px;
-     text-align:center;
+    width:248px;
+    text-align:center;
 }
 .nav-list li select{
     background:none;

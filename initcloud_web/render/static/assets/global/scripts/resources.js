@@ -252,6 +252,9 @@ angular.module('cloud.resources', [])
 .factory('Phy_Monitor_Storage', ['$resource', function ($resource) { //物理监控-存储监控
     return $resource("/api/phy_monitor_storage/:id", {id: '@id'});
 }])
+.factory('Phy_Monitor_Sas', ['$resource', function ($resource) {  //物理监控-sas
+    return $resource("/api/phy_monitor_sas/:id", {id: '@id'});
+}])
 .factory('Treeview', ['$resource', function ($resource) { //存储监控树引入
     return $resource("/api/treeview/:id", {id: '@id'});
 }])

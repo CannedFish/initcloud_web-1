@@ -2,72 +2,45 @@
  * User: arthur 
  * Date: 16-4-17
  **/
-CloudApp.controller('TabController',
+CloudApp.controller('Phy_Monitor_SasController',
     function($rootScope, $scope, $filter, $modal, $i18next, $ngBootbox,
              CommonHttpService, ToastrService, ngTableParams, ngTableHelper,
-             CheckboxGroup, DataCenter){
+             Phy_Monitor_Sas, CheckboxGroup, DataCenter){
 
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
 
-        $scope.tabs = [];
-        var data =  _config.cabinet_show_index;
-        $scope.data = data;
-        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.tabs);
+        $scope.phy_monitor_sass = [];
+        var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_sass);
 
-        // $scope.tab_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Tab.query(function(data){
-        //                 $scope.tabs = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.tabs);
-        //             });
-        //         }
-        //     });
-        //初始化创建tab数组
-        // var $scope.table
-        
-        angular.forEach($('.hd>li'),function(v,i){
-            if(i == 0){
-                $scope.tabs.push(true);
-            }else{
-               $scope.tabs.push(false); 
-            }
-        });
-        //tab切换函数
-         $scope.tab = function(index){
-            angular.forEach($scope.tabs, function(i, v) {
-              $scope.tabs[v] = false;
+        $scope.phy_monitor_sas_table = new ngTableParams({
+                page: 1,
+                count: 10
+            },{
+                counts: [],
+                getData: function($defer, params){
+                    Phy_Monitor_Sas.query(function(data){
+                        $scope.phy_monitor_sass = ngTableHelper.paginate(data, $defer, params);
+                        checkboxGroup.syncObjects($scope.phy_monitor_sass);
+                    });
+                }
             });
-            $scope.tabs[index] = true;
-        }
-        // pdu tab切换
-        $scope.tab_pdu =  function(){
-            angular.forEach($scope.tabs, function(i, v) {
-              $scope.tabs[v] = false;
-            }); 
-            $scope.tabs[5] = true;
-        }
-        //根据id 查询显示(向父级传递)
-        $scope.tabById = function(id,sect,$event,element,attr){
-            $scope.$emit('to-parent-'+sect,id);
-        }
-        var deleteTabs = function(ids){
 
-            $ngBootbox.confirm($i18next("tab.confirm_delete")).then(function(){
+
+
+        var deletePhy_Monitor_Sass = function(ids){
+
+            $ngBootbox.confirm($i18next("phy_monitor_sas.confirm_delete")).then(function(){
 
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
 
-                CommonHttpService.post("/api/tab/batch-delete/", {ids: ids}).then(function(data){
+                CommonHttpService.post("/api/phy_monitor_sas/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        $scope.tab_table.reload();
+                        $scope.phy_monitor_sas_table.reload();
                         checkboxGroup.uncheck()
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -78,12 +51,12 @@ CloudApp.controller('TabController',
 
         $scope.batchDelete = function(){
 
-            deleteTabs(function(){
+            deletePhy_Monitor_Sass(function(){
                 var ids = [];
 
-                checkboxGroup.forEachChecked(function(Tab){
-                    if(tab.checked){
-                        ids.push(tab.id);
+                checkboxGroup.forEachChecked(function(Phy_Monitor_Sas){
+                    if(phy_monitor_sas.checked){
+                        ids.push(phy_monitor_sas.id);
                     }
                 });
 
@@ -91,32 +64,32 @@ CloudApp.controller('TabController',
             });
         };
 
-        $scope.delete = function(tab){
-            deleteTabs([tab.id]);
+        $scope.delete = function(phy_monitor_sas){
+            deletePhy_Monitor_Sass([phy_monitor_sas.id]);
         };
 
 
-        $scope.edit = function(tab){
+        $scope.edit = function(phy_monitor_sas){
 
             $modal.open({
                 templateUrl: 'update.html',
-                controller: 'TabUpdateController',
+                controller: 'Phy_Monitor_SasUpdateController',
                 backdrop: "static",
                 size: 'lg',
                 resolve: {
-                    tab_table: function () {
-                        return $scope.tab_table;
+                    phy_monitor_sas_table: function () {
+                        return $scope.phy_monitor_sas_table;
                     },
-                    tab: function(){return tab}
+                    phy_monitor_sas: function(){return phy_monitor_sas}
                 }
             });
         };
 
-        $scope.openNewTabModal = function(){
+        $scope.openNewPhy_Monitor_SasModal = function(){
             $modal.open({
-                templateUrl: 'new-tab.html',
+                templateUrl: 'new-phy_monitor_sas.html',
                 backdrop: "static",
-                controller: 'NewTabController',
+                controller: 'NewPhy_Monitor_SasController',
                 size: 'lg',
                 resolve: {
                     dataCenters: function(){
@@ -124,23 +97,23 @@ CloudApp.controller('TabController',
                     }
                 }
             }).result.then(function(){
-                $scope.tab_table.reload();
+                $scope.phy_monitor_sas_table.reload();
             });
         };
     })
 
 
-    .controller('NewTabController',
+    .controller('NewPhy_Monitor_SasController',
         function($scope, $modalInstance, $i18next,
-                 CommonHttpService, ToastrService, TabForm, dataCenters){
+                 CommonHttpService, ToastrService, Phy_Monitor_SasForm, dataCenters){
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = TabForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = Phy_Monitor_SasForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
 
             $scope.dataCenters = dataCenters;
-            $scope.tab = {is_resource_user: false, is_approver: false};
+            $scope.phy_monitor_sas = {is_resource_user: false, is_approver: false};
             $scope.is_submitting = false;
             $scope.cancel = $modalInstance.dismiss;
             $scope.create = function(){
@@ -150,7 +123,7 @@ CloudApp.controller('TabController',
                 }
 
                 $scope.is_submitting = true;
-                CommonHttpService.post('/api/tab/create/', $scope.tab).then(function(result){
+                CommonHttpService.post('/api/phy_monitor_sas/create/', $scope.phy_monitor_sas).then(function(result){
                     if(result.success){
                         ToastrService.success(result.msg, $i18next("success"));
                         $modalInstance.close();
@@ -164,7 +137,7 @@ CloudApp.controller('TabController',
             };
         }
 
-   ).factory('TabForm', ['ValidationTool', '$i18next',
+   ).factory('Phy_Monitor_SasForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -172,12 +145,12 @@ CloudApp.controller('TabController',
                     var config = {
 
                         rules: {
-                            tabname: {
+                            phy_monitor_sasname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/tab/is-name-unique/",
+                                    url: "/api/phy_monitor_sas/is-name-unique/",
                                     data: {
-                                        tabname: $("#tabname").val()
+                                        phy_monitor_sasname: $("#phy_monitor_sasname").val()
                                     },
                                     async: false
                                 }
@@ -185,8 +158,8 @@ CloudApp.controller('TabController',
                             user_type: 'required'
                         },
                         messages: {
-                            tabname: {
-                                remote: $i18next('tab.name_is_used')
+                            phy_monitor_sasname: {
+                                remote: $i18next('phy_monitor_sas.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -198,18 +171,18 @@ CloudApp.controller('TabController',
                         }
                     };
 
-                    return ValidationTool.init('#tabForm', config);
+                    return ValidationTool.init('#phy_monitor_sasForm', config);
                 }
             }
-        }]).controller('TabUpdateController',
+        }]).controller('Phy_Monitor_SasUpdateController',
         function($rootScope, $scope, $modalInstance, $i18next,
-                 tab, tab_table,
-                 Tab, UserDataCenter, tabForm,
+                 phy_monitor_sas, phy_monitor_sas_table,
+                 Phy_Monitor_Sas, UserDataCenter, phy_monitor_sasForm,
                  CommonHttpService, ToastrService, ResourceTool){
 
-            $scope.tab = tab = angular.copy(tab);
+            $scope.phy_monitor_sas = phy_monitor_sas = angular.copy(phy_monitor_sas);
 
-            $modalInstance.rendered.then(tabForm.init);
+            $modalInstance.rendered.then(phy_monitor_sasForm.init);
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
@@ -218,21 +191,21 @@ CloudApp.controller('TabController',
 
             var form = null;
             $modalInstance.rendered.then(function(){
-                form = tabForm.init($scope.site_config.WORKFLOW_ENABLED);
+                form = phy_monitor_sasForm.init($scope.site_config.WORKFLOW_ENABLED);
             });
-            $scope.submit = function(tab){
+            $scope.submit = function(phy_monitor_sas){
 
-                if(!$("#TabForm").validate().form()){
+                if(!$("#Phy_Monitor_SasForm").validate().form()){
                     return;
                 }
 
-                tab = ResourceTool.copy_only_data(tab);
+                phy_monitor_sas = ResourceTool.copy_only_data(phy_monitor_sas);
 
 
-                CommonHttpService.post("/api/tab/update/", tab).then(function(data){
+                CommonHttpService.post("/api/phy_monitor_sas/update/", phy_monitor_sas).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));
-                        tab_table.reload();
+                        phy_monitor_sas_table.reload();
                         $modalInstance.dismiss();
                     } else {
                         ToastrService.error(data.msg, $i18next("op_failed"));
@@ -240,7 +213,7 @@ CloudApp.controller('TabController',
                 });
             };
         }
-   ).factory('tabForm', ['ValidationTool', '$i18next',
+   ).factory('phy_monitor_sasForm', ['ValidationTool', '$i18next',
         function(ValidationTool, $i18next){
             return {
                 init: function(){
@@ -248,12 +221,12 @@ CloudApp.controller('TabController',
                     var config = {
 
                         rules: {
-                            tabname: {
+                            phy_monitor_sasname: {
                                 required: true,
                                 remote: {
-                                    url: "/api/tab/is-name-unique/",
+                                    url: "/api/phy_monitor_sas/is-name-unique/",
                                     data: {
-                                        tabname: $("#tabname").val()
+                                        phy_monitor_sasname: $("#phy_monitor_sasname").val()
                                     },
                                     async: false
                                 }
@@ -261,8 +234,8 @@ CloudApp.controller('TabController',
                             user_type: 'required'
                         },
                         messages: {
-                            tabname: {
-                                remote: $i18next('tab.name_is_used')
+                            phy_monitor_sasname: {
+                                remote: $i18next('phy_monitor_sas.name_is_used')
                             },
                         },
                         errorPlacement: function (error, element) {
@@ -274,7 +247,7 @@ CloudApp.controller('TabController',
                         }
                     };
 
-                    return ValidationTool.init('#TabForm', config);
+                    return ValidationTool.init('#Phy_Monitor_SasForm', config);
                 }
             }
         }]);

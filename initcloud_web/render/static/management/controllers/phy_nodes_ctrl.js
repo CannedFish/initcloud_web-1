@@ -14,15 +14,15 @@ CloudApp.controller('Phy_NodesController',
         timer.start(function(){
             Phy_Nodes.query(function(data){
             	// 如果有SBB 传递数据加标示位
-	        	data.datatype = "IO";
-	        	if(data.datatype == "IO"){
+                data.datatype = _config.storage_monitor.SBB;
+	        	if(data.datatype == "1"){
 	        		// 模拟数据
 			        var _data = {
 			            'updatapackage':[[24,5],[23,50],[18,40],[12,30],[8,20],[10,10],[0,0]],
 			        	'downdatapackage':[[24,8],[23,45],[18,70],[12,55],[8,30],[10,35],[0,0]],
 			        	'datatype':'IO',
 			        };
-	        	}else if(data.datatype == "SBB"){
+	        	}else if(data.datatype.SBB == "0"){
 	        		_data = data;
 	        	}
                 $scope.phy_nodess = _data;
@@ -33,8 +33,8 @@ CloudApp.controller('Phy_NodesController',
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_nodess);
         Phy_Nodes.query(function(data){
         	// 如果有SBB 传递数据加标示位
-        	data.datatype = "IO";
-        	if(data.datatype == "IO"){
+        	data.datatype = _config.storage_monitor.SBB;
+        	if(data.datatype == "1"){
         		// 模拟数据
 		        var _data = {
 		            'updatapackage':[[-24,5],[-23,50],[-18,40],[-12,30],[-8,20],[-4,10],[-2,35],[-0,0]],
@@ -42,7 +42,7 @@ CloudApp.controller('Phy_NodesController',
 			        'datatype':'IO',
 		         
 		        };
-        	}else if(data.datatype == "SBB"){
+        	}else if(data.datatype == "0"){
         		_data = data;
         	}
             $scope.phy_nodess = _data;

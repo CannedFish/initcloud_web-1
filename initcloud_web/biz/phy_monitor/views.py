@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, random
+import json
 
 from rest_framework.response import Response
 from rest_framework import generics
@@ -565,6 +566,17 @@ class CabinetDetail(APIView):
         }
         serializer = CabinetSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class PhyMonitorDisplayDetail(APIView):
+    def get(self, request):
+        data = None
+        LOG.info(" start to read file ")
+        with open('/opt/display.json', 'r') as f:
+            LOG.info(" read data done ")
+            data = json.load(f)
+        LOG.info(" data is " + str(data))
+        return Response(data)
+
 
 class PhyMonitorPDUDetail(APIView):
     def __create_or_update(self, queryset, pdu, volt, current, watt):

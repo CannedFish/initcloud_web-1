@@ -26,6 +26,11 @@ CloudApp.controller('Phy_MonitorController',
             d.stopPropagation();
             $scope.$broadcast('to-child-server',data);
         })
+        // sas
+        $scope.$on('to-parent-sas',function(d,data){
+            d.stopPropagation();
+            $scope.$broadcast('to-child-sas',data);
+        })
         //jbod
         $scope.$on('to-parent-jbod',function(d,data){
             d.stopPropagation();

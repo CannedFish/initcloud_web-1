@@ -20,8 +20,43 @@
     .w5{
         width:7px !important;
     }
+    .tool-04{
+        height:53px;
+    }
+    .show0{
+        display:none;
+    }
+    .show1{
+        display:block;
+    }
+    .p-1-0-2-3 {
+        padding-top: 1px;
+        padding-bottom: 2px;
+        padding-left: 3px;
+    }
+    .p-3-0-2-3 {
+        padding-top: 3px;
+        padding-bottom: 2px;
+        padding-left: 3px;
+    }
+    .l-list-01{
+        height:22px;
+    }
+    .l-list-01 li{
+        height:10px;margin-left:10px;margin-right:10px;
+    }
+    .l-list-01 li .lspan{
+        display:inline-block;height:6px;float:left;margin-top:3px;
+    }
+    .l-list-01 li .rspan{
+        display:inline-block;height:6px;float:left;margin-top:3px;margin-left:4px;
+    }
+    .w8{
+        float:left;
+        margin-left:3px;
+    }
 </style>
-<div class="jg-wrap ad"  ng-controller="CabinetController">
+<div class="ad" ng-class="cabinets.cabinet_type == '01'?'jg-wrap-02':'jg-wrap-01'"  ng-controller="CabinetController">
     <div class="jigui md">
         <div class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
             加载中。。。
@@ -91,12 +126,35 @@
                         </span>
                     </li>
                 </ul>
-            <!-- 48接口交换机(3-3) -->
-                <ul class="w1" style="margin-top:1px;">
-                    <!-- <li class="w2" ng-if="cabinets._48switchboard_03!=''">
-                         <span ng-repeat="item in cabinets._48switchboard_03 track by $index">
-                            <img src="../static/assets/admin/layout/img/common/jg_ico_03.png"> -->
-                            <!-- <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png"> -->
+            </div>
+            <div ng-class="cabinets.cabinet_type == '01'?'show1':'show0'" class="tool-04">
+                <ul class="l-list-01" style="height:22px;">
+                    <li>
+                        <span class="lspan">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                        </span>
+                         <span class="rspan">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                        </span>
+                    </li>
+                    <li >
+                        <span class="lspan">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                        </span>
+                         <span class="rspan">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
+                            <img class="w8" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
                         </span>
                     </li>
                 </ul>
@@ -151,7 +209,7 @@
                </ul>
             </div>
             <!-- 存储服务器20块盘 运行状态 -->
-            <div class="tool-05">
+            <div ng-class="cabinets.cabinet_type == '01'?'show0':'show1'" class="tool-05">
                 <div class="w1 p2">
                     <div class="line5 clearfix">
                         <span><img src="../static/assets/admin/layout/img/common/jg_ico_30.png"></span>
@@ -164,7 +222,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tool-05">
+            <div ng-class="cabinets.cabinet_type == '01'?'show0':'show1'" class="tool-05">
                 <div class="w1 p2">
                     <div class="line5 clearfix">
                         <span><img src="../static/assets/admin/layout/img/common/jg_ico_30.png"></span>
@@ -177,12 +235,12 @@
                     </div>
                 </div>
             </div>
-            <div class="tool-05">
+            <div ng-class="cabinets.cabinet_type == '01'?'show0':'show1'" class="tool-05">
                 
             </div>
             <!-- JBOD 90块盘运行状态 JBOD_status -->
-            <div class="tool-03">
-               <div class="w1 p-2-0-2-3 clearfix">
+            <div  class="tool-03">
+               <div ng-class="cabinets.cabinet_type == '01'?'p-1-0-2-3':'p-2-0-2-3'" class="w1 clearfix">
                     
                     <span ng-repeat="item in cabinets.jbod_status_01 track by $index">
                        <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">

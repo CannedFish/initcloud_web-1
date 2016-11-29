@@ -30,7 +30,7 @@
             <div class="titile">报警信息</div>
             <div class="content_center">
                 <input type="hidden" id="filter" type="text" value=""></input>
-                <div class="police_tab">
+                <div class="police_tab" style="height:462px;overflow-y:auto;">
                 <!-- 功能table页 -->
                        <ul class="nav-list" style="width:100%">
                             <li class="sort-01">
@@ -58,16 +58,16 @@
                                 <input class="end" type="text" eon-date-picker>
                             </li>        
                     </ul>
-                    <table class="police_table footable" data-filter="#filter" data-filter-text-only="false">
-                       <tbody>
-                            <tr ng-repeat="item in warnings" ng-class="$index%2==0?'bc1':''" ng-click="setDatatoLeftBar(item)">
-                                <td align="center">{[{item.warning_type}]}</td>
-                                <td >{[{item.name}]}</td>
-                                <td align="center">{[{item.warning_info}]}</td>
-                                <td>{[{item.warning_time}]}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="police_table footable" data-filter="#filter" data-filter-text-only="false" >
+                           <tbody>
+                                <tr ng-repeat="item in warnings" ng-class="$index%2==0?'bc1':''" ng-click="setDatatoLeftBar(item)">
+                                    <td align="center">{[{item.warning_type}]}</td>
+                                    <td >{[{item.name}]}</td>
+                                    <td align="center">{[{item.warning_info}]}</td>
+                                    <td>{[{item.warning_time}]}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                 </div>
                 <div class="police_details">
                 <dl class="details_table" ng-init="rightbar = initData">

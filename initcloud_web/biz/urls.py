@@ -62,6 +62,7 @@ urlpatterns += [
     url(r'^phy_monitor_server/(?P<s_id>[0-9])$', phy_monitor_view.PhyMonitorServerList.as_view()),
     url(r'^phy_monitor_storage/$', phy_monitor_view.PhyMonitorStorageDetail.as_view()),
     url(r'^phy_monitor_pdu/$', phy_monitor_view.PhyMonitorPDUDetail.as_view()),
+    url(r'^phy_monitor_display/$', phy_monitor_view.PhyMonitorDisplayDetail.as_view()),
 ]
 
 # volume_monitor

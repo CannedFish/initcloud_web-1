@@ -21,14 +21,22 @@
     .block-img{
         background:url('../static/assets/admin/layout/img/second/phy-monitor/phy_jg_bottom1.png') no-repeat;
     }
+    .show1{
+        display:block;
+    }
+    .show0{
+        display:none;
+    }
 </style>
     <div class="content" ng-controller="Phy_MonitorController">
         <div class="titile">物理监控</div>
         <div class="content_center" ng-controller="TabController">
+        <!-- 判断显示不同的机柜 -->
+            
             <div class="cabinet" data-ng-include="'../static/management/views/jigui.html'"></div>
 
             <!-- 机柜tab导航 -->
-            <div style="height:409px;width:179px;background:transparent;position:absolute;z-index:888;top:60px;left:19px;">
+            <div style="height:409px;width:179px;background:transparent;position:absolute;z-index:888;top:54px;left:19px;">
                 <div style="position:absolute;width:10px;height:100%;left:0px;top:0px;cursor:pointer;" ng-click="tab_pdu()"></div>
             	<ul class="hd" style="height:409px;width:157px;margin-left:11px">
             		<li ng-class="{'active': tabs[0]}" ng-click="tab(0)" style="height:52px;cursor:pointer">
@@ -39,6 +47,11 @@
                             <!-- <li ng-click="tabById(4,'network')"></li> -->
                         </ul>      
                     </li>
+                   <!--  <li ng-class="{'active': tabs[4]}" ng-click="tab(4)" style="height:53px;cursor:pointer">
+                        <ul id="sas-conntype-list" >
+                            <li ng-click="tabById(1,'sas',$event);"></li>
+                        </ul>      
+                    </li> -->
             		<li ng-class="{'active': tabs[1]}" ng-click="tab(1)" style="height:175px;cursor:pointer">
                         <ul id="cpu-temperature-list">
                             <li ng-click="tabById(1,'server')"></li>
@@ -59,7 +72,7 @@
             	</ul>
                 <div style="position:absolute;width:11px;height:100%;right:0px;top:0px;cursor:pointer;" ng-click="tab_pdu()"></div>
             </div>
-            <div class="jz-bottom" style="position:absolute;bottom:10px;height:40px;width:210px;left:4px;">
+            <div class="jz-bottom" style="position:absolute;bottom:31px;height:40px;width:210px;left:4px;">
                  <div class="block-img" style="height:100%;width:100%;"></div>
             </div>
             <!-- tab 内容-->
@@ -68,6 +81,7 @@
 	            <div class="tab-pane fr" ng-class="{'active': tabs[1]}" data-ng-include="'../static/management/views/phy_monitor_server.html'"></div>
 	            <div class="tab-pane fr" ng-class="{'active': tabs[2]}" data-ng-include="'../static/management/views/phy_monitor_storage.html'"></div>
 	            <div class="tab-pane fr" ng-class="{'active': tabs[3]}" data-ng-include="'../static/management/views/phy_monitor_jbod.html'"></div>
+                <div class="tab-pane fr" ng-class="{'active': tabs[5]}" data-ng-include="'../static/management/views/phy_monitor_sas.html'"></div>
                 <div class="tab-pane fr" ng-class="{'active': tabs[5]}" data-ng-include="'../static/management/views/phy_monitor_pdu.html'"></div>
             </div>
         </div>
