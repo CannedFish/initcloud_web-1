@@ -27,3 +27,17 @@ class Storage_Monitor(models.Model):
         except Exception as e:
             pass
     """
+
+class PhyNodesIO(models.Model):
+    read = models.FloatField(_("Read"), null=False)
+    write = models.FloatField(_("Write"), null=False)
+    create_date = models.DateTimeField(_("Create Date"), auto_now=True)
+
+    @classmethod
+    def last24(cls):
+        return PhyNodesIO.objects.order_by('create_date')
+
+    def __str__(self):
+        return "%s: <%f, %f>" % (self.create_date, \
+                self.read, self.write)
+

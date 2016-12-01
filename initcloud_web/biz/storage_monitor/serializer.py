@@ -51,11 +51,19 @@ class StorageBarSerializer(serializers.Serializer):
     SAS = serializers.ListField(child=serializers.IntegerField())
 
 # PhyNodes
-class PhyNodesSerializer(serializers.Serializer):
+class PhyNodesSBBSerializer(serializers.Serializer):
     cpuUsed = serializers.FloatField()
     memUsed = serializers.FloatField()
     rx = serializers.FloatField()
     tx = serializers.FloatField()
-    read = serializers.FloatField()
-    write = serializers.FloatField()
+    datatype = serializers.CharField()
+
+class PhyNodesIOSerializer(serializers.Serializer):
+    updatapackage = serializers.ListField()
+    downdatapackage = serializers.ListField()
+    datatype = serializers.CharField()
+
+class PhyNodesSerializer(serializers.Serializer):
+    sbb = PhyNodesSBBSerializer()
+    io = PhyNodesIOSerializer()
 

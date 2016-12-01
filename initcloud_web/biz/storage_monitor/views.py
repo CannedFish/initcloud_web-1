@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import logging, random
+import logging, random, time
 
 from rest_framework.response import Response
 from rest_framework import generics
@@ -9,6 +9,7 @@ from rest_framework import status
 from biz.common.pagination import PagePagination
 from biz.storage_monitor.serializer import StorageNodeSerializer, TreeNodeSerializer,\
         StorageBarSerializer, PhyNodesSerializer
+from biz.storage_monitor.models import PhyNodesIO
 
 import cloud.api.storage as storage
 import cloud.api.warning as warning
@@ -260,19 +261,31 @@ class StorageBarDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_read_speed():
-    return randint(0, 1000)
+    return [[t, randint(0, 1000)] for t in range(25)[::-1]]
 
 def get_write_speed():
-    return randint(0, 1000)
+    return [[t, randint(0, 1000)] for t in range(25)[::-1]]
 
 def get_phy_node():
+    return {
+        'sbb': get_phy_sbb(),
+        'io': get_phy_io()
+    }
+
+def get_phy_sbb():
     return {
         'cpuUsed': get_cpu_used(),
         'memUsed': get_mem_used(),
         'rx': get_rx_per(),
         'tx': get_tx_per(),
-        'read': get_read_speed(),
-        'write': get_write_speed() 
+        'datatype': 'SBB'
+    }
+
+def get_phy_io():
+    return {
+        'updatapackage': get_read_speed(),
+        'downdatapackage': get_write_speed(),
+        'datatype': 'IO'
     }
 
 class PhyNodesList(APIView):
@@ -280,20 +293,48 @@ class PhyNodesList(APIView):
         """
         nodes = [
             {
-                'cpuUsed': 70,
-                'memUsed': 10,
-                'rx': 85,
-                'tx': 100,
-                'read': 500,
-                'write': 500
+                'sbb': {
+                    'cpuUsed': 70,
+                    'memUsed': 10,
+                    'rx': 85,
+                    'tx': 100,
+                    'datatype': 'SBB'
+                },
+                'io': {
+                    'updatapackage': [[24, 661], [23, 554], [22, 348], [21, 780], \
+                            [20, 636], [19, 727], [18, 646], [17, 646], [16, 899], \
+                            [15, 780], [14, 351], [13, 582], [12, 437], [11, 765], \
+                            [10, 667], [9, 832], [8, 517], [7, 679], [6, 564], \
+                            [5, 238], [4, 456], [3, 803], [2, 457], [1, 745], [0, 771]],
+                    'downdatapackage': [[24, 641], [23, 669], [22, 417], [21, 651], \
+                            [20, 931], [19, 112], [18, 145], [17, 382], [16, 230], \
+                            [15, 706], [14, 497], [13, 688], [12, 131], [11, 619], \
+                            [10, 464], [9, 893], [8, 225], [7, 634], [6, 631], \
+                            [5, 196], [4, 935], [3, 577], [2, 244], [1, 179], [0, 645]]
+                    'datatype': 'IO'
+                }
             },
             {
-                'cpuUsed': 75,
-                'memUsed': 30,
-                'rx': 95,
-                'tx': 60,
-                'read': 500,
-                'write': 500
+                'sbb': {
+                    'cpuUsed': 75,
+                    'memUsed': 30,
+                    'rx': 95,
+                    'tx': 60,
+                    'datatype': 'SBB'
+                },
+                'io': {
+                    'updatapackage': [[24, 661], [23, 554], [22, 348], [21, 780], \
+                            [20, 636], [19, 727], [18, 646], [17, 646], [16, 899], \
+                            [15, 780], [14, 351], [13, 582], [12, 437], [11, 765], \
+                            [10, 667], [9, 832], [8, 517], [7, 679], [6, 564], \
+                            [5, 238], [4, 456], [3, 803], [2, 457], [1, 745], [0, 771]],
+                    'downdatapackage': [[24, 641], [23, 669], [22, 417], [21, 651], \
+                            [20, 931], [19, 112], [18, 145], [17, 382], [16, 230], \
+                            [15, 706], [14, 497], [13, 688], [12, 131], [11, 619], \
+                            [10, 464], [9, 893], [8, 225], [7, 634], [6, 631], \
+                            [5, 196], [4, 935], [3, 577], [2, 244], [1, 179], [0, 645]],
+                    'datatype': 'IO'
+                }
             }  
         ]
         """
@@ -309,18 +350,25 @@ class PhyNodesList(APIView):
                     serverstatus = storage.get_server_status(server['id'])
                     if serverstatus['success']:
                         ss = serverstatus['data']
+                        # SBB data
                         up, up_rate, down, down_rate = get_net_data(ss)
                         # tempral data
                         max_rate = get_max_rate()
                         rx_per = get_rx_per()
                         tx_per = get_tx_per()
-                        nodes.append({
+                        sbb = {
                             'cpuUsed': round(ss['cpu'], 1),
                             'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
                             'tx': up if up != 0 else tx_per,
                             'rx': down if down != 0 else rx_per,
-                            'read': ss['zfsIOStat']['readBandwidth'],
-                            'write': ss['zfsIOStat']['WriteBandwidth']
+                            'datatype': 'SBB'
+                        }
+                        # IO data
+                        io = self.__get_io_data(ss['zfsIOStat']['readBandwidth'], \
+                                ss['zfsIOStat']['WriteBandwidth'])
+                        nodes.append({
+                            'sbb': sbb,
+                            'io': io
                         })
                     else:
                         LOG.info("Get %s status error: %s" % \
@@ -339,6 +387,36 @@ class PhyNodesList(APIView):
         serializer = PhyNodesSerializer(nodes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def __get_io_data(self, rb, wb):
+        # initial
+        ts = range(25)
+        rbs = [[i, 0] for i in ts[::-1]]
+        rbs[-1][1] = rb
+        wbs = [[i, 0] for i in ts[::-1]]
+        wbs[-1][1] = wb
+        # generate data
+        last24 = PhyNodesIO.last24()
+        total = len(last24)
+        for i, data in zip(range(-1-total, -1), last24):
+            rbs[i][1] = data.read
+            wbs[i][1] = data.write
+        # update database
+        if total == 0 or time.time()-\
+                time.mktime(last24[total-1].create_date.timetuple()) >= 3600:
+            if total < 24:
+                PhyNodesIO(read=rb, write=wb).save()
+            else:
+                oldest = last24[0]
+                oldest.read = rb
+                oldest.write = wb
+                oldest.save()
+
+        return {
+            'updatapackage': rbs,
+            'downdatapackage': wbs,
+            'datatype': 'IO'
+        }
+
     def __check_and_warn(self, data, th_max, th_min, meter, name, count):
         if data > th_max:
             meter += '_max'
@@ -354,22 +432,22 @@ class PhyNodesList(APIView):
         name = '存储服务器%d报警'
         for node_data, node_thres, num in zip(data, thres, [1, 2]):
             # CPU
-            self.__check_and_warn(node_data['cpuUsed'], \
+            self.__check_and_warn(node_data['sbb']['cpuUsed'], \
                     node_thres['cpu_util_max'], \
                     node_thres['cpu_util_min'], \
                     'cpu_util', name % num, 1)
             # Memory
-            self.__check_and_warn(node_data['memUsed'], \
+            self.__check_and_warn(node_data['sbb']['memUsed'], \
                     node_thres['mem_util_max'], \
                     node_thres['mem_util_min'], \
                     'mem_util', name % num, 1)
             # Read 
-            self.__check_and_warn(node_data['read'], \
+            self.__check_and_warn(node_data['sbb']['rx'], \
                     node_thres['read_max'], \
                     node_thres['read_min'], \
                     'read', name % num, 1)
             # Write
-            self.__check_and_warn(node_data['write'], \
+            self.__check_and_warn(node_data['sbb']['tx'], \
                     node_thres['write_max'], \
                     node_thres['write_min'], \
                     'write', name % num, 1)
