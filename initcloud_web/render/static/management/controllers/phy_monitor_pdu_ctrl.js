@@ -32,7 +32,29 @@ CloudApp.controller('Phy_Monitor_PduController',
                 }
             },
         }
-        console.log($scope.phy_monitor_pdus);
+        Phy_Monitor_Pdu.query(function(data) {
+            console.log(data);
+            // $scope.phy_monitor_pdus = data;
+        });
+        // $scope.phy_monitor_networks = init_data; 
+        // checkboxGroup.syncObjects($scope.phy_monitor_networks);
+       
+        // $scope.$on('to-child-network',function(d,id){
+        //     d.preventDefault();
+        //     var Timer  = custimer.getInstance();//创建自定义定时器
+        //     Timer.stop();
+        //     var data = '';
+        //     Timer.start(function(){
+        //         data = Phy_Monitor_Network.query(function(data) { 
+        //         }, {id: id});
+        //         $scope.phy_monitor_networks = data; 
+        //     },5000);
+        //     var data = Phy_Monitor_Network.query(function(data) {
+        //     }, {id: id});
+        //     $scope.phy_monitor_networks = data; 
+        //     checkboxGroup.syncObjects($scope.phy_monitor_networks);
+
+        // })
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_pdus);
         var deletePhy_Monitor_Pdus = function(ids){
 
