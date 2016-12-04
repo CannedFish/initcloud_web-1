@@ -261,10 +261,10 @@ class StorageBarDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_read_speed():
-    return [[t, randint(0, 1000)] for t in range(25)[::-1]]
+    return [[t, random.randint(0, 1000)] for t in range(25)[::-1]]
 
 def get_write_speed():
-    return [[t, randint(0, 1000)] for t in range(25)[::-1]]
+    return [[t, random.randint(0, 1000)] for t in range(25)[::-1]]
 
 def get_phy_node():
     return {
