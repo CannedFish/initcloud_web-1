@@ -562,7 +562,11 @@ class CabinetDetail(APIView):
             'jbod_status_01': J_DATA['1']['disk'],
             'jbod_status_02': J_DATA['2']['disk'],
             'memory_server_status_01': SS_DATA['disk'][0:20],
-            'memory_server_status_02': SS_DATA['disk'][20:40]
+            'memory_server_status_02': SS_DATA['disk'][20:40],
+            'ssb_cpu_temp': [
+                [SS_DATA['nodes'][0]['cpu1'][0], SS_DATA['nodes'][0]['cpu2'][0]],
+                [SS_DATA['nodes'][1]['cpu1'][0], SS_DATA['nodes'][1]['cpu2'][0]]
+            ]
         }
         serializer = CabinetSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
