@@ -20,7 +20,6 @@ CloudApp.controller('Phy_NodesController',
 			        var _data = {
 			            'updatapackage':[[24,5],[23,50],[18,40],[12,30],[8,20],[10,10],[0,0]],
 			        	'downdatapackage':[[24,8],[23,45],[18,70],[12,55],[8,30],[10,35],[0,0]],
-			        	'datatype':'IO',
 			        };
 	        	}else if(data.datatype.SBB == "0"){
 	        		_data = data;
