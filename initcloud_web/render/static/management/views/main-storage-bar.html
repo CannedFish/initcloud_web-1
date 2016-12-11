@@ -4,6 +4,20 @@
     .stor .legendColorBox>div>div{
         border-radius:5px !important;
     }
+    .move-bg-line {
+        background: url(../static/assets/admin/layout/img/bar/progress_bg_03.png) no-repeat;
+        height: 9px;
+        width: 67px;
+        display: inline-block;
+        margin-bottom: 8px;
+    }
+    .progress_100{
+        background: url(../static/assets/admin/layout/img/bar/progress_100.png) no-repeat;
+        height: 21px;
+        width: 67px;
+        overflow: hidden;
+        background-position: 37px 59px;
+    }
 </style>
 <div class="lb-wrap fl" >
              <div class="nav"><img src="../static/assets/admin/layout/img/common/ficon3.png"><span>存储监控</span></div> 
@@ -60,58 +74,63 @@
                 </ul>
                 <div class="inner-box" ng-controller="Phy_NodesController">
                 <!-- 有SBB -->
-                    <div class="hp45 fl" ng-if="phy_nodess.datatype =='SBB'" ng-repeat="node in phy_nodess">
-                        <div class="boxwrap_01" >
-                            <div class="fl node" ng-if="$index==0">节点一</div>
-                            <div class="fl node" ng-if="$index==1">节点二</div>
-                            <!-- 控制进度条的显示 -->
-                            <div class="fl nlist">
-                                <p class="item" ng-repeat="item in node">
-                                    <span ng-if="$index==0">cpu占用</span>
-                                    <span ng-if="$index==1">内存占用</span>
-                                    <span ng-if="$index==2">读流量</span>
-                                    <span ng-if="$index==3">写流量</span>
-                                    <span>
-                                       <em class="move-bg-line" style="margin-left:{[{item}]}%"></em>
-                                    </span>
-                                    <span>{[{item | number:2}]}%</span>
-                                </p>
-                            </div>
-                            <!-- 控制进度条的显示 -->
-                        </div>
+                     <div ng-if="phy_nodess == ''" style="clear:both">
+                          <div class="load" style="height:150px;line-height:150px;color:#ff0000;text-align:center;">加载中。。。</div>
                     </div>
-                    <!-- 没有SBB -->
-                    <div class="stor fl" style="height:70%;width:100%;" ng-if="phy_nodess.datatype =='IO'">
-                        <div class="panel panel-default" style="height:100%">
-                            <div class="panel-body storage" style="height:100%;width:434px;">
-                                <div style="height:100%;width:434px;position: relative;margin-left:15px;margin-top:18px;" ui-options="[
-                                        {   label:'读(MB/s)',
-                                            data: {[{phy_nodess.updatapackage}]}, points: { show: false },
-                                            lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
-                                            color:'#9a40d4'
-                                        }, 
-                                        {   label:'写(MB/s)', 
-                                            data: {[{phy_nodess.downdatapackage}]}, points: { show:false},
-                                            lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
-                                            color:'#55cb5d'
-                                        }
-                                      ],
-                                      {
-                                       legend: {
-                                            show:true,
-                                            labelBoxBorderColor:'transparent',
-                                            margin:[242,-20],
-                                            position:'nw',
-                                            backgroundColor:'transparent',
-                                        },
-                                        colors: [],
-                                        series: { shadowSize: 1 },
-                                        xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:2 },
-                                        yaxis:{ show: true,font: { color: '#00d8ff' },tickSize:20},
-                                        grid: { hoverable: true, clickable: true, borderWidth: 0, },
-                                        tooltip: true,
-                                        tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
-                                      }" ui-jq="plot">        
+                    <div ng-if="phy_nodess != ''" ng-repeat="node in phy_nodess">
+                        <div class="hp45 fl" ng-if="phy_nodess.datatype == '1'">
+                            <div class="boxwrap_01" >
+                                <div class="fl node" ng-if="$index==0">节点一</div>
+                                <div class="fl node" ng-if="$index==1">节点二</div>
+                                <!-- 控制进度条的显示 -->
+                                <div class="fl nlist">
+                                    <p class="item" ng-repeat="item in node.sbb">
+                                        <span ng-if="$index==0">cpu占用</span>
+                                        <span ng-if="$index==1">内存占用</span>
+                                        <span ng-if="$index==2">读流量</span>
+                                        <span ng-if="$index==3">写流量</span>
+                                        <span ng-if="$index != 4" class="progress_100">
+                                           <em class="move-bg-line"  style="margin-left:{[{item}]}%"></em>
+                                        </span>
+                                        <span ng-if="$index != 4">{[{item | number:2}]}%</span>
+                                    </p>
+                                </div>
+                                <!-- 控制进度条的显示 -->
+                            </div>
+                        </div>
+                        <!-- 没有SBB -->
+                        <div class="stor fl" style="height:70%;width:50%;float:left" ng-if="phy_nodess.datatype == '0'">
+                            <div class="panel panel-default" style="height:100%">
+                                <div class="panel-body storage" style="height:100%;width:200px;height:100px;">
+                                    <div style="height:100%;width:200px;position: relative;margin-left:15px;margin-top:10px;" ui-options="[
+                                            {   label:'读(MB/s)',
+                                                data: {[{node.io.updatapackage}]}, points: { show: false },
+                                                lines: { show: true,lineWidth:1,fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } },
+                                                color:'#9a40d4'
+                                            }, 
+                                            {   label:'写(MB/s)', 
+                                                data: {[{node.io.downdatapackage}]}, points: { show:false},
+                                                lines: { show: true,lineWidth:1, fill: true, fillColor: { colors: [{ opacity: 0.1 }, { opacity: 0.1}] } } ,
+                                                color:'#55cb5d'
+                                            }
+                                          ],
+                                          {
+                                           legend: {
+                                                show:true,
+                                                labelBoxBorderColor:'transparent',
+                                                margin:[20,-20],
+                                                position:'nw',
+                                                backgroundColor:'transparent',
+                                            },
+                                            colors: [],
+                                            series: { shadowSize: 1 },
+                                            xaxis:{ show: true,font: { color: '#00d8ff' },tickSize:6 },
+                                            yaxis:{ show: true,font: { color: '#00d8ff' },tickSize:200},
+                                            grid: { hoverable: true, clickable: true, borderWidth: 0, },
+                                            tooltip: true,
+                                            tooltipOpts: {defaultTheme: false, shifts: { x: 0, y: 20 } }
+                                          }" ui-jq="plot">        
+                                    </div>
                                 </div>
                             </div>
                         </div>

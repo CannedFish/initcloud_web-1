@@ -96,6 +96,8 @@ CloudApp.controller('CabinetController',
               data.cabinet_type = _config.cabinet_show_index.cabinet_type;
               $scope.cabinets = data;
             });
+            // 根据配置文件决定机柜各部分显示
+
             checkboxGroup.syncObjects($scope.cabinets);
             
         var deleteCabinets = function(ids){

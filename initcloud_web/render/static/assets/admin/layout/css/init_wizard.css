@@ -186,7 +186,7 @@
            text-align:left;
             width:33.3333%;
          }
-         .ccjkbox .inner-box .nlist .item span:nth-child(2){
+         /*.ccjkbox .inner-box .nlist .item span:nth-child(2){
             background: url(../img/bar/progress_100.png) no-repeat;
             height: 9px;
             width: 67px;
@@ -197,7 +197,7 @@
             width: 67px;
             display: inline-block;
             margin-bottom: 8px;
-        }
+        }*/
          .ccjkbox .inner-box .nlist .item span:nth-child(3){
            width:20%;
          }
