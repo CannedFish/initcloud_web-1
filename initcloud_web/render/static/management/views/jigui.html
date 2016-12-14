@@ -58,7 +58,7 @@
 </style>
 <div class="ad" ng-class="cabinets.cabinet_type == '01'?'jg-wrap-02':'jg-wrap-01'"  ng-controller="CabinetController">
     <div class="jigui md">
-        <div class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
+        <div id="cabinet" class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
             加载中。。。
         </div>
         <div class="inner-box-list" ng-if="cabinets!=''">

@@ -23,6 +23,7 @@ class CabinetSerializer(serializers.Serializer):
     jbod_status_02 = serializers.ListField(child=serializers.IntegerField())
     memory_server_status_01 = serializers.ListField(child=serializers.IntegerField())
     memory_server_status_02 = serializers.ListField(child=serializers.IntegerField())
+    ssb_cpu_temp = serializers.ListField()
 
 # PhyMonitorJBOD
 class PhyMonitorJBODSerializer(serializers.Serializer):

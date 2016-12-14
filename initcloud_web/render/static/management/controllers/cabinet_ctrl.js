@@ -12,7 +12,7 @@ CloudApp.controller('CabinetController',
         });
         $scope.cabinets = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cabinets);
-        // 机柜数据信息:
+        // 机柜数据信息:这个是机柜的控制逻辑 _config 是全局变量，这个controller可以取道 （console.log()）
         // 1. 24接口交换机(1)/ 48接口交换机(3) 24switchboard /48switchboard
         // 2. 每节点CPU温度:(有五组，一组四个节点，每个节点有两个cpu温度)  cpu_temperature  
         // 3.JBOD 90块盘运行状态 JBOD_status
@@ -91,13 +91,12 @@ CloudApp.controller('CabinetController',
                     $scope.cabinets = data;
                 });
             },5000);
-    
             Cabinet.get(function(data) {
               data.cabinet_type = _config.cabinet_show_index.cabinet_type;
-              $scope.cabinets = data;
+              $scope.cabinets = data; //这个data就返回后台的shuju
             });
             // 根据配置文件决定机柜各部分显示
-
+            
             checkboxGroup.syncObjects($scope.cabinets);
             
         var deleteCabinets = function(ids){
