@@ -13,31 +13,29 @@ CloudApp.controller('Phy_Monitor_PduController',
 
         $scope.phy_monitor_pdus = [];
         //pdu 监控
-        $scope.phy_monitor_pdus =
-        {
-            'PDU1':{
-                'currentdata':[123.12,45.12,258.12],
-                'data':{
-                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]],
-                    'currentdata':[[0,4.81],[1,7.31],[2,7.55],[3,6.35],[4,3.76]],
-                    'wattdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]]
-                }
-            },
-            'PDU2':{
-                'currentdata':[124.12,46.12,259.12],
-                'data':{
-                    'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,5.15],[4,3.76]],
-                    'currentdata':[[0,2.81],[1,7.31],[2,2.55],[3,4.15],[4,4.76]],
-                    'wattdata':[[0,1.81],[1,7.38],[2,8.55],[3,2.15],[4,5.16]]
-                }
-            },
-        }
+        // $scope.phy_monitor_pdus =
+        // {
+        //     'PDU1':{
+        //         'currentdata':[123.12,45.12,258.12],
+        //         'data':{
+        //             'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]],
+        //             'currentdata':[[0,4.81],[1,7.31],[2,7.55],[3,6.35],[4,3.76]],
+        //             'wattdata':[[0,4.81],[1,7.31],[2,6.55],[3,2.15],[4,3.76]]
+        //         }
+        //     },
+        //     'PDU2':{
+        //         'currentdata':[124.12,46.12,259.12],
+        //         'data':{
+        //             'voltdata':[[0,4.81],[1,7.31],[2,6.55],[3,5.15],[4,3.76]],
+        //             'currentdata':[[0,2.81],[1,7.31],[2,2.55],[3,4.15],[4,4.76]],
+        //             'wattdata':[[0,1.81],[1,7.38],[2,8.55],[3,2.15],[4,5.16]]
+        //         }
+        //     },
+        // }
         Phy_Monitor_Pdu.query(function(data) {
-            console.log(data);
-            // $scope.phy_monitor_pdus = data;
+            $scope.phy_monitor_pdus = data;
+           
         });
-        // $scope.phy_monitor_networks = init_data; 
-        // checkboxGroup.syncObjects($scope.phy_monitor_networks);
        
         // $scope.$on('to-child-network',function(d,id){
         //     d.preventDefault();
