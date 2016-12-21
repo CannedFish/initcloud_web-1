@@ -12,7 +12,14 @@ FIN = 'input order:'
 INPUT_REX = re.compile("[\n\w\d\s]+:([\d\.]+)[^\n\s]*")
 
 def _input_parse(raw):
-    return INPUT_REX.findall(raw)
+    r = INPUT_REX.findall(raw)
+    return {
+        'I': r[0],
+        'U': r[1],
+        'PF': r[2],
+        'P': r[3],
+        'E': r[4]
+    }
 
 def _output_parse(raw):
     pass
@@ -36,14 +43,7 @@ def _query(cmds):
         tn.read_until(FIN)
         for cmd in cmds:
             tn.write(cmd['cmd'])
-            r = cmd['parser'](tn.read_until(FIN))
-            ret.append({
-                'I': r[0],
-                'U': r[1],
-                'PF': r[2],
-                'P': r[3],
-                'E': r[4]
-            })
+            ret.append(cmd['parser'](tn.read_until(FIN)))
 
         tn.close()
             
