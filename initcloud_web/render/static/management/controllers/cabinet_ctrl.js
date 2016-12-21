@@ -12,7 +12,7 @@ CloudApp.controller('CabinetController',
         });
         $scope.cabinets = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cabinets);
-        // 机柜数据信息:
+        // 机柜数据信息:这个是机柜的控制逻辑 _config 是全局变量，这个controller可以取道 （console.log()）
         // 1. 24接口交换机(1)/ 48接口交换机(3) 24switchboard /48switchboard
         // 2. 每节点CPU温度:(有五组，一组四个节点，每个节点有两个cpu温度)  cpu_temperature  
         // 3.JBOD 90块盘运行状态 JBOD_status
@@ -87,15 +87,69 @@ CloudApp.controller('CabinetController',
             var timer = new Timer();
             timer.start(function(){
                 Cabinet.get(function(data) {
-                    data.cabinet_type = _config.cabinet_show_index.cabinet_type;
+                    data.sas = [
+                        {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
+                        {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
+                    ]
                     $scope.cabinets = data;
+                    // // render new position
+                    // render_elements();
                 });
             },5000);
-    
-            Cabinet.get(function(data) {
-              data.cabinet_type = _config.cabinet_show_index.cabinet_type;
-              $scope.cabinets = data;
+            Cabinet.get(function(data) { 
+                // data.cabinet_type = _config.cabinet_show_index.cabinet_type;
+                // 后台尚未开发前台数据 sas
+                data.sas = [
+                    {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
+                    {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
+                ]
+                $scope.cabinets = data;
             });
+
+            //配置文件
+            _config_temp = [
+                {'name':'switchboard','index':'4','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20},
+                {'name':'sas','index':'3','num':3,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21},
+                {'name':'cpu_temperature','index':'3','num':5,'status':1,'pblock':'item-box-03','cblock':'tool-03','h':35},
+                {'name':'memory_server_status','index':'1','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-04','h':44},
+                {'name':'jbod','index':'5','num':1,'status':1,'pblock':'item-box-05','cblock':'tool-05','h':66}
+            ]
+            //获取对象长度
+             function getPropertyCount(o){
+                var n,count = 0;
+                for(var n in o){
+                    if(o.hasOwnProperty(n)){
+                        count++;
+                    }
+                }
+                return count;
+              }
+            //对对象的键值排序
+            function sortObj(o){
+                 o.sort(function(a,b){
+                    return a.index-b.index
+                })
+            }
+            sortObj(_config_temp)
+            // 便利配置文件 确定机柜位置
+            var clen = _config_temp.length;
+            var offset_top = 0;
+            for(var i = 0;i<clen;i++){
+                // 父级块是否显示
+                if(_config_temp[i].status == 0){
+                    $('.'+_config_temp[i].pblock).css('display','none');
+                    continue;
+                }else{
+                        if( i == 0){
+                            offset_top = 0;
+                        }
+                        else{
+                            offset_top += _config_temp[i-1].h*_config_temp[i-1].num;
+                        }
+                        $('.'+_config_temp[i].pblock).css({'position':'absolute','top':offset_top});
+                }
+
+            }
             checkboxGroup.syncObjects($scope.cabinets);
             
         var deleteCabinets = function(ids){

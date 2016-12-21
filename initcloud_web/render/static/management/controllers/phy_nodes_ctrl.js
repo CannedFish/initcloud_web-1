@@ -15,16 +15,7 @@ CloudApp.controller('Phy_NodesController',
             Phy_Nodes.query(function(data){
             	// 如果有SBB 传递数据加标示位
                 data.datatype = _config.storage_monitor.SBB;
-	        	if(data.datatype == "1"){
-	        		// 模拟数据
-			        var _data = {
-			            'updatapackage':[[24,5],[23,50],[18,40],[12,30],[8,20],[10,10],[0,0]],
-			        	'downdatapackage':[[24,8],[23,45],[18,70],[12,55],[8,30],[10,35],[0,0]],
-			        };
-	        	}else if(data.datatype.SBB == "0"){
-	        		_data = data;
-	        	}
-                $scope.phy_nodess = _data;
+                $scope.phy_nodess = data;
                 checkboxGroup.syncObjects($scope.phy_nodess);
             });
         },5000);
@@ -33,34 +24,9 @@ CloudApp.controller('Phy_NodesController',
         Phy_Nodes.query(function(data){
         	// 如果有SBB 传递数据加标示位
         	data.datatype = _config.storage_monitor.SBB;
-        	if(data.datatype == "1"){
-        		// 模拟数据
-		        var _data = {
-		            'updatapackage':[[-24,5],[-23,50],[-18,40],[-12,30],[-8,20],[-4,10],[-2,35],[-0,0]],
-			        'downdatapackage':[[-24,8],[-23,45],[-18,70],[-12,55],[-8,30],[-4,35],[-2,60],[0,0]],
-			        'datatype':'IO',
-		         
-		        };
-        	}else if(data.datatype == "0"){
-        		_data = data;
-        	}
-            $scope.phy_nodess = _data;
+            $scope.phy_nodess = data;
             checkboxGroup.syncObjects($scope.phy_nodess);
         });
-        // $scope.phy_nodes_table = new ngTableParams({
-        //         page: 1,
-        //         count: 10
-        //     },{
-        //         counts: [],
-        //         getData: function($defer, params){
-        //             Phy_Nodes.query(function(data){
-        //                 $scope.phy_nodess = ngTableHelper.paginate(data, $defer, params);
-        //                 checkboxGroup.syncObjects($scope.phy_nodess);
-        //             });
-        //         }
-        //     });
-
-
 
         var deletePhy_Nodess = function(ids){
 

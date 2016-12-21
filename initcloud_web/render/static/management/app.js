@@ -148,7 +148,6 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                             name: 'CloudApp',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
-
                                 '/static/management/controllers/phy_monitor_ctrl.js',
                                 '/static/management/controllers/cabinet_ctrl.js',
                                 '/static/management/controllers/tab_ctrl.js',

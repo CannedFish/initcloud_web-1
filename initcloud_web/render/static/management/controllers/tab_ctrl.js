@@ -31,7 +31,7 @@ CloudApp.controller('TabController',
         //初始化创建tab数组
         // var $scope.table
         
-        angular.forEach($('.hd>li'),function(v,i){
+        angular.forEach($('.hd>ul'),function(v,i){
             if(i == 0){
                 $scope.tabs.push(true);
             }else{
