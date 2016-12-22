@@ -21,6 +21,7 @@ from django.conf import settings
 import cloud.api.redfish as redfish
 import cloud.api.storage as storage
 import cloud.api.warning as warning
+import cloud.api.pdu as pdu
 
 LOG = logging.getLogger(__name__)
 
@@ -636,11 +637,17 @@ class PhyMonitorPDUDetail(APIView):
             # },
         # }
         # PDU1
-        p1_now = [get_pdu_volt(),get_pdu_current(),get_pdu_watt()]
+        p1_now = [get_pdu_volt(),get_pdu_current(),random.randint(1100-100, 1100+100)]
         p1_last4 = PhyMonitorPDU.last4('PDU1')
         # PDU2
-        p2_now = [get_pdu_volt(),get_pdu_current(),get_pdu_watt()]
+        p2_now = [get_pdu_volt(),get_pdu_current(),random.randint(1100-100, 1100+100)]
         p2_last4 = PhyMonitorPDU.last4('PDU2')
+        if not settings.REDFISH_SIMULATE:
+            pdu_data = pdu.get_pdu_input()
+            if len(pdu_data) > 0:
+                p1_now = [pdu_data[0]['U'], pdu_data[0]['I'], pdu_data[0]['P']]
+                p2_now = [pdu_data[1]['U'], pdu_data[1]['I'], pdu_data[1]['P']]
+                print p1_now, p2_now
         # Generate data
         data = {
             'PDU1': self.__pdu_data_init(p1_now),
