@@ -29,15 +29,17 @@ CloudApp.controller('TabController',
         //         }
         //     });
         //初始化创建tab数组
-        // var $scope.table
-        
-        angular.forEach($('.hd>ul'),function(v,i){
-            if(i == 0){
-                $scope.tabs.push(true);
-            }else{
-               $scope.tabs.push(false); 
-            }
-        });
+        //ng-repeat 渲染完执行脚本
+        $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+            angular.forEach($('.hd>ul'),function(v,i){
+                if(i == 0){
+                    $scope.tabs.push(true);
+                }else{
+                   $scope.tabs.push(false); 
+                }
+            });
+             ngRepeatFinishedEvent.stopPropagation(); // 终止事件继续“冒泡”
+        })
         //tab切换函数
          $scope.tab = function(index){
             angular.forEach($scope.tabs, function(i, v) {

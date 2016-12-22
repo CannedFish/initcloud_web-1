@@ -10,24 +10,45 @@ CloudApp.controller('Phy_Monitor_SasController',
         $scope.$on('$viewContentLoaded', function(){
                 Metronic.initAjax();
         });
-
+        
         $scope.phy_monitor_sass = [];
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.phy_monitor_sass);
         $scope.$on('to-child-sas',function(d,id){
             d.preventDefault();
-            var Timer  = custimer.getInstance();//创建自定义定时器
-            Timer.stop();
-            var data = '';
-            Timer.start(function(){
-                data = Phy_Monitor_Sas.query(function(data) { 
-                }, {id: id});
-                $scope.phy_monitor_sass = data; 
-            },5000);
-            var data = Phy_Monitor_Sas.query(function(data) {
-            }, {id: id});
+            // var Timer  = custimer.getInstance();//创建自定义定时器
+            // Timer.stop();
+            // var data = '';
+            // Timer.start(function(){
+            //     data = Phy_Monitor_Sas.query(function(data) { 
+            //     }, {id: id});
+            //     $scope.phy_monitor_sass = data; 
+            // },5000);
+            // var data = Phy_Monitor_Sas.query(function(data) {
+            // }, {id: id});
+            var data ={
+                "model":"model",
+                "traffic":[ {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1},
+                            {"link":1,"unlink":1,"patch":1}
+                        ]
+                    };
             $scope.phy_monitor_sass = data; 
+            // console.log($scope.phy_monitor_sass)
             checkboxGroup.syncObjects($scope.phy_monitor_sass);
-
+            
         })
         $scope.phy_monitor_sas_table = new ngTableParams({
                 page: 1,
