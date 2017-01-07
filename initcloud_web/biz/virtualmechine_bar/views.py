@@ -52,10 +52,10 @@ def get_sample_data(request, meter_name, resource_id, project_id = None):
             hour_data.append([hour, 0])
         except:
             hour_data.append([hour, 4])
-    sum = 0
+    sum_ = 0
     for hour in hour_data:
-        sum = sum + hour[1]
-    avg = sum/len(hour_data)
+        sum_ = sum_ + hour[1]
+    avg = sum_/len(hour_data)
     return avg
 
 
@@ -85,18 +85,18 @@ class Virtualmechine_BarList(generics.ListAPIView):
 		if each.status == 'ACTIVE':
 		    running_cm = running_cm + 1
 	        if settings.CLOUD_MONITOR_FAKE:
-		    sum = 0
+		    sum_ = 0
     		    for hour in make_fake(6, 1, 4):
-        	        sum = sum + hour[1]
-    		    write = round(sum/6, 2)
-		    sum = 0
+        	        sum_ = sum_ + hour[1]
+    		    write = round(sum_/6, 2)
+		    sum_ = 0
                     for hour in make_fake(6, 1, 4):
-                        sum = sum + hour[1]
-                    read = round(sum/6, 2)
-		    sum = 0
+                        sum_ = sum_ + hour[1]
+                    read = round(sum_/6, 2)
+		    sum_ = 0
                     for hour in make_fake(6, 2, 8):
-                        sum = sum + hour[1]
-                    cpu_loadbalance = round(sum/6, 2)
+                        sum_ = sum_ + hour[1]
+                    cpu_loadbalance = round(sum_/6, 2)
                 else:
 		    avg_write = get_sample_data(rc, 'disk.write.bytes.rate', each.id)
                     write_rate.append(avg_write)
@@ -126,7 +126,7 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    #LOG.info(return_data)
 	    return Response(return_data)
 	except:
-	    #trackback.print_exc()
+	    traceback.print_exc()
 	    return_data = []	
 	    return_data.append({'write':5,'read':4,'cpu_loadbalance':3,"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
                 'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',
