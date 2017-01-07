@@ -2,6 +2,8 @@
 
 from rest_framework import serializers
 
+# Classes of this module are all for serializing objects to JSON string
+
 # Cabinet
 class CpuTempratureSerializer(serializers.Serializer):
     node1 = serializers.ListField(child=serializers.FloatField())

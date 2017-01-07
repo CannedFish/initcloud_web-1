@@ -20,33 +20,63 @@ LOG = logging.getLogger(__name__)
 
 
 def byte_2_gbyte(val):
+    """
+    Convert byte to gigabyte
+    """
     return round(val/1024.0/1024.0/1024.0)
 
 def byte_2_kbit(val):
+    """
+    Convert byte to kilobit
+    """
     return round(val/1024.0*8)
 
 def get_cpu_used():
+    """
+    Get temporary data of CPU utilizition
+    """
     return round(random.uniform(2, 65), 1)
 
 def get_cpu_frequence():
+    """
+    Get temporary data of CPU frequence
+    """
     return round(random.uniform(2.6, 2.7), 1)
 
 def get_mem_used():
+    """
+    Get temporary data of memory utilizition
+    """
     return round(random.uniform(2, 80), 1)
 
 def get_mem_total():
+    """
+    Get temporary data of total memory size
+    """
     return 197
 
 def get_rx_per():
+    """
+    Get temporary data of rx
+    """
     return round(random.uniform(0, 90), 1)
 
 def get_tx_per():
+    """
+    Get temporary data of tx
+    """
     return round(random.uniform(0, 90), 1)
 
 def get_max_rate():
+    """
+    Get temporary data of max rate
+    """
     return 1024*1024
 
 def get_storage_node_data(name):
+    """
+    Get temporary data of storage data
+    """
     mem_used = get_mem_used()
     mem_total = get_mem_total()
     used = round(mem_total*mem_used/100)
@@ -74,6 +104,9 @@ def get_storage_node_data(name):
     }
 
 def get_net_data(status):
+    """
+    Convert data of network interface
+    """
     for net in status['netIntfStatus']:
         net['rxRate'] = byte_2_kbit(net['rxRate'])
         net['txRate'] = byte_2_kbit(net['txRate'])
@@ -93,6 +126,9 @@ class StorageNodeList(generics.ListAPIView):
     pagination_class = PagePagination
     
     def get_queryset(self):
+        """
+        Handle get request to /api/storage_monitor/
+        """
         clusterlist = storage.get_cluster_list()
         if clusterlist['success']:
             queryset = []
@@ -152,6 +188,9 @@ class StorageNodeList(generics.ListAPIView):
             return [get_storage_node_data(n) for n in ['storage10', 'storage20']]
 
 def get_node_list():
+    """
+    Get temporary data of node list
+    """
     return [{
         'label': 'md10',
         'data': {
@@ -168,6 +207,9 @@ def get_node_list():
     }]
 
 def get_tree_node_data(s_id):
+    """
+    Get temporary data of tree node
+    """
     return {
         'label': s_id,
         'nodelist': get_node_list()
@@ -178,6 +220,9 @@ class TreeNodeList(generics.ListAPIView):
     pagination_class = PagePagination
 
     def get_queryset(self):
+        """
+        Handle get request to /api/treeview/
+        """
         poolstatus = storage.get_pool_status()
         if poolstatus['success']:
             serverlist = storage.get_cluster_alive()
@@ -211,6 +256,9 @@ class TreeNodeList(generics.ListAPIView):
 
 class StorageBarDetail(APIView):
     def get(self, request):
+        """
+        Handle get request to /api/storage__bar/
+        """
         disklist = storage.get_disk_list()
         storage_bar = {'disk':[4,3], 'SSD':[0,0], 'NVMe':[4,3], 'SAS': [0,0]}
         if disklist['success']:
@@ -261,18 +309,30 @@ class StorageBarDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_read_speed():
+    """
+    Get temporary data of read speed
+    """
     return [[t, random.randint(0, 1000)] for t in range(25)[::-1]]
 
 def get_write_speed():
+    """
+    Get temporary data of write speed
+    """
     return [[t, random.randint(0, 1000)] for t in range(25)[::-1]]
 
 def get_phy_node():
+    """
+    Get temporary data of storage node
+    """
     return {
         'sbb': get_phy_sbb(),
         'io': get_phy_io()
     }
 
 def get_phy_sbb():
+    """
+    Get temporary data of SBB
+    """
     return {
         'cpuUsed': get_cpu_used(),
         'memUsed': get_mem_used(),
@@ -282,6 +342,9 @@ def get_phy_sbb():
     }
 
 def get_phy_io():
+    """
+    Get temporary data of IO
+    """
     return {
         'updatapackage': get_read_speed(),
         'downdatapackage': get_write_speed(),
@@ -291,6 +354,8 @@ def get_phy_io():
 class PhyNodesList(APIView):
     def get(self, request):
         """
+        Handle get request to /api/phy_nodes/
+
         nodes = [
             {
                 'sbb': {
@@ -388,6 +453,9 @@ class PhyNodesList(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def __get_io_data(self, rb, wb):
+        """
+        Get real IO data
+        """
         # initial
         ts = range(25)
         rbs = [[i, 0] for i in ts[::-1]]
@@ -418,6 +486,17 @@ class PhyNodesList(APIView):
         }
 
     def __check_and_warn(self, data, th_max, th_min, meter, name, count):
+        """
+        Check threashold and send warning message if necessary.
+
+        @params
+        data: data to be checked
+        th_max: the maximum of this kind of data
+        th_min: the minimum of this kind of data
+        meter: the type of data
+        name: the name of this kind of warning
+        count: the time of this kind of warning happen
+        """
         if data > th_max:
             meter += '_max'
         elif data < th_min:
@@ -428,6 +507,10 @@ class PhyNodesList(APIView):
         warning.warn(name, meter, content, count)
     
     def _check_and_warn(self, data):
+        """
+        Check storage nodes' threashold and send warning message
+        if necessary.
+        """
         thres = settings.STORAGE_THRES_SSB
         name = '存储服务器%d报警'
         for node_data, node_thres, num in zip(data, thres, [1, 2]):
