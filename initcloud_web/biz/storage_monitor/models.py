@@ -29,12 +29,18 @@ class Storage_Monitor(models.Model):
     """
 
 class PhyNodesIO(models.Model):
+    """
+    Model class for storage nodes' IO data, 3 fields
+    """
     read = models.FloatField(_("Read"), null=False)
     write = models.FloatField(_("Write"), null=False)
     create_date = models.DateTimeField(_("Create Date"), auto_now=True)
 
     @classmethod
     def last24(cls):
+        """
+        Return 24 IO data ordered by modified time
+        """
         return PhyNodesIO.objects.order_by('create_date')
 
     def __str__(self):

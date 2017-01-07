@@ -2,6 +2,8 @@
 
 from rest_framework import serializers
 
+# Classes of this module are all for serializing objects to JSON string
+
 # StorageNode
 class MemorySerializer(serializers.Serializer):
     memory_used = serializers.FloatField()
