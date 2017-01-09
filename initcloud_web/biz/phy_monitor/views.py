@@ -776,6 +776,13 @@ class PhyMonitorPDUDetail(APIView):
         self.__create_or_update(p2_last4, 'PDU2', p2_now[0], \
                 p2_now[1], p2_now[2])
 
+        # check pdu output and warn if necessary
+        for pdu, outlets in zip(range(len(settings.PDU_OUTPUT_MONITOR)), \
+                settings.PDU_OUTPUT_MONITOR):
+            if len(outlets) > 0:
+                status = pdu.get_pdu_output_status(pdu, outlets)
+                # TODO: send warn mecessary
+
         serializer = PhyPDUSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

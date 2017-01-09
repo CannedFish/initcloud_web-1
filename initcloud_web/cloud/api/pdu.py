@@ -10,6 +10,7 @@ LOG = logging.getLogger(__name__)
 
 FIN = 'input order:'
 INPUT_REX = re.compile("[\n\w\d\s]+:([\d\.]+)[^\n\s]*")
+OUTPUT_REX = re.compile("[\n\w\d\s]+:([\d\.ON-]+)[^\n\s]*")
 
 def _input_parse(raw):
     r = INPUT_REX.findall(raw)
@@ -22,7 +23,15 @@ def _input_parse(raw):
     }
 
 def _output_parse(raw):
-    pass
+    r = OUTPUT_REX.findall(raw)
+    return {
+        'current': r[0], # A
+        'min': r[1], # A
+        'max': r[2], # A
+        'energy': r[3], # kWh
+        'power': r[4], # W
+        'switch': r[5],
+    }
 
 def _query(cmds):
     """
@@ -58,4 +67,19 @@ def get_pdu_input():
     :return: [{'I': A, 'U': V, 'PF': , 'P': W, 'E': kWh}, ...]
     """
     return _query([{'cmd': 'INPUT %d\n' % i, 'parser': _input_parse} for i in (0, 1)])
+
+def get_pdu_output_status(pdu, outlets):
+    """
+    :params: pdu = 0 or 1
+    :params: outlets = [1, 2, 3, ...]
+    :return: {1: True, 2: False, 3: True, ...}
+    """
+    res = _query([{'cmd': 'OUTPUT %d %d\n' % (pdu, i), \
+            'parser': _output_parse} for i in outlets])
+    # print res, len(outlets), len(res)
+    ret = {}
+    for k, v in zip(outlets, res):
+        ret[k] = True if v['switch'] == 'ON' else False
+
+    return ret
 

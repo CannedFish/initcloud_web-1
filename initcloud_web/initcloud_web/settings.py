@@ -439,6 +439,12 @@ STORAGE_THRES_SSB = [
     }
 ]
 
+# outlets to be monitored
+PDU_OUTPUT_MONITOR = [
+    [1, 2, 3, 4, 5, 6, 7, 8], # PDU 0
+    [] # PDU 1
+]
+
 # PDU
 PDU_HOST = '221.239.81.83'
 PDU_PORT = 28083
