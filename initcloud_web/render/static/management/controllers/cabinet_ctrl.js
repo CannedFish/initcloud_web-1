@@ -104,14 +104,15 @@ CloudApp.controller('CabinetController',
                     {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
                 ]
                 $scope.cabinets = data;
+                
             });
 
-            //配置文件
+            //配置文件 说明：index：显示顺序  num:显示数量  h:represent height
             _config_temp = [
-                {'name':'switchboard','index':'4','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20},
-                {'name':'sas','index':'3','num':3,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21},
+                {'name':'switchboard','index':'1','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20},
+                {'name':'sas','index':'2','num':3,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21},
                 {'name':'cpu_temperature','index':'3','num':5,'status':1,'pblock':'item-box-03','cblock':'tool-03','h':35},
-                {'name':'memory_server_status','index':'1','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-04','h':44},
+                {'name':'memory_server_status','index':'4','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-04','h':44},
                 {'name':'jbod','index':'5','num':1,'status':1,'pblock':'item-box-05','cblock':'tool-05','h':66}
             ]
             //获取对象长度
@@ -131,6 +132,7 @@ CloudApp.controller('CabinetController',
                 })
             }
             sortObj(_config_temp)
+            console.log(_config_temp)
             // 便利配置文件 确定机柜位置
             var clen = _config_temp.length;
             var offset_top = 0;
@@ -138,13 +140,16 @@ CloudApp.controller('CabinetController',
                 // 父级块是否显示
                 if(_config_temp[i].status == 0){
                     $('.'+_config_temp[i].pblock).css('display','none');
-                    continue;
+                    i--;
                 }else{
                         if( i == 0){
                             offset_top = 0;
                         }
                         else{
                             offset_top += _config_temp[i-1].h*_config_temp[i-1].num;
+                            console.log(i);
+                            console.log(_config_temp[i-1])
+                            console.log(offset_top);
                         }
                         $('.'+_config_temp[i].pblock).css({'position':'absolute','top':offset_top});
                 }

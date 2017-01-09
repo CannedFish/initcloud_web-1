@@ -149,11 +149,11 @@
 </style>
 <div class="ad" ng-class="cabinets.cabinet_type == '01'?'jg-wrap-01':'jg-wrap-02'"  ng-controller="CabinetController" >
     <div class="jigui md">
-        <!-- <div id="cabinet" class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
+        <div id="cabinet" class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
             加载中...
-        </div> -->
-        <div class="inner-box-list" style="position:relative" class="hd">
-                <ul ng-class="{'active': tabs[0]}" ng-click="tab(0)" class="item-box-01" style="height:auto;width:100%;border-top: solid 1px #0c4070;cursor:pointer">
+        </div>
+        <div class="inner-box-list hd" style="position:relative">
+                <ul ng-class="{'active': tabs[0]}" ng-click="tab(0)" class="item-box-01 active" style="height:auto;width:100%;border-top: solid 1px #0c4070;cursor:pointer">
                     <li class="tool-01" ng-click="tabById(1,'network',$event);">
                         <span ng-repeat="item in cabinets._24switchboard[0] track by $index">
                             <img class="mt8" ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_03.png">
@@ -206,7 +206,7 @@
                     </li>
                 </ul>
                 <ul ng-class="{'active': tabs[4]}" ng-click="tab(4)" class="item-box-02" style="height:auto;width:100%;cursor:pointer">
-                    <li class="tool-02" ng-repeat="item in cabinets.sas">
+                    <li class="tool-02" ng-click="tabById($index+1,'sas')" ng-repeat="item in cabinets.sas" on-finish-render-filters>
                         <div class="lspan" ng-if="(item.node1!='')">
                             <span style="display:inline-block;height:100%;float:left" ng-repeat="node in item.node1 track by $index">
                                 <img class="w8" ng-if="node == 1" src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_01.png">
@@ -234,7 +234,7 @@
                     </li>
                     <li class="tool-02"></li>
                 </ul>
-                <ul ng-class="{'active': tabs[1]}" ng-click="tab(1)" class="item-box-03" style="height:auto;width:100%;cursor:pointer;border-bottom:solid 2px #0077bc;">
+                <ul ng-class="{'active': tabs[1]}" ng-click="tab(1)" class="item-box-03" style="height:auto;width:100%;cursor:pointer;">
                     <li class="tool-03 clearfix"  ng-click="tabById($index+1,'server')" ng-if="(item!='')" ng-repeat="item in cabinets.cpu_temperature track by $index">
                          <div style="float:left;">
                             <span style="display:inline-block;width:36px;" ng-if="(item.node1!='')">
@@ -309,7 +309,7 @@
                             </span>
                         </div>
                     </li>
-                    <li class="tool-04"></li>
+                   <!--  <li class="tool-04"></li> -->
                 </ul>
                 <ul ng-class="{'active': tabs[3]}" ng-click="tab(3)" class="item-box-05" style="height:auto;width:100%;cursor:pointer;">
                     <li class="tool-05" style="border-bottom:solid 2px #0077bc;" ng-click="tabById(1,'jbod')">
@@ -321,7 +321,7 @@
                             </span>      
                        </div> 
                     </li>
-                    <li class="tool-05" ng-click="tabById(1,'jbod')">
+                   <!--  <li class="tool-05" ng-click="tabById(1,'jbod')">
                         <div class="w1 clearfix">
                             <span ng-if="(item!='')" ng-repeat="item in cabinets.jbod_status_02 track by $index">
                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_20.png">
@@ -329,7 +329,7 @@
                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_18.png">
                             </span>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- pdu切换 -->
                 <ul ng-class="{'active': tabs[5]}" ng-click="tab(5)" style="position:absolute;width:10px;height:100%;left:-11px;">

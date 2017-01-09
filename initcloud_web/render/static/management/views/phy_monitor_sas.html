@@ -46,13 +46,17 @@
     .c5{color:#14a44e;}
     .c6{color:#00d8ff;}
     .c7{color:#3a4b71;}
-    .list .bg03{
-        background:url('../static/assets/admin/layout/img/second/network-monitor/bico1_03.png') no-repeat;
-        display:inline-block;
-        height: 63px;
-        width: 122px;
+    ul.list .item{
+        float:left; 
+        height: 84px;
+        width: 246px;
         margin-left:4px;
         position:relative;
+    }
+    .list .sas_bg03{
+        background:url('../static/assets/admin/layout/img/second/phy-monitor/sas_border.png') no-repeat;
+        display:inline-block;
+        
     }
     .list .bg04{
         background:url('../static/assets/admin/layout/img/second/network-monitor/bico5_03.png') no-repeat;
@@ -88,22 +92,35 @@
     .mt10{margin-top:8px !important;}
     .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
 </style>
-<div class="phy_cont" ng-controller="Phy_Monitor_NetworkController">
+<div class="phy_cont" ng-controller="Phy_Monitor_SasController">
                     <div class="work_title clearfix">
-                        <p class="title">网络监控</p>
-                        <p class="type_code">型号：{[{phy_monitor_sass.model}]}</p>  
+                        <p class="title">sas交换机监控</p>
+                        <p class="type_code">型号:{[{phy_monitor_sass.model}]}</p>  
                     </div>
                     <div class="list-wrapper clearfix">
                         <div class="node_title" style="width:50%">网络端口监控</div>
                     </div>
                     <div class="loaded" ng-if="phy_monitor_sass!=''">
-                        <div class="list">
-                            <span ng-class="item.link == 1?'bg03':'bg04'" class="item" ng-repeat="item in phy_monitor_sass.traffic">
-                                <i ng-class="item.link == 1?'numbg03':'numbg04'" class="indexnum">{[{$index+1}]}</i>
-                                <p ng-class="item.link == 1?'c5':'c7'" class="tool mt10">{[{item.upload  | number:2}]}kb</p>
-                                <p ng-class="item.link == 1?'c6':'c7'" class="tool">{[{item.download | number:2}]}kb</p>
-                            </span>
-                        </div>
+                        <ul class="list">
+                            <li class="item sas_bg03" ng-repeat="item in phy_monitor_sass.traffic">
+                                <i class="indexnum numbg03">{[{$index+1}]}</i>
+                                <p style="margin:0px;padding:0px;height:49px;line-height:49px;">
+                                    <span style="display:inline-block;width:20px;margin-left:20px;"><img src="../static/assets/admin/layout/img/second/phy-monitor/sas_ico_02.png"></span>&nbsp;&nbsp;
+                                    <span style="display:inline-block;width:60px;color:#00d8ff;font-size:14px;">
+                                        <img class="ststus_flag" src="../static/assets/admin/layout/img/second/phy-monitor/status_01.png"/>
+                                        未插线
+                                    </span>
+                                    <span style="display:inline-block;width:60px;color:#00d8ff;font-size:14px;">
+                                        <img class="ststus_flag" src="../static/assets/admin/layout/img/second/phy-monitor/status_02.png"/>
+                                        未连通
+                                    </span>
+                                     <span style="display:inline-block;width:60px;color:#00d8ff;font-size:14px;">
+                                        <img class="ststus_flag" src="../static/assets/admin/layout/img/second/phy-monitor/status_03.png"/>
+                                        插线
+                                    </span>
+                                </p>
+                            </li>
+                        </ul>   
                     </div>
                     <div class="loading" ng-if="phy_monitor_sass==''">
                         加载中。。。
