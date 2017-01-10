@@ -37,6 +37,9 @@ import time
 LOG = logging.getLogger(__name__)
 
 def get_run_time(delay_time = 0):
+    """
+    Return run time of service
+    """
     now_time = time.time()
     running_time = int(now_time - 46 * 365 * 24 * 60 * 60 - 270 * 24 * 60 * 60 - 5 * 60 * 60 - delay_time)
     h = running_time/3600
@@ -46,6 +49,9 @@ def get_run_time(delay_time = 0):
     return run_time
 
 def get_service_status(services, customized = None):
+    """
+    Return format service status dict
+    """
     normal_status = 0
     run_status = 0
     error_status = 0
@@ -64,6 +70,9 @@ def get_service_status(services, customized = None):
 
 
 class Service_BarList(generics.ListAPIView):
+    """
+    Handle request to '^service__bar/$'
+    """
     LOG.info("--------- I am service_bar list in Service_BarList ----------")
     queryset = Service_Bar.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 

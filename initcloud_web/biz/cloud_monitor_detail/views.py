@@ -37,12 +37,18 @@ import random
 LOG = logging.getLogger(__name__)
 
 def make_fake(period = 6, mi = 0, ma = 10):
+    """
+    Return fake data index.
+    """
     return_data = []
     for i in range(0, period - 1):
         return_data.append([i, round(random.uniform(mi, ma),2)])
     return return_data
 
 def get_sample_data(request, meter_name, resource_id, project_id = None):
+    """
+    Return index of sample data of hour
+    """
     query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
     sample_data = ceilometer.sample_list(request, meter_name, query, limit = 145)
     hour_data = []
@@ -57,9 +63,10 @@ def get_sample_data(request, meter_name, resource_id, project_id = None):
 
 
 class Cloud_Monitor_DetailList(generics.ListAPIView):
+    """
+    Handle request to '^cloud_monitor_detail/$'
+    """
     LOG.info("--------- I am cloud_monitor_detail list in Cloud_Monitor_DetailList ----------")
-
-#@require_POST
     def list(self, request):
         LOG.info('--------------- CLOUD MONITOR DETAIL ---------------')
         try:
@@ -71,7 +78,6 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 	    return_data['name'] = name
             vcpus = resource.metadata['vcpus']
             memory = resource.metadata['memory_mb']
-	#LOG.info(resource)
 	#-------------------------- CPU -------------------------
 	    if settings.CLOUD_MONITOR_FAKE:
                 hour_data = make_fake(6, 2, 8)
@@ -168,7 +174,6 @@ class Cloud_Monitor_DetailList(generics.ListAPIView):
 	    return_array = []
 	    return_array.append(return_data)
 	    return Response(return_array)	
-	    #return Response(return_data)	
         except:
 	    LOG.info("ERROR!!!!")
 	    #trackback.print_exc()

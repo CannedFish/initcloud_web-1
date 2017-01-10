@@ -57,6 +57,8 @@ urlpatterns = [
 # phy_monitor
 urlpatterns += [
     url(r'^cabinet/$', phy_monitor_view.CabinetDetail.as_view()),
+    url(r'^sas/$', phy_monitor_view.SASDetail.as_view()),
+    url(r'^triger_alarm/$', phy_monitor_view.AlarmDetail.as_view()),
     url(r'^phy_monitor_jbod/(?P<j_id>[0-9])$', phy_monitor_view.PhyMonitorJBODDetail.as_view()),
     url(r'^phy_monitor_network/(?P<n_id>[0-9])$', phy_monitor_view.PhyMonitorNetworkList.as_view()),
     url(r'^phy_monitor_server/(?P<s_id>[0-9])$', phy_monitor_view.PhyMonitorServerList.as_view()),

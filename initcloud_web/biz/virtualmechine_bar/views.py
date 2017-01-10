@@ -36,12 +36,18 @@ import random
 LOG = logging.getLogger(__name__)
 
 def make_fake(period = 6, mi = 0, ma = 10):
+    """
+    Return fake hour data index
+    """
     return_data = []
     for i in range(0, period - 1):
         return_data.append([i, round(random.uniform(mi, ma),2)])
     return return_data
 
 def get_sample_data(request, meter_name, resource_id, project_id = None):
+    """
+    Return avg hour data of sample data
+    """
     query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
     sample_data = ceilometer.sample_list(request, meter_name, query, limit = 7)
     hour_data = []
@@ -52,14 +58,17 @@ def get_sample_data(request, meter_name, resource_id, project_id = None):
             hour_data.append([hour, 0])
         except:
             hour_data.append([hour, 4])
-    sum = 0
+    _sum = 0
     for hour in hour_data:
-        sum = sum + hour[1]
-    avg = sum/len(hour_data)
+        _sum = _sum + hour[1]
+    avg = _sum/len(hour_data)
     return avg
 
 
 class Virtualmechine_BarList(generics.ListAPIView):
+    """
+    Handle request to '^virtualmechine_bar/$'
+    """
     LOG.info("--------- I am virtualmechine_bar list in Virtualmechine_BarList ----------")
     queryset = Virtualmechine_Bar.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
@@ -85,18 +94,18 @@ class Virtualmechine_BarList(generics.ListAPIView):
 		if each.status == 'ACTIVE':
 		    running_cm = running_cm + 1
 	        if settings.CLOUD_MONITOR_FAKE:
-		    sum = 0
+		    _sum = 0
     		    for hour in make_fake(6, 1, 4):
-        	        sum = sum + hour[1]
-    		    write = round(sum/6, 2)
-		    sum = 0
+        	        _sum = _sum + hour[1]
+    		    write = round(_sum/6, 2)
+		    _sum = 0
                     for hour in make_fake(6, 1, 4):
-                        sum = sum + hour[1]
-                    read = round(sum/6, 2)
-		    sum = 0
+                        _sum = _sum + hour[1]
+                    read = round(_sum/6, 2)
+		    _sum = 0
                     for hour in make_fake(6, 2, 8):
-                        sum = sum + hour[1]
-                    cpu_loadbalance = round(sum/6, 2)
+                        _sum = _sum + hour[1]
+                    cpu_loadbalance = round(_sum/6, 2)
                 else:
 		    avg_write = get_sample_data(rc, 'disk.write.bytes.rate', each.id)
                     write_rate.append(avg_write)
@@ -126,7 +135,7 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    #LOG.info(return_data)
 	    return Response(return_data)
 	except:
-	    #trackback.print_exc()
+	    trackback.print_exc()
 	    return_data = []	
 	    return_data.append({'write':5,'read':4,'cpu_loadbalance':3,"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
                 'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',

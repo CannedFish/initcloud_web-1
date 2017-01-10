@@ -31,8 +31,10 @@ from cloud.cloud_utils import create_rc_manually
 from cloud.api import neutron
 LOG = logging.getLogger(__name__)
 
-
 class Network_Bar_RouterList(generics.ListAPIView):
+    """
+    Handle request to '^network_bar_router/$'
+    """
     LOG.info("--------- I am network_bar_router list in Network_Bar_RouterList ----------")
     queryset = Network_Bar_Router.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
