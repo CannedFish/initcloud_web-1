@@ -788,7 +788,11 @@ class PhyMonitorPDUDetail(APIView):
                 settings.PDU_OUTPUT_MONITOR):
             if len(outlets) > 0:
                 status = pdu.get_pdu_output_status(pdu, outlets)
-                # TODO: send warn message
+                # send warn message
+                for k in status:
+                    if not status[k]:
+                        warning.warn("PDU output", "No output current", \
+                                "--", 1, "outlet%d" % k)
 
         serializer = PhyPDUSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
