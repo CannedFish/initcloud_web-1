@@ -25,13 +25,14 @@ def __get_clinet():
 
     return __client
 
-def warn(name, meter, content, count):
+def warn(name, meter, content, count, ip):
     client = __get_clinet()
     payload = {
         "alarm_object": name,
         "alarm_meter": meter,
         "alarm_data": content,
-        "alarm_count": count
+        "alarm_count": count,
+        "alarm_name": ip
     }
     LOG.info('=======Warning payload========: \n%s' % payload)
     URL_ = settings.REQ_URL + '/api/alarm/save/'
