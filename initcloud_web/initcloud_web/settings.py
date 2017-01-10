@@ -354,7 +354,8 @@ PHY_THRES = {
             'cpu_volt_max': 5,
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.1'
         },
         '2': {
             'cpu_temp_max': 80,
@@ -362,7 +363,8 @@ PHY_THRES = {
             'cpu_volt_max': 5,
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.2'
         },
         '3': {
             'cpu_temp_max': 80,
@@ -370,7 +372,8 @@ PHY_THRES = {
             'cpu_volt_max': 5,
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.3'
         },
         '4': {
             'cpu_temp_max': 80,
@@ -378,7 +381,8 @@ PHY_THRES = {
             'cpu_volt_max': 5,
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.4'
         },
         '5': {
             'cpu_temp_max': 80,
@@ -386,7 +390,8 @@ PHY_THRES = {
             'cpu_volt_max': 5,
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.5'
         }
     },
     'store': [
@@ -396,7 +401,8 @@ PHY_THRES = {
             'cpu_volt_max': 5, # volt
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.6'
         },
         {
             'cpu_temp_max': 80,
@@ -404,7 +410,8 @@ PHY_THRES = {
             'cpu_volt_max': 5,
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
-            'mem_volt_min': 1
+            'mem_volt_min': 1,
+            'ip': '10.0.0.7'
         }
     ]
 }
@@ -413,7 +420,8 @@ STORAGE_THRES = {
     'read_min': 500, # MB/s
     'read_max': 5000,
     'write_min': 500,
-    'write_max': 5000
+    'write_max': 5000,
+    'ip': '10.0.0.8'
 }
 
 STORAGE_THRES_SSB = [
@@ -425,7 +433,8 @@ STORAGE_THRES_SSB = [
         'read_min': 500,
         'read_max': 5000,
         'write_min': 500,
-        'write_max': 5000
+        'write_max': 5000,
+        'ip': '10.0.0.9'
     },
     { # node2
         'cpu_util_min': 50,
@@ -435,7 +444,8 @@ STORAGE_THRES_SSB = [
         'read_min': 500,
         'read_max': 5000,
         'write_min': 500,
-        'write_max': 5000
+        'write_max': 5000,
+        'ip': '10.0.0.10'
     }
 ]
 

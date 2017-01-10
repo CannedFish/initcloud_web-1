@@ -485,7 +485,7 @@ class PhyNodesList(APIView):
             'datatype': 'IO'
         }
 
-    def __check_and_warn(self, data, th_max, th_min, meter, name, count):
+    def __check_and_warn(self, data, th_max, th_min, meter, name, count, ip):
         """
         Check threashold and send warning message if necessary.
 
@@ -496,6 +496,7 @@ class PhyNodesList(APIView):
         meter: the type of data
         name: the name of this kind of warning
         count: the time of this kind of warning happen
+        ip: IP of the illed node
         """
         if data > th_max:
             meter += '_max'
@@ -504,7 +505,7 @@ class PhyNodesList(APIView):
         else:
             return
         content = settings.REQ_CONTENT_FMT % (name, meter, str(data), count)
-        warning.warn(name, meter, content, count)
+        warning.warn(name, meter, content, count, ip)
     
     def _check_and_warn(self, data):
         """
@@ -518,20 +519,20 @@ class PhyNodesList(APIView):
             self.__check_and_warn(node_data['sbb']['cpuUsed'], \
                     node_thres['cpu_util_max'], \
                     node_thres['cpu_util_min'], \
-                    'cpu_util', name % num, 1)
+                    'cpu_util', name % num, 1, node_thres['ip'])
             # Memory
             self.__check_and_warn(node_data['sbb']['memUsed'], \
                     node_thres['mem_util_max'], \
                     node_thres['mem_util_min'], \
-                    'mem_util', name % num, 1)
+                    'mem_util', name % num, 1, node_thres['ip'])
             # Read 
             self.__check_and_warn(node_data['sbb']['rx'], \
                     node_thres['read_max'], \
                     node_thres['read_min'], \
-                    'read', name % num, 1)
+                    'read', name % num, 1, node_thres['ip'])
             # Write
             self.__check_and_warn(node_data['sbb']['tx'], \
                     node_thres['write_max'], \
                     node_thres['write_min'], \
-                    'write', name % num, 1)
+                    'write', name % num, 1, node_thres['ip'])
 

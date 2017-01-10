@@ -306,7 +306,7 @@ class PhyMonitorNetworkList(APIView):
         serializer = PhyMonitorNetworkSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-def check_and_warn(data, th_max, th_min, meter, name, count):
+def check_and_warn(data, th_max, th_min, meter, name, count, ip):
     """
     Check threshold and send warning message if necessary.
 
@@ -317,6 +317,7 @@ def check_and_warn(data, th_max, th_min, meter, name, count):
     meter: the type of data
     name: the name of this kind of warning
     count: the time of this kind of warning happen
+    ip: IP of the illed node
     """
     if data > th_max:
         meter += '_max'
@@ -325,7 +326,7 @@ def check_and_warn(data, th_max, th_min, meter, name, count):
     else:
         return
     content = settings.REQ_CONTENT_FMT % (name, meter, str(data), count)
-    warning.warn(name, meter, content, count)
+    warning.warn(name, meter, content, count, ip)
 
 def get_cpu_temp():
     """
@@ -472,14 +473,17 @@ class PhyMonitorServerList(APIView):
             for cpu in node['CPU']:
                 # temp
                 check_and_warn(cpu['T'], thres['cpu_temp_max'], \
-                        thres['cpu_temp_min'], 'cpu_temp', name, 1)
+                        thres['cpu_temp_min'], 'cpu_temp', name, \
+                        1, thres['ip'])
                 # volt
                 check_and_warn(cpu['V'], thres['cpu_volt_max'], \
-                        thres['cpu_volt_min'], 'cpu_volt', name, 1)
+                        thres['cpu_volt_min'], 'cpu_volt', name, \
+                        1, thres['ip'])
             for mem in node['memory_voltage']:
                 # volt
                 check_and_warn(mem, thres['mem_volt_max'], \
-                        thres['mem_volt_min'], 'mem_volt', name, 1)
+                        thres['mem_volt_min'], 'mem_volt', name, \
+                        1, thres['ip'])
 
 S_URL = settings.REDFISH_URL['storage_server']
 
@@ -564,13 +568,16 @@ class PhyMonitorStorageDetail(APIView):
             # cpu
             for cpu in ['cpu1', 'cpu2']:
                 check_and_warn(node[cpu][0], th['cpu_temp_max'], \
-                        th['cpu_temp_min'], 'cpu_temp', name % num, 1)
+                        th['cpu_temp_min'], 'cpu_temp', name % num, \
+                        1, th['ip'])
                 check_and_warn(node[cpu][1], th['cpu_volt_max'], \
-                        th['cpu_volt_min'], 'cpu_volt', name % num, 1)
+                        th['cpu_volt_min'], 'cpu_volt', name % num, \
+                        1, th['ip'])
             # mem
             for mem in node['memory_voltage']:
                 check_and_warn(mem, th['mem_volt_max'], \
-                        th['mem_volt_min'], 'mem_volt', name % num, 1)
+                        th['mem_volt_min'], 'mem_volt', name % num, \
+                        1, th['ip'])
 
     def __get_disk_status(self):
         """
@@ -781,7 +788,7 @@ class PhyMonitorPDUDetail(APIView):
                 settings.PDU_OUTPUT_MONITOR):
             if len(outlets) > 0:
                 status = pdu.get_pdu_output_status(pdu, outlets)
-                # TODO: send warn mecessary
+                # TODO: send warn message
 
         serializer = PhyPDUSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
