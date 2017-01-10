@@ -136,6 +136,9 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    return Response(return_data)
 	except:
 	    trackback.print_exc()
+=======
+	    traceback.print_exc()
+>>>>>>> 6fe7bdf6b7e3b9acbb7a891933ab7b265c8f4fc7
 	    return_data = []	
 	    return_data.append({'write':5,'read':4,'cpu_loadbalance':3,"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
                 'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',

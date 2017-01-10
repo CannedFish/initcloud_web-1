@@ -27,6 +27,9 @@ class Phy_Monitor(models.Model):
     """
 
 class PhyMonitorPDU(models.Model):
+    """
+    Model class for PDU data, 5 fields
+    """
     name = models.CharField(_("PDU"), max_length=16, default=False, null=False)
     volt = models.FloatField(_("Volt"), null=False)
     current = models.FloatField(_("Current"), null=False)
@@ -35,6 +38,12 @@ class PhyMonitorPDU(models.Model):
 
     @classmethod
     def last4(cls, pdu):
+        """
+        Return 4 pdus' data ordered by modified time
+
+        @params
+        pdu: the name of target pdu
+        """
         return PhyMonitorPDU.objects.filter(name=pdu)\
                 .order_by('create_date')
 

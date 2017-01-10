@@ -35,15 +35,27 @@ import os.path
 LOG = logging.getLogger(__name__)
 
 def get_jbod_current():
+    """
+    Get JBOD's temporary current data
+    """
     return round(random.uniform(9.8, 10.2), 1)
 
 def get_jbod_volt():
+    """
+    Get JBOD's temporary volt data
+    """
     return round(random.uniform(219.9, 220.1), 1)
 
 def get_jbod_fan_speed():
+    """
+    Get JBOD's temporary fan speed data
+    """
     return random.randint(6999, 7001)
 
 def get_jbod_data():
+    """
+    Get JBOD's temporary data
+    """
     return {
         '1': {
             'disk': [
@@ -67,14 +79,25 @@ def get_jbod_data():
 
 class PhyMonitorJBODDetail(APIView):
     def get(self, request, j_id):
+        """
+        Handle get request to /api/phy_monitor_jbod/
+        """
         data = get_jbod_data()[j_id]
         serializer = PhyMonitorJBODSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def get_net_traffic():
+    """
+    Get network switch's temporary traffic data
+    """
     return round(random.uniform(1000, 2000), 1)
 
 def get_net_data(no):
+    """
+    Get network switch's data.
+    Return temporary data if simulate switch on or get data failed.
+    Return real data on the other hand.
+    """
     SWITCH_DATA = {
         '1': {
             'model': settings.SWITCH_MODEL['1'],
@@ -285,11 +308,25 @@ def get_net_data(no):
         
 class PhyMonitorNetworkList(APIView):
     def get(self, request, n_id):
+        """
+        Handle get request to /api/phy_monitor_network/$n_id
+        """
         data = get_net_data(n_id)
         serializer = PhyMonitorNetworkSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 def check_and_warn(data, th_max, th_min, meter, name, count):
+    """
+    Check threshold and send warning message if necessary.
+
+    @params
+    data: data to be checked
+    th_max: the maximum of this kind of data
+    th_min: the minimum of this kind of data
+    meter: the type of data
+    name: the name of this kind of warning
+    count: the time of this kind of warning happen
+    """
     if data > th_max:
         meter += '_max'
     elif data < th_min:
@@ -300,24 +337,45 @@ def check_and_warn(data, th_max, th_min, meter, name, count):
     warning.warn(name, meter, content, count)
 
 def get_cpu_temp():
+    """
+    Get CPU's temporary temperature data
+    """
     return random.randint(41-5, 54+5)
 
 def get_cpu_volt():
+    """
+    Get CPU's temporary volt data
+    """
     return round(random.uniform(1.8, 1.9), 2)
 
 def get_dimm_volt():
+    """
+    Get DIMM's temporary volt data
+    """
     return round(random.uniform(1.15, 1.25), 2)
 
 def get_fan_speed():
+    """
+    Get compute nodes' temporary fan speed data
+    """
     return random.randint(6999, 7001)
 
 def get_server_volt():
+    """
+    Get compute nodes' temporary volt data
+    """
     return round(random.uniform(11.9, 12.2), 2)
 
 def get_server_current():
+    """
+    Get compute nodes' temporary current data
+    """
     return round(random.uniform(1.19, 1.21), 2)
 
 def get_fake_cpu_mem():
+    """
+    Get compute nodes' temporary data
+    """
     return {
         'CPU': [
             {'V':get_cpu_volt(),'T':get_cpu_temp()},
@@ -333,6 +391,10 @@ def get_fake_cpu_mem():
     }
 
 def get_phy_cpu_mem(impi_url):
+    """
+    Get compute nodes' real data.
+    If failed will return temporary data.
+    """
     chassislist = redfish.get_chassis_list(impi_url)
     if chassislist['code'] == 200:
         chassis = chassislist['body']['Members'][0]
@@ -389,6 +451,9 @@ PHY_URLs = settings.REDFISH_URL['phy_server']
 
 class PhyMonitorServerList(APIView):
     def get(self, request, s_id):
+        """
+        Handle get request to /api/phy_monitor_server/$s_id
+        """
         nodes = []
         if settings.REDFISH_SIMULATE:
             nodes = [get_fake_cpu_mem() if r_url != None else None \
@@ -405,6 +470,9 @@ class PhyMonitorServerList(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def _check_and_warn(self, data, s_id):
+        """
+        Check server's threashold and send warning message if necessary.
+        """
         thres = settings.PHY_THRES['phy'][s_id]
         name = '物理服务器%s报警' % s_id
         for node in data:
@@ -425,15 +493,29 @@ class PhyMonitorServerList(APIView):
 S_URL = settings.REDFISH_URL['storage_server']
 
 def get_pdu_volt():
+    """
+    Get PDU's temporary volt data
+    """
     return round(random.uniform(219.8, 220.2), 2)
 
 def get_pdu_current():
+    """
+    Get PDU's temporary current data
+    """
     return round(random.uniform(11.8, 12.2), 2)
 
 def get_pdu_watt():
+    """
+    Get PDU's temporary watt data
+    """
     return random.randint(92-2, 92+2)
 
 def get_storage_data():
+    """
+    Get storage server's temporary data.
+    Return temporary data if get data failed or simulate on.
+    Return real data on the other hand.
+    """
     ssbs = []
     if settings.REDFISH_SIMULATE:
         ssbs = [get_fake_cpu_mem() for i in xrange(2)]
@@ -469,6 +551,9 @@ def get_storage_data():
 
 class PhyMonitorStorageDetail(APIView):
     def get(self, request):
+        """
+        Handle get request to /api/phy_monitor_storage/
+        """
         data = get_storage_data()
         if not settings.REDFISH_SIMULATE:
             disks = self.__get_disk_status()
@@ -478,6 +563,10 @@ class PhyMonitorStorageDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def _check_and_warn(self, data):
+        """
+        Check storage server's threashold and send warning message
+        if necessary.
+        """
         thres = settings.PHY_THRES['store']
         name = '存储服务器%d报警'
         for node, th, num in zip(data, thres, [1, 2]):
@@ -493,6 +582,9 @@ class PhyMonitorStorageDetail(APIView):
                         th['mem_volt_min'], 'mem_volt', name % num, 1)
 
     def __get_disk_status(self):
+        """
+        Get the utilizition status of disk pool
+        """
         poollist = storage.get_pool_list()
         if poollist['success']:
             disks_used = []
@@ -520,6 +612,11 @@ class PhyMonitorStorageDetail(APIView):
             return []
 
 def get_cpu_temperatures():
+    """
+    Get all computer nodes' CPU temperature.
+    Return temporary data if get data failed or simulate on.
+    Return real data on the other hand.
+    """
     c_temps = []
     for phys in '12345':
         cpus = {'node1':[],'node2':[],'node3':[],'node4':[]}
@@ -627,6 +724,9 @@ class SASDetail(APIView):
 
 class CabinetDetail(APIView):
     def get(self, request):
+        """
+        Handle get request to /api/cabinet/
+        """
         N_DATA = {
             '1': get_net_data('1'),
             '2': get_net_data('2'),
@@ -695,6 +795,9 @@ class AlarmDetail(APIView):
     
 class PhyMonitorDisplayDetail(APIView):
     def get(self, request):
+        """
+        Handle get request to /api/phy_monitor_display/
+        """
         data = None
         LOG.info(" start to read file ")
         with open('/opt/display.json', 'r') as f:
@@ -706,6 +809,9 @@ class PhyMonitorDisplayDetail(APIView):
 
 class PhyMonitorPDUDetail(APIView):
     def __create_or_update(self, queryset, pdu, volt, current, watt):
+        """
+        Update PDU's data or create a new data if less than 4 has been stored
+        """
         if len(queryset) < 4:
             PhyMonitorPDU(name=pdu, volt=volt, current=current,\
                     watt=watt).save()
@@ -717,6 +823,9 @@ class PhyMonitorPDUDetail(APIView):
             oldest.save()
 
     def __pdu_data_init(self, dlist):
+        """
+        Initialize data value of PDU
+        """
         ret = {
             'currentdata': dlist,
             'data': {
@@ -731,6 +840,9 @@ class PhyMonitorPDUDetail(APIView):
         return ret
 
     def __pdu_data_assign(self, data, key, dlist):
+        """
+        Assign PDU's data to the set to be returned
+        """
         idx = 4-len(dlist)
         for d in dlist:
             data[key]['data']['voltdata'][idx][1] = d.volt
@@ -739,6 +851,9 @@ class PhyMonitorPDUDetail(APIView):
             idx += 1
 
     def get(self, request):
+        """
+        Handle get request to /api/phy_monitor_pdu/
+        """
         # data = {
             # 'PDU1':{
                 # 'currentdata':[123.12,45.12,258.12],

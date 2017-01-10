@@ -447,8 +447,6 @@ PDU_PASSWORD = 'surdoc'
 
 CPU_FREQUENCY = '3.4kHz'
 CPU_TYPE = 'E36608'
-# fake data control
-CLOUD_MONITOR_FAKE = False 
 
 #SAS REQ_URL
 SAS_REQ_URL = "http://10.10.21.66:8091/wsgi_app.py"
@@ -475,3 +473,4 @@ ALARM_NODES = {
 
 }
 }
+CLOUD_MONITOR_FAKE = False
