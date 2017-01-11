@@ -160,7 +160,7 @@ CloudApp.controller('CabinetController',
 	                            offset_top = 0;
 	                            //排序子级
 	                            for(var j = 0;j<chlen;j++){
-	 
+	                                
 	                            	ch_offset_top = (_config_temp[i].sub_index[j]-1)*_config_temp[i].h;
 	                            	$($('.'+_config_temp[i].cblock)).eq(j).css({'position':'absolute','top':offset_top+ch_offset_top})
 	                            }
