@@ -295,8 +295,8 @@ class StorageBarDetail(APIView):
                 sas_empty = 0
                 jbodlist = storage.get_jbod_list()
                 if jbodlist['success']:
-                    for disk in jbodlist['data']:
-                        for slot in disk['slotList']:
+                    for jbod in jbodlist['data']:
+                        for slot in jbod['slotList']:
                             if slot == 'empty':
                                 sas_empty += 1
                 storage_bar = {
