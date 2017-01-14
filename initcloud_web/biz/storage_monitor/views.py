@@ -288,10 +288,12 @@ class StorageBarDetail(APIView):
                             sas_total += 1
                             if used:
                                 sas += 1
-                        else:
+                        elif flag == 'nvme':
                             nvme_total += 1
                             if used:
                                 nvme += 1
+                        else:
+                            continue
                 sas_empty = 0
                 jbodlist = storage.get_jbod_list()
                 if jbodlist['success']:
