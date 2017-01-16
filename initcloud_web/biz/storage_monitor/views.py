@@ -168,9 +168,9 @@ class StorageNodeList(generics.ListAPIView):
                                     'empty': status['memTotal']-status['memUsed']
                                 },
                                 'network_card': {
-                                    'up': up # if up != 0 else tx_per,
-                                    'up_rate': up_rate # if up != 0 else max_rate*tx_per,
-                                    'down': down # if down != 0 else rx_per,
+                                    'up': up, # if up != 0 else tx_per,
+                                    'up_rate': up_rate, # if up != 0 else max_rate*tx_per,
+                                    'down': down, # if down != 0 else rx_per,
                                     'down_rate': down_rate # if down != 0 else max_rate*rx_per
                                 }
                             }
@@ -433,8 +433,8 @@ class PhyNodesList(APIView):
                         sbb = {
                             'cpuUsed': round(ss['cpu'], 1),
                             'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
-                            'tx': up # if up != 0 else tx_per,
-                            'rx': down # if down != 0 else rx_per,
+                            'tx': up, # if up != 0 else tx_per,
+                            'rx': down, # if down != 0 else rx_per,
                             'datatype': 'SBB'
                         }
                         # IO data
