@@ -452,6 +452,7 @@ class PhyMonitorServerList(APIView):
                     for r_url in PHY_URLs[s_id]]
         else:
             for r_url in PHY_URLs[s_id]:
+                # TODO: make parallelization
                 nodes.append(get_phy_cpu_mem(r_url) if r_url != None else None)
         self._check_and_warn(nodes, s_id)
         data = {
@@ -467,23 +468,23 @@ class PhyMonitorServerList(APIView):
         """
         thres = settings.PHY_THRES['phy'][s_id]
         name = '物理服务器%s报警' % s_id
-        for node in data:
+        for node, idx in zip(data, range(4)):
             if node == None:
                 continue
             for cpu in node['CPU']:
                 # temp
                 check_and_warn(cpu['T'], thres['cpu_temp_max'], \
                         thres['cpu_temp_min'], 'cpu_temp', name, \
-                        1, thres['ip'])
+                        1, thres['ip'][idx])
                 # volt
                 check_and_warn(cpu['V'], thres['cpu_volt_max'], \
                         thres['cpu_volt_min'], 'cpu_volt', name, \
-                        1, thres['ip'])
+                        1, thres['ip'][idx])
             for mem in node['memory_voltage']:
                 # volt
                 check_and_warn(mem, thres['mem_volt_max'], \
                         thres['mem_volt_min'], 'mem_volt', name, \
-                        1, thres['ip'])
+                        1, thres['ip'][idx])
 
 S_URL = settings.REDFISH_URL['storage_server']
 
@@ -617,10 +618,12 @@ def get_cpu_temperatures():
     """
     c_temps = []
     for phys in '12345':
+        # TODO: make parallelization
         cpus = {'node1':[],'node2':[],'node3':[],'node4':[]}
         idx = 1
         for impi_url in PHY_URLs[phys]:
             if impi_url != None:
+                # TODO: make parallelization
                 if settings.REDFISH_SIMULATE:
                     cpus['node%d' % idx] = [round(get_cpu_temp()), round(get_cpu_temp())]
                 else:
@@ -784,13 +787,13 @@ class PhyMonitorPDUDetail(APIView):
                 p2_now[1], p2_now[2])
 
         # check pdu output and warn if necessary
-        for pdu, outlets in zip(range(len(settings.PDU_OUTPUT_MONITOR)), \
+        for l_pdu, outlets in zip(range(len(settings.PDU_OUTPUT_MONITOR)), \
                 settings.PDU_OUTPUT_MONITOR):
             if len(outlets) > 0:
-                status = pdu.get_pdu_output_status(pdu, outlets)
+                l_status = pdu.get_pdu_output_status(l_pdu, outlets)
                 # send warn message
-                for k in status:
-                    if not status[k]:
+                for k in l_status:
+                    if not l_status[k]:
                         warning.warn("PDU output", "No output current", \
                                 "--", 1, "outlet%d" % k)
 

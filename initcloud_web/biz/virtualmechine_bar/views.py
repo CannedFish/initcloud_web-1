@@ -33,6 +33,9 @@ from cloud.api import ceilometer
 from cloud.cloud_utils import create_rc_manually
 import traceback
 import random
+
+import cloud.api.storage as storage
+
 LOG = logging.getLogger(__name__)
 
 def make_fake(period = 6, mi = 0, ma = 10):
@@ -121,7 +124,7 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    return_data = []
 	    return_data.append({'write':write,'read':read,'cpu_loadbalance':cpu_loadbalance,"total_kernel":total_kernel,'total_memory':total_memory,'cloud_kernel':cloud_kernel,'cloud_allocat_memory':cloud_allocat_mem,
                 'established_cloudmechine':est_cm,'running_cloudmechine':running_cm,'total_ypan':total_ypan,'total_capacity':total_capacity,
-                'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
+                'storage':self._get_storage_data(),'empty_float_ip':'100','used_float_ip':'200'
 })
 	    #LOG.info(return_data)
 	    return Response(return_data)
@@ -132,8 +135,43 @@ class Virtualmechine_BarList(generics.ListAPIView):
                 'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',
                 'storage':{'n':[30,70],'h':[40,60],'RAY':[50,50]},'empty_float_ip':'100','used_float_ip':'200'
 })
-	    return Response(return_data)	    
+	    return Response(return_data)
 
+    def _byte_2_gbyte(self, val):
+        """
+        Convert byte to gigabyte
+        """
+        return round(val/1024.0/1024.0/1024.0)
+
+    def _get_storage_data(self):
+        """
+        Get data of storage pool
+        """
+        pool_status = storage.get_pool_status()
+        if pool_status['success']:
+            ret = {
+                'n': [0, 0],
+                'h': [0, 0],
+                'RAY': [0, 0]
+            }
+            for pool in pool_status['data']:
+                used = self._byte_2_gbyte(pool['used'])
+                remain = self._byte_2_gbyte(pool['size']) - used
+                if pool['class'] == 'hdd':
+                    ret['n'][0] += used
+                    ret['n'][1] += remain
+                elif pool['class'] == 'ssd':
+                    ret['h'][0] += used
+                    ret['h'][1] += remain
+                elif pool['class'] == 'nvme':
+                    ret['RAY'][0] += used
+                    ret['RAY'][1] += remain
+                else:
+                    continue
+            return ret
+        else:
+            LOG.info("Get pool status failed")
+            return {'n':[30,70],'h':[40,60],'RAY':[50,50]}
 
 @require_POST
 def create_virtualmechine_bar(request):

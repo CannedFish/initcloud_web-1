@@ -355,7 +355,7 @@ PHY_THRES = {
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
             'mem_volt_min': 1,
-            'ip': '10.0.0.1'
+            'ip': ['10.0.0.1', '10.0.0.2', '10.0.0.3', '10.0.0.4']
         },
         '2': {
             'cpu_temp_max': 80,
@@ -364,7 +364,7 @@ PHY_THRES = {
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
             'mem_volt_min': 1,
-            'ip': '10.0.0.2'
+            'ip': ['10.0.0.5', None, '10.0.0.6', '10.0.0.7']
         },
         '3': {
             'cpu_temp_max': 80,
@@ -373,7 +373,7 @@ PHY_THRES = {
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
             'mem_volt_min': 1,
-            'ip': '10.0.0.3'
+            'ip': [None, None, None, None]
         },
         '4': {
             'cpu_temp_max': 80,
@@ -382,7 +382,7 @@ PHY_THRES = {
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
             'mem_volt_min': 1,
-            'ip': '10.0.0.4'
+            'ip': [None, None, None, None]
         },
         '5': {
             'cpu_temp_max': 80,
@@ -391,7 +391,7 @@ PHY_THRES = {
             'cpu_volt_min': 1,
             'mem_volt_max': 5,
             'mem_volt_min': 1,
-            'ip': '10.0.0.5'
+            'ip': [None, None, None, None]
         }
     },
     'store': [
@@ -424,6 +424,7 @@ STORAGE_THRES = {
     'ip': '10.0.0.8'
 }
 
+# Storage detail page
 STORAGE_THRES_SSB = [
     { # node1
         'cpu_util_min': 50, # %
