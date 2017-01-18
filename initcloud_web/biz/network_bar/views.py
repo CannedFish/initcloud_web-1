@@ -35,7 +35,18 @@ import random
 
 LOG = logging.getLogger(__name__)
 
+def make_fake(period = 6, mi = 0, ma = 10):
+    """
+    Return fake data index
+    """
+    return_data = []
+    for i in range(0, period - 1):
+        return_data.append([i, round(random.uniform(mi, ma),2)])
+    return return_data
 def get_sample_data(request, meter_name, resource_id, project_id = None):
+    """
+    Return index of sample data of hour
+    """
     query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
     sample_data = ceilometer.sample_list(request, meter_name, query, limit = 7)
     hour_data = []
@@ -48,8 +59,10 @@ def get_sample_data(request, meter_name, resource_id, project_id = None):
             hour_data.append([hour, 4])
     return hour_data
 
-
 class Network_BarList(generics.ListAPIView):
+    """
+    Handle request to '^network_bar/$'
+    """
     LOG.info("--------- I am network_bar list in Network_BarList ----------")
     def list(self, request):
 	LOG.info('--------------NETWORK BAR -----------------')
@@ -77,14 +90,15 @@ class Network_BarList(generics.ListAPIView):
                 incoming_pkg.append(avg_incoming_pkg)
 		avg_outgoing_pkg = get_sample_data(rc, 'network.outgoing.packets.rate', each.id)
                 outgoing_pkg.append(avg_outgoing_pkg)
-	    #uprate = incoming[0]
-	    #downrate = outgoing[0]
-	    #uppacket = incoming_pkg[0]
-	    #downpacket = outgoing_pkg[0]
+	    uprate = incoming[0]
+	    downrate = outgoing[0]
+	    uppacket = incoming_pkg[0]
+	    downpacket = outgoing_pkg[0]
 	    #LOG.info([uprate, downrate, uppacket, downpacket])
 	    return_data = []
 	    return_data.append({'uprate':uprate,'downrate':downrate,'uppacket':uppacket,'downpacket':downpacket})
 	    return Response(return_data)
+	    #return Response({'uprate':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downrate':[[0,1.7],[1,2.2],[2,2.2],[3,2.1],[4,2.1],[5,1.7]],'uppacket':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downpacket':[[0,1],[1,2],[2,2.2],[3,1.6],[4,2.5],[5,1.7]]})
 	except:
 	    #trackback.print_exc()
 	    return Response({'uprate':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downrate':[[0,1.7],[1,2.2],[2,2.2],[3,2.1],[4,2.1],[5,1.7]],'uppacket':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downpacket':[[0,1],[1,2],[2,2.2],[3,1.6],[4,2.5],[5,1.7]]})

@@ -2,6 +2,7 @@
 
 import logging, random
 import json
+import os
 
 from rest_framework.response import Response
 from rest_framework import generics
@@ -15,6 +16,7 @@ from biz.phy_monitor.serializer import CabinetSerializer,\
         PhyMonitorServerSerializer, PhyMonitorStorageSerializer,\
         PhyPDUSerializer
 from biz.phy_monitor.models import PhyMonitorPDU
+from biz.alarm.models import Alarm_Save
 
 from django.conf import settings
 
@@ -24,6 +26,11 @@ import cloud.api.warning as warning
 import cloud.api.pdu as pdu
 
 import threading
+#sas import
+#from surcloudextend_service.extend_service.common import config
+import os,commands
+#from jpype import *
+import os.path  
 
 LOG = logging.getLogger(__name__)
 
@@ -676,6 +683,82 @@ def get_cpu_temperatures():
         c_temps.append(cpus)
     return c_temps
 
+
+def getsasportinfo(self,ip,name,pw):
+    telnetjava = JClass("sasSwitch.telnetjava")
+    telnet=telnetjava("VT220",">")
+    telnet.login(ip,23, name, pw)
+    infos=telnet.sendCommand('show phy')
+    telnet.distinct();
+        
+    strsper="------------------------------------- ------------------------------------------\n"
+    pos1=infos.find(strsper);
+    perlinelength=len(strsper)
+    pos1+=perlinelength;
+       
+    strtemp="";
+    ret=''
+    bfrist=True;
+    for i in range(0,64,4):
+        
+        pos2=infos.find('\n', pos1);
+        strtemp=infos[pos1: pos2];
+        pos1=pos2+1+3*perlinelength;
+        posfind=strtemp.find("End");
+        if( -1 != posfind):
+          
+            strportnumber="port:"
+            port111=i/4+1
+            strportnumber+=str(port111)
+            		
+            if(not  bfrist):
+                ret+=";"
+            	
+            bfrist=False
+            ret+=strportnumber
+
+    return ret
+            
+
+
+class SASDetail(APIView):
+    jarpath = '/usr/lib/python2.7/site-packages/surcloudextend_service/extend_service/libjava/'
+    args=("-Djava.class.path=%s:" % (jarpath + 'sasSwitchpack.jar')) 
+    args+=("%s" % (jarpath + 'commons-net-2.0.jar'))
+    #javabasepath=getDefaultJVMPath()
+    #startJVM(javabasepath,"-ea", args)
+    def get(self, request):
+        return_val = 1
+        LOG.info("sas_manager.request_handle")
+        try:
+            #method=gui_req['method']
+            method = "sas_getport"
+            if 'sas_getport' == method:
+                sas_ip = settings.SAS_SWITCH_IP
+                sas_usr = settings.SAS_SWITCH_USER
+                sas_password = settings.SAS_SWITCH_PASS
+                try:
+                    sas_protsinfo=getsasportinfo(sas_ip,sas_usr,sas_password)
+                    response_data={}
+                    response_data['sas_ports']=sas_protsinfo
+                    response_message='get sasswitch succesful'
+                    response = [{'status_code': return_val, "message": "get sas switch done.", "method": method,                     "data": {"sas_ports":sas_protsinfo}}]
+                    return response 
+                except Exception as exc1:
+                    LOG.info("connect sas_switch faild%d" % exc1)
+                    response_data={}
+                    response_data['sas_ports']=''
+                    response_message='connect sasswitch failed'
+                    return_val=0
+                    response = [{'status_code': return_val, "message": "get sas switch failed.", "method": method,                     "data": {"sas_ports":''}}]
+                    return response
+
+        except Exception as exc:
+            LOG.info("sasManager.request_handle_exception%d" % exc)
+            return [] 
+
+
+
 class CabinetDetail(APIView):
     def get(self, request):
         """
@@ -711,6 +794,42 @@ class CabinetDetail(APIView):
         serializer = CabinetSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class AlarmDetail(APIView):
+    def get(self, request):
+        LOG.info(" begin to triger alarm ")
+        nodes = settings.ALARM_NODES
+        for type_node,values in nodes.items():
+            LOG.info("node type is" + str(type_node))
+            LOG.info(" values are " + str(values))
+            for key,value in values.items():
+                LOG.info(" key is " + str(key))
+                LOG.info(" value is " + str(value))
+                ip = str(value)
+                response = self._check_status(ip)
+                nodes[type_node][key] = response
+        return Response(nodes)
+
+    def _check_status(self, ip):
+        # 0 ok
+        # 1 alarm
+        # -1 error
+        LOG.info(" start to check status ")
+        response = 0
+        if '.' not in str(ip):
+            response = 0
+        else:
+            response = os.system("ping -c 1 " + ip)    
+        LOG.info(response)
+        if response == 0:
+            LOG.info("0")
+            alarm_save = Alarm_Save.objects.filter(alarm_name=ip)
+            if alarm_save:
+                response = 1
+        else:
+            LOG.info("-1")
+            response = -1
+        return response
+    
 class PhyMonitorDisplayDetail(APIView):
     def get(self, request):
         """

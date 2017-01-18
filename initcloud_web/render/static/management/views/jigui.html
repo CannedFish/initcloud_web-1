@@ -116,29 +116,35 @@
      .tool-05{
         height:66px;
     }
+    .tool-06{
+        height:30px;
+    }
+    .tool-07{
+        height:52px;
+    }
     .item-box-01 .tool-01 span{height:10px;display:inline-block;float:left;line-height:10px;}
-    .item-box-05 .tool-05 .w1{
+    .item-box-05 .tool-05 .w1,.item-box-05 .tool-07 .w1,{
         margin-top: 5px;
         margin-right: 1px;
         margin-bottom: 1px;
         margin-left: 3px;
     }
-    .item-box-05 .tool-05 .w1 span{   
+    .item-box-05 .tool-05 .w1 span,.item-box-05 .tool-07 .w1 span{   
          height: 9px;
          width: 9px;
          display: inline-block;
          float: left;
          margin: 0.5px;
      }
-     .item-box-05 .tool-05 .w1 span img{float:left;}
+     .item-box-05 .tool-05 .w1 span img,.item-box-05 .tool-07 .w1 span img{float:left;}
      .item-box-01 .tool-01 span img{float:left;margin-left:1px;margin-top:2px;}
      .mt8{margin-top:8px !important;}
      .item-box-03 .tool-03 div{
         width:76px;
         height:18px;
      }
-     .item-box-03 .tool-03 img,.item-box-04 .tool-04 img{margin-bottom: 3px;}
-     .item-box-03 .tool-03 .tx,.item-box-04 .tool-04 .tx{    
+     .item-box-03 .tool-03 img,.item-box-04 .tool-04 img,.item-box-04 .tool-06 img{margin-bottom: 3px;}
+     .item-box-03 .tool-03 .tx,.item-box-04 .tool-04 .tx,.item-box-04 .tool-06 .tx{    
         color: #0077bc;
         display: inline-block;
         height: 100%;
@@ -147,7 +153,7 @@
         margin-top: 1px;
     }
 </style>
-<div class="ad" ng-class="cabinets.cabinet_type == '01'?'jg-wrap-01':'jg-wrap-02'"  ng-controller="CabinetController" >
+<div ng-if="cabinet_type._24U == 1" class="ad jg-wrap-02">
     <div class="jigui md">
         <div id="cabinet" class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
             加载中...
@@ -330,6 +336,213 @@
                             </span>
                         </div>
                     </li> -->
+                </ul>
+                <!-- pdu切换 -->
+                <ul ng-class="{'active': tabs[5]}" ng-click="tab(5)" style="position:absolute;width:10px;height:100%;left:-11px;">
+                    <li style="width:100%;height:100%"></li>
+                </ul>
+                <ul ng-class="{'active': tabs[5]}" ng-click="tab(5)" style="position:absolute;width:10px;height:100%;right:-9px;">
+                    <li style="width:100%;height:100%"></li>
+                </ul>
+        </div>
+    </div>
+</div>
+<!-- 42U机柜 -->
+<div ng-if="cabinet_type._42U == 1" class="ad jg-wrap-02">
+    <div class="jigui md">
+        <div id="cabinet" class="inner-box-list" ng-if="cabinets==''" style="color:#ff0000;height:100%;line-height:100%;text-align:center;">
+            加载中...
+        </div>
+        <div class="inner-box-list hd" style="position:relative">
+                <ul ng-class="{'active': tabs[0]}" ng-click="tab(0)" class="item-box-01 active" style="height:auto;width:100%;border-top: solid 1px #0c4070;cursor:pointer">
+                    <li class="tool-01" ng-click="tabById(1,'network',$event);">
+                        <span ng-repeat="item in cabinets._24switchboard[0] track by $index">
+                            <img class="mt8" ng-if="item == 0" src="../static/assets/admin/layout/img/common/jg_ico_03.png">
+                            <img class="mt8" ng-if="item == 1" src="../static/assets/admin/layout/img/common/jg_ico_05.png">
+                        </span>
+                    </li>
+                    <li class="tool-01"  ng-click="tabById(2,'network',$event);">
+                        <div class="rw2">
+                             <span ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_01[0] track by $index">
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_01.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_06.png">
+                            </span>
+                            <span ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_01[0] track by $index">
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_02.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_05.png">
+                            </span>
+                        </div>
+                        <div class="rw3">
+                            <span class="w5" ng-if="$index<2" ng-repeat="item in cabinets._48switchboard_01[1] track by $index" >
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_03.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_07.png">
+                            </span>
+                             <span class="w5"  ng-if="$index>=2 && $index<4" ng-repeat="item in cabinets._48switchboard_01[1] track by $index" >
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_04.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_08.png">
+                            </span>
+                        </div>
+                    </li>
+                    <li class="tool-01"  ng-click="tabById(2,'network',$event);">
+                        <div class="rw2">
+                             <span ng-if="$index<24" ng-repeat="item in cabinets._48switchboard_02[0] track by $index">
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_01.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_06.png">
+                            </span>
+                            <span ng-if="$index>=24 && $index<48" ng-repeat="item in cabinets._48switchboard_02[0] track by $index">
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_02.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_05.png">
+                            </span>
+                        </div>
+                        <div class="rw3">
+                            <span class="w5" ng-if="$index<2" ng-repeat="item in cabinets._48switchboard_02[1] track by $index" >
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_03.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_07.png">
+                            </span>
+                             <span class="w5"  ng-if="$index>=2 && $index<4" ng-repeat="item in cabinets._48switchboard_02[1] track by $index" >
+                                <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/ju_ico_04.png">
+                                <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/ju_ico_08.png">
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <ul ng-class="{'active': tabs[4]}" ng-click="tab(4)" class="item-box-02" style="height:auto;width:100%;cursor:pointer">
+                    <li class="tool-02" ng-click="tabById($index+1,'sas')" style="padding-left:10px;" ng-repeat="item in cabinets.sas" on-finish-render-filters>
+                        <div class="lspan" style="margin-top:5px;line-height:8px;height:8px;">
+                            <span style="display:inline-block;height:100%;float:left" ng-if="(item.node1!='')" ng-repeat="node in item.node1 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                             <span style="display:inline-block;height:100%;float:left" ng-if="(item.node2!='')" ng-repeat="node in item.node2 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                        </div>
+                        <div class="rspan" style="margin-top:5px;line-height:8px;height:8px;">
+                            <span style="display:inline-block;height:100%;float:left" ng-if="(item.node3!='')" ng-repeat="node in item.node3 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                             <span style="display:inline-block;height:100%;float:left" ng-if="(item.node4!='')" ng-repeat="node in item.node4 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                        </div>
+                        <div class="lspan" style="margin-top:2px;line-height:8px;height:8px;">
+                            <span style="display:inline-block;height:100%;float:left" ng-if="(item.node1!='')" ng-repeat="node in item.node1 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                             <span style="display:inline-block;height:100%;float:left" ng-if="(item.node2!='')" ng-repeat="node in item.node2 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                        </div>
+                        <div class="rspan" style="margin-top:2px;line-height:8px;height:8px;">
+                            <span style="display:inline-block;height:100%;float:left" ng-if="(item.node3!='')" ng-repeat="node in item.node3 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                             <span style="display:inline-block;height:100%;float:left" ng-if="(item.node4!='')" ng-repeat="node in item.node4 track by $index">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 1" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                                <img class="w8" style="margin-left:2px;" ng-if="node == 0" src="../static/assets/admin/layout/img/common/42U-SAS.png">
+                            </span>
+                        </div>
+                    </li>
+                    <li class="tool-02"></li>
+                </ul>
+                <ul ng-class="{'active': tabs[1]}" ng-click="tab(1)" class="item-box-03" style="height:auto;width:100%;cursor:pointer;">
+                    <li class="tool-03 clearfix"  ng-click="tabById($index+1,'server')" ng-if="(item!='')" ng-repeat="item in cabinets.cpu_temperature track by $index">
+                         <div style="float:left;">
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node1!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node1[0]}]}℃</small>
+                            </span>
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node1!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node1[1]}]}℃</small>
+                            </span>
+                        </div>
+                        <div style="float:right;margin-left:3px;">
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node2!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node2[0]}]}℃</small>
+                            </span>
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node2!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node2[1]}]}℃</small>
+                            </span>
+                        </div>
+                        <div style="float:left;">
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node3!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node3[0]}]}℃</small>
+                            </span>
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node3!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node3[1]}]}℃</small>
+                            </span>
+                        </div>
+                        <div style="float:right;margin-left:3px;">
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node4!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node4[0]}]}℃</small>
+                            </span>
+                            <span style="display:inline-block;width:36px;" ng-if="(item.node4!='')">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{item.node4[1]}]}℃</small>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <ul ng-class="{'active': tabs[2]}" ng-click="tab(2)" class="item-box-04" style="height:auto;width:100%;cursor:pointer;">
+                    <li class="tool-06" style="border-bottom:solid 1px #0077bc;" >
+                        <div class="w1 p2" style="padding-top:3px;margin-left:7px;">
+                            <div class="line5 clearfix">
+                                 <span ng-repeat="item in cabinets.memory_server_status_01 track by $index" style="height:4px;">
+                                    <img ng-if="(item == 1)" src="../static/assets/admin/layout/img/common/42U-yingpan-cunchu.png">
+                                    <img ng-if="(item == -1)" src="../static/assets/admin/layout/img/common/42U-yingpan-cunchu.png">
+                                    <img ng-if="(item == 0)" src="../static/assets/admin/layout/img/common/42U-yingpan-cunchu-Yellow.png">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w1 p2" style="padding-top:1px;margin-left:7px;">
+                            <div class="line5 clearfix">
+                                <span ng-repeat="item in cabinets.memory_server_status_01 track by $index" style="height:4px;">
+                                    <img ng-if="(item == 1)" src="../static/assets/admin/layout/img/common/42U-yingpan-cunchu.png">
+                                    <img ng-if="(item == -1)" src="../static/assets/admin/layout/img/common/42U-yingpan-cunchu.png">
+                                    <img ng-if="(item == 0)" src="../static/assets/admin/layout/img/common/42U-yingpan-cunchu-Yellow.png">
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-repeat="item in cabinets.ssb_cpu_temp track by $index" style="float:left;margin-top:-2px;margin-left:4px;">
+                            <span style="display:inline-block;width:36px;" ng-repeat="node in item">
+                               <img src="../static/assets/admin/layout/img/common/jg_ico_10.png">
+                               <small class="tx">{[{node}]}℃</small>
+                            </span>
+                        </div>
+                    </li>
+                   <!--  <li class="tool-04"></li> -->
+                </ul>
+                <ul ng-class="{'active': tabs[3]}" ng-click="tab(3)" class="item-box-05" style="height:auto;width:100%;cursor:pointer;">
+                    <li class="tool-07" style="border-bottom:solid 2px #0077bc;" ng-click="tabById(1,'jbod')">
+                        <div class="w1 clearfix" style="padding-left: 4px;">
+                            <span ng-repeat="item in cabinets.jbod_status_01 track by $index" style="height:7px">
+                               <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/42U-yingpan-JBOD.png">
+                               <img ng-if="item == -1" src="../static/assets/admin/layout/img/common/42U-yingpan-JBOD.png">
+                               <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/42U-yingpan-JBOD-Yellow.png">
+                            </span>      
+                       </div> 
+                    </li>
+                    <li class="tool-07" ng-click="tabById(1,'jbod')">
+                         <div class="w1 clearfix" style="padding-left: 4px;">
+                            <span ng-repeat="item in cabinets.jbod_status_01 track by $index" style="height:7px">
+                               <img ng-if="item == 1" src="../static/assets/admin/layout/img/common/42U-yingpan-JBOD.png">
+                               <img ng-if="item == -1" src="../static/assets/admin/layout/img/common/42U-yingpan-JBOD.png">
+                               <img ng-if="item == 0" src="../static/assets/admin/layout/img/common/42U-yingpan-JBOD-Yellow.png">
+                            </span>      
+                       </div> 
+                    </li>
                 </ul>
                 <!-- pdu切换 -->
                 <ul ng-class="{'active': tabs[5]}" ng-click="tab(5)" style="position:absolute;width:10px;height:100%;left:-11px;">

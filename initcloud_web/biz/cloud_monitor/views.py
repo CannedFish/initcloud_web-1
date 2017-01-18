@@ -37,13 +37,19 @@ import random
 LOG = logging.getLogger(__name__)
 
 def make_fake(period = 6, mi = 0, ma = 10):
+    """
+    Make fake data.Return index.
+    """
     return_data = []
     for i in range(0, period - 1):
 	return_data.append([i, round(random.uniform(mi, ma),2)])
     return return_data
 
+
 def get_sample_data(request, meter_name, resource_id, project_id = None):
-    #query = [{'field':'project_id', 'op':'eq', 'value':project_id},{'field':'resource_id', 'op':'eq', 'value':resource_id}]
+    """
+    Return index of sample data of day & hour.
+    """
     query = [{'field':'resource_id', 'op':'eq', 'value':resource_id}]
     sample_data = ceilometer.sample_list(request, meter_name, query, limit = 145)
     #sample_data = ceilometer.sample_list(request, meter_name, query)
@@ -67,6 +73,9 @@ def get_sample_data(request, meter_name, resource_id, project_id = None):
     return hour_data, day_data
 
 class Cloud_MonitorList(generics.ListAPIView):
+    """
+    Handle request to '^/cloud_monitor$'
+    """
     LOG.info("--------- I am cloud_monitor list in Cloud_MonitorList ----------")
     queryset = Cloud_Monitor.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
@@ -119,13 +128,10 @@ class Cloud_MonitorList(generics.ListAPIView):
 		    cloud_data['cpu_data'] = cpu_data
 		    pass
 		#LOG.info('------------- MEMORY -----------------')
-		#hour_data, day_data = get_sample_data(rc, 'memory.usage', each.id)
                 memory_data['hour_data'] = make_fake(6, 1, 4)
                 memory_data['day_data'] = make_fake(24, 1, 4)
-                #memory_data =  {'hour_data': mem_hour_fake,  'type': 'memory', 'day_data': mem_day_fake, 'param_01': ['memory_size', 512]}
                 cloud_data['memroy'] = memory_data
 		LOG.info('------------- DISK -----------------------')
-		#------------------- read ----------------------------
 		try:
 		    if settings.CLOUD_MONITOR_FAKE:
 			hour_data = make_fake(6, 1, 4)
@@ -149,7 +155,6 @@ class Cloud_MonitorList(generics.ListAPIView):
                     disk_data['param_01'].append({'hour':['read_total',avg_hour]})
                     disk_data['param_01'].append({'day':['read_total',avg_day]})
 		    LOG.info('------------- READ -----------------')
-		#---------------------- write --------------	
 		    if settings.CLOUD_MONITOR_FAKE:
                         hour_data = make_fake(6, 1, 4)
                         day_data = make_fake(24, 1, 4)
@@ -173,7 +178,6 @@ class Cloud_MonitorList(generics.ListAPIView):
 		    cloud_data['disk_data'] = {'hour_data': [{'read_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0]]}, {'write_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0]]}], 'param_02': [{'hour': ['write_total', 0.0]}, {'day': ['write_total', 0.0]}], 'type': 'disk', 'day_data': [{'read_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0], [6, 0.0], [7, 0.0], [8, 0.0], [9, 0.0], [10, 0.0], [11, 0.0], [12, 0.0], [13, 0.0], [14, 0.0], [15, 0.0], [16, 0.0], [17, 0.0], [18, 0.0], [19, 0.0], [20, 0.0], [21, 0.0], [22, 0.0], [23, 0.0]]}, {'write_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0], [6, 0.0], [7, 0.0], [8, 0.0], [9, 0.0], [10, 0.0], [11, 0.0], [12, 0.0], [13, 0.0], [14, 0.0], [15, 0.0], [16, 0.0], [17, 0.0], [18, 0.0], [19, 0.0], [20, 0.0], [21, 0.0], [22, 0.0], [23, 0.0]]}], 'param_01': [{'hour': ['read_total', 0.0]}, {'day': ['read_total', 0.0]}]}
 		    pass
 		LOG.info('------------------ NETWORK -----------------------')
-		#------------------- income ----------------------------
 		try:
 		    if settings.CLOUD_MONITOR_FAKE:
                         hour_data = make_fake(6, 0.1, 1.2)
@@ -196,7 +200,6 @@ class Cloud_MonitorList(generics.ListAPIView):
                     avg_day = sum_day/len(day_data)
                     network_data['param_01'].append({'hour':['ADSL_UP',avg_hour]})
                     network_data['param_01'].append({'day':['ADSL_UP',avg_day]})
-                    #---------------------- write --------------
 		    if settings.CLOUD_MONITOR_FAKE:
                         hour_data = make_fake(6, 0.1, 1.2)
                         day_data = make_fake(24, 0.1, 1.2)
@@ -225,7 +228,6 @@ class Cloud_MonitorList(generics.ListAPIView):
 	    #traceback.print_exc()
 	    return_data = []
 	    return Response(return_data)
-	    #return Response({u'test2': {'network_data': {'hour_data': [{'ADSL_UP_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}, {'ADSL_DOWN_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}], 'param_02': [{'hour': ['ADSL_DOWN', 0]}, {'day': ['ADSL_DOWN', 0]}], 'type': 'network', 'day_data': [{'ADSL_UP_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}, {'ADSL_DOWN_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}], 'param_01': [{'hour': ['ADSL_UP', 0]}, {'day': ['ADSL_UP', 0]}]}, 'host': u'localhost', 'disk_data': {'hour_data': [{'read_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0]]}, {'write_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0]]}], 'param_02': [{'hour': ['write_total', 0.0]}, {'day': ['write_total', 0.0]}], 'type': 'disk', 'day_data': [{'read_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}, {'write_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}], 'param_01': [{'hour': ['read_total', 0.0]}, {'day': ['read_total', 0.0]}]}, 'cloud_id': u'6baa642f-529c-4e99-813b-5464b05d5436', 'cpu_data': {'hour_data': [[0, 4.209433560522372], [1, 4.38185458324851], [2, 4.2093578980613175], [3, 4.413223488200711], [4, 4.323602391110132], [5, 4.20569360234738]], 'param_02': ['frequency', '3.4Chz'], 'type': 'CPU', 'day_data': [[0, 4.209433560522372], [1, 4.4283380716550695], [2, 4.432319924138686], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]], 'param_01': ['kernal_nums', u'1']}}, u'kkjjk': {'network_data': {'hour_data': [{'ADSL_UP_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}, {'ADSL_DOWN_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]}], 'param_02': [{'hour': ['ADSL_DOWN', 0]}, {'day': ['ADSL_DOWN', 0]}], 'type': 'network', 'day_data': [{'ADSL_UP_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}, {'ADSL_DOWN_DATA': [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17, 0], [18, 0], [19, 0], [20, 0], [21, 0], [22, 0], [23, 0]]}], 'param_01': [{'hour': ['ADSL_UP', 0]}, {'day': ['ADSL_UP', 0]}]}, 'host': u'localhost', 'disk_data': {'hour_data': [{'read_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0]]}, {'write_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0]]}], 'param_02': [{'hour': ['write_total', 0.0]}, {'day': ['write_total', 0.0]}], 'type': 'disk', 'day_data': [{'read_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0], [6, 0.0], [7, 0.0], [8, 0.0], [9, 0.0], [10, 0.0], [11, 0.0], [12, 0.0], [13, 0.0], [14, 0.0], [15, 0.0], [16, 0.0], [17, 0.0], [18, 0.0], [19, 0.0], [20, 0.0], [21, 0.0], [22, 0.0], [23, 0.0]]}, {'write_data': [[0, 0.0], [1, 0.0], [2, 0.0], [3, 0.0], [4, 0.0], [5, 0.0], [6, 0.0], [7, 0.0], [8, 0.0], [9, 0.0], [10, 0.0], [11, 0.0], [12, 0.0], [13, 0.0], [14, 0.0], [15, 0.0], [16, 0.0], [17, 0.0], [18, 0.0], [19, 0.0], [20, 0.0], [21, 0.0], [22, 0.0], [23, 0.0]]}], 'param_01': [{'hour': ['read_total', 0.0]}, {'day': ['read_total', 0.0]}]}, 'cloud_id': u'9d226256-e401-4b20-9fcb-8a6faaf66292', 'cpu_data': {'hour_data': [[0, 4.204420403953293], [1, 4.368556181194232], [2, 4.189353720254463], [3, 4.398223993484855], [4, 4.30526596498043], [5, 4.184032574961405]], 'param_02': ['frequency', '3.4Chz'], 'type': 'CPU', 'day_data': [[0, 4.204420403953293], [1, 4.405007143453251], [2, 4.393873677271919], [3, 0.0], [4, 4.259339382474963], [5, 4.2227048530929325], [6, 4.257761402297557], [7, 4.233484680410657], [8, 4.255011197604271], [9, 4.196980241197634], [10, 4.2101951756621565], [11, 4.204958767709467], [12, 4.188707175642681], [13, 4.2591034217953], [14, 4.282692214308851], [15, 4.264245712234308], [16, 4.276876283167301], [17, 4.217156067628315], [18, 4.286759058619735], [19, 4.240803579518715], [20, 4.2938571364163565], [21, 4.231540218165885], [22, 4.245786764267592], [23, 4.290998988476297]], 'param_01': ['kernal_nums', u'1']}}})
 
 @require_POST
 def create_cloud_monitor(request):

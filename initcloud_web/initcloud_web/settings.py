@@ -464,4 +464,30 @@ PDU_PASSWORD = 'surdoc'
 
 CPU_FREQUENCY = '3.4kHz'
 CPU_TYPE = 'E36608'
+
+#SAS REQ_URL
+SAS_REQ_URL = "http://10.10.21.66:8091/wsgi_app.py"
+SAS_SWITCH_IP =  "192.168.0.6"
+SAS_SWITCH_USER = "admin"
+SAS_SWITCH_PASS = "admin"
+
+
+#PHY SERVERS
+ALARM_NODES = {
+  "phy_server":{
+         "node1": "10.10.21.97",
+         "node2": "10.10.21.33",
+         "node3": "10.10.21.189"
+  },
+  "sbb":{
+         "node1": "10.10.21.88",
+         "node2": "10.10.21.77",
+         "node3": "10.10.21.99"
+  },
+  "pdu":{
+         "outlet1": "outlet1",
+         "outlet2": "outlet2"
+
+}
+}
 CLOUD_MONITOR_FAKE = False

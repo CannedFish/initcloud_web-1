@@ -1,6 +1,5 @@
-#-*-coding-utf-8-*-
+#-*-coding:utf8 -*-
 
-# Author Yang
 
 from datetime import datetime
 import logging
@@ -33,8 +32,10 @@ from cloud.api import neutron
 import traceback
 LOG = logging.getLogger(__name__)
 
-
 class Network_Bar_LoadbanlanceList(generics.ListAPIView):
+    """
+    Handle request to '^network_bar_loadbanlance/$'
+    """
     LOG.info("--------- I am network_bar_loadbanlance list in Network_Bar_LoadbanlanceList ----------")
     queryset = Network_Bar_Loadbanlance.objects.all()
     LOG.info("--------- Queryset is --------------" + str(queryset)) 
@@ -44,15 +45,14 @@ class Network_Bar_LoadbanlanceList(generics.ListAPIView):
 	    rc = create_rc_manually(request)
 	    pool_count = 0
 	    vip_count = 0
-	    #c = neutron.neutronclient(rc)
 	    for pool in lbaas.pool_list(rc):
 		pool_count = pool_count + 1
 		if pool.vip_id is not None:
 		    vip_count = vip_count + 1
 	    LOG.info('pool count is' + str(pool_count))
 	    LOG.info('vip count is' + str(vip_count))
-	    #data = {'lb_pool_num':pool_count,'lb_virtualip_num':vip_count};
-            data = {'lb_pool_num':"1",'lb_virtualip_num': "2"};
+	    data = {'lb_pool_num':pool_count,'lb_virtualip_num':vip_count};
+            #data = {'lb_pool_num':"1",'lb_virtualip_num': "2"};
 	    return_data = []
 	    return_data.append(data)
 	    return Response(return_data)

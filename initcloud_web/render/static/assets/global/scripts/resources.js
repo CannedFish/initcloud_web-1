@@ -203,6 +203,12 @@ angular.module('cloud.resources', [])
 .factory('Cabinet', ['$resource', function ($resource) { //机柜
     return $resource("/api/cabinet/:id", {id: '@id'});
 }])
+.factory('SAS', ['$resource', function ($resource) { //SAS
+    return $resource("/api/sas/:id", {id: '@id'});
+}])
+.factory('TrigerAlarm', ['$resource', function ($resource) { //triger_alarm
+    return $resource("/api/triger_alarm/:id", {id: '@id'});
+}])
 .factory('Warning', ['$resource', function ($resource) {//报警信息
     return $resource("/api/warning/:id", {id: '@id'});
 }])

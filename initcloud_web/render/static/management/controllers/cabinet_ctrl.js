@@ -11,6 +11,7 @@ CloudApp.controller('CabinetController',
                 Metronic.initAjax();
         });
         $scope.cabinets = [];
+        $rootScope.cabinet_type = _config.cabinet_type
         var checkboxGroup = $scope.checkboxGroup = CheckboxGroup.init($scope.cabinets);
         // 机柜数据信息:这个是机柜的控制逻辑 _config 是全局变量，这个controller可以取道 （console.log()）
         // 1. 24接口交换机(1)/ 48接口交换机(3) 24switchboard /48switchboard
@@ -95,26 +96,31 @@ CloudApp.controller('CabinetController',
                     // // render new position
                     // render_elements();
                 });
-            },5000);
+            },5000000);
             Cabinet.get(function(data) { 
                 // data.cabinet_type = _config.cabinet_show_index.cabinet_type;
                 // 后台尚未开发前台数据 sas
                 data.sas = [
                     {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
-                    {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
+                        {'node1':[1,1,1,1],'node2':[1,1,1,1],'node3':[1,1,1,1],'node4':[1,1,1,1]},
                 ]
                 $scope.cabinets = data;
                 
             });
-
+           
             //配置文件 说明：index：显示顺序  num:显示数量  h:represent height
-            _config_temp = [
-                {'name':'switchboard','index':'1','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20},
-                {'name':'sas','index':'2','num':3,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21},
-                {'name':'cpu_temperature','index':'3','num':5,'status':1,'pblock':'item-box-03','cblock':'tool-03','h':35},
-                {'name':'memory_server_status','index':'4','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-04','h':44},
-                {'name':'jbod','index':'5','num':1,'status':1,'pblock':'item-box-05','cblock':'tool-05','h':66}
-            ]
+            // _config_temp = [
+            //     {'name':'switchboard','index':'1','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20,'sub_index':[3,2,1]},
+            //     {'name':'sas','index':'2','num':2,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21,'sub_index':[1,2]},
+            //     {'name':'cpu_temperature','index':'3','num':5,'status':1,'pblock':'item-box-03','cblock':'tool-03','h':35,'sub_index':[5,2,3,4,1]},
+            //     {'name':'memory_server_status','index':'4','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-04','h':44,'sub_index':[1]},
+            //     {'name':'jbod','index':'5','num':1,'status':1,'pblock':'item-box-05','cblock':'tool-05','h':66,'sub_index':[1]}
+            // ]
+            if(_config.cabinet_type._42U == '1'){
+            	_config_temp = _config_temp_42U;
+            }else if(_config.cabinet_type._24U == '1'){
+            	_config_temp = _config_temp_24U;
+            }
             //获取对象长度
              function getPropertyCount(o){
                 var n,count = 0;
@@ -124,7 +130,7 @@ CloudApp.controller('CabinetController',
                     }
                 }
                 return count;
-              }
+            }
             //对对象的键值排序
             function sortObj(o){
                  o.sort(function(a,b){
@@ -132,29 +138,79 @@ CloudApp.controller('CabinetController',
                 })
             }
             sortObj(_config_temp)
-            console.log(_config_temp)
+            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+            	 cabinet_render();
+            	 ngRepeatFinishedEvent.stopPropagation(); // 终止事件继续“冒泡”
+            })
             // 便利配置文件 确定机柜位置
-            var clen = _config_temp.length;
-            var offset_top = 0;
-            for(var i = 0;i<clen;i++){
-                // 父级块是否显示
-                if(_config_temp[i].status == 0){
-                    $('.'+_config_temp[i].pblock).css('display','none');
-                    i--;
-                }else{
-                        if( i == 0){
-                            offset_top = 0;
-                        }
-                        else{
-                            offset_top += _config_temp[i-1].h*_config_temp[i-1].num;
-                            console.log(i);
-                            console.log(_config_temp[i-1])
-                            console.log(offset_top);
-                        }
-                        $('.'+_config_temp[i].pblock).css({'position':'absolute','top':offset_top});
-                }
+            function cabinet_render(){
+            	var clen = _config_temp.length;
+            	var offset_top = 0;
+            	for(var i = 0;i<clen;i++){
+            		
+	                // 父级块是否显示
+	                if(_config_temp[i].status == 0){
+	                    $('.'+_config_temp[i].pblock).css({'display':'none','position':'absolute','height':0});
+	                    _config_temp[i].h = 0;
+	                    continue;
+	                }else{
+	                	var chlen = _config_temp[i].sub_index.length;
+	                	var ch_offset_top = 0;
+	                        if( i == 0){
+	                            offset_top = 0;
+	                            //排序子级
+	                            for(var j = 0;j<chlen;j++){
+	                                
+	                            	ch_offset_top = (_config_temp[i].sub_index[j]-1)*_config_temp[i].h;
+	                            	$($('.'+_config_temp[i].cblock)).eq(j).css({'position':'absolute','top':offset_top+ch_offset_top})
+	                            }
+	                        }
+	                        else{
+	                            offset_top += _config_temp[i-1].h*_config_temp[i-1].num;
+	                            //排序子级
+	                            for(var j = 0;j<chlen;j++){
+	                            	ch_offset_top = (_config_temp[i].sub_index[j]-1)*_config_temp[i].h;
+	                            	$($('.'+_config_temp[i].cblock)).eq(j).css({'position':'absolute','top':ch_offset_top})
+	                            }
+	                        }
+	                        $('.'+_config_temp[i].pblock).css({'position':'absolute','top':offset_top});
+	                }
 
+	            }
             }
+            // var clen = _config_temp.length;
+            // var offset_top = 0;
+            // for(var i = 0;i<clen;i++){
+            //     // 父级块是否显示
+            //     if(_config_temp[i].status == 0){
+            //         $('.'+_config_temp[i].pblock).css({'display':'none'});
+            //         i--;
+            //     }else{
+            //     	var chlen = _config_temp[i].sub_index.length;
+            //     	var ch_offset_top = 0;
+            //             if( i == 0){
+            //                 offset_top = 0;
+            //                 //排序子级
+            //                 for(var j = 0;j<chlen;j++){
+            //                 	ch_offset_top = (_config_temp[i].sub_index[j]-1)*_config_temp[i].h;
+            //                 	$($('.'+_config_temp[i].cblock)).eq(j).css({'position':'absolute','top':offset_top+ch_offset_top})
+            //                 }
+            //             }
+            //             else{
+            //                 offset_top += _config_temp[i-1].h*_config_temp[i-1].num;
+            //                 //排序子级
+            //                 for(var j = 0;j<chlen;j++){
+            //                 	console.log(chlen)
+            //                 	console.log(j);
+            //                 	ch_offset_top = (_config_temp[i].sub_index[j]-1)*_config_temp[i].h;
+            //                 	console.log(ch_offset_top);
+            //                 	$($('.'+_config_temp[i].cblock)).eq(j).css({'position':'absolute','top':offset_top+ch_offset_top})
+            //                 }
+            //             }
+            //             $('.'+_config_temp[i].pblock).css({'position':'absolute','top':offset_top});
+            //     }
+
+            // }
             checkboxGroup.syncObjects($scope.cabinets);
             
         var deleteCabinets = function(ids){
