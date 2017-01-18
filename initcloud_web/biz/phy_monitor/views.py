@@ -23,7 +23,18 @@ import cloud.api.storage as storage
 import cloud.api.warning as warning
 import cloud.api.pdu as pdu
 
+import threading
+
 LOG = logging.getLogger(__name__)
+
+class Parallel(threading.Thread):
+    def __init__(self, func, arg):
+        super(Parallel, self).__init__()
+        self._func = func
+        self._arg = arg
+
+    def run(self):
+        self._func(*self._arg)
 
 def get_jbod_current():
     """
@@ -439,6 +450,9 @@ def get_phy_cpu_mem(impi_url):
         # return fake data
         return get_fake_cpu_mem()
 
+def cpu_mem_work(res, idx, t_url):
+    res[idx] = get_phy_cpu_mem(t_url)
+
 PHY_URLs = settings.REDFISH_URL['phy_server']
 
 class PhyMonitorServerList(APIView):
@@ -446,14 +460,22 @@ class PhyMonitorServerList(APIView):
         """
         Handle get request to /api/phy_monitor_server/$s_id
         """
-        nodes = []
+        nodes = [None] * len(PHY_URLs[s_id])
         if settings.REDFISH_SIMULATE:
             nodes = [get_fake_cpu_mem() if r_url != None else None \
                     for r_url in PHY_URLs[s_id]]
         else:
-            for r_url in PHY_URLs[s_id]:
-                # TODO: make parallelization
-                nodes.append(get_phy_cpu_mem(r_url) if r_url != None else None)
+            th = []
+            for r_url, i in zip(PHY_URLs[s_id], range(len(PHY_URLs[s_id]))):
+                # make parallelization
+                if r_url != None:
+                    t = Parallel(cpu_mem_work, (nodes, i, r_url))
+                    t.start()
+                    th.append(t)
+                # nodes.append(get_phy_cpu_mem(r_url) if r_url != None else None)
+            for t in th:
+                t.join()
+
         self._check_and_warn(nodes, s_id)
         data = {
             'model': settings.SERVER_MODEL[s_id],
@@ -512,12 +534,19 @@ def get_storage_data():
     Return temporary data if get data failed or simulate on.
     Return real data on the other hand.
     """
-    ssbs = []
+    ssbs = [None, None]
     if settings.REDFISH_SIMULATE:
         ssbs = [get_fake_cpu_mem() for i in xrange(2)]
     else:
-        for ssb in S_URL:
-            ssbs.append(get_phy_cpu_mem(ssb))
+        th = []
+        for ssb, i in zip(S_URL, range(2)):
+            # make parallization
+            t = Parallel(cpu_mem_work, (ssbs, i, ssb))
+            t.start()
+            th.append(t)
+            # ssbs.append(get_phy_cpu_mem(ssb))
+        for t in th:
+            t.join()
     return {
         'nodes': [
             {

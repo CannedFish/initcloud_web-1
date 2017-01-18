@@ -154,7 +154,7 @@ class StorageNodeList(generics.ListAPIView):
                         query = {
                             'name': server['hostname'],
                             'item': {
-                                'cpu_used': [round(status['cpu'], 1), get_cpu_used()],
+                                'cpu_used': [round(status['cpu'], 1), round(status['cpu']+random.uniform(-1, 1), 1)],
                                 'cpu_frequence': [get_cpu_frequence(), get_cpu_frequence()] \
                                         if status['cpuClock']=='' \
                                         else [float(status['cpuClock'][0:-3])/1000.0, \
