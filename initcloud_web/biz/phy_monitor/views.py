@@ -480,8 +480,8 @@ class PhyMonitorServerList(APIView):
                     t.start()
                     th.append(t)
                 # nodes.append(get_phy_cpu_mem(r_url) if r_url != None else None)
-            for t in th:
-                t.join()
+            for _t in th:
+                _t.join()
 
         self._check_and_warn(nodes, s_id)
         data = {
@@ -552,8 +552,8 @@ def get_storage_data():
             t.start()
             th.append(t)
             # ssbs.append(get_phy_cpu_mem(ssb))
-        for t in th:
-            t.join()
+        for _t in th:
+            _t.join()
     return {
         'nodes': [
             {
@@ -646,41 +646,53 @@ class PhyMonitorStorageDetail(APIView):
             LOG.info("Get pool list error: %s" % poollist['error'])
             return []
 
+def temperature_work(ret, idx, key, t_url):
+    """
+    @params:
+    ret: list, result list
+    idx: int, which server
+    key: string, which node
+    t_url: string, IPMI URL
+    """
+    if settings.REDFISH_SIMULATE:
+        ret[idx][key] = [round(get_cpu_temp()), round(get_cpu_temp())]
+    else:
+        chassislist = redfish.get_chassis_list(t_url)
+        t = []
+        if chassislist['code'] == 200:
+            chassis = chassislist['body']['Members'][0]
+            thermal = redfish.get_chassis_thermal(t_url, chassis['@odata.id'])
+            if thermal['code'] == 200:
+                for temp in thermal['body']['Temperatures']:
+                    if 'CPU' in temp['Name']:
+                        t.append(round(temp['ReadingCelsius']))
+            else:
+                # fake data
+                t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
+        else:
+            # fake data
+            t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
+        ret[idx][key] = t
+
 def get_cpu_temperatures():
     """
     Get all computer nodes' CPU temperature.
     Return temporary data if get data failed or simulate on.
     Return real data on the other hand.
     """
-    c_temps = []
+    c_temps = [{'node1':[],'node2':[],'node3':[],'node4':[]} for i in xrange(5)]
+    th = []
     for phys in '12345':
-        # TODO: make parallelization
-        cpus = {'node1':[],'node2':[],'node3':[],'node4':[]}
-        idx = 1
-        for impi_url in PHY_URLs[phys]:
+        server_idx = int(phys)-1
+        for impi_url, i in zip(PHY_URLs[phys], range(1, 1+len(PHY_URLs[phys]))):
             if impi_url != None:
-                # TODO: make parallelization
-                if settings.REDFISH_SIMULATE:
-                    cpus['node%d' % idx] = [round(get_cpu_temp()), round(get_cpu_temp())]
-                else:
-                    chassislist = redfish.get_chassis_list(impi_url)
-                    t = []
-                    if chassislist['code'] == 200:
-                        chassis = chassislist['body']['Members'][0]
-                        thermal = redfish.get_chassis_thermal(impi_url, chassis['@odata.id'])
-                        if thermal['code'] == 200:
-                            for temp in thermal['body']['Temperatures']:
-                                if 'CPU' in temp['Name']:
-                                    t.append(round(temp['ReadingCelsius']))
-                        else:
-                            # fake data
-                            t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
-                    else:
-                        # fake data
-                        t.extend([round(get_cpu_temp()), round(get_cpu_temp())])
-                    cpus['node%d' % idx] = t
-            idx += 1
-        c_temps.append(cpus)
+                # make parallelization
+                t = Parallel(temperature_work, (c_temps, server_idx, \
+                        'node%d'%i, impi_url))
+                t.start()
+                th.append(t)
+    for _t in th:
+        _t.join()
     return c_temps
 
 

@@ -260,7 +260,7 @@ class StorageBarDetail(APIView):
         Handle get request to /api/storage__bar/
         """
         disklist = storage.get_disk_list()
-        storage_bar = {'disk':[4,3], 'SSD':[0,0], 'NVMe':[4,3], 'SAS': [0,0]}
+        storage_bar = {'disk':[4,3], 'SSD':[0,0], 'NVMe':[0,0], 'SAS': [4,3]}
         if disklist['success']:
             dl = disklist['data']
             # used
