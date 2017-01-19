@@ -90,6 +90,9 @@ class Network_BarList(generics.ListAPIView):
                 incoming_pkg.append(avg_incoming_pkg)
 		avg_outgoing_pkg = get_sample_data(rc, 'network.outgoing.packets.rate', each.id)
                 outgoing_pkg.append(avg_outgoing_pkg)
+	    for y in range(0, 6):
+		for x in range(1, len(clouds)-1):
+		    incoming[0][y][1] = incoming[0][y][1] + incoming[x][y][1]
 	    uprate = incoming[0]
 	    downrate = outgoing[0]
 	    uppacket = incoming_pkg[0]
@@ -97,10 +100,12 @@ class Network_BarList(generics.ListAPIView):
 	    #LOG.info([uprate, downrate, uppacket, downpacket])
 	    return_data = []
 	    return_data.append({'uprate':uprate,'downrate':downrate,'uppacket':uppacket,'downpacket':downpacket})
+	    LOG.info("---------------- this is Network data -------------------")
+	    LOG.info(return_data[0])
 	    return Response(return_data)
 	    #return Response({'uprate':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downrate':[[0,1.7],[1,2.2],[2,2.2],[3,2.1],[4,2.1],[5,1.7]],'uppacket':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downpacket':[[0,1],[1,2],[2,2.2],[3,1.6],[4,2.5],[5,1.7]]})
 	except:
-	    #trackback.print_exc()
+	    trackback.print_exc()
 	    return Response({'uprate':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downrate':[[0,1.7],[1,2.2],[2,2.2],[3,2.1],[4,2.1],[5,1.7]],'uppacket':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downpacket':[[0,1],[1,2],[2,2.2],[3,1.6],[4,2.5],[5,1.7]]})
 
 

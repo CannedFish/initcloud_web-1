@@ -20,7 +20,7 @@ CloudApp.controller('Virtualmechine_BarController',
                 $scope.virtualmechine_bars = data;
                 checkboxGroup.syncObjects($scope.virtualmechine_bars);
             })
-        },5000);
+        },30000);
         Virtualmechine_Bar.query(function(data){
             $scope.virtualmechine_bars = data;
             checkboxGroup.syncObjects($scope.virtualmechine_bars);

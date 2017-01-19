@@ -17,7 +17,7 @@ var _config = {
 }
 //24U详细配置
 var  _config_temp_24U = [
-        {'name':'switchboard','index':'1','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20,'sub_index':[3,2,1]},
+        {'name':'switchboard','index':'1','num':3,'status':0,'pblock':'item-box-01','cblock':'tool-01','h':20,'sub_index':[3,2,1]},
         {'name':'sas','index':'2','num':2,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21,'sub_index':[1,2]},
         {'name':'cpu_temperature','index':'3','num':5,'status':1,'pblock':'item-box-03','cblock':'tool-03','h':35,'sub_index':[5,2,3,4,1]},
         {'name':'memory_server_status','index':'4','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-04','h':44,'sub_index':[1]},
@@ -25,7 +25,7 @@ var  _config_temp_24U = [
     ];
 //42U详细配置
 var  _config_temp_42U = [
-        {'name':'switchboard','index':'1','num':3,'status':1,'pblock':'item-box-01','cblock':'tool-01','h':20,'sub_index':[3,2,1]},
+        {'name':'switchboard','index':'1','num':3,'status':0,'pblock':'item-box-01','cblock':'tool-01','h':20,'sub_index':[3,2,1]},
         {'name':'sas','index':'2','num':2,'status':1,'pblock':'item-box-02','cblock':'tool-02','h':21,'sub_index':[1,2]},
         {'name':'cpu_temperature','index':'3','num':5,'status':1,'pblock':'item-box-03','cblock':'tool-03','h':35,'sub_index':[5,2,3,4,1]},
         {'name':'memory_server_status','index':'4','num':1,'status':1,'pblock':'item-box-04','cblock':'tool-06','h':32,'sub_index':[1]},

@@ -20,7 +20,7 @@ CloudApp.controller('Storage__BarController',
                 $scope.storage__bars = data;
                 checkboxGroup.syncObjects($scope.storage__bars);
             })
-        },5000);
+        },30000);
         Storage__Bar.get(function(data){
             $scope.storage__bars = data;
             checkboxGroup.syncObjects($scope.storage__bars);

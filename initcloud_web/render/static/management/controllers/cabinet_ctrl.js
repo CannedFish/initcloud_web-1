@@ -96,7 +96,7 @@ CloudApp.controller('CabinetController',
                     // // render new position
                     // render_elements();
                 });
-            },5000000);
+            },30000);
             Cabinet.get(function(data) { 
                 // data.cabinet_type = _config.cabinet_show_index.cabinet_type;
                 // 后台尚未开发前台数据 sas
