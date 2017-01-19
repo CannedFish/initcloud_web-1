@@ -61,29 +61,51 @@ def get_jbod_fan_speed():
     """
     return random.randint(6999, 7001)
 
-def get_jbod_data():
+def get_jbod_disk_status():
+    """
+    Get JBOD's disk status data
+    """
+    ret = [
+        [
+            1,1,1,1,1,1,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,1,0,0,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,1,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,0,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        ], [
+            1,1,1,1,1,1,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,1,0,0,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,1,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,1,0,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        ],
+    ]
+
+    jbod_list = storage.get_jbod_list()
+    disk_status_list = storage.get_disk_status()
+    if jbod_list['success'] and disk_status_list['success']:
+        disk_used = {}
+        for disk_status in disk_status_list['data']:
+            disk_used[disk_status['id']] = False if disk_status['used'] == 0 else True
+        for jbod_data, idx in zip(jbod_list['data'], range(len(jbod_list['data']))):
+            ret[idx] = []
+            for slot in jbod_data['slotList']:
+                if slot == 'empty':
+                    ret[idx].append(-1)
+                else:
+                    ret[idx].append(1 if disk_used[slot] else 0)
+    return ret
+
+def get_jbod_data(j_id):
     """
     Get JBOD's temporary data
     """
+    disk_status = get_jbod_disk_status()
     return {
-        '1': {
-            'disk': [
-                1,1,1,1,1,1,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                1,1,1,0,0,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                1,1,1,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                1,1,0,1,1,1,1,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-                1,0,1,1,1,0,0,0,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-            ],
-            'systemUI': [[get_jbod_current(), get_jbod_volt()] for i in xrange(4)],
-            'electric_rota': [get_jbod_fan_speed() for i in xrange(5)],
-            'model': settings.JBOD_MODEL['1']
-        },
-        '2': {
-            'disk': [],
-            'systemUI': [],
-            'electric_rota': [],
-            'model': settings.JBOD_MODEL['2']
-        }
+        'disk': disk_status[int(j_id)-1],
+        'systemUI': [[get_jbod_current(), get_jbod_volt()] for i in xrange(4)],
+        'electric_rota': [get_jbod_fan_speed() for i in xrange(5)],
+        'model': settings.JBOD_MODEL[j_id]
     }
 
 class PhyMonitorJBODDetail(APIView):
@@ -91,7 +113,7 @@ class PhyMonitorJBODDetail(APIView):
         """
         Handle get request to /api/phy_monitor_jbod/
         """
-        data = get_jbod_data()[j_id]
+        data = get_jbod_data(j_id)
         serializer = PhyMonitorJBODSerializer(data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
