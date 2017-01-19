@@ -199,11 +199,11 @@ class Virtualmechine_BarList(generics.ListAPIView):
 })
 	    return Response(return_data)
 
-    def _byte_2_gbyte(self, val):
+    def _byte_2_tbyte(self, val):
         """
-        Convert byte to gigabyte
+        Convert byte to terabyte
         """
-        return round(val/1024.0/1024.0/1024.0)
+        return round(val/1024.0/1024.0/1024.0/1024.0, 1)
 
     def _get_storage_data(self):
         """
@@ -217,8 +217,8 @@ class Virtualmechine_BarList(generics.ListAPIView):
                 'RAY': [0, 0]
             }
             for pool in pool_status['data']:
-                used = self._byte_2_gbyte(pool['used'])
-                remain = self._byte_2_gbyte(pool['size']) - used
+                used = self._byte_2_tbyte(pool['used'])
+                remain = self._byte_2_tbyte(pool['size']) - used
                 if pool['class'] == 'hdd':
                     ret['n'][0] += used
                     ret['n'][1] += remain
