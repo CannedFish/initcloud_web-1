@@ -154,7 +154,7 @@ class StorageNodeList(generics.ListAPIView):
                         query = {
                             'name': server['hostname'],
                             'item': {
-                                'cpu_used': [round(status['cpu'], 1), get_cpu_used()],
+                                'cpu_used': [round(status['cpu'], 1), round(status['cpu']+random.uniform(-1, 1), 1)],
                                 'cpu_frequence': [get_cpu_frequence(), get_cpu_frequence()] \
                                         if status['cpuClock']=='' \
                                         else [float(status['cpuClock'][0:-3])/1000.0, \
@@ -168,10 +168,10 @@ class StorageNodeList(generics.ListAPIView):
                                     'empty': status['memTotal']-status['memUsed']
                                 },
                                 'network_card': {
-                                    'up': up if up != 0 else tx_per,
-                                    'up_rate': up_rate if up != 0 else max_rate*tx_per,
-                                    'down': down if down != 0 else rx_per,
-                                    'down_rate': down_rate if down != 0 else max_rate*rx_per
+                                    'up': up, # if up != 0 else tx_per,
+                                    'up_rate': up_rate, # if up != 0 else max_rate*tx_per,
+                                    'down': down, # if down != 0 else rx_per,
+                                    'down_rate': down_rate # if down != 0 else max_rate*rx_per
                                 }
                             }
                         }
@@ -260,7 +260,7 @@ class StorageBarDetail(APIView):
         Handle get request to /api/storage__bar/
         """
         disklist = storage.get_disk_list()
-        storage_bar = {'disk':[4,3], 'SSD':[0,0], 'NVMe':[4,3], 'SAS': [0,0]}
+        storage_bar = {'disk':[4,3], 'SSD':[0,0], 'NVMe':[0,0], 'SAS': [4,3]}
         if disklist['success']:
             dl = disklist['data']
             # used
@@ -288,15 +288,24 @@ class StorageBarDetail(APIView):
                             sas_total += 1
                             if used:
                                 sas += 1
-                        else:
+                        elif flag == 'nvme':
                             nvme_total += 1
                             if used:
                                 nvme += 1
+                        else:
+                            continue
+                sas_empty = 0
+                jbodlist = storage.get_jbod_list()
+                if jbodlist['success']:
+                    for jbod in jbodlist['data']:
+                        for slot in jbod['slotList']:
+                            if slot == 'empty':
+                                sas_empty += 1
                 storage_bar = {
                     'disk': [disk_used, disk_total-disk_used],
                     'SSD': [ssd, ssd_total-ssd],
                     'NVMe': [nvme, nvme_total-nvme],
-                    'SAS': [sas, sas_total-sas]
+                    'SAS': [sas, sas_empty]
                 }
             else:
                 LOG.info("Get pool list error: %s" % poollist['error'])
@@ -424,8 +433,8 @@ class PhyNodesList(APIView):
                         sbb = {
                             'cpuUsed': round(ss['cpu'], 1),
                             'memUsed': round(ss['memUsed']/float(ss['memTotal'])*100, 1),
-                            'tx': up if up != 0 else tx_per,
-                            'rx': down if down != 0 else rx_per,
+                            'tx': up, # if up != 0 else tx_per,
+                            'rx': down, # if down != 0 else rx_per,
                             'datatype': 'SBB'
                         }
                         # IO data
