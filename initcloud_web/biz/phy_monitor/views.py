@@ -466,8 +466,14 @@ def get_phy_cpu_mem(impi_url):
                     cha['memory_voltage'].extend([volt['ReadingVolts'] \
                             for i in xrange(4)])
             # get PDU's power
-            cha['PDU']['volt'] = power['body']['PowerSupplies'][0]['LineInputVoltage']
-            cha['PDU']['watt'] = power['body']['PowerControl'][0]['PowerConsumedWatts']
+            p_volt = power['body']['PowerSupplies']
+            for i in xrange(len(p_volt)):
+                if p_volt[i].has_key('LineInputVoltage'):
+                    cha['PDU']['volt'] = p_volt[i]['LineInputVoltage']
+            p_watt = power['body']['PowerControl']
+            for i in xrange(len(p_watt)):
+                if p_watt[i].has_key('PowerConsumedWatts'):
+                    cha['PDU']['watt'] = p_watt[i]['PowerConsumedWatts']
         else:
             # fake data
             cha['CPU'][0]['V'] = get_cpu_volt()
@@ -610,7 +616,7 @@ class PhyMonitorStorageDetail(APIView):
         """
         data = get_storage_data()
         if not settings.REDFISH_SIMULATE:
-            disks = self.__get_disk_status()
+            disks = l_get_disk_status()
             data['disk'] = disks if len(disks) != 0 else data['disk']
         self._check_and_warn(data['nodes'])
         serializer = PhyMonitorStorageSerializer(data)
@@ -638,35 +644,35 @@ class PhyMonitorStorageDetail(APIView):
                         th['mem_volt_min'], 'mem_volt', name % num, \
                         1, th['ip'])
 
-    def __get_disk_status(self):
-        """
-        Get the utilizition status of disk pool
-        """
-        poollist = storage.get_pool_list()
-        if poollist['success']:
-            disks_used = []
-            for pool in poollist['data']:
-                for disk in pool['disks']:
-                    disks_used.append(disk['name'])
-            jbodlist = storage.get_jbod_list()
-            if jbodlist['success']:
-                disk_status = []
-                for jbod in jbodlist['data']:
-                    for slot in jbod['slotList']:
-                        if slot == 'empty':
-                            disk_status.append(-1)
+def l_get_disk_status():
+    """
+    Get the utilizition status of disk pool
+    """
+    poollist = storage.get_pool_list()
+    if poollist['success']:
+        disks_used = []
+        for pool in poollist['data']:
+            for disk in pool['disks']:
+                disks_used.append(disk['name'])
+        jbodlist = storage.get_jbod_list()
+        if jbodlist['success']:
+            disk_status = []
+            for jbod in jbodlist['data']:
+                for slot in jbod['slotList']:
+                    if slot == 'empty':
+                        disk_status.append(-1)
+                    else:
+                        if slot in disks_used:
+                            disk_status.append(1)
                         else:
-                            if slot in disks_used:
-                                disk_status.append(1)
-                            else:
-                                disk_status.append(0)
-                return disk_status
-            else:
-                LOG.info("Get jbod list error: %s" % jbodlist['error'])
-                return []
+                            disk_status.append(0)
+            return disk_status
         else:
-            LOG.info("Get pool list error: %s" % poollist['error'])
+            LOG.info("Get jbod list error: %s" % jbodlist['error'])
             return []
+    else:
+        LOG.info("Get pool list error: %s" % poollist['error'])
+        return []
 
 def temperature_work(ret, idx, key, t_url):
     """
@@ -776,7 +782,7 @@ class SASDetail(APIView):
                     response_data={}
                     response_data['sas_ports']=sas_protsinfo
                     response_message='get sasswitch succesful'
-                    response = [{'status_code': return_val, "message": "get sas switch done.", "method": method,                     "data": {"sas_ports":sas_protsinfo}}]
+                    response = [{'status_code': return_val, "message": "get sas switch done.", "method": method, "data": {"sas_ports":sas_protsinfo}}]
                     return response 
                 except Exception as exc1:
                     LOG.info("connect sas_switch faild%d" % exc1)
@@ -784,7 +790,7 @@ class SASDetail(APIView):
                     response_data['sas_ports']=''
                     response_message='connect sasswitch failed'
                     return_val=0
-                    response = [{'status_code': return_val, "message": "get sas switch failed.", "method": method,                     "data": {"sas_ports":''}}]
+                    response = [{'status_code': return_val, "message": "get sas switch failed.", "method": method, "data": {"sas_ports":''}}]
                     return response
 
         except Exception as exc:
@@ -804,8 +810,12 @@ class CabinetDetail(APIView):
             '3': get_net_data('3'),
             '4': get_net_data('4')
         }
-        J_DATA = get_jbod_data()
+        J_DATA1 = get_jbod_data('1')
+        J_DATA2 = get_jbod_data('2')
         SS_DATA = get_storage_data()
+        if not settings.REDFISH_SIMULATE:
+            disks = l_get_disk_status()
+            SS_DATA['disk'] = disks if len(disks) != 0 else SS_DATA['disk']
         data = {
             '_24switchboard':[[net['link'] for net in N_DATA['1']['traffic']] \
                     , [net['link'] for net in N_DATA['1']['traffic_40GB']]],
@@ -816,8 +826,8 @@ class CabinetDetail(APIView):
             '_48switchboard_03':[[net['link'] for net in N_DATA['4']['traffic']] \
                     , [net['link'] for net in N_DATA['4']['traffic_40GB']]],
             'cpu_temperature': get_cpu_temperatures(),
-            'jbod_status_01': J_DATA['1']['disk'],
-            'jbod_status_02': J_DATA['2']['disk'],
+            'jbod_status_01': J_DATA1['disk'],
+            'jbod_status_02': J_DATA2['disk'],
             'memory_server_status_01': SS_DATA['disk'][0:20],
             'memory_server_status_02': SS_DATA['disk'][20:40],
             'ssb_cpu_temp': [
