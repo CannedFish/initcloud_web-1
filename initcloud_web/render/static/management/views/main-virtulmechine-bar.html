@@ -46,8 +46,10 @@
                         </div>
                         <div class="lb">
                             <img src="../static/assets/admin/layout/img/common/yzjico_07.png">
-                            <span class="nums c2">{[{virtualmechine_bars[0].total_capacity}]}</span>
-                            <span class="tx">云盘总容量(T)</span>
+                            <span class="nums c2" ng-if="virtualmechine_bars[0].total_capacity<999999">{[{virtualmechine_bars[0].total_capacity}]}</span>
+                            <span class="nums c2" ng-if="virtualmechine_bars[0].total_capacity>999999">{[{virtualmechine_bars[0].total_capacity/1000}]}</span>
+                            <span class="tx" nf-if="virtualmechine_bars[0].total_capacity<999999">云盘总容量(G)</span>
+                            <span class="tx" nf-if="virtualmechine_bars[0].total_capacity>999999">云盘总容量(T)</span>
                         </div>
                     </li>
                 </ul>

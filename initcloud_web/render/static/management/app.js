@@ -295,7 +295,10 @@ CloudApp.config(['$stateProvider', '$urlRouterProvider',
                             insertBefore: '#ng_load_plugins_before',
                             files: [
                                 '/static/management/controllers/volume_monitor_ctrl.js',
-                                 '/static/assets/global/plugins/footable/footable.all.min.js',//引入插件footable
+                                 // '/static/assets/global/plugins/footable/footable.all.min.js',//引入插件footable
+                                '/static/assets/global/plugins/footable/footable.js',//引入插件footable
+                                '/static/assets/global/plugins/footable/footable.core.css',
+                                '/static/assets/global/plugins/footable/footable.pagination.js',
                                 '/static/assets/global/plugins/footable/footable.core.css'
                             ]
                         });

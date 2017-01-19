@@ -10,15 +10,51 @@
     /*width: 140px;*/
     text-align:center;
     }
+    .loading{height:200px;line-height:200px;text-align:center;color:#ff0000;font-size:14px;}
     table tr th{
         text-align:center;
+    }
+    ul.pagination{background:none !important;}
+    ul.pagination > li {
+        display: inline;
+        background: transparent !important;
+    }
+    ul.pagination > li > a,ul.pagination > li > a:hover, .pagination > li > span,.pagination > li > span:hover {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #337ab7;
+        text-decoration: none;
+        background: transparent !important;
+        border: solid 1px #0077bc;
+    }
+    .pagination .active > a, .pagination .active > a:hover {
+        background: transparent !important;
+        border-color: #0077bc !important;
+        color: #3175af !important;
+    }
+    ul.pagination > li > a:hover,.pagination .active > a:hover{color:#00d8ff !important;border: solid 1px #00d8ff !important;}
+    ul.pagination .active > a{color:#00d8ff !important;border: solid 1px #00d8ff !important;}
+    .pagination > li:last-child > a:hover, .pagination > li:last-child > span:hover {
+        background: transparent !important;
+        border-color: #0077bc !important;
+        color: #3175af !important;
+    }
+    .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+        background: transparent !important;
+        border-color: #0077bc !important;
+        color: #3175af !important;
+        cursor: not-allowed;
     }
 </style>
 <div class="content" ng-controller="Volume_MonitorController">
     <div class="titile">云盘监控</div>
-        <div class="content_center">       
-            <table table="volume_monitor_table"  class="police_table footable volume_monitor_table" data-filter="#filter" data-filter-text-only="false">
-               <tbody>
+        <div ng-if="volume_monitors==''" class="loading">加载中!</div>
+        <div ng-if="volume_monitors!=''" class="content_center">       
+            <table table="volume_monitor_table footable"  class="police_table footable"  data-page-size="12" ui-jq="footable">
+               <thead>
                     <tr>
                         <th align="center" width="25%">名字</th>
                         <th width="25%">位置</th>
@@ -27,7 +63,9 @@
                         <th width="10%">类型</th>
                         <th width="20%">挂载</th>
                     </tr>
-                    <tr ng-repeat="item in volume_monitors">
+                </thead>
+                </tbody>
+                    <tr ng-repeat="item in volume_monitors" on-finish-render-filters>
                         <td>{[{item.name}]}</td>
                         <td>{[{item.location}]}</td>
                         <td>{[{item.capacity}]}</td>
@@ -37,6 +75,8 @@
                     </tr>
                 </tbody>
             </table>
-        </div>    
+            <div style="text-align:center;"><ul class="pagination"></ul></div>
+        </div>
+
 </div>
      

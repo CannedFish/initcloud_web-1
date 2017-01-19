@@ -25,8 +25,7 @@ angular.module('ui.jq',['ui.load']).
           '../static/assets/global/plugins/charts/flot/jquery.flot.orderBars.js',
           '../static/assets/global/plugins/charts/flot/jquery.flot.pie.min.js'],
     easyPieChart:['../static/assets/global/plugins/charts/easypiechart/jquery.easy-pie-chart.js'],//引入圆形图标
-    footable:['../static/assets/global/plugins/footable/footable.js'],
-
+    footable:['../static/assets/global/plugins/footable/footable.all.min.js'],
   })
   .directive('uiJq', ['JQ_CONFIG','uiLoad','$timeout', function uiJqInjectingFunction(JQ_CONFIG,uiLoad,$timeout) {
   return {

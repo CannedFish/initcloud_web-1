@@ -31,13 +31,11 @@ from cloud.api import nova
 from cloud.api import cinder
 from cloud.api import ceilometer
 from cloud.api import neutron
-from cloud.cloud_utils import create_rc_manually,create_rc_v3_manually
+from cloud.cloud_utils import create_rc_manually
 import traceback
 import random
 import ipaddress
 import cloud.api.storage as storage
-from cloud.api import keystone
-from keystoneclient.v3 import client as v3_client
 
 LOG = logging.getLogger(__name__)
 
@@ -133,8 +131,8 @@ class Virtualmechine_BarList(generics.ListAPIView):
             cloud_kernel = nova.hypervisor_stats(rc).vcpus_used
             cloud_allocat_mem = nova.hypervisor_stats(rc).memory_mb_used
             total_capacity = nova.hypervisor_stats(rc).local_gb
+            float_ip = 0
 	    LOG.info("--------------- neutron floating ip -------------------")
-
             networks = neutron.network_list(rc)
             net_ip = []
             for network in networks:
@@ -147,31 +145,11 @@ class Virtualmechine_BarList(generics.ListAPIView):
                         nets = ipaddress.ip_network(cidr)
                         for net in nets:
                             net_ip.append(net)
-            #No use network pool float ips.
-            """
                         for pool in pools:
                             start_ip = pool['start'].split('.')
                             end_ip = pool['end'].split('.')
                             ip_count = int(end_ip[3]) - int(start_ip[3]) + (int(end_ip[2]) - int(start_ip[2]))* 255
                             float_ip = float_ip + ip_count
-            """
-            insecure = getattr(settings, 'OPENSTACK_SSL_NO_VERIFY', True)
-            cacert = getattr(settings, 'OPENSTACK_SSL_CACERT', None)
-            rc3 = create_rc_v3_manually(request)
-            v3_conn = v3_client.Client(auth_url=rc3.get("auth_url"),
-                                        username=rc3.get("username"),
-                                        password=rc3.get("password"),
-                                        tenant_name=rc3.get("tenant_name"),
-                                        insecure=insecure,
-                                        cacert=cacert,
-                                        debug=settings.DEBUG)
-            v3_tenants = v3_conn.projects.list()
-            float_ip = 0
-            for tenant in v3_tenants:
-                float_quota = neutron.tenant_quota_get(rc, tenant.id)
-                for quota in float_quota:
-                    if quota.name == 'floatingip':
-                        float_ip = float_ip + quota.limit
             ports = neutron.port_list(rc)
             used_float_ip = 0
             for port in ports:
@@ -181,9 +159,9 @@ class Virtualmechine_BarList(generics.ListAPIView):
                 if fix_ip[0] in net_ip:
                     used_float_ip = used_float_ip + 1
                     #LOG.info(fix['ip_address'])
-            #LOG.info(used_float_ip)
+            LOG.info(used_float_ip)
             unused_float_ip = float_ip - used_float_ip
-            #LOG.info(unused_float_ip)
+            LOG.info(unused_float_ip)
 	    return_data = []
 	    return_data.append({'write':write,'read':read,'cpu_loadbalance':cpu_loadbalance,"total_kernel":total_kernel,'total_memory':total_memory,'cloud_kernel':cloud_kernel,'cloud_allocat_memory':cloud_allocat_mem,
                 'established_cloudmechine':est_cm,'running_cloudmechine':running_cm,'total_ypan':total_ypan,'total_capacity':total_capacity,
@@ -191,7 +169,7 @@ class Virtualmechine_BarList(generics.ListAPIView):
 	    #LOG.info(return_data)
 	    return Response(return_data)
 	except:
-	    traceback.print_exc()
+	    trackback.print_exc()
 	    return_data = []	
 	    return_data.append({'write':5,'read':4,'cpu_loadbalance':3,"total_kernel":16,'total_memory':28422,'cloud_kernel':'4','cloud_allocat_memory':'1024',
                 'established_cloudmechine':'2','running_cloudmechine':'2','total_ypan':'1','total_capacity':'99',
