@@ -66,6 +66,10 @@ def get_disk_list():
     url = settings.STORAGE_URL[0] + '/disk/list'
     return __get_request(url)
 
+def get_disk_slots_list():
+    url = settings.STORAGE_URL[0] + '/disk_slots/list'
+    return __get_request(url)
+
 def get_jbod_list():
     url = settings.STORAGE_URL[0] + '/jbod/list'
     return __get_request(url)
