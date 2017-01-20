@@ -300,11 +300,12 @@ class StorageBarDetail(APIView):
                         for slot in jbod['slotList']:
                             if slot == 'empty':
                                 sas_empty += 1
+                nvme_empty = 0
                 storage_bar = {
                     'disk': [disk_used, disk_total-disk_used],
                     'SSD': [ssd, ssd_total-ssd],
                     'NVMe': [nvme, nvme_total-nvme],
-                    'SAS': [sas, sas_empty]
+                    'SAS': [nvme_empty, sas_empty]
                 }
             else:
                 LOG.info("Get pool list error: %s" % poollist['error'])
