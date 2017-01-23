@@ -102,7 +102,7 @@ class Network_BarList(generics.ListAPIView):
 	    return_data.append({'uprate':uprate,'downrate':downrate,'uppacket':uppacket,'downpacket':downpacket})
 	    LOG.info("---------------- this is Network data -------------------")
 	    LOG.info(return_data[0])
-	    return Response(return_data[0])
+	    return Response(return_data)
 	    #return Response({'uprate':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downrate':[[0,1.7],[1,2.2],[2,2.2],[3,2.1],[4,2.1],[5,1.7]],'uppacket':[[0,1],[1,2],[2,2.2],[3,2.1],[4,2.5],[5,1.7]],'downpacket':[[0,1],[1,2],[2,2.2],[3,1.6],[4,2.5],[5,1.7]]})
 	except:
 	    trackback.print_exc()

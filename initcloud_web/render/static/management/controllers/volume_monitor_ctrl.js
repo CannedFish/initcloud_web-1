@@ -58,12 +58,17 @@ CloudApp.controller('Volume_MonitorController',
         //         'mounting':'虚拟机01'
         //     }
         // ]
+        // $scope.volume_monitors = data ;
+        // checkboxGroup.syncObjects($scope.volume_monitors);
         Volume_Monitor.query(function(data){
             $scope.volume_monitors = data ;
-            checkboxGroup.syncObjects($scope.volume_monitors);
+             //ng-repeat 渲染完执行脚本
+            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+                 checkboxGroup.syncObjects($scope.volume_monitors);
+                 ngRepeatFinishedEvent.stopPropagation(); // 终止事件继续“冒泡”
+            })
+            
         })
-
-        checkboxGroup.syncObjects($scope.volume_monitors);
         var deleteVolume_Monitors = function(ids){
 
             $ngBootbox.confirm($i18next("volume_monitor.confirm_delete")).then(function(){
@@ -71,7 +76,6 @@ CloudApp.controller('Volume_MonitorController',
                 if(typeof ids == 'function'){
                     ids = ids();
                 }
-
                 CommonHttpService.post("/api/volume_monitor/batch-delete/", {ids: ids}).then(function(data){
                     if (data.success) {
                         ToastrService.success(data.msg, $i18next("success"));

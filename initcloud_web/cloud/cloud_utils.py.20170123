@@ -112,26 +112,14 @@ def create_rc_by_balancer_monitor(monitor=None):
     return _create_rc(monitor)
 
 
-def create_rc_v3_manually(request):
-    rc = RC_ENV.copy()
-
-    rc["username"] = settings.ADMIN_NAME 
-    rc["password"] = settings.ADMIN_PASS
-    rc["user_domain_name"] = 'default'
-    rc["project_domain_name"] = "default"
-    rc["tenant_name"] = settings.ADMIN_TENANT_NAME 
-    #rc["tenant_uuid"] = settings.ADMIN_TENANT_ID
-    rc["auth_url"] = settings.AUTH_URL_V3
-
-    return rc
 def create_rc_manually(request):
     rc = RC_ENV.copy()
 
-    rc["username"] = settings.ADMIN_NAME 
-    rc["password"] = settings.ADMIN_PASS
-    rc["tenant_name"] = settings.ADMIN_TENANT_NAME 
-    rc["tenant_uuid"] = settings.ADMIN_TENANT_ID
-    rc["auth_url"] = settings.AUTH_URL
+    rc["username"] = "admin"
+    rc["password"] = "admin"
+    rc["tenant_name"] = "admin"
+    rc["tenant_uuid"] = settings.ADMIN_TENANT_ID#"4296a1c5a206402c8917bc9c991cadcc"
+    rc["auth_url"] = settings.AUTH_URL#"http://localhost:5000/v2.0/"
 
     return rc
 
