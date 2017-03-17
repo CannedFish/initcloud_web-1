@@ -458,10 +458,10 @@ PDU_OUTPUT_MONITOR = [
 ]
 
 # PDU
-PDU_HOST = '221.239.81.83'
-PDU_PORT = 28083
-PDU_USERNAME = 'surdoc'
-PDU_PASSWORD = 'surdoc'
+PDU_HOST = ['221.239.81.83', '221.239.81.84']
+PDU_PORT = [28083, 28084]
+PDU_USERNAME = ['surdoc', 'surdoc']
+PDU_PASSWORD = ['surdoc', 'surdoc']
 
 CPU_FREQUENCY = '3.4kHz'
 CPU_TYPE = 'E36608'
